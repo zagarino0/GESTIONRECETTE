@@ -9,6 +9,7 @@
     "concurrently": "^7.5.0",
     "cross-env": "^7.0.3",
     "electron": "^21.2.2",
+    "electronmon": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
