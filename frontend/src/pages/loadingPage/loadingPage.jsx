@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Loader from '../../components/loading/loading'
 import LogoBianco from "../../assets/logo-bianco-transparent 1.png"
 import LogoMahajanga from "../../assets/logomahajanga 1.png"
 function LoadingPage() {
+  useEffect(() => {
+    setTimeout(() => {
+    window.location.href = "/menu"
+    }, 5000);
+    
+  }, []);
   return (
     <div className='bg-[#212122] w-screen h-screen flex flex-col '>
 
