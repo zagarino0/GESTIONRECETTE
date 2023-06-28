@@ -1,7 +1,7 @@
 import React from 'react'
-import { LinkButton } from '../../components/button/LinkButton'
-import { Layout } from '../immatriculation/Layout'
-import Majunga from "../../assets/majunga.jpg"
+import { LinkButton } from '../../../components/button/LinkButton'
+import { Layout } from '../Layout'
+import Majunga from "../../../assets/majunga.jpg"
 function ConsultationRF() {
     const contentChildren =(
         <div className='flex flex-row'>

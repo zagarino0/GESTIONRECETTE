@@ -1,7 +1,7 @@
 import React from 'react'
-import { Layout } from '../immatriculation/Layout'
-import { LinkButton } from '../../components/button/LinkButton'
-import Majunga from "../../assets/majunga.jpg"
+import { Layout } from '../Layout'
+import { LinkButton } from '../../../components/button/LinkButton'
+import Majunga from "../../../assets/majunga.jpg"
 
 function Utilitaire() {
     const contentChildren =(
