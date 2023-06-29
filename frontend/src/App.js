@@ -14,9 +14,13 @@ import NIFRecette from "./pages/recette/NIF";
 import ResteRecovré from "./pages/recette/ResteRecovré";
 import UtilitairesRecette from "./pages/recette/Utilitaires";
 import Gestion from "./pages/gestion/Gestion";
-import Parametre from "./pages/paramètres/Parametre";
 import ConsultationRF from "./pages/immatriculation/consultatioRF/ConsultationRF";
 import Utilitaire from "./pages/immatriculation/utilitaire/Utilitaire";
+import MiseAJour from "./pages/paramètres/Mije A jour/MiseAJour";
+import UtilitaireParametre from "./pages/paramètres/Utilitaires/UtilitaireParametre";
+import Sauvegarde from "./pages/paramètres/Sauvegarde/Sauvegarde";
+import Parametres from "./pages/paramètres/Parametres/Parametres";
+import ChangementMotPasse from "./pages/paramètres/Utilitaires/ChangementMotPasse";
 
 function App() {
   
@@ -40,7 +44,13 @@ function App() {
      <Route path="/ResteRecovreRecette" element={<ResteRecovré/>}></Route>
      <Route path="/utilitaireRecette" element={<UtilitairesRecette/>}></Route>
      <Route path="/gestion" element={<Gestion/>}></Route>
-     <Route path="/parametre" element={<Parametre/>}></Route>
+
+
+     <Route path="/miseAJourParametre" element={<MiseAJour/>}></Route>
+     <Route path="/utilitaireParametre" element={<UtilitaireParametre/>}></Route>
+     <Route path="/sauvegardeParametre" element={<Sauvegarde/>}></Route>
+     <Route path="/parametreParametre" element={<Parametres/>}></Route>
+     <Route path="/changementMotdePasse" element={<ChangementMotPasse/>}></Route>
       
       
      
