@@ -4,7 +4,7 @@ import { useSnapshot } from 'valtio';
 import { Navbar } from '../../components/navbar/Navbar';
 import { Link } from 'react-router-dom';
 import Hotel from "../../assets/baobab-17.jpg"
-import {IoMdArrowRoundBack} from "react-icons/io"
+import BackButton from '../../components/button/BackButton';
 function Sigrl() {
     const { selectedLink } = useSnapshot(states);
 
@@ -23,9 +23,7 @@ function Sigrl() {
   Commune Urbairne Mahajanga 
           </div>
           <div>
-<Link to="/menu">
-<IoMdArrowRoundBack className='text-white text-xl'></IoMdArrowRoundBack>
-</Link>
+<BackButton to="/menu"></BackButton>
           </div>
        </div>
       )

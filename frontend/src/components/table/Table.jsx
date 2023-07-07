@@ -1,8 +1,9 @@
 import * as React from "react";
 
 
-const Table = ({ headers, data }) => {
-  return (ops>
+const Table = (props) => {
+  const { headers, data } = props;
+  return (
     <table className="min-w-full bg-white">
       <thead>
         <tr>

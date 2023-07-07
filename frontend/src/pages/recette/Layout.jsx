@@ -1,8 +1,8 @@
 import React from 'react'
-import { IoMdArrowRoundBack } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import { states } from '../../states/states';
 import { useSnapshot } from 'valtio';
+import BackButton from '../../components/button/BackButton';
 
 
 function Layout(props) {
@@ -28,9 +28,7 @@ function Layout(props) {
                 Recette
             </div>
 <div>
-<Link to="/SIGRL" >
-<IoMdArrowRoundBack className='text-white text-2xl '></IoMdArrowRoundBack>
-</Link>
+<BackButton to="/SIGRL"></BackButton>
 </div>
 </div>
     <div>

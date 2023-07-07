@@ -3,7 +3,7 @@ import { states } from "../../states/states";
 import { Navbar } from "../../components/navbar/Navbar";
 import { Link } from "react-router-dom";
 import { useSnapshot } from "valtio";
-import {IoMdArrowRoundBack} from "react-icons/io"
+import BackButton from "../../components/button/BackButton";
 
 
 export const Layout  = ( props ) => {
@@ -47,9 +47,7 @@ export const Layout  = ( props ) => {
           </li>
         ))}
       </ul>
-<Link to="/SIGRL">
-<IoMdArrowRoundBack className='text-white text-xl'></IoMdArrowRoundBack>
-</Link>
+<BackButton to="/SIGRL"></BackButton>
         
     </nav>
     )
