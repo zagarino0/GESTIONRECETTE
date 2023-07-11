@@ -26,6 +26,11 @@ import CodeBanque from "./pages/paramètres/Mije A jour/CodeBanque";
 import CodeGeographique from "./pages/paramètres/Mije A jour/CodeGeographique";
 import CodeFormeJuridique from "./pages/paramètres/Mije A jour/CodeFormeJuridique";
 import CodeCollectivite from "./pages/paramètres/Mije A jour/CodeCollectivite";
+import PeriodiciteImpot from "./pages/paramètres/Mije A jour/PeriodiciteImpot";
+import Periodicite from "./pages/paramètres/Mije A jour/Periodicite";
+import ObligationFiscal from "./pages/paramètres/Mije A jour/ObligationFiscal";
+import TypeProceVerbaux from "./pages/paramètres/Mije A jour/TypeProceVerbaux";
+import OperateurTelephonique from "./pages/paramètres/Mije A jour/OperateurTelephonique";
 
 function App() {
   
@@ -53,6 +58,7 @@ function App() {
 
      <Route path="/miseAJourParametre" element={<MiseAJour/>}></Route>
      <Route path="/utilitaireParametre" element={<UtilitaireParametre/>}></Route>
+   
      <Route path="/sauvegardeParametre" element={<Sauvegarde/>}></Route>
      <Route path="/parametreParametre" element={<Parametres/>}></Route>
      <Route path="/changementMotdePasse" element={<ChangementMotPasse/>}></Route>
@@ -61,6 +67,11 @@ function App() {
      <Route path="/codeGeographique" element={<CodeGeographique/>}></Route>
      <Route path="/codeFormeJuridique" element={<CodeFormeJuridique/>}></Route>
      <Route path="/codeCollectivite" element={<CodeCollectivite/>}></Route>
+     <Route path="/periodiciteImpot" element={<PeriodiciteImpot/>}></Route>
+     <Route path="/periodicite" element={<Periodicite/>}></Route>
+     <Route path="/obligationFiscal" element={<ObligationFiscal/>}></Route>
+     <Route path="/typeProceVerbaux" element={<TypeProceVerbaux/>}></Route>
+     <Route path="/operateurTelephonique" element={<OperateurTelephonique/>}></Route>
       
       
      

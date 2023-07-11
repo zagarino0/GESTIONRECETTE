@@ -4,7 +4,7 @@ import * as React from "react";
 const Table = (props) => {
   const { headers, data } = props;
   return (
-    <table className="min-w-full bg-white">
+    <table className={`min-w-full bg-white ${props.className}`}>
       <thead>
         <tr>
           {headers.map((header, index) => (

@@ -15,10 +15,10 @@ function MiseAJour() {
     <LinkButton to="/codeGeographique" text="Code Géographique"  className="mt-2"></LinkButton>
     <LinkButton to="/codeFormeJuridique" text="Code Forme Juridique"  className="mt-2"></LinkButton>
     <LinkButton to="/codeCollectivite" text="Code Collectivités"  className="mt-2"></LinkButton>
-    <LinkButton to="/" text="Périodicité Impot"  className="mt-2"></LinkButton>
-    <LinkButton to="/" text="Obligatoire Fiscale"  className="mt-2"></LinkButton>
-    <LinkButton to="/" text="Type de Procés Verbaux "  className="mt-2"></LinkButton>
-    <LinkButton to="/" text="Les opérateurs telephoniques"  className="mt-2"></LinkButton>
+    <LinkButton to="/periodiciteImpot" text="Périodicité Impot"  className="mt-2"></LinkButton>
+    <LinkButton to="/obligationFiscal" text="Obligatoire Fiscale"  className="mt-2"></LinkButton>
+    <LinkButton to="/typeProceVerbaux" text="Type de Procés Verbaux "  className="mt-2"></LinkButton>
+    <LinkButton to="/operateurTelephonique" text="Les opérateurs telephoniques"  className="mt-2"></LinkButton>
     </div> 
     </div>   
      </div>

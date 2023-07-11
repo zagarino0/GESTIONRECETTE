@@ -4,11 +4,10 @@ import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table'
 
 function CodeActivite() {
-  const headers = ['ID', 'Name', 'Email'];
+  const headers = ['Code activité', 'Libellé activité', 'Nature (Tableau )'];
   const data = [
-    [1, 'John Doe', 'john@example.com'],
-    [2, 'Jane Smith', 'jane@example.com'],
-    [3, 'Mike Johnson', 'mike@example.com'],
+    ['none', 'none', 'none'],
+   
   ];
   const NavbarContent = (
 <div className='flex justify-between'>
@@ -23,8 +22,8 @@ Mise à jour code d'activité
   return (
     <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
-      <div className='mt-24 bg-white' >
-<Table headers={headers} data={data}></Table>
+      <div className='mt-24 m-4' >
+<Table headers={headers} data={data} ></Table>
       </div>
     </div>
   )
