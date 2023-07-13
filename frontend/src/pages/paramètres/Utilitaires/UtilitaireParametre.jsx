@@ -4,14 +4,14 @@ import Layout from '../Layout'
 
 function UtilitaireParametre() {
   const contentChildren=(
-    <div className='flex justify-center items-center lg:w-screen lg:h-screen'>
+    <div className='flex justify-center items-center '>
 
    <div className='flex flex-col ml-28 h-screen  '>
    <div className='text-white text-3xl text-center mt-4'>
      Utilitaires
     </div>
     <LinkButton to="/changementMotdePasse" text="Changement de mot de passe personel" className="mt-4" ></LinkButton>
-    <LinkButton to="/" text="Operateurs"  className="mt-2"></LinkButton>
+    <LinkButton to="/Operateur" text="Operateurs"  className="mt-2"></LinkButton>
   
     </div>    
      </div>

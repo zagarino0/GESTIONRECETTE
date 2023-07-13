@@ -31,6 +31,7 @@ import Periodicite from "./pages/paramètres/Mije A jour/Periodicite";
 import ObligationFiscal from "./pages/paramètres/Mije A jour/ObligationFiscal";
 import TypeProceVerbaux from "./pages/paramètres/Mije A jour/TypeProceVerbaux";
 import OperateurTelephonique from "./pages/paramètres/Mije A jour/OperateurTelephonique";
+import Operateur from "./pages/paramètres/Utilitaires/Operateur";
 
 function App() {
   
@@ -58,6 +59,7 @@ function App() {
 
      <Route path="/miseAJourParametre" element={<MiseAJour/>}></Route>
      <Route path="/utilitaireParametre" element={<UtilitaireParametre/>}></Route>
+     <Route path="/Operateur" element={<Operateur/>}></Route>
    
      <Route path="/sauvegardeParametre" element={<Sauvegarde/>}></Route>
      <Route path="/parametreParametre" element={<Parametres/>}></Route>

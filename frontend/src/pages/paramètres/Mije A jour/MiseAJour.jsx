@@ -4,7 +4,7 @@ import Layout from '../Layout'
 
 function MiseAJour() {
     const contentChildren=(
-   <div className='flex justify-center items-center lg:w-screen lg:h-screen'>
+   <div className='flex justify-center items-center '>
     <div className='flex flex-col'>
     <div className='text-white text-3xl text-center m-2'>
       Mise à jour
