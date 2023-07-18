@@ -28,9 +28,10 @@ Commune Urbairne Mahajanga
   return (
     <div className='bg-[#212122] h-screen w-screen'>
         <Navbar content={content}></Navbar>
-     <div className='flex flex-row'>
+   <div className='flex justify-center mt-8'>
+   <div className='flex flex-row'>
      <div>
-            <img src={Hotel} alt="hotel de ville" className='w-[500px] h-[540px] bg-cover' />
+            <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[540px] bg-cover' />
         </div>
         <div className='ml-12 mt-28'>
         <div className=' w-96 '>
@@ -67,6 +68,7 @@ Commune Urbairne Mahajanga
         </div>
         </div>
      </div>
+   </div>
     </div>
   )
 }

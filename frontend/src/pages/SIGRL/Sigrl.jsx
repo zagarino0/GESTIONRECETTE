@@ -30,9 +30,10 @@ function Sigrl() {
     return (
       <div className='bg-[#212122] h-screen w-screen'>
           <Navbar content={content}></Navbar>
-       <div className='flex flex-row'>
+    <div className='flex justify-center mt-8'>
+    <div className='flex flex-row'>
        <div>
-              <img src={Hotel} alt="hotel de ville" className='w-[500px] h-[540px] bg-cover' />
+              <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[540px] bg-cover' />
           </div>
         <div className='fle flex-col ml-12'>
             <div className='w-96 mt-16 text-white text-3xl '>
@@ -72,6 +73,7 @@ function Sigrl() {
           </div>
         </div>
        </div>
+    </div>
       </div>
 )
 }

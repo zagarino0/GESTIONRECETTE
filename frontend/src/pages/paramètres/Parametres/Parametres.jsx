@@ -10,10 +10,10 @@ function Parametres() {
       Parametres
     </div>
    <div className='flex flex-col ml-28 '>
-    <LinkButton to="/" text="Prévisions Annuelles" className="mt-4" ></LinkButton>
-    <LinkButton to="/" text="PCOCP et Affectation Budgétaire"  className="mt-2"></LinkButton>
-    <LinkButton to="/" text="Chef d'action et Type de Prévision"  className="mt-2"></LinkButton>
-    <LinkButton to="/" text="Périodicité des Impots"  className="mt-2"></LinkButton>
+    <LinkButton to="/previsonAnnuelle" text="Prévisions Annuelles" className="mt-4" ></LinkButton>
+    <LinkButton to="/PCOCPAffectation" text="PCOCP et Affectation Budgétaire"  className="mt-2"></LinkButton>
+    <LinkButton to="/ChefActionTypePrevision" text="Chef d'action et Type de Prévision"  className="mt-2"></LinkButton>
+    <LinkButton to="/PeriodiciteImpotParametre" text="Périodicité des Impots"  className="mt-2"></LinkButton>
     </div> 
     </div>   
      </div>

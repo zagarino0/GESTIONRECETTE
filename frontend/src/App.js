@@ -32,6 +32,12 @@ import ObligationFiscal from "./pages/paramètres/Mije A jour/ObligationFiscal";
 import TypeProceVerbaux from "./pages/paramètres/Mije A jour/TypeProceVerbaux";
 import OperateurTelephonique from "./pages/paramètres/Mije A jour/OperateurTelephonique";
 import Operateur from "./pages/paramètres/Utilitaires/Operateur";
+import PrevisonAnnuelle from "./pages/paramètres/Parametres/PrevisonAnnuelle";
+import PCOCPAffectation from "./pages/paramètres/Parametres/PCOCP&Affectation";
+import ChefActionTypePrevision from "./pages/paramètres/Parametres/ChefActionTypePrevision";
+import DateEcheancePeriode from "./pages/paramètres/Parametres/PeriodiciteImpot/DateEcheancePeriode";
+import DateEcheanceTypeImpot from "./pages/paramètres/Parametres/PeriodiciteImpot/DateEcheanceTypeImpot";
+import PeriodiciteImpotParametre from "./pages/paramètres/Parametres/PeriodiciteImpot/PeriodiciteImpot";
 
 function App() {
   
@@ -62,7 +68,15 @@ function App() {
      <Route path="/Operateur" element={<Operateur/>}></Route>
    
      <Route path="/sauvegardeParametre" element={<Sauvegarde/>}></Route>
+
      <Route path="/parametreParametre" element={<Parametres/>}></Route>
+     <Route path="/previsonAnnuelle" element={<PrevisonAnnuelle/>}></Route>
+     <Route path="/PCOCPAffectation" element={<PCOCPAffectation/>}></Route>
+     <Route path="/ChefActionTypePrevision" element={<ChefActionTypePrevision/>}></Route>
+     <Route path="/PeriodiciteImpotParametre" element={<PeriodiciteImpotParametre/>}></Route>
+     <Route path="/DateEcheancePeriode" element={<DateEcheancePeriode/>}></Route>
+     <Route path="/DateEcheanceTypeImpot" element={<DateEcheanceTypeImpot/>}></Route>
+      
      <Route path="/changementMotdePasse" element={<ChangementMotPasse/>}></Route>
      <Route path="/codeActivite" element={<CodeActivite/>}></Route>
      <Route path="/codeBanque" element={<CodeBanque/>}></Route>

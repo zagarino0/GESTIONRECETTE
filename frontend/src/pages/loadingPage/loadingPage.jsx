@@ -16,7 +16,7 @@ function LoadingPage() {
           <img src={LogoMahajanga} alt="mahajanga logo" />
           <img src={LogoBianco} alt="bianco logo" />
         </div>
-        <div className='text-white  text-5xl ml-80 mt-10'>
+        <div className='text-white  text-5xl flex items-center justify-center mt-10'>
           Bienvenu sur SIGRL
         </div>
         <div className='mt-10'>
