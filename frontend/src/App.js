@@ -38,6 +38,8 @@ import ChefActionTypePrevision from "./pages/paramètres/Parametres/ChefActionTy
 import DateEcheancePeriode from "./pages/paramètres/Parametres/PeriodiciteImpot/DateEcheancePeriode";
 import DateEcheanceTypeImpot from "./pages/paramètres/Parametres/PeriodiciteImpot/DateEcheanceTypeImpot";
 import PeriodiciteImpotParametre from "./pages/paramètres/Parametres/PeriodiciteImpot/PeriodiciteImpot";
+import MiseAJourRF from "./pages/immatriculation/Immatriculation/MiseAJourRF";
+import ReleveRF from "./pages/immatriculation/Immatriculation/ReleveRF";
 
 function App() {
   
@@ -50,9 +52,7 @@ function App() {
      <Route path="/login" element={<LoginPage />}></Route>
      <Route path="/menu" element={<MenuPage/>}></Route> 
      <Route path="/SIGRL" element={<Sigrl/>}></Route> 
-     <Route path="/immatriculation" element={<Immatriculation/>}></Route> 
-     <Route path="/consultatioRF" element={<ConsultationRF/>}></Route>
-     <Route path="/utilitaire" element={<Utilitaire/>}></Route>
+    
      <Route path="/recette" element={<Recette/>}></Route>
      <Route path="/saisiDeclarationRecette" element={<SaisieDeclaration/>}></Route>
      <Route path="/situationRecette" element={<SituationRecette/>}></Route>
@@ -61,6 +61,13 @@ function App() {
      <Route path="/ResteRecovreRecette" element={<ResteRecovré/>}></Route>
      <Route path="/utilitaireRecette" element={<UtilitairesRecette/>}></Route>
      <Route path="/gestion" element={<Gestion/>}></Route>
+
+     <Route path="/immatriculation" element={<Immatriculation/>}></Route> 
+     <Route path="/consultatioRF" element={<ConsultationRF/>}></Route>
+     <Route path="/utilitaire" element={<Utilitaire/>}></Route>
+     <Route path="/MiseAJourRF" element={<MiseAJourRF/>}></Route>
+     <Route path="/ReleveRF" element={<ReleveRF/>}></Route>
+
 
 
      <Route path="/miseAJourParametre" element={<MiseAJour/>}></Route>

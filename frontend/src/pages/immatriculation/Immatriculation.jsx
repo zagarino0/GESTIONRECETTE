@@ -4,9 +4,9 @@ import { LinkButton } from '../../components/button/LinkButton'
 import Majunga from "../../assets/majunga.jpg"
 function Immatriculation() {
     const contentChildren =(
-    <div className='flex flex-row'>
+    <div className='flex p-8 justify-center items-center'>
         <div>
-            <img src={Majunga} alt="majunga" className='w-[500px] h-[540px] bg-cover'/>
+            <img src={Majunga} alt="majunga" className='w-[700px] h-[540px] bg-cover'/>
         </div>
         <div className='mt-16 ml-12'>
             <div className='w-96 mt-16 text-white text-3xl '>
@@ -14,8 +14,8 @@ function Immatriculation() {
             </div>
         <div className='mt-12'>
             <div className='w-96'>
-            <LinkButton to="/" text="Mije à jour RF" ></LinkButton>
-            <LinkButton to="/" text="Relève RF Pris en charge " className="mt-4"></LinkButton>
+            <LinkButton to="/MiseAJourRF" text="Mije à jour RF" ></LinkButton>
+            <LinkButton to="/ReleveRF" text="Relève RF Pris en charge " className="mt-4"></LinkButton>
             </div>
         </div>
         </div>
