@@ -40,6 +40,7 @@ import DateEcheanceTypeImpot from "./pages/paramètres/Parametres/PeriodiciteImp
 import PeriodiciteImpotParametre from "./pages/paramètres/Parametres/PeriodiciteImpot/PeriodiciteImpot";
 import MiseAJourRF from "./pages/immatriculation/Immatriculation/MiseAJourRF";
 import ReleveRF from "./pages/immatriculation/Immatriculation/ReleveRF";
+import ConsultationGestion from "./pages/gestion/Consultation/Consultation";
 
 function App() {
   
@@ -60,7 +61,10 @@ function App() {
      <Route path="/NIFRecette" element={<NIFRecette/>}></Route>
      <Route path="/ResteRecovreRecette" element={<ResteRecovré/>}></Route>
      <Route path="/utilitaireRecette" element={<UtilitairesRecette/>}></Route>
+     
      <Route path="/gestion" element={<Gestion/>}></Route>
+     <Route path="/ConsultationGestion" element={<ConsultationGestion/>}></Route>
+
 
      <Route path="/immatriculation" element={<Immatriculation/>}></Route> 
      <Route path="/consultatioRF" element={<ConsultationRF/>}></Route>
