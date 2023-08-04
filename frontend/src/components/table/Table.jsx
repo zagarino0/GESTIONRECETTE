@@ -4,7 +4,7 @@ import * as React from "react";
 const Table = (props) => {
   const { headers, data } = props;
   return (
-    <table className={`min-w-full bg-white ${props.className}`}>
+    <table className={`  bg-white ${props.className}`}>
       <thead>
         <tr>
           {headers.map((header, index) => (
@@ -17,16 +17,12 @@ const Table = (props) => {
           ))}
         </tr>
       </thead>
+    
       <tbody>
-        {data.map((row, rowIndex) => (
-          <tr key={`row-${rowIndex}`}>
+        {data.map((row, index) => (
+          <tr key={index}>
             {row.map((cell, cellIndex) => (
-              <td
-                key={`cell-${rowIndex}-${cellIndex}`}
-                className="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
-              >
-                {cell}
-              </td>
+              <td key={cellIndex}  className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{cell}</td>
             ))}
           </tr>
         ))}

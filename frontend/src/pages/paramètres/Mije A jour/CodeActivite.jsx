@@ -3,7 +3,10 @@ import BackButton from '../../../components/button/BackButton'
 import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table'
 
+
 function CodeActivite() {
+
+
   const headers = ['Code activité', 'Libellé activité', 'Nature (Tableau )'];
   const data = [
     ['none', 'none', 'none'],
