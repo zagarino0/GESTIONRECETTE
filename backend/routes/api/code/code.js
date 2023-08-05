@@ -32,12 +32,14 @@ router.route('/codeperiodicite')
 router.route('/affectationbudgetaire')
     .get(codeController.getAffectationBudgetaire);
 
+router.route('/obligationfiscal')
+    .get(codeController.getObligationFiscale)
+
 router.route('/numerobudget')
     .get(codeController.getNumeroBudget);
 
 router.route('/codeactivite')
     .get(codeController.getCodeActivite);
-
 
 router.route('/grandsimpot')
     .get(codeController.getGrandsImpots);

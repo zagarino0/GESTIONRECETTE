@@ -21,6 +21,10 @@ const getPeriodicite = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite'));
 }
 
+const getObligationFiscale = (req, res) => {
+    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'obligation fiscal'));
+}
+
 const getProcesVerbaux = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux'));
 }
@@ -82,5 +86,6 @@ module.exports = {
     getOperateurTelephonique,
     getProcesVerbaux,
     getTypePrevision,
-    getCodeActivite
+    getCodeActivite,
+    getObligationFiscale
 }
