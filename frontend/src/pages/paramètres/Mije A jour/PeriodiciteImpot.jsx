@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import BackButton from '../../../components/button/BackButton';
@@ -6,8 +6,18 @@ import { Button } from '../../../components/button/button';
 import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
 import { states } from '../../../states/states';
+import axios from 'axios';
 
 function PeriodiciteImpot() {
+  const [dataCode, setDataCode] = useState([]);
+
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/codeperiodicite')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
   const { selectedLink } = useSnapshot(states);
 
   //Links navbar
@@ -19,7 +29,7 @@ function PeriodiciteImpot() {
     ];
 
     const headers = ["N° Auto" ,"Cloture " ];
-    const data = [['none','none'],];
+    const formattedData = dataCode.map(item => [item.numero, item.periodicite]);
 
   //Navbar content
   const NavbarContent = (
@@ -60,7 +70,7 @@ Périodicité
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
     <div className='mt-24 m-4' >
-<Table headers={headers} data={data} ></Table>
+<Table headers={headers} data={formattedData} ></Table>
     </div>
     <div className='mt-4 m-4'>
 <Button children="Mettre à jour " ></Button>

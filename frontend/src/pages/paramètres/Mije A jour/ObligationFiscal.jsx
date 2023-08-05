@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton';
 import { Button } from '../../../components/button/button'
 import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table'
+import axios from 'axios';
 
 function ObligationFiscal() {
+  const [dataCode, setDataCode] = useState([]);
+
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/codeperiodicite')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
   const headers = ["Objet" ,"Numéro ","Choix ","Obligation","Périodicité","Titre","Option","Taxation ","Pénalité" ];
   const data = [['none','none','none','none','none','none','none','none','none'],];
 

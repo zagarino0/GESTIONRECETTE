@@ -15,7 +15,7 @@ function CodeBanque() {
 
   const headers = ["numéro", "Raison social", "Nom commercial"];
 
-  const formattedData = dataCode.map(item => [item.id, item.Raison_Social, item.Nom_Commercial]);
+  const formattedData = dataCode.map(item => [item.id, item.raison_social, item.nom_commercial]);
 
   console.log(formattedData);
   const NavbarContent = (

@@ -14,7 +14,7 @@ const [dataCode, setDataCode] = useState([]);
   }, []);
 
   const headers = [ "code " , "Abréviation" , "Libellé"];
-  const formattedData = dataCode.map(item => [item.Code, item.Abreviation, item.Libelle]);
+  const formattedData = dataCode.map(item => [item.code, item.abreviation, item.libelle]);
   const NavbarContent = (
 <div className='flex justify-between'>
 <div className='text-white'>
