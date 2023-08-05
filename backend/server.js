@@ -38,7 +38,8 @@ app.use('/user/register', require('./routes/api/user/register'));
 app.use('/user/auth', require('./routes/api/user/auth'));
 app.use('/user/refresh', require('./routes/api/user/refreshToken'));
 app.use('/user/logout', require('./routes/api/user/logout'));
-
+app.use('/user/updatepassword', require('./routes/api/user/updatePassword'));
+app.use('/user/get', require('./routes/api/user/getUser'));
 
 //app.use(verifyJWT);
 app.use('/client', require('./routes/api/client/client'));

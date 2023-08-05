@@ -62,7 +62,7 @@ const addnewClient = async (req, res) => {
 
 const updateClient = async (req, res) => {
     const client = data.clients.find(cli => cli.nif === req.body.nif);
-    if(client){
+    if(!client){
         return res.status(400).json({'message': 'client not found'});
     }
     

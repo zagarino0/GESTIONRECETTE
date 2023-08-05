@@ -1,5 +1,5 @@
 const data = {
-    users: require('../../model/user.json'),
+    users: require('../../model/user/user.json'),
     setUsers: function (data) { this.users = data }
 }
 

@@ -1,5 +1,5 @@
 const data = {
-    users: require('../../model/user.json'),
+    users: require('../../model/user/user.json'),
     setUsers: function (data) { this.users = data }
 }
 
@@ -35,7 +35,7 @@ const handleLogin = async (req, res) => {
         const currentUser = {...foundUser, refreshToken};
         data.setUsers([...otherUsers, currentUser]);
         await fsPromises.writeFile(
-            path.join(__dirname, '..', '..', 'model', 'user.json'),
+            path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
             JSON.stringify(data.users)
         );
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', sercure: true, maxAge: 24 * 60 * 60 * 1000 });

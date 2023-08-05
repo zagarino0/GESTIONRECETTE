@@ -1,0 +1,48 @@
+[
+    {
+        "id": 1,
+        "nom": "nom",
+        "prenom": "prenom",
+        "fonction": "fonction",
+        "recette": "recette",
+        "compte": "compte",
+        "gestion": "gestion",
+        "immatriculation": "immatriculation",
+        "code": "code",
+        "mot_de_passe": "hashedPwd"
+    },
+    {
+        "id": 2,
+        "nom": "POKEMON",
+        "prenom": "Shasha",
+        "fonction": "operateur",
+        "recette": "recette",
+        "compte": "administrateur",
+        "gestion": "gestion",
+        "immatriculation": "immatriculation",
+        "code": "1111",
+        "mot_de_passe": "$2b$10$8PXwCdTZ.09DO8lbXq6WAeHeDgxSDqgVyvg4khIyEf7/rb67o0Wra"
+    },
+    {
+        "id": 3,
+        "nom": "CODE",
+        "prenom": "Oldmane",
+        "fonction": "operateur",
+        "recette": "recette",
+        "compte": "administrateur",
+        "gestion": "gestion",
+        "immatriculation": "immatriculation",
+        "code": "1234",
+        "mot_de_passe": "$2b$10$soLiCFyWnveVxXtGdnEc1.jJI7JFyGvUuOr.dMxN0zVoXBDWzptui"
+    },
+    {
+        "id": 4,
+        "nom": "MAGESO",
+        "prenom": "Tana",
+        "fonction": "operateur",
+        "compte": "administrateur",
+        "gestion": "gestion",
+        "code": "0002",
+        "mot_de_passe": "$2b$10$FPdQbYSPxraiM6HKF2P/POyve9cUhkZfixFRuUbE5/hh4bdJ3BeKi"
+    }
+]
