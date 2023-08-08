@@ -13,7 +13,7 @@ function PeriodiciteImpot() {
 
   useEffect(() => {
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/codeperiodicite')
+    axios.get('http://localhost:3500/code/periodicite')
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -29,7 +29,7 @@ function PeriodiciteImpot() {
     ];
 
     const headers = ["N° Auto" ,"Cloture " ];
-    const formattedData = dataCode.map(item => [item.numero, item.periodicite]);
+    const formattedData = dataCode.map(item => [item.numero_auto, item.exerc]);
 
   //Navbar content
   const NavbarContent = (
@@ -69,12 +69,13 @@ Périodicité
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
-    <div className='mt-24 m-4' >
+    <div className='mt-24 flex bg-[#212122] justify-center p-4' >
 <Table headers={headers} data={formattedData} ></Table>
-    </div>
-    <div className='mt-4 m-4'>
+<div className='mt-4 bg-[#212122] p-4'>
 <Button children="Mettre à jour " ></Button>
     </div>
+    </div>
+   
   </div>
   )
 }

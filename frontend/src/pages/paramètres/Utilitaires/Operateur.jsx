@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton'
 import { Button } from '../../../components/button/button';
 import Checkbox from '../../../components/button/Checkbox';
@@ -7,12 +7,23 @@ import Modal from '../../../components/modals/Modal';
 import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table'
 import Label from '../../../components/title/label';
+import axios from 'axios';
 
 function Operateur() {
+  const [dataCode, setDataCode] = useState([]);
+
+  useEffect(() => {
+
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/user/get/')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+console.log(dataCode);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const headers = ["Code" ,"Nom et Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "BQN", "Numéro 1", "Numéro 2", "Création"];
-  const data = [['none','none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],];
+  const formattedData = dataCode.map(item => [item.numero_auto, item.exerc]);
   const NavbarContent = (
     <nav className=" flex items-center justify-between  ">
  <div className='text-white'>
@@ -34,7 +45,7 @@ Opérateurs
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
     <div className='mt-24 m-4' >
-<Table headers={headers} data={data} ></Table>
+<Table headers={headers} data={formattedData} ></Table>
     </div>
     <div className='m-4'>
       <Button children="Mise à jour " onClick={() => setIsModalOpen(true)}></Button>

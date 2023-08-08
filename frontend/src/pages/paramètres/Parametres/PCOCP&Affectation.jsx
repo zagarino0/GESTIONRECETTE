@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton';
 import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
+import axios from 'axios';
 
 function PCOCPAffectation() {
+  const [dataCode, setDataCode] = useState([]);
+
+  useEffect(() => {
+
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/numerobudget')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+    const [dataCodeContent, setDataCodeContent] = useState([]);
+
+  useEffect(() => {
+
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/affectationbudgetaire')
+      .then((response) => setDataCodeContent(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
   const headers = ["numéro" ,"LIBELLE " ];
-  const data = [['none','none'],];
+  const formattedData = dataCode.map(item => [item.numero, item.libelle]);
   const headerContent = ["Impot" ,"Budget" ,"Taux" ,"PCOP" ];
-  const dataContent = [['none','none','none','none'],];
+  const dataContent = dataCodeContent.map(item => [item.impot, item.budget , item.taux , item.pcop]);
   const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" ];
   const dataContentTable = [['none','none','none','none','none','none'],];
   const NavbarContent = (
@@ -29,7 +50,7 @@ Mise à jour budgets et classe pour les impots
   <div className='flex'>
     
   <div className='mt-4 m-4' >
-<Table headers={headers} data={data} ></Table>
+<Table headers={headers} data={formattedData} ></Table>
     </div>
   </div>
 </div>

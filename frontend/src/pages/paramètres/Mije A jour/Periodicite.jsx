@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import BackButton from '../../../components/button/BackButton';
@@ -8,8 +8,19 @@ import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
 import Label from '../../../components/title/label';
 import { states } from '../../../states/states';
+import axios from 'axios';
 
 function Periodicite() {
+  const [dataCode, setDataCode] = useState([]);
+
+  useEffect(() => {
+
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/periodicite')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
     const { selectedLink } = useSnapshot(states);
 
     //Links navbar
@@ -21,7 +32,7 @@ function Periodicite() {
       ];
   
       const headers = ["N° Auto" ,"Périodicité " ];
-      const data = [['none','none'],];
+      const formattedData = dataCode.map(item => [item.numero_auto, item.exerc]);
   
     //Navbar content
     const NavbarContent = (
@@ -59,25 +70,25 @@ function Periodicite() {
     </nav>
     )
 const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" ];
-const Data = [['none','none','none','none','none','none','none'],];
+const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.exerc]);
     return (
       <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
-      <div className='mt-24 m-4' >
-  <Table headers={headers} data={data} ></Table>
+      <div className='mt-24 p-4 bg-[#212122]' >
+  <Table headers={headers} data={formattedData} ></Table>
       </div>
-    <div className='mt-4 m-4'>
+    <div className='mt-4 bg-[#212122] p-4'>
 <Button children="Modifier"></Button>
     </div>
-    <div className='flex mt-4 m-4'>
+    <div className='flex mt-4 p-4 bg-[#212122]'>
 <Label text="Exercice cloturé :" className="mt-2"></Label>
 <Input type="date" className="ml-4"></Input>
 <Button className='ml-4' children="Actualiser"></Button>
     </div>
-    <div className="mt-4 m-4">
+    <div className="mt-4 p-4 bg-[#212122]">
 <Table headers={Headers} data={Data} ></Table>
     </div>
-    <div className='mt-4 m-4 flex justify-between'>
+    <div className='mt-4 p-4 bg-[#212122] flex justify-between'>
 <Button children="Rafraichir"></Button>
 <Button children="Supprimer un enregistrement" ></Button>
 <Button children="Mettre à jour "></Button>

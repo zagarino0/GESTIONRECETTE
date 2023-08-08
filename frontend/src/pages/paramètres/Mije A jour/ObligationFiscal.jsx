@@ -10,13 +10,13 @@ function ObligationFiscal() {
 
   useEffect(() => {
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/codeperiodicite')
+    axios.get('http://localhost:3500/code/obligationfiscal')
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
   }, []);
 
   const headers = ["Objet" ,"Numéro ","Choix ","Obligation","Périodicité","Titre","Option","Taxation ","Pénalité" ];
-  const data = [['none','none','none','none','none','none','none','none','none'],];
+  const formattedData = dataCode.map(item => [item.objet, item.numero , item.choix , item.obligation , item.periodicite , item.titre , item.option , item.taxation , item.penalite ]);
 
 //Navbar content
 const NavbarContent = (
@@ -33,7 +33,7 @@ Périodicité et Obligation fiscal
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
     <div className='mt-24 m-4' >
-<Table headers={headers} data={data} ></Table>
+<Table headers={headers} data={formattedData} ></Table>
     </div>
     <div className='mt-4 m-4'>
 <Button children="Rafraichir" ></Button>
