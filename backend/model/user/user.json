@@ -44,5 +44,16 @@
         "gestion": "gestion",
         "code": "0002",
         "mot_de_passe": "$2b$10$FPdQbYSPxraiM6HKF2P/POyve9cUhkZfixFRuUbE5/hh4bdJ3BeKi"
+    },
+    {
+        "id": 5,
+        "nom": "TOTO",
+        "prenom": "Tata",
+        "fonction": "operateur",
+        "compte": "administrateur",
+        "gestion": "gestion",
+        "code": "0005",
+        "mot_de_passe": "$2b$10$tAkxvgYWk73BXG99XFM1nevI2wTERrTOno.U/VAClvlTd6eZ5gwnO",
+        "refreshToken": ""
     }
 ]

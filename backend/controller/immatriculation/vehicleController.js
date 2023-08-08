@@ -1,5 +1,5 @@
 const data = {
-    vehicles: require("../../model/vehicule.json"),
+    vehicles: require("../../model/immatriculation/vehicule.json"),
     setVehicles: function (data) { this.vehicles = data }
 };
 

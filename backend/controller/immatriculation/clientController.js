@@ -1,5 +1,5 @@
 const data = {
-    clients: require("../../model/client.json"),
+    clients: require("../../model/immatriculation/client.json"),
     setClients: function (data) { this.clients = data }
 };
 
@@ -13,7 +13,7 @@ const getAllclients = (req, res) => {
 const addnewClient = async (req, res) => {
     
     const newClient = {
-        "id": data.users[data.users.length - 1 ].id + 1 || 1,
+        "id": data.clients[data.clients.length - 1 ].id + 1 || 1,
         "nif": req.body.nif,
         "raison_sociale": req.body.raisonsocial,
         "nom_commerciale": req.body.nomcomm,
@@ -109,7 +109,7 @@ const updateClient = async (req, res) => {
     data.setClients(unsortedArray.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
     res.json(data.clients);
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'client.json'),
+        path.join(__dirname, '..', '..', 'model', 'immatriculation', 'client.json'),
         JSON.stringify(data.clients)
     )
 }
@@ -123,7 +123,7 @@ const deleteClient = async (req, res) => {
     data.setClients([...filteredArray]);
     res.json(data.clients);
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'client.json'),
+        path.join(__dirname, '..', '..', 'model', 'immatriculation', 'client.json'),
         JSON.stringify(data.clients)
     )
 }

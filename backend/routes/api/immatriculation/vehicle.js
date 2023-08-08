@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const vehicleController = require('../../../controller/client/vehicleController');
+const vehicleController = require('../../../controller/immatriculation/vehicleController');
 
 router.route('/')
     .get(vehicleController.getAllVehicles)
