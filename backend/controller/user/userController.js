@@ -146,7 +146,11 @@ const handleGetUserByCode = (req, res) => {
     const code = req.params.code;
     const user = data.users.find(person => person.code === code);
     if(!user) return res.status(404).json({"message": `user ${code} not found`});
-    res.json(user);
+    const gestion = data.gestions.find(ges => ges.id_user === user.id);
+    const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
+    const recette = data.recettes.find(rec => rec.id_user === user.id);
+
+    res.json({ ...user, ...gestion, ...immatriculation, ...recette});
 }
 
 const handleUpdateUser = async (req, res) => {
@@ -282,8 +286,6 @@ const handleRefreshToken = (req, res) => {
 
 const handleLogout = async (req, res) => {
     // on client also delete the accessToken
-
-
     const cookies = req.cookies;
     if(!cookies?.jwt) return res.sendStatus(204); //No content
     const refreshToken = cookies.jwt;
@@ -312,6 +314,7 @@ module.exports = {
     handleNewUser,
     handleLogin,
     handleGetUser,
+    handleGetUserByCode,
     handleUpdateUser,
     handleUpdatePassword,
     handleRefreshToken,

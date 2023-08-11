@@ -3,6 +3,7 @@
         "id_user": 1,
         "creation_recette": true,
         "modification_recette": true,
-        "visualisation_recette": true
+        "visualisation_recette": true,
+        "recette_visualisation": true
     }
 ]

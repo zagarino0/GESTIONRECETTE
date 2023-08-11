@@ -1,9 +1,9 @@
 [
     {
         "id": 1,
-        "nom": "TOTO",
-        "prenom": "Tata",
-        "fonction": "operateur",
+        "nom": "MAGESO",
+        "prenom": "MAGESO",
+        "fonction": "operateur de saisie",
         "compte": "administrateur",
         "code": "0005",
         "mot_de_passe": "$2b$10$Im0P4bdxzvJRYxnLFswXf.Cnm2h2oW5FXAEryi5A8YvqmF86Knkr."
