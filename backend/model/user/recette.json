@@ -1,1 +1,8 @@
-[{"id_user":4,"creation":true,"modification":true,"visualisation":true},{"id_user":5,"creation_recette":true,"modification_recette":true,"visualisation_recette":true}]
+[
+    {
+        "id_user": 1,
+        "creation_recette": true,
+        "modification_recette": true,
+        "visualisation_recette": true
+    }
+]

@@ -4,7 +4,9 @@ const data = {
     immatriculations: require('../../model/user/immatriculation.json'),
     setImmatriculations: function (data) { this.immatriculations = data },
     recettes: require('../../model/user/recette.json'),
-    setRecettes: function (data) { this.recettes = data }
+    setRecettes: function (data) { this.recettes = data },
+    gestions: require('../../model/user/gestion.json'),
+    setGestions: function (data) { this.gestions = data }
 }
 
 const jwt = require('jsonwebtoken');
@@ -20,7 +22,8 @@ const handleNewUser = async (req, res) => {
     const recette_modification = req.body.recette_modification;
     const recette_visualisation = req.body.recette_visualisation;
     const compte = req.body.compte;
-    const gestion = req.body.gestion;
+    const gestion_debut_nif = req.body.gestion_debut_nif;
+    const gestion_fin_nif = req.body.gestion_fin_nif;
     const immatriculation_creation = req.body.immatriculation_creation;
     const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
     const code = req.body.code;
@@ -35,7 +38,7 @@ const handleNewUser = async (req, res) => {
         // encrypt the password
         const hashedPwd = await bcrypt.hash(mdp, 10);
         //id
-        let id = data.users[data.users.length - 1 ].id + 1;
+        let id = data.users.length === 0 ? 1 : data.users[data.users.length - 1 ].id + 1;
         //store the new user
         const newUser = {
             'id': id,
@@ -43,7 +46,6 @@ const handleNewUser = async (req, res) => {
             'prenom': prenom,
             'fonction': fonction,
             'compte': compte,
-            'gestion': gestion,
             'code': code, 
             'mot_de_passe': hashedPwd 
         };
@@ -59,9 +61,16 @@ const handleNewUser = async (req, res) => {
             'visualisation_recette': recette_visualisation
         }
 
+        const newGestion = {
+            'id_user': id,
+            'gestion_debut_nif': gestion_debut_nif,
+            'gestion_fin_nif': gestion_fin_nif,
+        }
+
         data.setUsers([...data.users, newUser]);
         data.setImmatriculations([...data.immatriculations, newImmatriculation]);
         data.setRecettes([...data.recettes, newRecette]);
+        data.setGestions([...data.gestions, newGestion]);
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
             JSON.stringify(data.users)
@@ -73,6 +82,10 @@ const handleNewUser = async (req, res) => {
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user', 'recette.json'),
             JSON.stringify(data.recettes)
+        )
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
+            JSON.stringify(data.gestions)
         )
         res.status(201).json({'success': `New user ${newUser.prenom} created` });
     } catch (error) {
@@ -129,6 +142,36 @@ const handleGetUser = (req, res) => {
     res.json(allData);
 }
 
+const handleGetUserByCode = (req, res) => {
+    const code = req.params.code;
+    const user = data.users.find(person => person.code === code);
+    if(!user) return res.status(404).json({"message": `user ${code} not found`});
+    res.json(user);
+}
+
+const handleUpdateUser = async (req, res) => {
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const fonction = req.body.fonction;
+    const recette_creation = req.body.recette_creation;
+    const recette_modification = req.body.recette_modification;
+    const recette_visualisation = req.body.recette_visualisation;
+    const compte = req.body.compte;
+    const gestion_debut_nif = req.body.gestion_debut_nif;
+    const gestion_fin_nif = req.body.gestion_fin_nif;
+    const immatriculation_creation = req.body.immatriculation_creation;
+    const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
+    const code = req.body.code;
+    const mdp = req.body.mdp;
+    
+    const user = data.users.find(person => person.code === code);
+    if(!user) return res.status(404).json({"message": `user ${code} not found`});
+
+    const gestion = data.gestions.find(ges => ges.id_user === user.id);
+    const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
+    const recette = data.recettes.find(rec => rec.id_user === user.id);
+    
+}
 
 const handleUpdatePassword = async (req, res) => {
     const code = req.body.code;
@@ -214,6 +257,7 @@ module.exports = {
     handleNewUser,
     handleLogin,
     handleGetUser,
+    handleUpdateUser,
     handleUpdatePassword,
     handleRefreshToken,
     handleLogout
