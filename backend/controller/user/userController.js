@@ -170,7 +170,62 @@ const handleUpdateUser = async (req, res) => {
     const gestion = data.gestions.find(ges => ges.id_user === user.id);
     const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
     const recette = data.recettes.find(rec => rec.id_user === user.id);
+
+    if(nom) user.nom = nom;
+    if(prenom) user.prenom = nom;
+    if(fonction) user.fonction = fonction;
+    if(compte) user.compte = compte;
+    if(mdp) {
+        const hashedPwd = await bcrypt.hash(mdp, 10);
+        user.mot_de_passe = hashedPwd;
+    }
+
+    if(recette_creation) recette.creation_recette = recette_creation;
+    if(recette_modification) recette.recette_modification = recette_modification;
+    if(recette_visualisation) recette.recette_visualisation = recette_visualisation;
+
+    if(gestion_debut_nif) gestion.gestion_debut_nif = gestion_debut_nif;
+    if(gestion_fin_nif) gestion.gestion_fin_nif = gestion_fin_nif;
+
+    if(immatriculation_creation) immatriculation.creation_immatriculation = immatriculation_creation;
+    if(immatriculation_prise_charge) immatriculation.prise_en_charge_immatriculation = immatriculation_prise_charge;
+
+
+    const filteredUsers = data.users.filter(person => person.code !== code);
+    const unsortedUsers = [...filteredUsers, user];
+    data.setUsers(unsortedUsers.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const filteredRecettes = data.recettes.filter(rec => rec.id_user !== user.id);
+    const unsortedRecettes = [...filteredRecettes, recette];
+    data.setRecettes(unsortedRecettes.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const filteredGestions = data.gestions.filter(ges => ges.id_user !== user.id);
+    const unsortedGestions = [...filteredGestions, gestion];
+    data.setGestions(unsortedGestions.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
     
+    const filteredImmatriculations = data.immatriculations.filter(im => im.id_user !== user.id);
+    const unsortedImmatriculations = [...filteredImmatriculations, immatriculation];
+    data.setImmatriculations(unsortedImmatriculations.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
+        JSON.stringify(data.users)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'immatriculation.json'),
+        JSON.stringify(data.immatriculations)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'recette.json'),
+        JSON.stringify(data.recettes)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
+        JSON.stringify(data.gestions)
+    )
+
+    res.status(201).json({"success": `user ${code} updated`});
 }
 
 const handleUpdatePassword = async (req, res) => {
