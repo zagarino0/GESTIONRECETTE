@@ -19,6 +19,7 @@ Niveau de Décentralisation
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
     <div className='mt-24 m-4' >
+     
      <Button children="Sauvegarder" className="m-2"></Button>
      <Button children="Modifier" className="m-2"></Button>
      <Button children="Imprimmer" className="m-2"></Button>

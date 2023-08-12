@@ -4,7 +4,8 @@ import * as React from "react";
 const Table = (props) => {
   const { headers, data } = props;
   return (
-    <table className={`  bg-white ${props.className}`}>
+     <div className=' overflow-y-auto h-96'>
+          <table className={`  bg-white  ${props.className}`}>
       <thead>
         <tr>
           {headers.map((header, index) => (
@@ -18,16 +19,18 @@ const Table = (props) => {
         </tr>
       </thead>
     
-      <tbody>
+      <tbody className="">
         {data.map((row, index) => (
-          <tr key={index}>
+          <tr key={index} className="">
             {row.map((cell, cellIndex) => (
-              <td key={cellIndex}  className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{cell}</td>
+              <td key={cellIndex}  className="px-6 py-4  whitespace-no-wrap border-b border-gray-200" onClick={props.onClick}>{cell}</td>
             ))}
           </tr>
         ))}
       </tbody>
     </table>
+     </div>
+
   );
 };
 

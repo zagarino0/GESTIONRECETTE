@@ -21,9 +21,30 @@ function Operateur() {
   }, []);
 console.log(dataCode);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const headers = ["Code" ,"Nom et Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "BQN", "Numéro 1", "Numéro 2", "Création"];
-  const formattedData = dataCode.map(item => [item.numero_auto, item.exerc]);
+  const DataSaisie = dataCode.map(item =>[item.creation])
+  const Saisie =(
+    <div>
+<Checkbox checked={DataSaisie}></Checkbox>
+    </div>
+  )
+  const Modification =(
+    <div>
+<Checkbox></Checkbox>
+    </div>
+  )
+  const Visualisation =(
+    <div>
+<Checkbox></Checkbox>
+    </div>
+  )
+   const Creation =(
+    <div>
+<Checkbox></Checkbox>
+    </div>
+  )
+  const headers = ["Code" ,"Nom et Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "Numéro 1", "Numéro 2", "Création"];
+  const formattedData = dataCode.map(item => [item.code, item.nom , item.fonction , Saisie , Modification , Visualisation ]);
+ 
   const NavbarContent = (
     <nav className=" flex items-center justify-between  ">
  <div className='text-white'>
