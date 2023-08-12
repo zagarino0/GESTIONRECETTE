@@ -140,6 +140,7 @@ const handleGetUser = (req, res) => {
         })
     })
     res.json(allData);
+    allData = [];
 }
 
 const handleGetUserByCode = (req, res) => {
