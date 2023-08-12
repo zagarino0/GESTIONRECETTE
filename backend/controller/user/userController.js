@@ -51,14 +51,14 @@ const handleNewUser = async (req, res) => {
         };
         const newImmatriculation = {
             'id_user': id,
-            'creation_immatriculation': immatriculation_creation,
-            'prise_en_charge_immatriculation': immatriculation_prise_charge
+            'immatriculation_creation': immatriculation_creation,
+            'immatriculation_prise_charge': immatriculation_prise_charge
         }
         const newRecette = {
             'id_user': id,
-            'creation_recette': recette_creation,
-            'modification_recette': recette_modification,
-            'visualisation_recette': recette_visualisation
+            'recette_creation': recette_creation,
+            'recette_modification': recette_modification,
+            'recette_visualisation': recette_visualisation
         }
 
         const newGestion = {
@@ -191,8 +191,8 @@ const handleUpdateUser = async (req, res) => {
     if(gestion_debut_nif) gestion.gestion_debut_nif = gestion_debut_nif;
     if(gestion_fin_nif) gestion.gestion_fin_nif = gestion_fin_nif;
 
-    if(immatriculation_creation) immatriculation.creation_immatriculation = immatriculation_creation;
-    if(immatriculation_prise_charge) immatriculation.prise_en_charge_immatriculation = immatriculation_prise_charge;
+    if(immatriculation_creation) immatriculation.immatriculation_creation = immatriculation_creation;
+    if(immatriculation_prise_charge) immatriculation.immatriculation_prise_charge = immatriculation_prise_charge;
 
 
     const filteredUsers = data.users.filter(person => person.code !== code);
