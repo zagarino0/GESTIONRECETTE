@@ -133,9 +133,11 @@ const handleGetUser = (req, res) => {
     data.users.map((user) => {
         data.immatriculations.map((im) => {
             data.recettes.map((rec) => {
-                if(user.id === im.id_user && rec.id_user === user.id){
-                    allData.push({...user, ...im, ...rec});
-                }
+                data.gestions.map((ges) => {
+                    if(user.id === im.id_user && rec.id_user === user.id && ges.id_user === user.id){
+                        allData.push({...user, ...im, ...rec, ...ges});
+                    }
+                })
             })
         })
     })
