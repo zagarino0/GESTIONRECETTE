@@ -1,12 +1,1 @@
-[
-    {
-        "id_user": 4,
-        "creation": false,
-        "prise_en_charge": false
-    },
-    {
-        "id_user": 5,
-        "creation_immatriculation": false,
-        "prise_en_charge_immatriculation": false
-    }
-]
+[{"id_user":1,"immatriculation_creation":false,"immatriculation_prise_charge":false}]

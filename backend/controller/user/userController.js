@@ -4,7 +4,9 @@ const data = {
     immatriculations: require('../../model/user/immatriculation.json'),
     setImmatriculations: function (data) { this.immatriculations = data },
     recettes: require('../../model/user/recette.json'),
-    setRecettes: function (data) { this.recettes = data }
+    setRecettes: function (data) { this.recettes = data },
+    gestions: require('../../model/user/gestion.json'),
+    setGestions: function (data) { this.gestions = data }
 }
 
 const jwt = require('jsonwebtoken');
@@ -20,7 +22,8 @@ const handleNewUser = async (req, res) => {
     const recette_modification = req.body.recette_modification;
     const recette_visualisation = req.body.recette_visualisation;
     const compte = req.body.compte;
-    const gestion = req.body.gestion;
+    const gestion_debut_nif = req.body.gestion_debut_nif;
+    const gestion_fin_nif = req.body.gestion_fin_nif;
     const immatriculation_creation = req.body.immatriculation_creation;
     const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
     const code = req.body.code;
@@ -35,7 +38,7 @@ const handleNewUser = async (req, res) => {
         // encrypt the password
         const hashedPwd = await bcrypt.hash(mdp, 10);
         //id
-        let id = data.users[data.users.length - 1 ].id + 1;
+        let id = data.users.length === 0 ? 1 : data.users[data.users.length - 1 ].id + 1;
         //store the new user
         const newUser = {
             'id': id,
@@ -43,25 +46,31 @@ const handleNewUser = async (req, res) => {
             'prenom': prenom,
             'fonction': fonction,
             'compte': compte,
-            'gestion': gestion,
             'code': code, 
             'mot_de_passe': hashedPwd 
         };
         const newImmatriculation = {
             'id_user': id,
-            'creation_immatriculation': immatriculation_creation,
-            'prise_en_charge_immatriculation': immatriculation_prise_charge
+            'immatriculation_creation': immatriculation_creation,
+            'immatriculation_prise_charge': immatriculation_prise_charge
         }
         const newRecette = {
             'id_user': id,
-            'creation_recette': recette_creation,
-            'modification_recette': recette_modification,
-            'visualisation_recette': recette_visualisation
+            'recette_creation': recette_creation,
+            'recette_modification': recette_modification,
+            'recette_visualisation': recette_visualisation
+        }
+
+        const newGestion = {
+            'id_user': id,
+            'gestion_debut_nif': gestion_debut_nif,
+            'gestion_fin_nif': gestion_fin_nif,
         }
 
         data.setUsers([...data.users, newUser]);
         data.setImmatriculations([...data.immatriculations, newImmatriculation]);
         data.setRecettes([...data.recettes, newRecette]);
+        data.setGestions([...data.gestions, newGestion]);
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
             JSON.stringify(data.users)
@@ -73,6 +82,10 @@ const handleNewUser = async (req, res) => {
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user', 'recette.json'),
             JSON.stringify(data.recettes)
+        )
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
+            JSON.stringify(data.gestions)
         )
         res.status(201).json({'success': `New user ${newUser.prenom} created` });
     } catch (error) {
@@ -129,6 +142,95 @@ const handleGetUser = (req, res) => {
     res.json(allData);
 }
 
+const handleGetUserByCode = (req, res) => {
+    const code = req.params.code;
+    const user = data.users.find(person => person.code === code);
+    if(!user) return res.status(404).json({"message": `user ${code} not found`});
+    const gestion = data.gestions.find(ges => ges.id_user === user.id);
+    const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
+    const recette = data.recettes.find(rec => rec.id_user === user.id);
+
+    res.json({ ...user, ...gestion, ...immatriculation, ...recette});
+}
+
+const handleUpdateUser = async (req, res) => {
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const fonction = req.body.fonction;
+    const recette_creation = req.body.recette_creation;
+    const recette_modification = req.body.recette_modification;
+    const recette_visualisation = req.body.recette_visualisation;
+    const compte = req.body.compte;
+    const gestion_debut_nif = req.body.gestion_debut_nif;
+    const gestion_fin_nif = req.body.gestion_fin_nif;
+    const immatriculation_creation = req.body.immatriculation_creation;
+    const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
+    const code = req.body.code;
+    const mdp = req.body.mdp;
+    
+    const user = data.users.find(person => person.code === code);
+    if(!user) return res.status(404).json({"message": `user ${code} not found`});
+
+    const gestion = data.gestions.find(ges => ges.id_user === user.id);
+    const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
+    const recette = data.recettes.find(rec => rec.id_user === user.id);
+
+    if(nom) user.nom = nom;
+    if(prenom) user.prenom = nom;
+    if(fonction) user.fonction = fonction;
+    if(compte) user.compte = compte;
+    if(mdp) {
+        const hashedPwd = await bcrypt.hash(mdp, 10);
+        user.mot_de_passe = hashedPwd;
+    }
+
+    if(recette_creation) recette.creation_recette = recette_creation;
+    if(recette_modification) recette.recette_modification = recette_modification;
+    if(recette_visualisation) recette.recette_visualisation = recette_visualisation;
+
+    if(gestion_debut_nif) gestion.gestion_debut_nif = gestion_debut_nif;
+    if(gestion_fin_nif) gestion.gestion_fin_nif = gestion_fin_nif;
+
+    if(immatriculation_creation) immatriculation.immatriculation_creation = immatriculation_creation;
+    if(immatriculation_prise_charge) immatriculation.immatriculation_prise_charge = immatriculation_prise_charge;
+
+
+    const filteredUsers = data.users.filter(person => person.code !== code);
+    const unsortedUsers = [...filteredUsers, user];
+    data.setUsers(unsortedUsers.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const filteredRecettes = data.recettes.filter(rec => rec.id_user !== user.id);
+    const unsortedRecettes = [...filteredRecettes, recette];
+    data.setRecettes(unsortedRecettes.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+    const filteredGestions = data.gestions.filter(ges => ges.id_user !== user.id);
+    const unsortedGestions = [...filteredGestions, gestion];
+    data.setGestions(unsortedGestions.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    
+    const filteredImmatriculations = data.immatriculations.filter(im => im.id_user !== user.id);
+    const unsortedImmatriculations = [...filteredImmatriculations, immatriculation];
+    data.setImmatriculations(unsortedImmatriculations.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
+        JSON.stringify(data.users)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'immatriculation.json'),
+        JSON.stringify(data.immatriculations)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'recette.json'),
+        JSON.stringify(data.recettes)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
+        JSON.stringify(data.gestions)
+    )
+
+    res.status(201).json({"success": `user ${code} updated`});
+}
 
 const handleUpdatePassword = async (req, res) => {
     const code = req.body.code;
@@ -184,8 +286,6 @@ const handleRefreshToken = (req, res) => {
 
 const handleLogout = async (req, res) => {
     // on client also delete the accessToken
-
-
     const cookies = req.cookies;
     if(!cookies?.jwt) return res.sendStatus(204); //No content
     const refreshToken = cookies.jwt;
@@ -214,6 +314,8 @@ module.exports = {
     handleNewUser,
     handleLogin,
     handleGetUser,
+    handleGetUserByCode,
+    handleUpdateUser,
     handleUpdatePassword,
     handleRefreshToken,
     handleLogout
