@@ -22,7 +22,12 @@ router.route('/impot/:numero_impot')
     .get(codeController.getCodeImpotByNumber);
 
 router.route('/periodicite')
-    .get(codeController.getPeriodicite);
+    .get(codeController.getPeriodicite)
+    .post(codeController.setPeriodicite);
+router.route('/periodicite/:id')
+    .get(codeController.getPeriodiciteById)
+    .put(codeController.updatePeriodicite)
+    .delete(codeController.deletePeriodicite);
 
 router.route('/processverbaux')
     .get(codeController.getProcesVerbaux);
@@ -39,7 +44,12 @@ router.route('/datecloture/:numero')
     .delete(codeController.deleteDateCloture);
 
 router.route('/codeperiodicite')
-    .get(codeController.getCodePeriodicite);
+    .get(codeController.getCodePeriodicite)
+    .post(codeController.setCodePeriodicite);
+router.route('/codeperiodicite/:numero')
+    .get(codeController.getCodePeriodiciteByNumber)
+    .put(codeController.updateCodePeriodicite)
+    .delete(codeController.deleteCodePeriodicite);
 
 router.route('/affectationbudgetaire')
     .get(codeController.getAffectationBudgetaire);
