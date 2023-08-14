@@ -4,8 +4,7 @@ const codeController = require('../../../controller/code/codeController');
 
 router.route('/geographique')
     .get(codeController.getCodeGeographique)
-    .post(codeController.setCodeGeographique);
-    
+    .post(codeController.setCodeGeographique);    
 router.route('/geographique/:id')
     .get(codeController.getCodeGeographiqueById)
     .put(codeController.updateCodeGeographique)
@@ -32,7 +31,12 @@ router.route('/operateurtelephonique')
     .get(codeController.getOperateurTelephonique);
 
 router.route('/datecloture')
-    .get(codeController.getDateCloture);
+    .get(codeController.getDateCloture)
+    .post(codeController.setDateCloture);
+router.route('/datecloture/:numero')
+    .get(codeController.getDateClotureByNumber)
+    .put(codeController.updateDateCloture)
+    .delete(codeController.deleteDateCloture);
 
 router.route('/codeperiodicite')
     .get(codeController.getCodePeriodicite);

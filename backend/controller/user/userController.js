@@ -263,6 +263,48 @@ const handleUpdatePassword = async (req, res) => {
 
 }
 
+const handleDeleteUser = async (req, res) => {
+    const id = body.params.id;
+
+    const user = data.users.find(person => person.id === id);
+    
+    if(!user){
+        res.status(400).json({'message': 'user not found'});
+    }
+
+    const filteredUsers = data.users.filter(person => person.code !== code);
+    data.setUsers([...filteredUsers]);
+
+    const filteredRecettes = data.recettes.filter(rec => rec.id_user !== user.id);
+    data.setRecettes([...filteredRecettes]);
+
+    const filteredGestions = data.gestions.filter(ges => ges.id_user !== user.id);
+    data.setGestions([...filteredGestions]);
+    
+    const filteredImmatriculations = data.immatriculations.filter(im => im.id_user !== user.id);
+    data.setImmatriculations([...filteredImmatriculations]);
+
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
+        JSON.stringify(data.users)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'immatriculation.json'),
+        JSON.stringify(data.immatriculations)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'recette.json'),
+        JSON.stringify(data.recettes)
+    )
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
+        JSON.stringify(data.gestions)
+    )
+
+    res.json({'success': "user has been deleted"});
+}
+
 const handleRefreshToken = (req, res) => {
     const cookies = req.cookies;
     if(!cookies?.jwt) return res.sendStatus(401);
@@ -320,6 +362,7 @@ module.exports = {
     handleGetUserByCode,
     handleUpdateUser,
     handleUpdatePassword,
+    handleDeleteUser,
     handleRefreshToken,
     handleLogout
 };
