@@ -3,7 +3,13 @@ const router = express.Router();
 const codeController = require('../../../controller/code/codeController');
 
 router.route('/geographique')
-    .get(codeController.getCodeGeographique);
+    .get(codeController.getCodeGeographique)
+    .post(codeController.setCodeGeographique);
+    
+router.route('/geographique/:id')
+    .get(codeController.getCodeGeographiqueById)
+    .put(codeController.updateCodeGeographique)
+    .delete(codeController.deleteCodeGeographique);
 
 router.route('/banque')
     .get(codeController.getCodeBanque);
@@ -13,6 +19,8 @@ router.route('/formejuridique')
 
 router.route('/impot')
     .get(codeController.getCodeImpot);
+router.route('/impot/:numero_impot')
+    .get(codeController.getCodeImpotByNumber);
 
 router.route('/periodicite')
     .get(codeController.getPeriodicite);
