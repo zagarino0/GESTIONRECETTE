@@ -35,6 +35,7 @@ app.use('/vehicle', require('./routes/api/immatriculation/vehicle'));
 
 // Route to get code
 app.use('/code', require('./routes/api/code/code'));
+app.use('/prevision', require('./routes/api/parametre/prevision'));
 
 
 app.listen(PORT, () => console.log(`Server running http://localhost:${PORT}`));

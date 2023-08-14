@@ -128,8 +128,9 @@ const handleLogin = async (req, res) => {
     }
 }
 
-var allData = [];
-const handleGetUser = (req, res) => {
+
+const handleGetAllUser = (req, res) => {
+    let allData = [];
     data.users.map((user) => {
         data.immatriculations.map((im) => {
             data.recettes.map((rec) => {
@@ -152,7 +153,6 @@ const handleGetUserByCode = (req, res) => {
     const gestion = data.gestions.find(ges => ges.id_user === user.id);
     const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
     const recette = data.recettes.find(rec => rec.id_user === user.id);
-
     res.json({ ...user, ...gestion, ...immatriculation, ...recette});
 }
 
@@ -316,7 +316,7 @@ const handleLogout = async (req, res) => {
 module.exports = { 
     handleNewUser,
     handleLogin,
-    handleGetUser,
+    handleGetAllUser,
     handleGetUserByCode,
     handleUpdateUser,
     handleUpdatePassword,
