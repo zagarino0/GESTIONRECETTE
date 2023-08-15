@@ -75,4 +75,25 @@ router.route('/typeprevision')
 router.route('/jourferie')
     .get(codeController.getJourFerie);
 
+router.route('/dateecheance')
+    .get(codeController.getDateEcheance)
+    .post(codeController.setDateEcheance);
+router.route('/dateecheance/:id')
+    .get(codeController.getDateEcheanceById)
+    .put(codeController.updateDateEcheance)
+    .delete(codeController.deleteDateEcheance);
+router.route('/dateecheance/:annee')
+    .get(codeController.getDateEcheanceByYear);
+
+router.route('/revenusalariaux')
+    .get(codeController.getRevenusSalariaux)
+    .post(codeController.setRevenusSalariaux);
+router.route('/revenusalariaux/:id')
+    .get(codeController.getRevenusSalariauxById)
+    .put(codeController.updateRevenusSalariaux)
+    .delete(codeController.deleteRevenusSalariaux);
+router.route('revenusalariaux/:annee')
+    .get(codeController.getRevenusSalariauxByYear);
+
+
 module.exports = router;
