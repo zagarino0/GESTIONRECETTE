@@ -68,6 +68,11 @@ router.route('/affectationbudgetaire')
 //obligation fiscale
 router.route('/obligationfiscal')
     .get(codeController.getObligationFiscale)
+    .post(codeController.setObligationFiscale)
+router.route('/obligationfiscal/:id')
+    .get(codeController.getObligationFiscaleById)
+    .put(codeController.updateObligationFiscale)
+    .delete(codeController.deleteObligationFiscale);
 
 //numero budget
 router.route('/numerobudget')

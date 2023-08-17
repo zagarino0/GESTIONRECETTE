@@ -33,9 +33,8 @@ function deleteDataExcel(filename, sheetName, idASupprimer) {
     
     XLSX.writeFile(workbook, filename);
     
-    console.log(`Donnée avec l'ID "${idASupprimer}" dans le sheet "${sheetName}" supprimée avec succès.`);
   } else {
-    console.log(`Donnée avec l'ID "${idASupprimer}" non trouvée dans le sheet "${sheetName}".`);
+    console.log('delete failed');
   }
 }
 
