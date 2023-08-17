@@ -111,7 +111,7 @@ const getPeriodicite = (req, res) => {
 
 const getPeriodiciteById = (req, res) => {
     const id = req.params.id;
-    const periodicite = {};
+    let periodicite = {};
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').map(per => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').map(clo => {
             if(clo.numero == per.id_clo && per.id == id)
