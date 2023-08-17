@@ -98,16 +98,31 @@ const getCodeImpotByNumber = (req, res) => {
 //-------------------------------------------------------------------------------------------
 
 const getPeriodicite = (req, res) => {
-    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite'));
+    let periodicites = [];
+    getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').map(per => {
+        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').map(clo => {
+            if(clo.numero == per.id_clo)
+                periodicites.push({...clo, ...per});
+        });    
+    });    
+    res.json(periodicites);
+    periodicite = [];
 }
 
 const getPeriodiciteById = (req, res) => {
     const id = req.params.id;
-
-    const periodicite = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').find(per => per.id == id);
+    const periodicite = {};
+    getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').map(per => {
+        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').map(clo => {
+            if(clo.numero == per.id_clo && per.id == id)
+                periodicite = {...clo, ...per};
+        });    
+    });
+    
     if (!periodicite) return res.status(400).json({ 'message': 'periodicite not found' });
 
     res.json(periodicite);
+    periodicite = {};
 }
 
 const setPeriodicite = (req, res) => {
@@ -119,7 +134,7 @@ const setPeriodicite = (req, res) => {
     const titre = req.body.titre;
     const p1 = req.body.p1;
     const p2 = req.body.p2;
-    const exerc = req.body.exerc;
+    const id_clo = req.body.id_clo;
 
     const newPeriodicite = [
         [
@@ -130,7 +145,7 @@ const setPeriodicite = (req, res) => {
             titre,
             p1,
             p2,
-            exerc
+            id_clo
         ]
     ]
     setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite', newPeriodicite);
@@ -145,7 +160,7 @@ const updatePeriodicite = (req, res) => {
     const titre = req.body.titre;
     const p1 = req.body.p1;
     const p2 = req.body.p2;
-    const exerc = req.body.exerc;
+    const exerc = req.body.id_clo;
 
     const periodicite = [
         id,
@@ -155,7 +170,7 @@ const updatePeriodicite = (req, res) => {
         titre,
         p1,
         p2,
-        exerc
+        id_clo
     ]
 
     updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite', id, periodicite);
