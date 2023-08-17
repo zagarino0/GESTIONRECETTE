@@ -25,10 +25,8 @@ function updateDataExcel(filename, sheetName, idAModifier, newValues) {
     });
     
     XLSX.writeFile(workbook, filename);
-    
-    console.log(`Donnée avec l'ID "${idAModifier}" dans le sheet "${sheetName}" modifiée avec succès.`);
   } else {
-    console.log(`Donnée avec l'ID "${idAModifier}" non trouvée dans le sheet "${sheetName}".`);
+    console.log('update failde');
   }
 }
 
