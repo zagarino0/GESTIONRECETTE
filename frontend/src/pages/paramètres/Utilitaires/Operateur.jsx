@@ -15,35 +15,44 @@ function Operateur() {
   useEffect(() => {
 
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/user/get/')
+    axios.get('http://localhost:3500/user/All/')
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
   }, []);
-console.log(dataCode);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const DataSaisie = dataCode.map(item =>[item.creation])
+  const DataSaisie = dataCode[0]?.recette_creation;
+  const DataModification = dataCode[0]?.recette_modification;
+  const DataVisualisation = dataCode[0]?.recette_visualisation;
+  const DataCreation = dataCode[0]?.immatriculation_creation;
+  const DataPriseEnCharge = dataCode[0]?.immatriculation_prise_charge;
   const Saisie =(
     <div>
-<Checkbox checked={DataSaisie}></Checkbox>
+<Checkbox value={DataSaisie} ></Checkbox>
     </div>
   )
   const Modification =(
     <div>
-<Checkbox></Checkbox>
+<Checkbox value={DataModification}></Checkbox>
     </div>
   )
   const Visualisation =(
     <div>
-<Checkbox></Checkbox>
+<Checkbox value={DataVisualisation}></Checkbox>
     </div>
   )
    const Creation =(
     <div>
-<Checkbox></Checkbox>
+<Checkbox value={DataCreation}></Checkbox>
     </div>
   )
-  const headers = ["Code" ,"Nom et Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "Numéro 1", "Numéro 2", "Création"];
-  const formattedData = dataCode.map(item => [item.code, item.nom , item.fonction , Saisie , Modification , Visualisation ]);
+  const PriseEnCharge =(
+    <div>
+<Checkbox value={DataPriseEnCharge}></Checkbox>
+    </div>
+  )
+  const headers = ["Code" ,"Nom et Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "Numéro 1", "Numéro 2", "Création", "prise en charge"];
+  const formattedData = dataCode.map(item => [item.code, item.nom , item.fonction , Saisie , Modification , Visualisation , item.gestion_debut_nif , item.gestion_fin_nif ,Creation , PriseEnCharge]);
  
   const NavbarContent = (
     <nav className=" flex items-center justify-between  ">

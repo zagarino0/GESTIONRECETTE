@@ -1,10 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton'
 import { Button } from '../../../components/button/button'
 import { Navbar } from '../../../components/navbar/Navbar'
-
+import Table from '../../../components/table/Table'
+import axios from 'axios'
+import Input from '../../../components/input/Input'
+import { RiDeleteBinLine } from 'react-icons/ri'
+import {BsPencil} from 'react-icons/bs'
+import Modal from '../../../components/modals/Modal'
+import Label from '../../../components/title/label'
 function CodeCollectivite() {
- 
+  const [dataCode, setDataCode] = useState([]);
+  const [libelle , setLibelle] = useState([]);
+  const [code , setCode ] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+ // État pour stocker la liste des données
+  const [selectedData, setSelectedData] = useState(null); 
+
+  const [selectedEditData, setSelectedEditData] = useState(null);
+
+  
+
+  const DataHandler =  (e) =>{
+    e.preventDefault();
+    const Fokotany ={
+      libelle,
+      code
+    };
+    
+    console.log(Fokotany)
+    try {
+       axios.post('http://localhost:3500/code/geographique', Fokotany);
+      console.log("données ajoutées avec succès " , Fokotany);
+      setLibelle('');
+      setCode('');  
+      axios.get('http://localhost:3500/code/geographique')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+    } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+    }
+   }
+
+
+   useEffect(() => {
+   
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/geographique')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+
+  const handleDelete = (id) => {
+    try {
+      // Make the DELETE request to your backend API to delete the data by ID
+      axios.delete(`http://localhost:3500/code/geographique/${id}`);
+  
+      // Update the list of data after successful deletion
+      setDataCode((prevData) => prevData.filter((data) => data.id !== id));
+      setSelectedData(null); // Reset the selection
+  
+      console.log(`Data with ID ${id} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+
   const NavbarContent = (
 <div className='flex justify-between'>
 <div className='text-white'>
@@ -15,15 +77,111 @@ Niveau de Décentralisation
     </div>
 </div>
   )
+  const headers = [ "Code","Fokotany", "" , ""];
+  const formattedData = dataCode.map((item) => [
+    item.code,
+    item.libelle,
+    <span
+      key={item.id} // Make sure to use a unique key
+      className='cursor-pointer'
+      onClick={() => handleDelete(item.id)}
+    >
+      <RiDeleteBinLine />
+    </span>,
+   <span
+    key={`edit-${item.id}`} // Make sure to use a unique key
+    className='cursor-pointer'
+    onClick={() => {
+      setSelectedEditData(item);
+      setIsModalOpen(true);
+    }}
+  >
+    <BsPencil />
+  </span>,
+  ]);
+  const NavbarModal =(
+    
+    <div className='text-white'>
+    Modification code collectivité
+    </div>
+    
+  )
+
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
-    <div className='mt-24 m-4' >
-     
-     <Button children="Sauvegarder" className="m-2"></Button>
-     <Button children="Modifier" className="m-2"></Button>
-     <Button children="Imprimmer" className="m-2"></Button>
+  <form onSubmit={DataHandler}>
+      <div className='mt-24 m-4'  >
+    <Table headers={headers} data={formattedData} className="w-[1000px]" ></Table>
+    <Input type="text" placeholder="Fokotany"
+    value={libelle}
+    onChange={e => setLibelle(e.target.value)}
+    ></Input>
+     <Input type="text" placeholder="Code"
+    value={code}
+    onChange={e => setCode(e.target.value)}
+    className="ml-4"
+    ></Input>
+     <Button type="submit" children="Ajouter" className="m-2"></Button>
     </div>
+  
+  </form>
+  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[280px]" >
+  <Navbar content={NavbarModal} ></Navbar>
+  
+  
+  <div className=' m-4 flex justify-between' >
+<Label text=" Code :" className="mt-2"></Label>
+<Input type="text"  className="ml-4"
+ value={selectedEditData ? selectedEditData.code : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     code: e.target.value,
+   }))
+ }
+></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Fokotany :" className="mt-2"></Label>
+<Input type="text"  className="ml-4"
+ value={selectedEditData ? selectedEditData.libelle : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     libelle: e.target.value,
+   }))
+ }
+></Input>
+    </div>
+  <div className="flex justify-between p-4">
+  <Button children="Modifier"
+   onClick={async () => {
+    try {
+      // Make the PUT/PATCH request to update the data in the database
+      await axios.put(
+        `http://localhost:3500/code/geographique/${selectedEditData.id}`,
+        selectedEditData
+      );
+
+      // Update the edited data in dataCode
+      setDataCode((prevData) =>
+        prevData.map((data) =>
+          data.id === selectedEditData.id ? selectedEditData : data
+        )
+      );
+
+      setIsModalOpen(false);
+      setSelectedEditData(null);
+      console.log('Data updated successfully.');
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }}
+  ></Button>
+  <Button onClick={() => setIsModalOpen(false)} children="Quitter"  ></Button>
+  </div>
+  </Modal>
   </div>
   )
 }
