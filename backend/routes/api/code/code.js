@@ -47,7 +47,7 @@ router.route('/operateurtelephonique')
 router.route('/datecloture')
     .get(codeController.getDateCloture)
     .post(codeController.setDateCloture);
-router.route('/datecloture/:numero')
+router.route('/datecloture/:id')
     .get(codeController.getDateClotureByNumber)
     .put(codeController.updateDateCloture)
     .delete(codeController.deleteDateCloture);

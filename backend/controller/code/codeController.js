@@ -307,19 +307,22 @@ const getDateCloture = (req, res) => {
 }
 
 const getDateClotureByNumber = (req, res) => {
-    const numero = req.params.numero;
+    const id = req.params.id;
 
-    const dateClo = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').find(clo => clo.numero == numero);
+    const dateClo = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').find(clo => clo.id == id);
     if (!dateClo) return res.status(400).json({ 'message': 'data not found' });
     res.json(dateClo);
 }
 
 const setDateCloture = (req, res) => {
+    const dateClos = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture');
+    const id = parseInt(dateClos[dateClos.length - 1].id) + 1;
     const numero = req.body.numero;
     const cloture = req.body.cloture;
 
     const newDateClo = [
         [
+            id,
             numero,
             cloture
         ]
@@ -329,21 +332,23 @@ const setDateCloture = (req, res) => {
 }
 
 const updateDateCloture = (req, res) => {
-    const numero = req.params.numero;
+    const id = req.params.id;
+    const numero = req.body.numero;
     const cloture = req.body.cloture;
 
     const dateClo = [
+        id,
         numero,
         cloture
     ]
-    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture', numero, dateClo);
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture', id, dateClo);
     res.json({ 'success': 'date cloture has been updated' });
 
 }
 
 const deleteDateCloture = (req, res) => {
-    const numero = req.params.numero;
-    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture', numero);
+    const id = req.params.id;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture', id);
     res.json({ 'success': 'date cloture has been deleted' });
 }
 
