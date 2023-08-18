@@ -9,6 +9,7 @@ import Table from '../../../components/table/Table';
 import Label from '../../../components/title/label';
 import { states } from '../../../states/states';
 import axios from 'axios';
+import Select from '../../../components/input/SelectInput';
 
 function Periodicite() {
   const [dataCode, setDataCode] = useState([]);
@@ -32,7 +33,7 @@ function Periodicite() {
       ];
   
       const headers = ["N° Auto" ,"Périodicité " ];
-      const formattedData = dataCode.map(item => [item.numero_auto, item.exerc]);
+      const formattedData = dataCode.map(item => [item.numero_auto, item.cloture]);
   
     //Navbar content
     const NavbarContent = (
@@ -69,31 +70,44 @@ function Periodicite() {
         
     </nav>
     )
+    // État pour stocker la valeur sélectionnée
+  const [selectedValue, setSelectedValue] = useState(''); // La valeur initiale peut être définie selon vos besoins
+
+  // Exemple d'options provenant de la base de données
+  const optionsFromDatabase = [
+    { value: dataCode[0]?.cloture, label: dataCode[0]?.cloture },
+    
+   
+  ];
 const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" ];
-const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.exerc]);
+const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture]);
     return (
       <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
-      <div className='mt-24 p-4 bg-[#212122]' >
-  <Table headers={headers} data={formattedData} ></Table>
+   <div className="flex justify-between">
+   <div className='mt-32 p-4 bg-[#212122]' >
+  <Table headers={headers} data={formattedData} className="w-[100px]" ></Table>
       </div>
-    <div className='mt-4 bg-[#212122] p-4'>
-<Button children="Modifier"></Button>
-    </div>
-    <div className='flex mt-4 p-4 bg-[#212122]'>
+   <div className='flex flex-col'>
+   <div className='flex mt-4 p-4 bg-[#212122]'>
 <Label text="Exercice cloturé :" className="mt-2"></Label>
-<Input type="date" className="ml-4"></Input>
-<Button className='ml-4' children="Actualiser"></Button>
+<Select
+        options={optionsFromDatabase}
+        value={selectedValue}
+        onChange={setSelectedValue}
+        className="ml-4 w-40"
+      />
+<Button className='ml-4 h-16' children="Actualiser"></Button>
     </div>
     <div className="mt-4 p-4 bg-[#212122]">
 <Table headers={Headers} data={Data} ></Table>
     </div>
-    <div className='mt-4 p-4 bg-[#212122] flex justify-between'>
-<Button children="Rafraichir"></Button>
-<Button children="Supprimer un enregistrement" ></Button>
-<Button children="Mettre à jour "></Button>
-<Button children="Insertion" ></Button>
+    <div className='mt-2 p-2 '>
+<Button children="Ajouter" className="h-16"></Button>
+
     </div>
+   </div>
+   </div>
     </div>
     )
   }

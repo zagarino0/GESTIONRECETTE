@@ -1,8 +1,12 @@
 import * as React from "react";
 
-
 const Table = (props) => {
-  const { headers, data } = props;
+  const { headers, data , classNameTd  } = props;
+  const DataCell = ({ content }) => (
+    <td className={`px-6 py-4  whitespace-no-wrap border-b border-gray-200 `} onClick={props.onClick}>
+     {content}
+    </td>
+  );
   return (
      <div className=' overflow-y-auto h-96'>
           <table className={`  bg-white  ${props.className}`}>
@@ -19,15 +23,15 @@ const Table = (props) => {
         </tr>
       </thead>
     
-      <tbody className="">
-        {data.map((row, index) => (
-          <tr key={index} className="">
-            {row.map((cell, cellIndex) => (
-              <td key={cellIndex}  className="px-6 py-4  whitespace-no-wrap border-b border-gray-200" onClick={props.onClick}>{cell}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+      <tbody>
+          {data.map((row, rowIndex) => (
+            <tr key={rowIndex} className={classNameTd}>
+              {row.map((cell, cellIndex) => (
+                <DataCell key={cellIndex} content={cell} />
+              ))}
+            </tr>
+          ))}
+        </tbody>
     </table>
      </div>
 
