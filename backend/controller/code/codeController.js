@@ -372,7 +372,8 @@ const getCodePeriodiciteByNumber = (req, res) => {
 }
 
 const setCodePeriodicite = (req, res) => {
-    const numero = req.body.numero;
+    const codePers = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code periodicite');
+    const numero = parseInt(codePers[codePers.length - 1].id) + 1;
     const periodicite = req.body.periodicite;
 
     const newCodePer = [
