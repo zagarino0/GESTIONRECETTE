@@ -124,6 +124,8 @@ router.route('/revenusalariaux/:id')
     .delete(codeController.deleteRevenusSalariaux);
 router.route('revenusalariaux/:annee')
     .get(codeController.getRevenusSalariauxByYear);
+router.route('revenusalariaux/:code')
+    .get(codeController.getRevenusSalariauxByCode);
 
 
 module.exports = router;

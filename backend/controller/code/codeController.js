@@ -101,10 +101,10 @@ const getPeriodicite = (req, res) => {
     let periodicites = [];
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').map(per => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').map(clo => {
-            if(clo.numero == per.id_clo)
-                periodicites.push({...clo, ...per});
-        });    
-    });    
+            if (clo.numero == per.id_clo)
+                periodicites.push({ ...clo, ...per });
+        });
+    });
     res.json(periodicites);
     periodicite = [];
 }
@@ -114,42 +114,69 @@ const getPeriodiciteById = (req, res) => {
     let periodicite = {};
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').map(per => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').map(clo => {
-            if(clo.numero == per.id_clo && per.id == id)
-                periodicite = {...clo, ...per};
-        });    
+            if (clo.numero == per.id_clo && per.id == id)
+                periodicite = { ...clo, ...per };
+        });
     });
-    
+
     if (!periodicite) return res.status(400).json({ 'message': 'periodicite not found' });
 
     res.json(periodicite);
     periodicite = {};
 }
 
-const setPeriodicite = (req, res) => {
-    const periodicites = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite');
-    const id = parseInt(periodicites[periodicites.length - 1].id) + 1;
-    const numero_auto = req.body.numero_auto;
-    const periode = req.body.periode;
-    const desc_mois = req.body.desc_mois;
-    const titre = req.body.titre;
-    const p1 = req.body.p1;
-    const p2 = req.body.p2;
-    const id_clo = req.body.id_clo;
+const getPeriodiciteByDateExercice = (req, res) => {
+    const cloture = req.body.cloture;
+    if (!cloture) {
+        setPeriodicite(req, res);
+    }
+    else {
+        let periodicite = [];
+        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite').map(per => {
+            getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture').map(clo => {
+                if (clo.numero == per.id_clo && clo.cloture == cloture)
+                    periodicite.push({ ...clo, ...per });
+            });
+        });
 
-    const newPeriodicite = [
-        [
-            id,
-            numero_auto,
-            periode,
-            desc_mois,
-            titre,
-            p1,
-            p2,
-            id_clo
+        if (!periodicite) return res.status(400).json({ 'message': 'periodicite not found' });
+
+        res.json(periodicite);
+        periodicite = [];
+    }
+}
+
+const setPeriodicite = (req, res) => {
+    const cloture = req.body.cloture;
+    if (!cloture) {
+        const periodicites = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite');
+        const id = parseInt(periodicites[periodicites.length - 1].id) + 1;
+        const numero_auto = req.body.numero_auto;
+        const periode = req.body.periode;
+        const desc_mois = req.body.desc_mois;
+        const titre = req.body.titre;
+        const p1 = req.body.p1;
+        const p2 = req.body.p2;
+        const id_clo = req.body.id_clo;
+
+        const newPeriodicite = [
+            [
+                id,
+                numero_auto,
+                periode,
+                desc_mois,
+                titre,
+                p1,
+                p2,
+                id_clo
+            ]
         ]
-    ]
-    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite', newPeriodicite);
-    res.status(200).json({ 'success': 'periodicite has been created' });
+        setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite', newPeriodicite);
+        res.status(200).json({ 'success': 'periodicite has been created' });
+    }
+    else {
+        getPeriodiciteByDateExercice(req, res);
+    }
 }
 
 const updatePeriodicite = (req, res) => {
@@ -196,7 +223,7 @@ const getObligationFiscale = (req, res) => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'obligation fiscal').map(fisc => {
             getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code periodicite').find(per => {
                 if (imp.numero_impot == fisc.numero_impot && per.periodicite == fisc.periodicite)
-                obligationFiscs.push({ ...imp, ...fisc, ...per });
+                    obligationFiscs.push({ ...imp, ...fisc, ...per });
             })
         })
     })
@@ -211,7 +238,7 @@ const getObligationFiscaleById = (req, res) => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'obligation fiscal').find(fisc => {
             getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code periodicite').find(per => {
                 if (imp.numero_impot == fisc.numero_impot && fisc.id == id && per.periodicite == fisc.periodicite)
-                obligationFisc = { ...imp, ...per, ...fisc };
+                    obligationFisc = { ...imp, ...per, ...fisc };
             })
         })
     })
@@ -645,16 +672,29 @@ const getRevenusSalariaux = (req, res) => {
 
 const getRevenusSalariauxById = (req, res) => {
     const id = req.params.id;
-    const revenuSal = {}; 
+    const revenuSal = {};
     if (!revenuSal) return res.status(404).json({ 'message': 'data not found' });
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux').map(rev => {
             if (imp.numero_impot == rev.numero_impot && rev.id == id)
-                revenusSal = {...imp, ...rev}
+                revenusSal = { ...imp, ...rev }
         })
     })
     res.json(revenuSal);
     revenuSal = {};
+}
+
+const getRevenusSalariauxByCode = (req, res) => {
+    let revenusSals = [];
+    const code = req.params.code;
+    getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux').map(rev => {
+            if (imp.numero_impot == rev.numero_impot && imp.numero_impot == code)
+                revenusSals.push({ ...imp, ...rev });
+        })
+    })
+    res.json(revenusSals);
+    revenusSals = [];
 }
 
 const setRevenusSalariaux = (req, res) => {
@@ -746,6 +786,7 @@ module.exports = {
     //periodicite
     getPeriodicite,
     getPeriodiciteById,
+    getPeriodiciteByDateExercice,
     setPeriodicite,
     updatePeriodicite,
     deletePeriodicite,
@@ -755,9 +796,6 @@ module.exports = {
 
     //chef d'action
     getChefAction,
-
-    //code periodicite
-    getCodePeriodicite,
 
     //date cloture
     getDateCloture,
@@ -792,6 +830,7 @@ module.exports = {
     getCodeActivite,
 
     //code periodicité
+    getCodePeriodicite,
     getCodePeriodiciteByNumber,
     setCodePeriodicite,
     updateCodePeriodicite,
@@ -814,6 +853,7 @@ module.exports = {
 
     //revenus salariaux
     getRevenusSalariaux,
+    getRevenusSalariauxByCode,
     getRevenusSalariauxById,
     getRevenusSalariauxByYear,
     setRevenusSalariaux,
