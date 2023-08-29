@@ -157,6 +157,7 @@ const handleGetUserByCode = (req, res) => {
 }
 
 const handleUpdateUser = async (req, res) => {
+    const id = req.params.id;
     const nom = req.body.nom;
     const prenom = req.body.prenom;
     const fonction = req.body.fonction;
@@ -171,7 +172,7 @@ const handleUpdateUser = async (req, res) => {
     const code = req.body.code;
     const mdp = req.body.mdp;
     
-    const user = data.users.find(person => person.code === code);
+    const user = data.users.find(person => person.id === parseInt(id));
     if(!user) return res.status(404).json({"message": `user ${code} not found`});
 
     const gestion = data.gestions.find(ges => ges.id_user === user.id);
@@ -264,15 +265,16 @@ const handleUpdatePassword = async (req, res) => {
 }
 
 const handleDeleteUser = async (req, res) => {
-    const id = body.params.id;
+    const id = req.params.id;
 
-    const user = data.users.find(person => person.id === id);
-    
+    const user = data.users.find(person => person.id === parseInt(id));
+
+
     if(!user){
         res.status(400).json({'message': 'user not found'});
     }
 
-    const filteredUsers = data.users.filter(person => person.code !== code);
+    const filteredUsers = data.users.filter(person => person.code !== user.code);
     data.setUsers([...filteredUsers]);
 
     const filteredRecettes = data.recettes.filter(rec => rec.id_user !== user.id);
@@ -301,7 +303,6 @@ const handleDeleteUser = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
         JSON.stringify(data.gestions)
     )
-
     res.json({'success': "user has been deleted"});
 }
 

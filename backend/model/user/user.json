@@ -1,1 +1,11 @@
-[{"id":1,"nom":"TOTO","prenom":"Tata","fonction":"operateur de saisie","compte":"administrateur","code":"0005","mot_de_passe":"$2b$10$hFGyZvBrQjliG9ghfcWHBO0NaCEwKV8qrymBlMIdKs/4GDtUwnpmS"}]
+[
+    {
+        "id": 1,
+        "nom": "TOTO",
+        "prenom": "Tata",
+        "fonction": "operateur de saisie",
+        "compte": "administrateur",
+        "code": "0005",
+        "mot_de_passe": "$2b$10$hFGyZvBrQjliG9ghfcWHBO0NaCEwKV8qrymBlMIdKs/4GDtUwnpmS"
+    }
+]
