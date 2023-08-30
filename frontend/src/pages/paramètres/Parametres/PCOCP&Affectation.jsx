@@ -24,13 +24,20 @@ function PCOCPAffectation() {
       .then((response) => setDataCodeContent(response.data))
       .catch((error) => console.error(error));
   }, []);
+ const [dataImpot , setDataImpot] = useState([]);
+ useEffect(() => {
 
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/code/impot')
+    .then((response) => setDataImpot(response.data))
+    .catch((error) => console.error(error));
+}, []);
   const headers = ["numéro" ,"LIBELLE " ];
   const formattedData = dataCode.map(item => [item.numero, item.libelle]);
   const headerContent = ["Impot" ,"Budget" ,"Taux" ,"PCOP" ];
   const dataContent = dataCodeContent.map(item => [item.impot, item.budget , item.taux , item.pcop]);
-  const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" ];
-  const dataContentTable = [['none','none','none','none','none','none'],];
+  const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" , "Chapitre" , "Groupe d'impot" ];
+  const dataContentTable = dataImpot.map(item => [item.numero_impot, item.libellé , item.abreviation , item.pcop , item.numero_budget , item.numero_classes , item.chapitre , item.groupe_impot]);
   const NavbarContent = (
 <div className='flex justify-between'>
 <div className='text-white'>
@@ -63,11 +70,12 @@ Mise à jour budgets et classe pour les impots
     </div>
   </div>
 </div>
-</div>
-<div className='mt-4 m-4'>
+<div className=' m-4'>
 <div className='text-white m-4'>CODE IMPOTS , BUDGETS , CLASSES</div>
-<Table headers={headerContentTable} data={dataContentTable} ></Table>
+<Table headers={headerContentTable} data={dataContentTable} classTable="overflow-x-auto w-96" ></Table>
 </div>
+</div>
+
   </div>
   )
 }

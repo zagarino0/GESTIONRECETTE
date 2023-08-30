@@ -51,9 +51,9 @@ function Layout(props) {
     </nav>
     )
   return (
- <div className=" h-screen bg-[#212122] w-screen">
+ <div className="  bg-[#212122] h-screen">
     <Navbar content={contentNavbar} />
-    <main className="">{props.children}</main>
+    <main className=" bg-[#212122]">{props.children}</main>
   </div>
   )
 }

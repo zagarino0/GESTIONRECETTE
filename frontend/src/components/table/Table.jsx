@@ -8,7 +8,7 @@ const Table = (props) => {
     </td>
   );
   return (
-     <div className=' overflow-y-auto h-96'>
+     <div className={` overflow-y-auto h-96 ${props.classTable}`}>
           <table className={`  bg-white  ${props.className}`}>
       <thead>
         <tr>

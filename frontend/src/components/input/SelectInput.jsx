@@ -11,7 +11,7 @@ const Select = ({ options, value, onChange , className }) => {
      bg-white
       px-4  ${className}`}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>

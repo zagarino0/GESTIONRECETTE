@@ -11,12 +11,15 @@ import {BsPencil} from 'react-icons/bs'
 import Label from '../../../components/title/label';
 import Input from '../../../components/input/Input';
 import Modal from '../../../components/modals/Modal';
+import { RiDeleteBinLine } from 'react-icons/ri'
 
 function PeriodiciteImpot() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
-
+  const [selectedData, setSelectedData] = useState(null); 
+  const [cloture , setCloture] = useState([]);
+  const [numero , setNumero] = useState([]);
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/code/datecloture')
@@ -33,9 +36,51 @@ function PeriodiciteImpot() {
      
      
     ];
+    const handleDelete = (numero) => {
+      try {
+        // Make the DELETE request to your backend API to delete the data by ID
+        axios.delete(`http://localhost:3500/code/datecloture/${numero}`);
+    
+        // Update the list of data after successful deletion
+        setDataCode((prevData) => prevData.filter((data) => data.numero !== numero));
+        setSelectedData(null); // Reset the selection
+    
+        console.log(`Data with ID ${numero} deleted successfully.`);
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
+    };
+    const DataHandler =  (e) =>{
+      e.preventDefault();
+      const Cloture ={
+        numero,
+        cloture
+      };
+      
+      
+      try {
+         axios.post('http://localhost:3500/code/datecloture',Cloture);
+        console.log("données ajoutées avec succès " , Cloture);
+        setCloture('');
+        setNumero('');
 
-    const headers = ["N° Auto" ,"Cloture " , "" ];
+        axios.get('http://localhost:3500/code/datecloture')
+        .then((response) => setDataCode(response.data))
+        .catch((error) => console.error(error));
+      } catch(error){
+  console.error("erreur lors de l'ajout de donnée" , error)
+      }
+     }
+    const headers = ["N° Auto" ,"Cloture " , "" , "" ];
     const formattedData = dataCode.map(item => [item.numero, item.cloture ,
+
+    <span
+      key={item.numero} // Make sure to use a unique key
+      className='cursor-pointer'
+      onClick={() => handleDelete(item.numero)}
+    >
+      <RiDeleteBinLine />
+    </span>,
       <span
        key={`edit-${item.id}`} // Make sure to use a unique key
        className='cursor-pointer'
@@ -47,6 +92,8 @@ function PeriodiciteImpot() {
        <BsPencil />
      </span>,
      ]);
+
+  
 
   //Navbar content
   const NavbarContent = (
@@ -93,12 +140,37 @@ Périodicité
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
     <div className='mt-24 flex bg-[#212122] justify-center p-4' >
+     <form onSubmit={DataHandler} >
+       <div className='flex flex-col mr-4'>
+        <Input type="text" className="h-16 " placeholder="N° Auto"
+        value={numero}
+        onChange={e => setNumero(e.target.value)}
+        ></Input>
+        <Input type="text"  className="h-16 mt-4" placeholder="Date cloture"
+        value={cloture}
+        onChange={e => setCloture(e.target.value)}
+        ></Input>
+        <Button children="Ajouter" type="submit" className="h-16 mt-4"></Button>
+      </div>
+     </form>
 <Table headers={headers} data={formattedData} ></Table>
 
     </div>
-    <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[220px]" >
+    <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[260px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
+  <div className=' m-4 flex justify-between' >
+<Label text=" N° Auto :" className="mt-2"></Label>
+<Input type="text"  className="ml-4"
+ value={selectedEditData ? selectedEditData.numero : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     numero: e.target.value,
+   }))
+ }
+></Input>
+    </div>
   
 
     <div className=' m-4 flex justify-between' >
@@ -119,7 +191,7 @@ Périodicité
     try {
       // Make the PUT/PATCH request to update the data in the database
       await axios.put(
-        `http://localhost:3500/code/datecloture/${selectedEditData.numero}`,
+        `http://localhost:3500/code/datecloture/${selectedEditData.id}`,
         selectedEditData
       );
         // Récupérer les données depuis le backend

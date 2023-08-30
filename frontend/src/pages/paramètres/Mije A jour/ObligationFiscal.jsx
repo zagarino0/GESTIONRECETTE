@@ -66,24 +66,48 @@ const NavbarModal =(
   
   <div className=' m-4 flex justify-between' >
 <Label text=" Objet:" className="mt-2"></Label>
-<Input type="text"  className="ml-4"></Input>
+<Input type="text"  className="h-8"></Input>
     </div>
     <div className=' m-4 flex justify-between' >
-<Label text=" Numéro:" className="mt-2"></Label>
-<Input type="text"  className="ml-4"></Input>
+<Label text=" Numéro:" ></Label>
+<Input type="text" className="h-8"></Input>
     </div>
 
     <div className=' m-4 flex justify-between' >
-<Label text=" Choix:" className="mt-2"></Label>
-<Input type="text"  className="ml-4"></Input>
+<Label text=" Choix:" ></Label>
+<Input type="text"  className="h-8"></Input>
     </div>
     <div className=' m-4 flex justify-between' >
-<Label text=" Obligation:" className="mt-2"></Label>
-<Input type="text"  className="ml-4"></Input>
+<Label text=" Obligation:"></Label>
+<Input type="text"  className="h-8"></Input>
     </div>
     <div className=' m-4 flex justify-between' >
-<Label text=" Choix:" className="mt-2"></Label>
-<Input type="text"  className="ml-4"></Input>
+<Label text=" Choix:" ></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Obligation :" ></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Périodicité :"></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Titre :" ></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Option :" ></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Taxation :" ></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Pénalité :" ></Label>
+<Input type="text"  className="h-8"></Input>
     </div>
     
   <div className='flex justify-between m-4'>

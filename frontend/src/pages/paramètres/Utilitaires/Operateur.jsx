@@ -8,10 +8,111 @@ import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table'
 import Label from '../../../components/title/label';
 import axios from 'axios';
-
+import { RiDeleteBinLine } from 'react-icons/ri'
+import {BsPencil} from 'react-icons/bs'
+import Select from '../../../components/input/SelectInput';
 function Operateur() {
   const [dataCode, setDataCode] = useState([]);
+  const [code , setCode ] = useState([]);
+  const [nom , setNom ] = useState([]);
+  const [prenom , setPrenom] = useState([]);
+  const [fonction , setFonction] = useState('');
+  const [mdp , setMdp] = useState([]);
+  const [recette_modification , setRecette_modification] = useState(false);;
+  const [recette_visualisation , setRecette_visualisation] = useState(false);
+  const [gestion_debut_nif , setGestion_debut_nif] = useState([]);
+  const [gestion_fin_nif  , setGestion_fin_nif] = useState([]);
+  const [recette_creation , setRecette_creation] = useState(false);
+  const [immatriculation_creation , setImmatriculation_creation] = useState(false);
+  const [immatriculation_prise_charge ,setImmatriculation_prise_charge ] =useState(false);
+  
+  const handleCheckboxChangeModification = (event) => {
+    const { checked } = event.target;
+    setRecette_modification(checked);
+  };
+  const handleCheckboxChangeCreation = (event) => {
+    const { checked } = event.target;
+    setRecette_creation(checked);
+  };
+  const handleCheckboxChangeVisualisation = (event) => {
+    const { checked } = event.target;
+    setRecette_visualisation(checked);
+  };
+  const handleCheckboxChangeCreation1 = (event) => {
+    const { checked } = event.target;
+    setImmatriculation_creation(checked);
+  };
+  const handleCheckboxChangePriseEnCharge = (event) => {
+    const { checked } = event.target;
+    setImmatriculation_prise_charge(checked);
+  };
+  
+  const DataHandler =  (e) =>{
+    e.preventDefault();
+    const User ={
+      code,
+      nom,
+      prenom,
+      fonction,
+      mdp ,
+      recette_modification,
+      recette_creation,
+      recette_visualisation,
+      immatriculation_creation,
+      immatriculation_prise_charge,
+      gestion_debut_nif,
+      gestion_fin_nif,
+      
+    };
+    
+    console.log(User)
+    try {
+       axios.post('http://localhost:3500/user/register', User);
+      console.log("données ajoutées avec succès " , User);
+      
+     
+      axios.get('http://localhost:3500/user/All/')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
 
+      
+      setIsModalOpen(false)
+    } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+    }
+   }
+
+   const DataHandlerModifie = (e) => {
+    e.preventDefault();
+    const updatedUser = {
+      code: selectedEditData.code,
+      nom: selectedEditData.nom,
+      prenom: selectedEditData.prenom,
+      fonction: selectedEditData.fonction,
+      mdp: selectedEditData.mdp,
+      recette_modification: selectedEditData.recette_modification,
+      recette_creation: selectedEditData.recette_creation,
+      recette_visualisation : selectedEditData.recette_visualisation,
+      gestion_debut_nif : selectedEditData.gestion_debut_nif,
+      gestion_fin_nif : selectedEditData.gestion_fin_nif,
+      immatriculation_creation: selectedEditData.immatriculation_creation,
+      immatriculation_prise_charge : selectedEditData.immatriculation_prise_charge,
+    };
+  
+    // Effectuez une requête de mise à jour au backend avec les données mises à jour
+    axios.put(`http://localhost:3500/user/${selectedEditData.id}`, updatedUser)
+      .then((response) => {
+        console.log("Données mises à jour avec succès.", response.data);
+        // Ajoutez ici toute logique nécessaire après la mise à jour
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la mise à jour des données.", error);
+      });
+  
+    setIsModalOpenModifie(false); // Fermez le modal après la mise à jour
+  };
+  
+  
   useEffect(() => {
 
     // Récupérer les données depuis le backend
@@ -21,39 +122,56 @@ function Operateur() {
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const DataSaisie = dataCode[0]?.recette_creation;
-  const DataModification = dataCode[0]?.recette_modification;
-  const DataVisualisation = dataCode[0]?.recette_visualisation;
-  const DataCreation = dataCode[0]?.immatriculation_creation;
-  const DataPriseEnCharge = dataCode[0]?.immatriculation_prise_charge;
-  const Saisie =(
-    <div>
-<Checkbox value={DataSaisie} ></Checkbox>
-    </div>
-  )
-  const Modification =(
-    <div>
-<Checkbox value={DataModification}></Checkbox>
-    </div>
-  )
-  const Visualisation =(
-    <div>
-<Checkbox value={DataVisualisation}></Checkbox>
-    </div>
-  )
-   const Creation =(
-    <div>
-<Checkbox value={DataCreation}></Checkbox>
-    </div>
-  )
-  const PriseEnCharge =(
-    <div>
-<Checkbox value={DataPriseEnCharge}></Checkbox>
-    </div>
-  )
-  const headers = ["Code" ,"Nom et Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "Numéro 1", "Numéro 2", "Création", "prise en charge"];
-  const formattedData = dataCode.map(item => [item.code, item.nom , item.fonction , Saisie , Modification , Visualisation , item.gestion_debut_nif , item.gestion_fin_nif ,Creation , PriseEnCharge]);
- 
+  const [isModalOpenModifie, setIsModalOpenModifie] = useState(false);
+  
+  const [selectedEditData, setSelectedEditData] = useState(null);
+  const [selectedData, setSelectedData] = useState(null); 
+  const handleDelete = (id) => {
+    try {
+      // Make the DELETE request to your backend API to delete the data by ID
+      axios.delete(`http://localhost:3500/user/${id}`);
+  
+      // Update the list of data after successful deletion
+      setDataCode((prevData) => prevData.filter((data) => data.id !== id));
+      setSelectedData(null); // Reset the selection
+  
+      console.log(`Data with ID ${id} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+  const headers = ["Code" ,"Nom " ,"Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "Numéro 1", "Numéro 2", "Création", "prise en charge" , "" , ""];
+  const formattedData = dataCode.map(item => [
+    item.code,
+    item.nom,
+    item.prenom,
+    item.fonction,
+    <Checkbox value={item.recette_creation} />,
+    <Checkbox value={item.recette_modification} />,
+    <Checkbox value={item.recette_visualisation} />,
+    item.gestion_debut_nif,
+    item.gestion_fin_nif,
+    <Checkbox value={item.immatriculation_creation} />,
+    <Checkbox value={item.immatriculation_prise_charge} />,
+    <span
+      key={item.id}
+      className='cursor-pointer'
+      onClick={() => handleDelete(item.id)}
+    >
+      <RiDeleteBinLine />
+    </span>,
+    <span
+      key={`edit-${item.id}`}
+      className='cursor-pointer'
+      onClick={() => {
+        setSelectedEditData(item);
+        setIsModalOpenModifie(true);
+      }}
+    >
+      <BsPencil />
+    </span>,
+  ]);
+  
   const NavbarContent = (
     <nav className=" flex items-center justify-between  ">
  <div className='text-white'>
@@ -71,6 +189,19 @@ Opérateurs
   </div>
   </div>
 )
+const options = [
+  { value: 'Maire', label: 'Maire' },
+  { value: 'Directeur financier', label: 'Directeur financier' },
+  { value: 'Chef de service recette', label: 'Chef de service recette' },
+  { value: 'Directeur de gestion', label: 'Directeur de gestion' },
+  { value: 'Directeur de contrôle', label: 'Directeur de contrôle' },
+  { value: 'Directeur de Recuvrement', label: 'Directeur de Recouvrement' },
+  { value: 'Chef de division', label: 'Chef de division' },
+  { value: 'Regisseur', label: 'Regisseur' },
+  { value: 'Percepteur', label: 'Percepteur' },
+  
+  // Ajoutez vos options ici
+];
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
@@ -78,84 +209,294 @@ Opérateurs
 <Table headers={headers} data={formattedData} ></Table>
     </div>
     <div className='m-4'>
-      <Button children="Mise à jour " onClick={() => setIsModalOpen(true)}></Button>
+      <Button children="Créer un utilisateur" onClick={() => setIsModalOpen(true)}></Button>
     </div>
   <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[680px]">
+  <form onSubmit={DataHandler} >
   <Navbar content={NavbarModal} ></Navbar>
   
   <div className='mt-2 m-4 flex flex-row bg-black p-4'>
   <div className=' m-4 flex justify-between' >
 <Label text=" Code Opérateur:" className="mt-2"></Label>
-<Input type="text" placeholder="Votre code" className="ml-4"></Input>
+<Input type="text" placeholder="Votre code" className="ml-4 h-10"
+ value={code}
+ onChange={e => setCode(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Mot de passe:" className="mt-2"></Label>
-<Input type="password" placeholder="Mot de passe" className="ml-4"></Input>
+<Input type="password" placeholder="Mot de passe" className="ml-4 h-10"
+value={mdp}
+onChange={e => setMdp(e.target.value)}
+></Input>
     </div>
   </div>
   <div className=' m-4 flex justify-between' >
-<Label text=" Nom et Prénoms:" className="mt-2"></Label>
-<Input type="text" placeholder="Votre Nom et Prénoms" className="ml-4"></Input>
+<Label text=" Nom :" className="mt-2 "
+
+></Label>
+<Input type="text"  className="ml-4 h-10"
+value={nom}
+onChange={e => setNom(e.target.value)}
+></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Prénoms:" className="mt-2"></Label>
+<Input type="text"  className="ml-4 h-10"
+value={prenom}
+onChange={e => setPrenom(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Fonction:" className="mt-2"></Label>
-<Input type="text" placeholder="Votre Fonction" className="ml-4"></Input>
+ <Select
+ options={options}
+ value={fonction}
+ onChange={e => setFonction(e.target.value)}
+ className="h-12"
+/>
     </div>
     <div className='mt-2 ml-4'>
 <Label text="RECETTE"></Label>
-<div className='flex flex-row'>
-<Checkbox label="Création" className="m-4"></Checkbox>
-<Checkbox label="Modification" className="m-4"></Checkbox>
-<Checkbox label="Vusialisation" className="m-4"></Checkbox>
+<div className='flex flex-row '>
+<Checkbox label="Création" className="m-4"
+value={recette_creation}
+onChange={handleCheckboxChangeCreation}
+></Checkbox>
+<Checkbox label="Modification" className="m-4"
+value={recette_modification}
+onChange={handleCheckboxChangeModification}
+></Checkbox>
+<Checkbox label="Vusialisation" className="m-4"
+value={recette_visualisation}
+onChange={handleCheckboxChangeVisualisation}
+></Checkbox>
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
 <Label text=" Compte Administrateur :" className="mt-2"></Label>
-<Input type="text" placeholder="Votre Compte Administrateur" className="ml-4"></Input>
+<Input type="text" placeholder="Votre Compte Administrateur" className="ml-4 h-10"></Input>
     </div>
-<div className='mt-2 ml-4'>
+<div className='mt-2 ml-4 m-2'>
 <Label text=" GESTION" className="mt-2"></Label>
-<div className='flex justify-between mr-4'>
-<div>
-<Checkbox label="Par RF" className="m-4"></Checkbox>
-<Checkbox label="Alpahnum" className="m-4"></Checkbox>
-</div>
+<div className='flex justify-between m-2 '>
+
 <div>
 <div className='flex justify-between'>
 <label className='text-white mt-2' >RF début :</label>
-<Input type="text" placeholder="RF début"  className="ml-2"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<label className='text-white mt-2' >Lettre début :</label>
-<Input type="text" placeholder="Lettre début" className="ml-2"></Input>
+<Input type="text" placeholder="RF début"  className="ml-2 h-10"
+value={gestion_debut_nif}
+onChange={e => setGestion_debut_nif(e.target.value)}
+></Input>
 </div>
 </div>
 <div>
 <div className='flex justify-between'>
 <label className='text-white mt-2' >RF fin :</label>
-<Input type="text" placeholder="RF fin"  className="ml-2"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<label className='text-white mt-2' >Lettre fin :</label>
-<Input type="text" placeholder="Lettre fin" className="ml-2"></Input>
-</div>
+<Input type="text" placeholder="RF fin"  className="ml-2 h-10"
+value={gestion_fin_nif}
+onChange={e => setGestion_fin_nif(e.target.value)}
+></Input>
 </div>
 </div>
+</div>
+</div>
+<div className='flex justify-between'>
+  <Label text="IMMATRICULATION"></Label>
+  <Checkbox label="Creation RF" className="m-4"
+value={immatriculation_creation}
+onChange={handleCheckboxChangeCreation1}
+></Checkbox>
+<Checkbox label="Prise en charge" className="m-4"
+value={immatriculation_prise_charge}
+onChange={handleCheckboxChangePriseEnCharge}
+></Checkbox>
 </div>
 <div>
 
 </div>
     </div>
-  <div className='flex justify-between m-4'>
+  <div className='flex justify-between ml-4 mr-4'>
   
-  <Button children="Nouveau Oper." ></Button>
-  <Button children="Enregistrer" ></Button>
-  <Button children="Mise à jour Opér."></Button>
-  <Button children="Valider mise à jour"></Button>
+
+  <Button type="submit" children="Enregistrer" ></Button>
   <Button onClick={() => setIsModalOpen(false)} children="Quitter" ></Button>
   </div>
+  </form>
 </Modal>
+<Modal isOpen={isModalOpenModifie} onClose={() => setIsModalOpenModifie(false)} className="w-[1100px] h-[680px]">
+  <form onSubmit={DataHandler} >
+  <Navbar content={NavbarModal} ></Navbar>
+  
+  <div className='mt-2 m-4 flex flex-row bg-black p-4'>
+  <div className=' m-4 flex justify-between' >
+<Label text=" Code Opérateur:" className="mt-2"></Label>
+<Input type="text" placeholder="Votre code" className="ml-4 h-10"
+  value={selectedEditData ? selectedEditData.code : ''}
+  onChange={(e) =>
+    setSelectedEditData((prevData) => ({
+      ...prevData,
+      code: e.target.value,
+    }))
+  }
+></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Mot de passe:" className="mt-2"></Label>
+<Input type="password" placeholder="Mot de passe" className="ml-4 h-10"
+value={selectedEditData ? selectedEditData.mdp : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    mdp: e.target.value,
+  }))
+}
+></Input>
+    </div>
+  </div>
+  <div className=' m-4 flex justify-between' >
+<Label text=" Nom :" className="mt-2 "
 
+></Label>
+<Input type="text"  className="ml-4 h-10"
+value={selectedEditData ? selectedEditData.nom : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    nom: e.target.value,
+  }))
+}
+></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Prénoms:" className="mt-2"></Label>
+<Input type="text"  className="ml-4 h-10"
+value={selectedEditData ? selectedEditData.prenom : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    prenom : e.target.value,
+  }))
+}
+></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Fonction:" className="mt-2"></Label>
+ <Select
+ options={options}
+ value={selectedEditData ? selectedEditData.fonction : ''}
+  onChange={(e) =>
+    setSelectedEditData((prevData) => ({
+      ...prevData,
+      fonction : e.target.value,
+    }))
+  }
+ className="h-12"
+/>
+    </div>
+    <div className='mt-2 ml-4'>
+<Label text="RECETTE"></Label>
+<div className='flex flex-row '>
+<Checkbox label="Création" className="m-4"
+value={selectedEditData ? selectedEditData.recette_creation : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    recette_creation : e.target.checked ,
+  }))
+}
+></Checkbox>
+<Checkbox label="Modification" className="m-4"
+value={selectedEditData ? selectedEditData.recette_modification : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    recette_modification : e.target.checked ,
+  }))
+}
+></Checkbox>
+<Checkbox label="Vusialisation" className="m-4"
+value={selectedEditData ? selectedEditData.recette_visualisation : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    recette_visualisation : e.target.checked ,
+  }))
+}
+></Checkbox>
+</div>
+
+<div className=' ml-4 mr-4 flex justify-between' >
+<Label text=" Compte Administrateur :" className="mt-2"></Label>
+<Input type="text" placeholder="Votre Compte Administrateur" className="ml-4 h-10"></Input>
+    </div>
+<div className='mt-2 ml-4 m-2'>
+<Label text=" GESTION" className="mt-2"></Label>
+<div className='flex justify-between m-2 '>
+
+<div>
+<div className='flex justify-between'>
+<label className='text-white mt-2' >RF début :</label>
+<Input type="text" placeholder="RF début"  className="ml-2 h-10"
+value={selectedEditData ? selectedEditData.gestion_debut_nif : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    gestion_debut_nif: e.target.value,
+  }))
+}
+></Input>
+</div>
+</div>
+<div>
+<div className='flex justify-between'>
+<label className='text-white mt-2' >RF fin :</label>
+<Input type="text" placeholder="RF fin"  className="ml-2 h-10"
+value={selectedEditData ? selectedEditData.gestion_fin_nif : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    gestion_fin_nif: e.target.value,
+  }))
+}
+></Input>
+</div>
+</div>
+</div>
+</div>
+<div className='flex justify-between'>
+  <Label text="IMMATRICULATION"></Label>
+  <Checkbox label="Creation RF" className="m-4"
+value={selectedEditData ? selectedEditData.immatriculation_creation : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    immatriculation_creation : e.target.checked ,
+  }))
+}
+></Checkbox>
+<Checkbox label="Prise en charge" className="m-4"
+value={selectedEditData ? selectedEditData.immatriculation_prise_charge : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    immatriculation_prise_charge : e.target.checked ,
+  }))
+}
+></Checkbox>
+</div>
+<div>
+
+</div>
+    </div>
+  <div className='flex justify-between ml-4 mr-4'>
+  
+
+  <Button type="submit" children="Enregistrer" onClick={DataHandlerModifie} ></Button>
+  <Button onClick={() => setIsModalOpenModifie(false)} children="Quitter" ></Button>
+  </div>
+  </form>
+</Modal>
   </div>
   )
 }

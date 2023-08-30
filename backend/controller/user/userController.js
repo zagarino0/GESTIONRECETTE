@@ -241,6 +241,7 @@ const handleUpdatePassword = async (req, res) => {
     const newPassword = await bcrypt.hash(req.body.newPassword, 10);
 
     const user = data.users.find(us => us.code === code);
+    
     if (!user) {
         return res.status(400).json({ 'message': 'user not found' });
     }
@@ -255,7 +256,7 @@ const handleUpdatePassword = async (req, res) => {
             path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
             JSON.stringify(data.users)
         )
-        res.json({"success": "password has changed"});
+        res.status(200).json({"success": "password has changed"});
     }
     else{
         res.json({"message": "password doesn't match"});
@@ -264,15 +265,15 @@ const handleUpdatePassword = async (req, res) => {
 }
 
 const handleDeleteUser = async (req, res) => {
-    const id = body.params.id;
+    const id = req.params.id;
 
-    const user = data.users.find(person => person.id === id);
+    const user = data.users.find(person => person.id === parseInt(id));
     
     if(!user){
         res.status(400).json({'message': 'user not found'});
     }
 
-    const filteredUsers = data.users.filter(person => person.code !== code);
+    const filteredUsers = data.users.filter(person => person.id !== id);
     data.setUsers([...filteredUsers]);
 
     const filteredRecettes = data.recettes.filter(rec => rec.id_user !== user.id);
@@ -301,7 +302,6 @@ const handleDeleteUser = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
         JSON.stringify(data.gestions)
     )
-
     res.json({'success': "user has been deleted"});
 }
 
