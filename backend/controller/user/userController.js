@@ -30,15 +30,15 @@ const handleNewUser = async (req, res) => {
     const mdp = req.body.mdp;
 
 
-    if(!code || !mdp) return res.status(400).json({ 'message': 'code and password are required'});
+    if (!code || !mdp) return res.status(400).json({ 'message': 'code and password are required' });
     //check for duplicate usernames in the db
     const duplicate = data.users.find(person => person.code === code);
-    if(duplicate) return res.sendStatus(409); // Conflict
+    if (duplicate) return res.sendStatus(409); // Conflict
     try {
         // encrypt the password
         const hashedPwd = await bcrypt.hash(mdp, 10);
         //id
-        let id = data.users.length === 0 ? 1 : data.users[data.users.length - 1 ].id + 1;
+        let id = data.users.length === 0 ? 1 : data.users[data.users.length - 1].id + 1;
         //store the new user
         const newUser = {
             'id': id,
@@ -46,8 +46,8 @@ const handleNewUser = async (req, res) => {
             'prenom': prenom,
             'fonction': fonction,
             'compte': compte,
-            'code': code, 
-            'mot_de_passe': hashedPwd 
+            'code': code,
+            'mot_de_passe': hashedPwd
         };
         const newImmatriculation = {
             'id_user': id,
@@ -87,9 +87,24 @@ const handleNewUser = async (req, res) => {
             path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
             JSON.stringify(data.gestions)
         )
-        res.status(201).json({'success': `New user ${newUser.prenom} created` });
+
+        //-----------sending data---------------
+        let allData = [];
+        data.users.map((user) => {
+            data.immatriculations.map((im) => {
+                data.recettes.map((rec) => {
+                    data.gestions.map((ges) => {
+                        if (user.id === im.id_user && rec.id_user === user.id && ges.id_user === user.id) {
+                            allData.push({ ...user, ...im, ...rec, ...ges });
+                        }
+                    })
+                })
+            })
+        })
+        res.json(allData);
+        allData = [];
     } catch (error) {
-        res.status(500).json({'message': error.message});
+        res.status(500).json({ 'message': error.message });
     }
 }
 
@@ -98,24 +113,24 @@ const handleLogin = async (req, res) => {
     const code = req.body.code;
     const mdp = req.body.mdp;
 
-    if(!code || !mdp) return res.status(400).json({'message': 'code and password are required'});
+    if (!code || !mdp) return res.status(400).json({ 'message': 'code and password are required' });
     const foundUser = data.users.find(person => person.code === code);
-    if(!foundUser) return res.sendStatus(401); //Unauthorized
+    if (!foundUser) return res.sendStatus(401); //Unauthorized
     // evaluate password
     const match = await bcrypt.compare(mdp, foundUser.mot_de_passe);
-    if(match){
+    if (match) {
         const accessToken = jwt.sign(
-            {"code": foundUser.code},
+            { "code": foundUser.code },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
         const refreshToken = jwt.sign(
-            {"code": foundUser.code},
+            { "code": foundUser.code },
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
         const otherUsers = data.users.filter(person => person.code !== foundUser.code);
-        const currentUser = {...foundUser, refreshToken};
+        const currentUser = { ...foundUser, refreshToken };
         data.setUsers([...otherUsers, currentUser]);
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
@@ -135,8 +150,8 @@ const handleGetAllUser = (req, res) => {
         data.immatriculations.map((im) => {
             data.recettes.map((rec) => {
                 data.gestions.map((ges) => {
-                    if(user.id === im.id_user && rec.id_user === user.id && ges.id_user === user.id){
-                        allData.push({...user, ...im, ...rec, ...ges});
+                    if (user.id === im.id_user && rec.id_user === user.id && ges.id_user === user.id) {
+                        allData.push({ ...user, ...im, ...rec, ...ges });
                     }
                 })
             })
@@ -149,11 +164,11 @@ const handleGetAllUser = (req, res) => {
 const handleGetUserByCode = (req, res) => {
     const code = req.params.code;
     const user = data.users.find(person => person.code === code);
-    if(!user) return res.status(404).json({"message": `user ${code} not found`});
+    if (!user) return res.status(404).json({ "message": `user ${code} not found` });
     const gestion = data.gestions.find(ges => ges.id_user === user.id);
     const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
     const recette = data.recettes.find(rec => rec.id_user === user.id);
-    res.json({ ...user, ...gestion, ...immatriculation, ...recette});
+    res.json({ ...user, ...gestion, ...immatriculation, ...recette });
 }
 
 const handleUpdateUser = async (req, res) => {
@@ -170,50 +185,47 @@ const handleUpdateUser = async (req, res) => {
     const immatriculation_creation = req.body.immatriculation_creation;
     const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
     const code = req.body.code;
-    const mdp = req.body.mdp;
-    
+
     const user = data.users.find(person => person.id === parseInt(id));
-    if(!user) return res.status(404).json({"message": `user ${code} not found`});
+    if (!user) return res.status(404).json({ "message": `user ${code} not found` });
 
     const gestion = data.gestions.find(ges => ges.id_user === user.id);
     const immatriculation = data.immatriculations.find(im => im.id_user === user.id);
     const recette = data.recettes.find(rec => rec.id_user === user.id);
 
-    if(nom) user.nom = nom;
-    if(prenom) user.prenom = nom;
-    if(fonction) user.fonction = fonction;
-    if(compte) user.compte = compte;
-    if(mdp) {
-        const hashedPwd = await bcrypt.hash(mdp, 10);
-        user.mot_de_passe = hashedPwd;
-    }
+    if (nom) user.nom = nom;
+    if (prenom) user.prenom = prenom;
+    if (fonction) user.fonction = fonction;
+    if (compte) user.compte = compte;
 
-    if(recette_creation) recette.creation_recette = recette_creation;
-    if(recette_modification) recette.recette_modification = recette_modification;
-    if(recette_visualisation) recette.recette_visualisation = recette_visualisation;
+    recette.recette_creation = recette_creation;
+    recette.recette_modification = recette_modification;
+    recette.recette_visualisation = recette_visualisation;
 
-    if(gestion_debut_nif) gestion.gestion_debut_nif = gestion_debut_nif;
-    if(gestion_fin_nif) gestion.gestion_fin_nif = gestion_fin_nif;
+    if (gestion_debut_nif) gestion.gestion_debut_nif = gestion_debut_nif;
+    if (gestion_fin_nif) gestion.gestion_fin_nif = gestion_fin_nif;
 
-    if(immatriculation_creation) immatriculation.immatriculation_creation = immatriculation_creation;
-    if(immatriculation_prise_charge) immatriculation.immatriculation_prise_charge = immatriculation_prise_charge;
+    immatriculation.immatriculation_creation = immatriculation_creation;
+    immatriculation.immatriculation_prise_charge = immatriculation_prise_charge;
 
+
+    console.log(user, gestion, recette, immatriculation);
 
     const filteredUsers = data.users.filter(person => person.code !== code);
     const unsortedUsers = [...filteredUsers, user];
-    data.setUsers(unsortedUsers.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    data.setUsers(unsortedUsers.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
 
     const filteredRecettes = data.recettes.filter(rec => rec.id_user !== user.id);
     const unsortedRecettes = [...filteredRecettes, recette];
-    data.setRecettes(unsortedRecettes.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    data.setRecettes(unsortedRecettes.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
 
     const filteredGestions = data.gestions.filter(ges => ges.id_user !== user.id);
     const unsortedGestions = [...filteredGestions, gestion];
-    data.setGestions(unsortedGestions.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-    
+    data.setGestions(unsortedGestions.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
     const filteredImmatriculations = data.immatriculations.filter(im => im.id_user !== user.id);
     const unsortedImmatriculations = [...filteredImmatriculations, immatriculation];
-    data.setImmatriculations(unsortedImmatriculations.sort((a, b)=> a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    data.setImmatriculations(unsortedImmatriculations.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
 
 
     await fsPromises.writeFile(
@@ -233,7 +245,20 @@ const handleUpdateUser = async (req, res) => {
         JSON.stringify(data.gestions)
     )
 
-    res.status(201).json({"success": `user ${code} updated`});
+    let allData = [];
+    data.users.map((user) => {
+        data.immatriculations.map((im) => {
+            data.recettes.map((rec) => {
+                data.gestions.map((ges) => {
+                    if (user.id === im.id_user && rec.id_user === user.id && ges.id_user === user.id) {
+                        allData.push({ ...user, ...im, ...rec, ...ges });
+                    }
+                })
+            })
+        })
+    })
+    res.json(allData);
+    allData = [];
 }
 
 const handleUpdatePassword = async (req, res) => {
@@ -256,10 +281,10 @@ const handleUpdatePassword = async (req, res) => {
             path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
             JSON.stringify(data.users)
         )
-        res.json({"success": "password has changed"});
+        res.json({ "success": "password has changed" });
     }
-    else{
-        res.json({"message": "password doesn't match"});
+    else {
+        res.json({ "message": "password doesn't match" });
     }
 
 }
@@ -270,8 +295,8 @@ const handleDeleteUser = async (req, res) => {
     const user = data.users.find(person => person.id === parseInt(id));
 
 
-    if(!user){
-        res.status(400).json({'message': 'user not found'});
+    if (!user) {
+        res.status(400).json({ 'message': 'user not found' });
     }
 
     const filteredUsers = data.users.filter(person => person.code !== user.code);
@@ -282,7 +307,7 @@ const handleDeleteUser = async (req, res) => {
 
     const filteredGestions = data.gestions.filter(ges => ges.id_user !== user.id);
     data.setGestions([...filteredGestions]);
-    
+
     const filteredImmatriculations = data.immatriculations.filter(im => im.id_user !== user.id);
     data.setImmatriculations([...filteredImmatriculations]);
 
@@ -303,48 +328,48 @@ const handleDeleteUser = async (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'user', 'gestion.json'),
         JSON.stringify(data.gestions)
     )
-    res.json({'success': "user has been deleted"});
+    res.json({ 'success': "user has been deleted" });
 }
 
 const handleRefreshToken = (req, res) => {
     const cookies = req.cookies;
-    if(!cookies?.jwt) return res.sendStatus(401);
+    if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
 
     const foundUser = data.users.find(person => person.refreshToken === refreshToken);
-    if(!foundUser) return res.sendStatus(403); //forbidden
+    if (!foundUser) return res.sendStatus(403); //forbidden
     // evaluate jwt
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
-            if(err || foundUser.code !== decoded.code) return res.sendStatus(403);
+            if (err || foundUser.code !== decoded.code) return res.sendStatus(403);
             const accessToken = jwt.sign(
                 { "code": decoded.code },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '30s'}
+                { expiresIn: '30s' }
             );
             res.json({ accessToken })
         }
     )
-    
+
 }
 
 const handleLogout = async (req, res) => {
     // on client also delete the accessToken
     const cookies = req.cookies;
-    if(!cookies?.jwt) return res.sendStatus(204); //No content
+    if (!cookies?.jwt) return res.sendStatus(204); //No content
     const refreshToken = cookies.jwt;
 
     // is refreshToken in db?
     const foundUser = data.users.find(person => person.refreshToken === refreshToken);
-    if(!foundUser) {
+    if (!foundUser) {
         res.clearCookie('jwt', { httpOnly: true });
         return res.sendStatus(403); //forbidden
     }
     // Delete refreshToken in db
     const otherUsers = data.users.filter(person => person.refreshToken !== foundUser.refreshToken);
-    const currentUser = {...foundUser, refreshToken: ''};
+    const currentUser = { ...foundUser, refreshToken: '' };
     data.setUsers([...otherUsers, currentUser]);
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
@@ -352,11 +377,11 @@ const handleLogout = async (req, res) => {
     );
     res.clearCookie('jwt', { httpOnly: true });
     res.sendStatus(204);
-    
+
 }
 
 
-module.exports = { 
+module.exports = {
     handleNewUser,
     handleLogin,
     handleGetAllUser,

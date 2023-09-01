@@ -564,7 +564,7 @@ const getDateEcheance = (req, res) => {
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {
             if (imp.numero_impot == ech.numero_impot)
-                revenusSal.push({ ...imp, ...ech });
+                dateEch.push({ ...imp, ...ech });
         })
     })
     res.json(dateEch);

@@ -20,9 +20,9 @@ Mise à jour prévisions
 </div>
   )
   return (
-    <div className='bg-[#212122] h-screen w-screen'>
+    <div className='bg-[#212122]  '>
     <Navbar content={NavbarContent}></Navbar>
-    <div className=' m-4 '>
+    <div className=' m-4 flex flex-col p-4 '>
       <div className='flex justify-between'>
 <Label text="Exercice"></Label>
 <Input type="text"></Input>
@@ -47,15 +47,17 @@ Mise à jour prévisions
 <Label text="Montant Prev. en Ar."></Label>
 <Input type="text"></Input>
       </div>
-    </div>
-    <div className='mt-4 m-4' >
-<Table headers={headers} data={data} ></Table>
-    </div>
-    <div className='m-4'>
+      <div className='flex m-4 justify-between  '>
 <Button children="Enregistrer"></Button>
-<Button children="Imprimmer" className="ml-4"></Button>
+<Button children="Imprimmer" ></Button>
 
     </div>
+    </div>
+    <div className='m-4 ' >
+<Table headers={headers} data={data} ></Table>
+
+    </div>
+   
   </div>
   )
 }

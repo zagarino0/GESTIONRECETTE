@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import BackButton from '../../../components/button/BackButton';
@@ -9,11 +10,21 @@ import Table from '../../../components/table/Table';
 import Label from '../../../components/title/label';
 import { states } from '../../../states/states';
 import axios from 'axios';
-import Select from '../../../components/input/SelectInput';
+import { RiDeleteBinLine } from 'react-icons/ri'
+import {BsPencil} from 'react-icons/bs'
+import Modal from '../../../components/modals/Modal';
+
 
 function Periodicite() {
   const [dataCode, setDataCode] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
+  const [searchData , setSearchData] = useState([]);
+  const [selectedData, setSelectedData] = useState(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
+  const [isModalOpenModifiPeriode, setIsModalOpenModifiPeriode] = useState(false);
+  const [selectedEditData, setSelectedEditData] = useState(null);
   useEffect(() => {
 
     // Récupérer les données depuis le backend
@@ -21,6 +32,27 @@ function Periodicite() {
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
   }, []);
+
+  
+
+  // État pour stocker les options du Select
+  const [selectOptions, setSelectOptions] = useState([]);
+
+  useEffect(() => {
+    // Récupérez les options depuis la base de données
+    axios.get('http://localhost:3500/code/datecloture')
+      .then((response) => {
+        // Transformez les données en format requis par le Select
+        const formattedOptions = response.data.map((item) => ({
+          value: item.cloture,
+          label: item.cloture,
+        }));
+        // Mettez à jour l'état des options
+        setSelectOptions(formattedOptions);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
 
     const { selectedLink } = useSnapshot(states);
 
@@ -32,8 +64,20 @@ function Periodicite() {
        
       ];
   
-      const headers = ["N° Auto" ,"Périodicité " ];
-      const formattedData = dataCode.map(item => [item.numero_auto, item.cloture]);
+      const headers = ["N° Auto" ,"Périodicité " , "" , "" ];
+      const formattedData = dataCode.map(item => [item.numero_auto, item.periode 
+      ,
+              <span
+               key={`edit-${item.id}`} // Make sure to use a unique key
+               className='cursor-pointer'
+               onClick={() => {
+                 setSelectedEditData(item);
+                 setIsModalOpenModifi(true);
+               }}
+             >
+               <BsPencil />
+             </span>,
+      ]);
   
     //Navbar content
     const NavbarContent = (
@@ -73,14 +117,70 @@ function Periodicite() {
     // État pour stocker la valeur sélectionnée
   const [selectedValue, setSelectedValue] = useState(''); // La valeur initiale peut être définie selon vos besoins
 
-  // Exemple d'options provenant de la base de données
-  const optionsFromDatabase = [
-    { value: dataCode[0]?.cloture, label: dataCode[0]?.cloture },
-    
-   
-  ];
-const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" ];
-const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture]);
+ 
+  const handleDelete = (id) => {
+    try {
+      // Make the DELETE request to your backend API to delete the data by ID
+      axios.delete(`http://localhost:3500/code/datecloture/${id}`);
+  
+      // Update the list of data after successful deletion
+      setDataCode((prevData) => prevData.filter((data) => data.id !== id));
+      setSelectedData(null); // Reset the selection
+  
+      console.log(`Data with ID ${id} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" , "" , "" ];
+const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture
+,
+<span
+      key={item.numero} // Make sure to use a unique key
+      className='cursor-pointer'
+      onClick={() => handleDelete(item.numero)}
+    >
+      <RiDeleteBinLine />
+    </span>,
+      <span
+       key={`edit-${item.id}`} // Make sure to use a unique key
+       className='cursor-pointer'
+       onClick={() => {
+         setSelectedEditData(item);
+         setIsModalOpenModifiPeriode(true);
+       }}
+     >
+       <BsPencil />
+     </span>,
+]);
+
+useEffect(() => {
+  // Vérifiez si une valeur est sélectionnée
+  if (selectedValue) {
+    const filtered = Data.filter((item) => item[6] === selectedValue.value); // Utilisez la colonne appropriée pour la comparaison
+    setFilteredData(filtered);
+  } else {
+    // Si aucune valeur n'est sélectionnée, affichez toutes les données
+    setFilteredData(Data);
+  }
+}, [selectedValue, Data]);
+
+const NavbarModal =(
+  <div>
+  <div className='text-white'>
+  Périodicité 
+  </div>
+  </div>
+)
+const NavbarModalModifi =(
+  <div>
+  <div className='text-white'>
+  Périodicité 
+  </div>
+  </div>
+)
+
+
     return (
       <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
@@ -92,22 +192,128 @@ const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_moi
    <div className='flex mt-4 p-4 bg-[#212122]'>
 <Label text="Exercice cloturé :" className="mt-2"></Label>
 <Select
-        options={optionsFromDatabase}
+        options={selectOptions}
         value={selectedValue}
-        onChange={setSelectedValue}
+        onChange={(selected) => setSelectedValue(selected)}
         className="ml-4 w-40"
       />
-<Button className='ml-4 h-16' children="Actualiser"></Button>
     </div>
     <div className="mt-4 p-4 bg-[#212122]">
-<Table headers={Headers} data={Data} ></Table>
+    <Table headers={Headers} data={filteredData} ></Table>
+
     </div>
     <div className='mt-2 p-2 '>
-<Button children="Ajouter" className="h-16"></Button>
+<Button children="Ajouter" className="h-16" onClick={() => setIsModalOpen(true)}></Button>
 
     </div>
    </div>
    </div>
+
+   <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[600px]" >
+  <Navbar content={NavbarModal} ></Navbar>
+  
+  
+  <div className=' m-4 flex justify-between' >
+<Label text=" N° Auto:" className="mt-2"></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Périodicité :" ></Label>
+<Input type="text" className=""></Input>
+    </div>
+
+    <div className=' m-4 flex justify-between' >
+<Label text=" Desc_mois :" ></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Titre:"></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" P1:" ></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" P2 :" ></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Exercice :"></Label>
+<Input type="text"  className=""></Input>
+    </div>
+  
+    
+  <div className='flex justify-between m-4'>
+
+  <Button children="Enregistrer" ></Button>
+
+  <Button onClick={() => setIsModalOpen(false)} children="Quitter" ></Button>
+  </div>
+</Modal>
+<Modal isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[300px]" >
+  <Navbar content={NavbarModalModifi} ></Navbar>
+  
+  
+  <div className=' m-4 flex justify-between' >
+<Label text=" N° Auto:" className="mt-2"></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Périodicité :" ></Label>
+<Input type="text" className=""></Input>
+    </div>
+<div className="m-4 flex justify-between">
+
+<Button children="Enregistrer" ></Button>
+
+<Button onClick={() => setIsModalOpenModifi(false)} children="Quitter" ></Button>
+
+</div>
+</Modal>
+
+<Modal isOpen={isModalOpenModifiPeriode} onClose={() => setIsModalOpenModifiPeriode(false)} className="w-[1100px] h-[600px]" >
+  <Navbar content={NavbarModal} ></Navbar>
+  
+  
+  <div className=' m-4 flex justify-between' >
+<Label text=" N° Auto:" className="mt-2"></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Périodicité :" ></Label>
+<Input type="text" className=""></Input>
+    </div>
+
+    <div className=' m-4 flex justify-between' >
+<Label text=" Desc_mois :" ></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Titre:"></Label>
+<Input type="text"  className="h-8"></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" P1:" ></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" P2 :" ></Label>
+<Input type="text"  className=""></Input>
+    </div>
+    <div className=' m-4 flex justify-between' >
+<Label text=" Exercice :"></Label>
+<Input type="text"  className=""></Input>
+    </div>
+  
+    
+  <div className='flex justify-between m-4'>
+
+  <Button children="Enregistrer" ></Button>
+
+  <Button onClick={() => setIsModalOpenModifiPeriode(false)} children="Quitter" ></Button>
+  </div>
+</Modal>
     </div>
     )
   }
