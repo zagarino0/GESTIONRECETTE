@@ -13,17 +13,30 @@ router.route('/geographique/:id')
 
 //code banque
 router.route('/banque')
-    .get(codeController.getCodeBanque);
+    .get(codeController.getCodeBanque)
+    .post(codeController.setCodeBanque);
+router.route('/banque/:id')
+    .get(codeController.getCodeBanqueById)
+    .put(codeController.updateCodeBanque)
+    .delete(codeController.deleteCodeBanque);
 
 //code forme juridique
 router.route('/formejuridique')
-    .get(codeController.getCodeFormeJuridique);
+    .get(codeController.getCodeFormeJuridique)
+    .post(codeController.setCodeFormeJuridique);
+router.route('/formejuridique/:code')
+    .get(codeController.getCodeFormeJuridiqueByCode)
+    .put(codeController.updateCodeFormeJuridique)
+    .delete(codeController.deleteCodeFormeJuridique)
 
-//code impot
+    //code impot
 router.route('/impot')
-    .get(codeController.getCodeImpot);
+    .get(codeController.getpro)
+    .post(codeController.setCodeImpot);
 router.route('/impot/:numero_impot')
-    .get(codeController.getCodeImpotByNumber);
+    .get(codeController.getCodeImpotByNumber)
+    .put(codeController.updateCodeImpot)
+    .delete(codeController.deleteCodeImpot);
 
 
 //periodicité
@@ -37,11 +50,21 @@ router.route('/periodicite/:id')
 
 //proès verbaux
 router.route('/processverbaux')
-    .get(codeController.getProcesVerbaux);
+    .get(codeController.getProcesVerbaux)
+    .post(codeController.setProcesVerbaux);
+router.route('/procesverbaux/:id')
+    .get(codeController.getProcesVerbauxById)
+    .put(codeController.updateProcesVerbaux)
+    .delete(codeController.deleteProcesVerbaux);
 
 //operateur téléphonique
 router.route('/operateurtelephonique')
-    .get(codeController.getOperateurTelephonique);
+    .get(codeController.getOperateurTelephonique)
+    .post(codeController.setOperateurTelephonique);
+router.route('/operateurtelephonique/:id')
+    .get(codeController.getOperateurTelephoniqueById)
+    .put(codeController.updateOperateurTelephonique)
+    .delete(codeController.deleteOperateurTelephonique);
 
 //date cloture
 router.route('/datecloture')
@@ -63,7 +86,12 @@ router.route('/codeperiodicite/:numero')
 
 //affectation budgetaire
 router.route('/affectationbudgetaire')
-    .get(codeController.getAffectationBudgetaire);
+    .get(codeController.getAffectationBudgetaire)
+    .post(codeController.setAffectationBudgetaire);
+router.route('/affectationbudgetaire/:id')
+    .get(codeController.getAffectationBudgetaireById)
+    .put(codeController.updateAffectationBudgetaire)
+    .delete(codeController.deleteAffectationBudgetaire);
 
 //obligation fiscale
 router.route('/obligationfiscal')
@@ -76,11 +104,21 @@ router.route('/obligationfiscal/:id')
 
 //numero budget
 router.route('/numerobudget')
-    .get(codeController.getNumeroBudget);
+    .get(codeController.getNumeroBudget)
+    .post(codeController.setNumeroBudget);
+router.route('/numerobudget/:numero')
+    .get(codeController.getNumeroBudget)
+    .put(codeController.updateNumeroBudget)
+    .delete(codeController.deleteNumeroBudget);
 
 //code activité
 router.route('/codeactivite')
-    .get(codeController.getCodeActivite);
+    .get(codeController.getCodeActivite)
+    .post(codeController.setCodeActivite);
+router.route('/codeactivite/:code')
+    .get(codeController.getCodeActiviteByCode)
+    .put(codeController.updateCodeActivite)
+    .delete(codeController.deleteCodeActivite);
 
 //grand impot
 router.route('/grandsimpot')
@@ -88,11 +126,21 @@ router.route('/grandsimpot')
 
 //chef d'action
 router.route('/chefaction')
-    .get(codeController.getChefAction);
+    .get(codeController.getChefAction)
+    .post(codeController.setChefAction);
+router.route('/chefaction/:code')
+    .get(codeController.getChefActionByCode)
+    .put(codeController.updateChefAction)
+    .delete(codeController.deleteChefAction);
 
 //type de prevision
 router.route('/typeprevision')
-    .get(codeController.getTypePrevision);
+    .get(codeController.getTypePrevision)
+    .post(codeController.setTypePrevision);
+router.route('/typeprevision/:id')
+    .get(codeController.getTypePrevisionById)
+    .put(codeController.updateTypePrevision)
+    .delete(codeController.deleteTypePrevision);
 
 //jour ferié
 router.route('/jourferie')

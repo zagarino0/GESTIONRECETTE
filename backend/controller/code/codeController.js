@@ -67,6 +67,49 @@ const getCodeBanque = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque'));
 }
 
+const getCodeBanqueById = (req, res) => {
+    const id = req.params.id;
+    const codeBanque = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque').find(cb => cb.id == id);
+    if (!codeBanque) return res.status(400).json({ "message": "info not found" });
+    res.json(codeBanque);
+}
+
+const setCodeBanque = (req, res) => {
+    const codeBanques = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque');
+    const id = parseInt(codeBanques[codeBanques.length - 1].id) + 1;
+    const raison_social = req.body.raison_social;
+    const nom_commercial = req.body.nom_commercial;
+    const newCodeBanque = [
+        [
+            id,
+            raison_social,
+            nom_commercial
+        ]
+    ]
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque', newCodeBanque);
+    res.json({ 'success': 'code has been created' });
+}
+
+const updateCodeBanque = (req, res) => {
+    const id = req.params.id;
+    const raison_social = req.body.raison_social;
+    const nom_commercial = req.body.nom_commercial;
+
+    const codeBanque = [
+        id,
+        raison_social,
+        nom_commercial
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque', id, codeBanque);
+    res.json({ 'success': 'code banque has been updated' });
+}
+
+const deleteCodeBanque = (req, res) => {
+    const id = req.params.id;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque', id);
+    res.json({ 'success': 'code banque has been deleted' });
+}
+
 
 //-------------------------------------------------------------------------------------------
 //                                    code forme juridique
@@ -76,7 +119,48 @@ const getCodeFormeJuridique = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique'));
 }
 
+const getCodeFormeJuridiqueByCode = (req, res) => {
+    const code = req.params.code;
+    const formeJuridique = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique').find(fj => fj.code == code);
+    if (!formeJuridique) return res.status(400).json({ "message": "info not found" });
+    res.json(formeJuridique);
+}
 
+const setCodeFormeJuridique = (req, res) => {
+    const formeJuris = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique');
+    const code = parseInt(formeJuris[formeJuris.length - 1].code) + 1;
+    const abreviation = req.body.abreviation;
+    const libelle = req.body.libelle;
+    const newFormeJuri = [
+        [
+            code,
+            abreviation,
+            libelle
+        ]
+    ]
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique', newFormeJuri);
+    res.json({ 'success': 'code has been created' });
+}
+
+const updateCodeFormeJuridique = (req, res) => {
+    const code = req.params.code;
+    const abreviation = req.body.abreviation;
+    const libelle = req.body.libelle;
+
+    const formeJuri = [
+        code,
+        abreviation,
+        libelle
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique', code, formeJuri);
+    res.json({ 'success': 'code forme juridique has been updated' });
+}
+
+const deleteCodeFormeJuridique = (req, res) => {
+    const code = req.params.code;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique', code);
+    res.json({ 'success': 'code forme juridique has been deleted' });
+}
 
 //-------------------------------------------------------------------------------------------
 //                                      code impot
@@ -91,6 +175,63 @@ const getCodeImpotByNumber = (req, res) => {
     const impot = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').find(imp => imp.numero_impot == numero_impot);
     if (!impot) return res.status(400).json({ "message": "tax not found" });
     res.json(impot);
+}
+
+const setCodeImpot = (req, res) => {
+    const codeImps = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot');
+    const numero_impot = parseInt(codeImps[codeImps.length - 1].numero_impot) + 1;
+    const libelle = req.body.libelle;
+    const abreviation = req.body.abreviation;
+    const pcop = req.body.pcop;
+    const numero_budget = req.body.numero_budget;
+    const numero_classes = req.body.numero_classes;
+    const chapitre = req.body.chapitre;
+    const groupe_impot = req.body.groupe_impot;
+
+    const newCodeImp = [
+        [
+            numero_impot,
+            libelle,
+            abreviation,
+            pcop,
+            numero_budget,
+            numero_classes,
+            chapitre,
+            groupe_impot
+        ]
+    ]
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', newCodeImp);
+    res.json({ 'success': 'code has been created' });
+}
+
+const updateCodeImpot = (req, res) => {
+    const numero_impot = req.params.numero_impot;
+    const libelle = req.body.libelle;
+    const abreviation = req.body.abreviation;
+    const pcop = req.body.pcop;
+    const numero_budget = req.body.numero_budget;
+    const numero_classes = req.body.numero_classes;
+    const chapitre = req.body.chapitre;
+    const groupe_impot = req.body.groupe_impot;
+
+    const codeImp = [
+            numero_impot,
+            libelle,
+            abreviation,
+            pcop,
+            numero_budget,
+            numero_classes,
+            chapitre,
+            groupe_impot
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', numero_impot, codeImp);
+    res.json({ 'success': 'code impot has been updated' });
+}
+
+const deleteCodeImpot = (req, res) => {
+    const numero_impot = req.params.numero_impot;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', numero_impot);
+    res.json({ 'success': 'code impot has been deleted' });
 }
 
 //-------------------------------------------------------------------------------------------
@@ -187,7 +328,7 @@ const updatePeriodicite = (req, res) => {
     const titre = req.body.titre;
     const p1 = req.body.p1;
     const p2 = req.body.p2;
-    const exerc = req.body.id_clo;
+    const id_clo = req.body.id_clo;
 
     const periodicite = [
         id,
@@ -314,7 +455,52 @@ const getProcesVerbaux = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux'));
 }
 
+const getProcesVerbauxById = (req, res) => {
+    const id = req.params.id;
+    const procesVerb = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux').find(pv => pv.id == id);
+    if (!procesVerb) return res.status(400).json({ "message": "info not found" });
+    res.json(procesVerb);
+}
 
+const setProcesVerbaux = (req, res) => {
+    const procesVerbs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux');
+    const id = parseInt(procesVerbs[procesVerbs.length - 1].id) + 1;
+    const numero = req.body.numero;
+    const designation = req.body.designation;
+   
+
+    const newProcesVerb = [
+        [
+            id,
+            numero,
+            designation
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux', newProcesVerb);
+    res.status(200).json({ 'success': 'obligation fiscal has been created' });
+}
+
+const updateProcesVerbaux = (req, res) => {
+    const id = req.params.id;
+    const numero = req.body.numero;
+    const designation = req.body.designation;
+
+    const procesVerb = [
+        id,
+        numero,
+        designation
+    ]
+
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux', id, procesVerb);
+    res.json({ 'success': 'proces verbaux has been updated' });
+}
+
+const deleteProcesVerbaux = (req, res) => {
+    const id = req.params.id;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux', id);
+    res.json({ 'success': 'proces verbaux has been deleted' });
+}
 
 //-------------------------------------------------------------------------------------------
 //                                operateur telephonique
@@ -322,6 +508,54 @@ const getProcesVerbaux = (req, res) => {
 
 const getOperateurTelephonique = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique'));
+}
+
+const getOperateurTelephoniqueById = (req, res) => {
+    const id = req.params.id;
+    const operateur = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique').find(ot => ot.id == id);
+    if (!operateur) return res.status(400).json({ "message": "info not found" });
+    res.json(operateur);
+}
+
+const setOperateurTelephonique = (req, res) => {
+    const operateurTels = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique');
+    const id = parseInt(operateurTels[operateurTels.length - 1].id) + 1;
+    const numero = req.body.numero;
+    const operateur = req.body.operateur;
+   
+
+    const newOperateur = [
+        [
+            id,
+            numero,
+            operateur
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique', newOperateur);
+    res.status(200).json({ 'success': 'operateur telephonique has been created' });
+}
+
+const updateOperateurTelephonique = (req, res) => {
+    const id = req.params.id;
+    const numero = req.body.numero;
+    const operateur = req.body.operateur;
+
+    const operateurTel = [
+        id,
+        numero,
+        operateur
+    ]
+
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique', id, operateurTel);
+    res.json({ 'success': 'operateur telephonique has been updated' });
+
+}
+
+const deleteOperateurTelephonique = (req, res) => {
+    const id = req.params.id;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique', id);
+    res.json({ 'success': 'operateur telephonique has been deleted' });
 }
 
 
@@ -424,7 +658,6 @@ const updateCodePeriodicite = (req, res) => {
     ]
     updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code periodicite', numero, codePer);
     res.status(200).json({ 'success': 'code has been updated' });
-
 }
 
 const deleteCodePeriodicite = (req, res) => {
@@ -443,6 +676,59 @@ const getAffectationBudgetaire = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire'));
 }
 
+const getAffectationBudgetaireById = (req, res) => {
+    const id = req.params.id;
+    const affectation = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire').find(ab => ab.id == id);
+    if (!affectation) return res.status(400).json({ "message": "info not found" });
+    res.json(affectation);
+}
+
+const setAffectationBudgetaire = (req, res) => {
+    const affectationBudgs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire');
+    const id = parseInt(affectationBudgs[affectationBudgs.length - 1].id) + 1;
+    const impot = req.body.impot;
+    const budget = req.body.budget;
+    const taux = req.body.taux;
+    const pcop = req.body.pcop;
+
+    const newAffectation = [
+        [
+            id,
+            impot,
+            budget,
+            taux,
+            pcop
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire', newAffectation);
+    res.status(200).json({ 'success': 'code has been created' });
+}
+
+const updateAffectationBudgetaire = (req, res) => {
+    const id = req.params.id;
+    const impot = req.body.impot;
+    const budget = req.body.budget;
+    const taux = req.body.taux;
+    const pcop = req.body.pcop;
+
+    const affectationBudg = [
+        id,
+        impot,
+        budget,
+        taux,
+        pcop
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire', id, affectationBudg);
+    res.status(200).json({ 'success': 'code has been updated' });
+}
+
+const deleteAffectationBudgetaire = (req, res) => {
+    const id = req.params.id;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire', id);
+    res.json({ 'success': 'affectation budgetaire has been deleted' });
+}
+
 
 
 //-------------------------------------------------------------------------------------------
@@ -453,7 +739,46 @@ const getNumeroBudget = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget'));
 }
 
+const getNumeroBudgetByNumber = (req, res) => {
+    const numero = req.params.numero;
+    const numeroBudg = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget').find(nb => nb.numero == numero);
+    if (!numeroBudg) return res.status(400).json({ "message": "info not found" });
+    res.json(numeroBudg);
+}
 
+const setNumeroBudget = (req, res) => {
+    const numeroBudgs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget');
+    const numero = parseInt(numeroBudgs[numeroBudgs.length - 1].numero) + 1;
+    const libelle = req.body.libelle;
+    
+    const newNumeroBudg = [
+        [
+            numero,
+            libelle
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget', newNumeroBudg);
+    res.status(200).json({ 'success': 'code has been created' });
+}
+
+const updateNumeroBudget = (req, res) => {
+    const numero = req.params.numero;
+    const libelle = req.body.libelle
+
+    const numeroBudg = [
+        numero,
+        libelle
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget', numero, numeroBudg);
+    res.status(200).json({ 'success': 'code has been updated' });
+}
+
+const deleteNumeroBudget = () => {
+    const numero = req.params.numero;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget', numero);
+    res.json({ 'success': 'numero budget has been deleted' });
+}
 
 //-------------------------------------------------------------------------------------------
 //                                          grand impot
@@ -473,16 +798,100 @@ const getCodeActivite = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite'));
 }
 
+const getCodeActiviteByCode = (req, res) => {
+    const code = req.params.code;
+    const codeAct = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite').find(ca => ca.code == code);
+    if (!codeAct) return res.status(400).json({ "message": "info not found" });
+    res.json(codeAct);
+}
+
+const setCodeActivite = (req, res) => {
+    const codeActs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite');
+    const code = parseInt(codeActs[codeActs.length - 1].code) + 1;
+    const libelle = req.body.libelle;
+    const nature = req.body.nature;
+    
+    const newCodeAct = [
+        [
+            code,
+            libelle,
+            nature
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite', newCodeAct);
+    res.status(200).json({ 'success': 'code has been created' });
+}
+
+const updateCodeActivite = (req, res) => {
+    const code = req.params.code;
+    const libelle = req.body.libelle;
+    const nature = req.body.nature;
+
+    const codeAct = [
+        code,
+        libelle,
+        nature
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite', code, codeAct);
+    res.status(200).json({ 'success': 'code has been updated' });
+}
+
+const deleteCodeActivite = (req, res) => {
+    const code = req.params.code;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite', code);
+    res.json({ 'success': 'code activite has been deleted' });
+}
 
 
 //-------------------------------------------------------------------------------------------
-//                                          chef d'aciton
+//                                          chef d'action
 //-------------------------------------------------------------------------------------------
 
 const getChefAction = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action'));
 }
 
+const getChefActionByCode = (req, res) => {
+    const code = req.params.code;
+    const chef = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action').find(ca => ca.code == code);
+    if (!chef) return res.status(400).json({ "message": "info not found" });
+    res.json(chef);
+}
+
+const setChefAction = (req, res) => {
+    const chefs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action');
+    const code = parseInt(chefs[chefs.length - 1].code) + 1;
+    const libelle = req.body.libelle;
+    
+    const newChef = [
+        [
+            code,
+            libelle
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action', newChef);
+    res.status(200).json({ 'success': 'code has been created' });
+}
+
+const updateChefAction = (req, res) => {
+    const code = req.params.code;
+    const libelle = req.body.libelle;
+
+    const chef = [
+        code,
+        libelle
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action', code, chef);
+    res.status(200).json({ 'success': 'code has been updated' });
+}
+
+const deleteChefAction = (req, res) => {
+    const code = req.params.code;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action', code);
+    res.json({ 'success': 'chef d\'action has been deleted' });
+}
 
 //-------------------------------------------------------------------------------------------
 //                                          type prevision
@@ -492,7 +901,50 @@ const getTypePrevision = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision'));
 }
 
+const getTypePrevisionById = (req, res) => {
+    const id = req.params.id;
+    const prevision = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision').find(tp => tp.id == id);
+    if (!prevision) return res.status(400).json({ "message": "info not found" });
+    res.json(prevision);
+}
 
+const setTypePrevision = (req, res) => {
+    const typePrevs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision');
+    const id = parseInt(typePrevs[typePrevs.length - 1].id) + 1;
+    const type_prevision = req.body.type_prevision;
+    const libelle = req.body.libelle;
+    
+    const newTypePrev = [
+        [
+            id,
+            type_prevision,
+            libelle
+        ]
+    ]
+
+    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', newTypePrev);
+    res.status(200).json({ 'success': 'code has been created' });
+}
+
+const updateTypePrevision = (req, res) => {
+    const id = req.params.id;
+    const type_prevision = req.body.type_prevision;
+    const libelle = req.body.libelle;
+
+    const typePrev = [
+        id,
+        type_prevision,
+        libelle
+    ]
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', code, typePrev);
+    res.status(200).json({ 'success': 'code has been updated' });
+}
+
+const deleteTypePrevision = (req, res) => {
+    const id = req.params.id;
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', id);
+    res.json({ 'success': 'type prevision has been deleted' });
+}
 
 //-------------------------------------------------------------------------------------------
 //                                          jour ferie
@@ -768,6 +1220,10 @@ const deleteRevenusSalariaux = (req, res) => {
 module.exports = {
     // code banque
     getCodeBanque,
+    getCodeBanqueById,
+    setCodeBanque,
+    updateCodeBanque,
+    deleteCodeBanque,
 
     //code geographique
     getCodeGeographique,
@@ -778,10 +1234,17 @@ module.exports = {
 
     //code forme juridique
     getCodeFormeJuridique,
+    getCodeFormeJuridiqueByCode,
+    setCodeFormeJuridique,
+    updateCodeFormeJuridique,
+    deleteCodeFormeJuridique,
 
     //code impot
     getCodeImpot,
     getCodeImpotByNumber,
+    setCodeImpot,
+    updateCodeImpot,
+    deleteCodeImpot,
 
     //periodicite
     getPeriodicite,
@@ -793,9 +1256,17 @@ module.exports = {
 
     //affecation budgetaire
     getAffectationBudgetaire,
+    getAffectationBudgetaireById,
+    setAffectationBudgetaire,
+    updateAffectationBudgetaire,
+    deleteAffectationBudgetaire,
 
     //chef d'action
     getChefAction,
+    getChefActionByCode,
+    setChefAction,
+    updateChefAction,
+    deleteChefAction,
 
     //date cloture
     getDateCloture,
@@ -816,18 +1287,38 @@ module.exports = {
 
     //numero budget
     getNumeroBudget,
+    getNumeroBudgetByNumber,
+    setNumeroBudget,
+    updateNumeroBudget,
+    deleteNumeroBudget,
 
     //operateur telephonique
     getOperateurTelephonique,
+    getOperateurTelephoniqueById,
+    setOperateurTelephonique,
+    updateOperateurTelephonique,
+    deleteOperateurTelephonique,
 
     //procès verbaux
     getProcesVerbaux,
+    getProcesVerbauxById,
+    setProcesVerbaux,
+    updateProcesVerbaux,
+    deleteProcesVerbaux,
 
     //type prevision
     getTypePrevision,
+    getTypePrevisionById,
+    setTypePrevision,
+    updateTypePrevision,
+    deleteTypePrevision,
 
     //code activité
     getCodeActivite,
+    getCodeActiviteByCode,
+    setCodeActivite,
+    updateCodeActivite,
+    deleteCodeActivite,
 
     //code periodicité
     getCodePeriodicite,
