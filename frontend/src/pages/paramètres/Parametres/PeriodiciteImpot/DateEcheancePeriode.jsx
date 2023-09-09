@@ -34,9 +34,7 @@ function DateEcheancePeriode() {
  
   const content = (
     <div>
-      <div className='mt-8 m-4 text-white text-3xl'> 
-        Impôt sur les revenus salariaux
-      </div>
+     
       <div className='flex justify-between m-4 mt-10 '>
         <Label text="Année" className="mt-2"></Label>
         <Input

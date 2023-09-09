@@ -20,38 +20,36 @@ Mise à jour prévisions
 </div>
   )
   return (
-    <div className='bg-[#212122]  '>
+    <div className='bg-[#212122] h-screen '>
     <Navbar content={NavbarContent}></Navbar>
-    <div className=' m-4 flex flex-col p-4 '>
-      <div className='flex justify-between'>
+    <div className=' m-4 flex justify-between  '>
+      <div className='flex flex-row mt-4 '>
 <Label text="Exercice"></Label>
-<Input type="text"></Input>
+<Input type="text" className="h-12 w-16 ml-2"></Input>
       </div>
       <div className='flex justify-between mt-4'>
 <Label text="Mois"></Label>
-<Input type="text"></Input>
+<Input type="text" className="h-12 w-16 ml-2"></Input>
       </div>
       <div className='flex justify-between mt-4'>
 <Label text="Prévision"></Label>
-<Input type="text"></Input>
+<Input type="text" className="h-12 w-16 ml-2"></Input>
       </div>
       <div className='flex justify-between mt-4'>
 <Label text="Code impot"></Label>
-<Input type="text"></Input>
+<Input type="text" className="h-12 w-16 ml-2"></Input>
       </div>
-      <div className='flex justify-between mt-4'>
-<Label text="Impot synthetique"></Label>
-<Input type="text"></Input>
-      </div>
+     
       <div className='flex justify-between mt-4'>
 <Label text="Montant Prev. en Ar."></Label>
-<Input type="text"></Input>
+<Input type="text" className="h-12 ml-2"></Input>
       </div>
-      <div className='flex m-4 justify-between  '>
-<Button children="Enregistrer"></Button>
-<Button children="Imprimmer" ></Button>
-
+  
     </div>
+    <div className='flex m-4 justify-between  '>
+<Button children="Enregistrer"></Button>
+<Button children="Nouveau" ></Button>
+
     </div>
     <div className='m-4 ' >
 <Table headers={headers} data={data} ></Table>
