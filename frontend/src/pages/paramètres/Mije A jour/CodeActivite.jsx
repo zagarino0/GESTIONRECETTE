@@ -15,7 +15,7 @@ function CodeActivite() {
   const [selectedEditData, setSelectedEditData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
+  const [ setSelectedData ] = useState(null);
   const [libelle , setLibelle] = useState('');
   const [nature , setNature] = useState('');
   

@@ -17,7 +17,7 @@ function PeriodiciteImpot() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
-  const [selectedData, setSelectedData] = useState(null); 
+  const [ setSelectedData] = useState(null); 
   const [cloture , setCloture] = useState([]);
   const [numero , setNumero] = useState([]);
   useEffect(() => {
@@ -36,16 +36,16 @@ function PeriodiciteImpot() {
      
      
     ];
-    const handleDelete = (numero) => {
+    const handleDelete = (id) => {
       try {
         // Make the DELETE request to your backend API to delete the data by ID
-        axios.delete(`http://localhost:3500/code/datecloture/${numero}`);
+        axios.delete(`http://localhost:3500/code/datecloture/${id}`);
     
         // Update the list of data after successful deletion
-        setDataCode((prevData) => prevData.filter((data) => data.numero !== numero));
+        setDataCode((prevData) => prevData.filter((data) => data.id !== id));
         setSelectedData(null); // Reset the selection
     
-        console.log(`Data with ID ${numero} deleted successfully.`);
+        console.log(`Data with ID ${id} deleted successfully.`);
       } catch (error) {
         console.error('Error deleting data:', error);
       }
@@ -75,9 +75,9 @@ function PeriodiciteImpot() {
     const formattedData = dataCode.map(item => [item.numero, item.cloture ,
 
     <span
-      key={item.numero} // Make sure to use a unique key
+      key={item.id} // Make sure to use a unique key
       className='cursor-pointer'
-      onClick={() => handleDelete(item.numero)}
+      onClick={() => handleDelete(item.id)}
     >
       <RiDeleteBinLine />
     </span>,

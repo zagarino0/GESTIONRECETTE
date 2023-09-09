@@ -18,22 +18,28 @@ import Modal from '../../../components/modals/Modal';
 function Periodicite() {
   const [dataCode, setDataCode] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-
+  const [numero_auto , setNumero_auto] = useState('') ;
+  const [periode , setPeriode] = useState('');
+  const [desc_mois , setDesc_mois] = useState('');
+  const [titre , setTitre] = useState('');
+  const [p1 , setP1] = useState('');
+  const [p2 , setP2] = useState('');
+  const [id_clo , setId_clo] = useState('');
   const [searchData , setSearchData] = useState([]);
   const [selectedData, setSelectedData] = useState(null); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [isModalOpenModifiPeriode, setIsModalOpenModifiPeriode] = useState(false);
   const [selectedEditData, setSelectedEditData] = useState(null);
-  useEffect(() => {
+  
 
+  useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/code/periodicite')
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
   }, []);
 
-  
 
   // État pour stocker les options du Select
   const [selectOptions, setSelectOptions] = useState([]);
@@ -68,7 +74,7 @@ function Periodicite() {
       const formattedData = dataCode.map(item => [item.numero_auto, item.periode 
       ,
               <span
-               key={`edit-${item.id}`} // Make sure to use a unique key
+               key={`edit-${item.numero_auto}`} // Make sure to use a unique key
                className='cursor-pointer'
                onClick={() => {
                  setSelectedEditData(item);
@@ -136,19 +142,19 @@ const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exerci
 const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture
 ,
 <span
-      key={item.numero} // Make sure to use a unique key
+      key={item.id} // Make sure to use a unique key
       className='cursor-pointer'
-      onClick={() => handleDelete(item.numero)}
+      onClick={() => handleDelete(item.id)}
     >
       <RiDeleteBinLine />
     </span>,
       <span
-       key={`edit-${item.id}`} // Make sure to use a unique key
+       key={`edit-${item.numero_auto}`} // Make sure to use a unique key
        className='cursor-pointer'
-       onClick={() => {
-         setSelectedEditData(item);
-         setIsModalOpenModifiPeriode(true);
-       }}
+       onClick={() =>( setSelectedEditData(item),
+        setIsModalOpenModifiPeriode(true)
+) 
+               }
      >
        <BsPencil />
      </span>,
@@ -180,7 +186,31 @@ const NavbarModalModifi =(
   </div>
 )
 
-
+const DataHandler =  (e) =>{
+  e.preventDefault();
+  const Periodicite ={
+    numero_auto,
+    periode,
+    desc_mois,
+    titre,
+    p1,
+    p2,
+    id_clo
+  };
+  
+  
+  try {
+     axios.post('http://localhost:3500/code/periodicite',Periodicite);
+    console.log("données ajoutées avec succès " , Periodicite);
+    setIsModalOpen(false)
+    axios.get('http://localhost:3500/code/periodicite')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+    
+  } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+  }
+ }
     return (
       <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
@@ -212,44 +242,66 @@ const NavbarModalModifi =(
    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[600px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
-  
+  <form onSubmit={DataHandler} >
   <div className=' m-4 flex justify-between' >
 <Label text=" N° Auto:" className="mt-2"></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  
+ value={numero_auto}
+ onChange={e => setNumero_auto(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :" ></Label>
-<Input type="text" className=""></Input>
+<Input type="text"  
+        value={periode}
+        onChange={e => setPeriode(e.target.value)}
+        ></Input>
     </div>
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Desc_mois :" ></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  
+value={desc_mois}
+onChange={e => setDesc_mois(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Titre:"></Label>
-<Input type="text"  className="h-8"></Input>
+<Input type="text" 
+value={titre}
+onChange={e => setTitre(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" P1:" ></Label>
-<Input type="text"  className=""></Input>
+<Input type="text" 
+value={p1}
+onChange={e => setP1(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" P2 :" ></Label>
-<Input type="text"  className=""></Input>
+<Input type="text" 
+value={p2}
+onChange={e => setP2(e.target.value)}
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Exercice :"></Label>
-<Input type="text"  className=""></Input>
+<Input type="text" 
+value={id_clo}
+onChange={e => setId_clo(e.target.value)}
+></Input>
     </div>
   
     
   <div className='flex justify-between m-4'>
 
-  <Button children="Enregistrer" ></Button>
+  <Button type="submit" children="Enregistrer" ></Button>
 
   <Button onClick={() => setIsModalOpen(false)} children="Quitter" ></Button>
   </div>
+  </form>
 </Modal>
 <Modal isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[300px]" >
   <Navbar content={NavbarModalModifi} ></Navbar>
@@ -257,7 +309,15 @@ const NavbarModalModifi =(
   
   <div className=' m-4 flex justify-between' >
 <Label text=" N° Auto:" className="mt-2"></Label>
-<Input type="text"  className=""></Input>
+<Input type="text" 
+ value={selectedEditData ? selectedEditData.numero_auto : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     numero_auto: e.target.value,
+   }))
+ }
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :" ></Label>

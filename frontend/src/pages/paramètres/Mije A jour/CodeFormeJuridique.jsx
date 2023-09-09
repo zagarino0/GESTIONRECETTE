@@ -14,10 +14,9 @@ const [dataCode, setDataCode] = useState([]);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
 const [selectedEditData, setSelectedEditData] = useState(null);
-const [code , setCode] = useState('');
 const [abreviation , setAbreviation] = useState('');
 const [libelle , setLibelle] = useState('');
-const [selectedData, setSelectedData] = useState(null); 
+const [ setSelectedData] = useState(null); 
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/code/formejuridique')
@@ -77,7 +76,6 @@ Modifier le code d'activiter
 const DataHandler =  (e) =>{
   e.preventDefault();
   const FormeJuridique ={
-    code,
     libelle,
     abreviation    
   };
@@ -102,22 +100,10 @@ console.error("erreur lors de l'ajout de donnée" , error)
     <div className=' bg-[#212122] p-4 flex justify-center' >
         <Table headers={headers} data={formattedData} className="w-[1000px]"></Table>
           </div>
-          <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[360px]" >
+          <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <div className=' m-4 flex justify-between' >
-<Label text=" Code  :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
- value={selectedEditData ? selectedEditData.code : ''}
- onChange={(e) =>
-   setSelectedEditData((prevData) => ({
-     ...prevData,
-     code: e.target.value,
-   }))
- }
-></Input>
-    </div>
-  
+
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Abréviation :" className="mt-2"></Label>
@@ -175,19 +161,10 @@ console.error("erreur lors de l'ajout de donnée" , error)
   <Button onClick={() =>  setIsModalOpenModifi(false)} children="Quitter"  ></Button>
   </div>
   </Modal>
-  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[360px]" >
+  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>
   <form onSubmit={DataHandler} >
   
-  <div className=' m-4 flex justify-between' >
-<Label text=" Code  :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
-value={code}
-onChange={e => setCode(e.target.value)}
-></Input>
-    </div>
-  
-
     <div className=' m-4 flex justify-between' >
 <Label text=" Abréviation :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"

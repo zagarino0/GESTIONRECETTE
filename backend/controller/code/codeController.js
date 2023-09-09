@@ -157,7 +157,7 @@ const updateCodeFormeJuridique = (req, res) => {
         libelle
     ]
     updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique', code, formeJuri);
-    resres.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique'));
+    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique'));
 }
 
 const deleteCodeFormeJuridique = (req, res) => {
