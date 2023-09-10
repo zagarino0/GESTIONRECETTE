@@ -24,12 +24,14 @@ const getCodeGeographiqueById = (req, res) => {
 const setCodeGeographique = (req, res) => {
     const codeGeos = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code geographique');
     const id = parseInt(codeGeos[codeGeos.length - 1].id) + 1;
-    const code = req.body.code;
+    const arrondissement = req.body.arrondissement;
+    const fokontany = req.body.fokontany;
     const libelle = req.body.libelle;
     const newCodeGeo = [
         [
             id,
-            code,
+            arrondissement,
+            fokontany,
             libelle
         ]
     ]
@@ -39,12 +41,14 @@ const setCodeGeographique = (req, res) => {
 
 const updateCodeGeographique = (req, res) => {
     const id = req.params.id;
-    const code = req.body.code;
+    const arrondissement = req.body.arrondissement;
+    const fokontany = req.body.fokontany;
     const libelle = req.body.libelle;
 
     const codeGeo = [
         id,
-        code,
+        arrondissement,
+        fokontany,
         libelle
     ]
     updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code geographique', id, codeGeo);
