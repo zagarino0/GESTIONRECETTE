@@ -23,6 +23,10 @@ const handleNewUser = async (req, res) => {
     const recette_visualisation = req.body.recette_visualisation;
     const compte = req.body.compte;
     const gestion_debut_nif = req.body.gestion_debut_nif;
+
+    const gestion_modification = req.body.gestion_modification;
+    const gestion_prise_charge = req.body.gestion_prise_charge;
+    
     const gestion_fin_nif = req.body.gestion_fin_nif;
     const immatriculation_creation = req.body.immatriculation_creation;
     const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
@@ -64,6 +68,8 @@ const handleNewUser = async (req, res) => {
         const newGestion = {
             'id_user': id,
             'gestion_debut_nif': gestion_debut_nif,
+            'gestion_prise_charge': gestion_prise_charge,
+            'gestion_modification': gestion_modification,
             'gestion_fin_nif': gestion_fin_nif,
         }
 
@@ -181,6 +187,10 @@ const handleUpdateUser = async (req, res) => {
     const recette_visualisation = req.body.recette_visualisation;
     const compte = req.body.compte;
     const gestion_debut_nif = req.body.gestion_debut_nif;
+
+    const gestion_prise_charge = req.body.gestion_prise_charge;
+    const gestion_modification = req.body.gestion_modification;
+
     const gestion_fin_nif = req.body.gestion_fin_nif;
     const immatriculation_creation = req.body.immatriculation_creation;
     const immatriculation_prise_charge = req.body.immatriculation_prise_charge;
@@ -205,11 +215,11 @@ const handleUpdateUser = async (req, res) => {
     if (gestion_debut_nif) gestion.gestion_debut_nif = gestion_debut_nif;
     if (gestion_fin_nif) gestion.gestion_fin_nif = gestion_fin_nif;
 
+    gestion.gestion_modification = gestion_modification;
+    gestion.gestion_prise_charge = gestion_prise_charge;
+
     immatriculation.immatriculation_creation = immatriculation_creation;
     immatriculation.immatriculation_prise_charge = immatriculation_prise_charge;
-
-
-    console.log(user, gestion, recette, immatriculation);
 
     const filteredUsers = data.users.filter(person => person.code !== code);
     const unsortedUsers = [...filteredUsers, user];

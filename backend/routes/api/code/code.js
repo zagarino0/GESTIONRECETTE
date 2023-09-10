@@ -31,7 +31,7 @@ router.route('/formejuridique/:code')
 
     //code impot
 router.route('/impot')
-    .get(codeController.getpro)
+    .get(codeController.getCodeImpot)
     .post(codeController.setCodeImpot);
 router.route('/impot/:numero_impot')
     .get(codeController.getCodeImpotByNumber)
