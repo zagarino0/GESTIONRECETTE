@@ -17,6 +17,7 @@ function Operateur() {
   const [nom , setNom ] = useState([]);
   const [prenom , setPrenom] = useState([]);
   const [fonction , setFonction] = useState('');
+  const [compte , setCompte] = useState('');
   const [mdp , setMdp] = useState([]);
   const [recette_modification , setRecette_modification] = useState(false);;
   const [recette_visualisation , setRecette_visualisation] = useState(false);
@@ -54,6 +55,7 @@ function Operateur() {
       nom,
       prenom,
       fonction,
+      compte,
       mdp ,
       recette_modification,
       recette_creation,
@@ -85,6 +87,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
       nom: selectedEditData.nom,
       prenom: selectedEditData.prenom,
       fonction: selectedEditData.fonction,
+      compte: selectedData.compte,
       mdp: selectedEditData.mdp,
       recette_modification: selectedEditData.recette_modification,
       recette_creation: selectedEditData.recette_creation,
@@ -193,6 +196,14 @@ const options = [
   
   // Ajoutez vos options ici
 ];
+const optionsCompte = [
+  { value: 'BNQ', label: 'BNQ' },
+  { value: 'Chef de division', label: 'Chef de division' },
+  { value: 'Simple utilisateur', label: 'Simple utilisateur' },
+  
+  
+  // Ajoutez vos options ici
+];
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
@@ -265,8 +276,13 @@ onChange={handleCheckboxChangeVisualisation}
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
-<Label text=" Compte Administrateur :" className="mt-2"></Label>
-<Input type="text" placeholder="Votre Compte Administrateur" className="ml-4 h-10"></Input>
+<Label text=" Compte  :" className="mt-2"></Label>
+<Select
+ options={optionsCompte}
+ value={compte}
+ onChange={e => setCompte(e.target.value)}
+ className="h-12"
+/>
     </div>
 <div className='mt-2 ml-4 m-2'>
 <Label text=" GESTION" className="mt-2"></Label>
@@ -418,9 +434,18 @@ onChange={(e) =>
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
-<Label text=" Compte Administrateur :" className="mt-2"></Label>
-<Input type="text" placeholder="Votre Compte Administrateur" className="ml-4 h-10"></Input>
-    </div>
+<Label text=" Compte  :" className="mt-2"></Label>
+<Select
+ options={optionsCompte}
+ value={selectedEditData ? selectedEditData.compte : ''}
+  onChange={(e) =>
+    setSelectedEditData((prevData) => ({
+      ...prevData,
+      compte : e.target.value,
+    }))
+  }
+ className="h-12"
+/>    </div>
 <div className='mt-2 ml-4 m-2'>
 <Label text=" GESTION" className="mt-2"></Label>
 <div className='flex justify-between m-2 '>
