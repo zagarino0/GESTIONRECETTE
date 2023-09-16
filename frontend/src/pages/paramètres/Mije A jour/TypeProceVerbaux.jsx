@@ -14,13 +14,15 @@ function TypeProceVerbaux() {
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
+  const [numero , setNumero] = useState('');
+  const [designation , setDesignation] = useState('');
   const [selectedData, setSelectedData] = useState(null); 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = (id) => {
     try {
       // Make the DELETE request to your backend API to delete the data by ID
-      axios.delete(`http://localhost:3500/code/datecloture/${id}`);
+      axios.delete(`http://localhost:3500/code/procesverbaux/${id}`);
   
       // Update the list of data after successful deletion
       setDataCode((prevData) => prevData.filter((data) => data.id !== id));
@@ -34,7 +36,7 @@ function TypeProceVerbaux() {
 
   useEffect(() => {
     // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/processverbaux')
+    axios.get('http://localhost:3500/code/procesverbaux')
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -43,9 +45,9 @@ function TypeProceVerbaux() {
   const formattedData = dataCode.map(item => [item.numero, item.designation
     ,
     <span
-          key={item.numero} // Make sure to use a unique key
+          key={item.id} // Make sure to use a unique key
           className='cursor-pointer'
-          onClick={() => handleDelete(item.numero)}
+          onClick={() => handleDelete(item.id)}
         >
           <RiDeleteBinLine />
         </span>,
@@ -78,6 +80,29 @@ Type des PV
 </div>
 
 )
+
+const DataHandler =  (e) =>{
+  e.preventDefault();
+  const ProcesVerbaux ={
+    numero,
+    designation
+  };
+  
+  
+  try {
+     axios.post('http://localhost:3500/code/procesverbaux',ProcesVerbaux);
+    console.log("données ajoutées avec succès " , ProcesVerbaux);
+    setIsModalOpen(false);
+    setNumero('');
+    setDesignation('');
+    axios.get('http://localhost:3500/code/procesverbaux')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+    
+  } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+  }
+ }
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
@@ -121,11 +146,11 @@ Type des PV
     try {
       // Make the PUT/PATCH request to update the data in the database
       await axios.put(
-        `http://localhost:3500/code/datecloture/${selectedEditData.id}`,
+        `http://localhost:3500/code/procesverbaux/${selectedEditData.id}`,
         selectedEditData
       );
         // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/datecloture')
+    axios.get('http://localhost:3500/code/procesverbaux')
     .then((response) => setDataCode(response.data))
     .catch((error) => console.error(error));
       // Update the edited data in dataCode
@@ -135,24 +160,37 @@ Type des PV
         )
       );
 
-      setIsModalOpen(false);
+      setIsModalOpenModifi(false);
       setSelectedEditData(null);
       console.log('Data updated successfully.');
     } catch (error) {
-      console.error('Error updating data:', error);
+      // Gestion de l'erreur
+      if (error.response) {
+        // Erreur de réponse HTTP (par exemple, 404)
+        console.error(`Erreur HTTP: ${error.response.status}`);
+        console.error(`Message: ${error.response.data.message}`);
+      } else if (error.request) {
+        // Erreur de requête (pas de réponse du serveur)
+        console.error('Erreur de requête:', error.request);
+      } else {
+        // Erreur lors de la configuration de la requête
+        console.error('Erreur lors de la configuration de la requête:', error.message);
+      }
     }
-  }}
+    }
+  }
   ></Button>
   <Button onClick={() =>  setIsModalOpenModifi(false)} children="Quitter"  ></Button>
   </div>
   </Modal>
   <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>
-  
+  <form onSubmit={DataHandler} >
   <div className=' m-4 flex justify-between' >
 <Label text=" Numéro :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
-
+  value={numero}
+  onChange={e => setNumero(e.target.value)}
 ></Input>
     </div>
   
@@ -160,7 +198,8 @@ Type des PV
     <div className=' m-4 flex justify-between' >
 <Label text=" Désignation :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
-
+  value={designation}
+  onChange={e => setDesignation(e.target.value)}
 ></Input>
     </div>
 
@@ -169,6 +208,7 @@ Type des PV
   ></Button>
   <Button onClick={() =>  setIsModalOpen(false)} children="Quitter"  ></Button>
   </div>
+  </form>
   </Modal>
   </div>
   )

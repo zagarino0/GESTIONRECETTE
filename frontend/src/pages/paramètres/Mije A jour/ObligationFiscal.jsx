@@ -15,6 +15,15 @@ function ObligationFiscal() {
   const [selectedEditData, setSelectedEditData] = useState(null);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [selectedData, setSelectedData] = useState(null); 
+  const [numero_impot , setNumero_impot ] = useState('');
+  const [choix , setChoix] = useState('');
+  const [obligation , setObligation] = useState('');
+  const [periodicite , setPeriodicite] = useState('');
+  const [titre , setTitre] = useState('');
+  const [option , setOption] = useState('');
+  const [taxation , setTaxation] = useState('');
+  const [penalite , setPenalite] = useState(''); 
+
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/code/obligationfiscal')
@@ -26,7 +35,7 @@ function ObligationFiscal() {
   const handleDelete = (id) => {
     try {
       // Make the DELETE request to your backend API to delete the data by ID
-      axios.delete(`http://localhost:3500/code/datecloture/${id}`);
+      axios.delete(`http://localhost:3500/code/obligationfiscal/${id}`);
   
       // Update the list of data after successful deletion
       setDataCode((prevData) => prevData.filter((data) => data.id !== id));
@@ -37,6 +46,36 @@ function ObligationFiscal() {
       console.error('Error deleting data:', error);
     }
   };
+
+
+
+  const DataHandler =  (e) =>{
+    e.preventDefault();
+    const ObligationFiscal ={
+      numero_impot,
+      choix ,
+      obligation ,
+      periodicite ,
+      titre ,
+      option ,
+      taxation ,
+      penalite
+    };
+    
+    
+    try {
+       axios.post('http://localhost:3500/code/obligationfiscal', ObligationFiscal);
+      console.log("données ajoutées avec succès " , ObligationFiscal);
+      setIsModalOpen(false)
+      axios.get('http://localhost:3500/code/obligationfiscal')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+    } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+    }
+   }
+
+
 
  
   const headers = ["Numéro ","Choix ","Obligation","Périodicité","Titre","Option","Taxation ","Pénalité" , "" , "" ];
@@ -192,7 +231,33 @@ const NavbarModal =(
     
   <div className='flex justify-between m-4'>
 
-  <Button children="Enregistrer" ></Button>
+  <Button children="Modifier" 
+   onClick={async () => {
+    try {
+      // Make the PUT/PATCH request to update the data in the database
+      await axios.put(
+        `http://localhost:3500/code/obligationfiscal/${selectedEditData.id}`,
+        selectedEditData
+      );
+        // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/obligationfiscal')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+      // Update the edited data in dataCode
+      setDataCode((prevData) =>
+        prevData.map((data) =>
+          data.id === selectedEditData.id ? selectedEditData : data
+        )
+      );
+
+      setIsModalOpenModifi(false);
+      setSelectedEditData(null);
+      console.log('Data updated successfully.');
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }}
+  ></Button>
 
   <Button onClick={() => setIsModalOpenModifi(false)} children="Quitter" ></Button>
   </div>
@@ -200,62 +265,73 @@ const NavbarModal =(
 <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[680px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
-  
+  <form onSubmit={DataHandler}>
     <div className=' m-4 flex justify-between' >
 <Label text=" Numéro:" ></Label>
 <Input type="text" 
-
+value={numero_impot}
+onChange={e => setNumero_impot(e.target.value)}
 ></Input>
     </div>
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Choix:" ></Label>
 <Input type="text"  
-
+value={choix}
+onChange={e => setChoix(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Obligation:"></Label>
 <Input type="text"  
-
+value={obligation}
+onChange={e => setObligation(e.target.value)}
 ></Input>
     </div>
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :"></Label>
 <Input type="text"  
+value={periodicite}
+onChange={e => setPeriodicite(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Titre :" ></Label>
-<Input type="text"  
+<Input type="text"
+value={titre}
+onChange={e => setTitre(e.target.value)}  
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Option :" ></Label>
 <Input type="text"  
-
+value={option}
+onChange={e => setOption(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Taxation :" ></Label>
 <Input type="text"  
-
+value={taxation}
+onChange={e => setTaxation(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Pénalité :" ></Label>
 <Input type="text"  
- 
+ value={penalite}
+ onChange={e => setPenalite(e.target.value)}
 ></Input>
     </div>
     
   <div className='flex justify-between m-4'>
 
-  <Button children="Enregistrer" ></Button>
+  <Button type="submit" children="Enregistrer" ></Button>
 
   <Button onClick={() => setIsModalOpen(false)} children="Quitter" ></Button>
   </div>
+  </form>
 </Modal>
   </div>
   )

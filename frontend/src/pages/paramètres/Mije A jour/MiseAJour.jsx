@@ -12,9 +12,8 @@ function MiseAJour() {
    <div className='flex flex-col ml-28 '>
     <LinkButton to="/codeActivite" text="Code Activites" className="mt-4" ></LinkButton>
     <LinkButton to="/codeBanque" text="Code Banque"  className="mt-2"></LinkButton>
-    <LinkButton to="/codeGeographique" text="Code Géographique"  className="mt-2"></LinkButton>
     <LinkButton to="/codeFormeJuridique" text="Code Forme Juridique"  className="mt-2"></LinkButton>
-    <LinkButton to="/codeCollectivite" text="Code Collectivités"  className="mt-2"></LinkButton>
+    <LinkButton to="/codeCollectivite" text="Code Fokotany"  className="mt-2"></LinkButton>
     <LinkButton to="/periodiciteImpot" text="Périodicité Impot"  className="mt-2"></LinkButton>
     <LinkButton to="/obligationFiscal" text="Obligatoire Fiscale"  className="mt-2"></LinkButton>
     <LinkButton to="/typeProceVerbaux" text="Type de Procés Verbaux "  className="mt-2"></LinkButton>

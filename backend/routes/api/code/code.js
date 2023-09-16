@@ -49,7 +49,7 @@ router.route('/periodicite/:id')
     .delete(codeController.deletePeriodicite);
 
 //proès verbaux
-router.route('/processverbaux')
+router.route('/procesverbaux')
     .get(codeController.getProcesVerbaux)
     .post(codeController.setProcesVerbaux);
 router.route('/procesverbaux/:id')

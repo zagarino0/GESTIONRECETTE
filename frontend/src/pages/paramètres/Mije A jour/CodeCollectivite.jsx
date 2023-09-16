@@ -9,23 +9,34 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import {BsPencil} from 'react-icons/bs'
 import Modal from '../../../components/modals/Modal'
 import Label from '../../../components/title/label'
+import Select from 'react-select'
+
+
 function CodeCollectivite() {
   const [dataCode, setDataCode] = useState([]);
   const [libelle , setLibelle] = useState([]);
-  const [code , setCode ] = useState([]);
+  const [fokontany , setFokontany] = useState([]);
+  const [arrondissement , setArrondissement ] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
  // État pour stocker la liste des données
-  const [selectedData, setSelectedData] = useState(null); 
+  const [ setSelectedData] = useState(null); 
 
   const [selectedEditData, setSelectedEditData] = useState(null);
+ // La valeur initiale peut être définie selon vos besoins
 
-  
+  const options = [
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    
+    // Ajoutez vos options ici
+  ];  
 
   const DataHandler =  (e) =>{
     e.preventDefault();
     const Fokotany ={
       libelle,
-      code
+      fokontany,
+      arrondissement
     };
     
     console.log(Fokotany)
@@ -33,7 +44,8 @@ function CodeCollectivite() {
        axios.post('http://localhost:3500/code/geographique', Fokotany);
       console.log("données ajoutées avec succès " , Fokotany);
       setLibelle('');
-      setCode('');  
+      setFokontany('');
+      setArrondissement('');  
       axios.get('http://localhost:3500/code/geographique')
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error(error));
@@ -77,9 +89,11 @@ Niveau de Décentralisation
     </div>
 </div>
   )
-  const headers = [ "Code","Fokotany", "" , ""];
+  const headers = [  "Arrondissement ","Code Fokontany","Fokotany", "" , ""];
   const formattedData = dataCode.map((item) => [
-    item.code,
+    
+    item.arrondisement,
+    item.fokontany,
     item.libelle,
     <span
       key={item.id} // Make sure to use a unique key
@@ -111,33 +125,56 @@ Niveau de Décentralisation
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
   <form onSubmit={DataHandler}>
-      <div className='mt-24 m-4'  >
+      <div className='mt-24 m-4 '  >
     <Table headers={headers} data={formattedData} className="w-[1000px]" ></Table>
+    <div className="flex flex-row m-4">
     <Input type="text" placeholder="Fokotany"
     value={libelle}
     onChange={e => setLibelle(e.target.value)}
+    className="h-12 m-4"
     ></Input>
-     <Input type="text" placeholder="Code"
-    value={code}
-    onChange={e => setCode(e.target.value)}
-    className="ml-4"
+    <Input type="text" placeholder="Code Fokotany"
+    value={fokontany}
+    onChange={e => setFokontany(e.target.value)}
+    className="h-12 m-4"
     ></Input>
+     <Select
+ options={options}
+ value={options.find((option) => option.value === arrondissement)}
+ onChange={(selectedOption) => setArrondissement(selectedOption.value)}
+ className=" m-4 w-40"
+/>
+
      <Button type="submit" children="Ajouter" className="m-2"></Button>
+    </div>
     </div>
   
   </form>
-  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[280px]" >
+  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[360px]" >
   <Navbar content={NavbarModal} ></Navbar>
-  
-  
   <div className=' m-4 flex justify-between' >
-<Label text=" Code :" className="mt-2"></Label>
+<Label text=" Arondissemnent :" className="mt-2"></Label>
+   <Select
+   options={options}
+   value={options.find((option) => option.value === selectedEditData?.arrondissement)}
+   onChange={(selectedOption) => {
+     setSelectedEditData((prevData) => ({
+       ...prevData,
+       arrondissement: selectedOption.value,
+     }));
+   }}
+   className="m-4 w-40"
+ />
+
+    </div>  
+    <div className=' m-4 flex justify-between' >
+<Label text=" Code Fokontany :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
- value={selectedEditData ? selectedEditData.code : ''}
+ value={selectedEditData ? selectedEditData.fokontany : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
      ...prevData,
-     code: e.target.value,
+     fokontany: e.target.value,
    }))
  }
 ></Input>

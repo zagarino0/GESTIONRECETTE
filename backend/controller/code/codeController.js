@@ -569,7 +569,7 @@ const getOperateurTelephoniqueById = (req, res) => {
 
 const setOperateurTelephonique = (req, res) => {
     const operateurTels = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'operateur telephonique');
-    const id = parseInt(operateurTels[operateurTels.length - 1].id) + 1;
+    let id = operateurTels.length === 0 ? 1 : parseInt(operateurTels[operateurTels.length - 1].id) + 1;;
     const numero = req.body.numero;
     const operateur = req.body.operateur;
    

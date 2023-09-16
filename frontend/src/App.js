@@ -23,7 +23,6 @@ import Parametres from "./pages/paramètres/Parametres/Parametres";
 import ChangementMotPasse from "./pages/paramètres/Utilitaires/ChangementMotPasse";
 import CodeActivite from "./pages/paramètres/Mije A jour/CodeActivite";
 import CodeBanque from "./pages/paramètres/Mije A jour/CodeBanque";
-import CodeGeographique from "./pages/paramètres/Mije A jour/CodeGeographique";
 import CodeFormeJuridique from "./pages/paramètres/Mije A jour/CodeFormeJuridique";
 import CodeCollectivite from "./pages/paramètres/Mije A jour/CodeCollectivite";
 import PeriodiciteImpot from "./pages/paramètres/Mije A jour/PeriodiciteImpot";
@@ -91,7 +90,6 @@ function App() {
      <Route path="/changementMotdePasse" element={<ChangementMotPasse/>}></Route>
      <Route path="/codeActivite" element={<CodeActivite/>}></Route>
      <Route path="/codeBanque" element={<CodeBanque/>}></Route>
-     <Route path="/codeGeographique" element={<CodeGeographique/>}></Route>
      <Route path="/codeFormeJuridique" element={<CodeFormeJuridique/>}></Route>
      <Route path="/codeCollectivite" element={<CodeCollectivite/>}></Route>
      <Route path="/periodiciteImpot" element={<PeriodiciteImpot/>}></Route>

@@ -15,6 +15,8 @@ function OperateurTelephonique() {
   const [selectedEditData, setSelectedEditData] = useState(null);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [selectedData, setSelectedData] = useState(null); 
+  const [numero , setNumero] = useState('');
+  const [operateur , setOperateur] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     // Récupérer les données depuis le backend
@@ -26,9 +28,9 @@ function OperateurTelephonique() {
   const handleDelete = (id) => {
     try {
       // Make the DELETE request to your backend API to delete the data by ID
-      axios.delete(`http://localhost:3500/code/datecloture/${id}`);
+      axios.delete(`http://localhost:3500/code/operateurtelephonique/${id}`);
   
-      // Update the list of data after successful deletion
+      // Update the list of data after successful deletion0
       setDataCode((prevData) => prevData.filter((data) => data.id !== id));
       setSelectedData(null); // Reset the selection
   
@@ -42,9 +44,9 @@ function OperateurTelephonique() {
   const formattedData = dataCode.map(item => [item.numero, item.operateur
     ,
     <span
-          key={item.numero} // Make sure to use a unique key
+          key={item.id} // Make sure to use a unique key
           className='cursor-pointer'
-          onClick={() => handleDelete(item.numero)}
+          onClick={() => handleDelete(item.id)}
         >
           <RiDeleteBinLine />
         </span>,
@@ -77,6 +79,29 @@ Operateurs telephoniques
 </div>
 
 )
+
+const DataHandler =  (e) =>{
+  e.preventDefault();
+  const Operateur ={
+    numero,
+    operateur
+  };
+  
+  
+  try {
+     axios.post('http://localhost:3500/code/operateurtelephonique',Operateur);
+    console.log("données ajoutées avec succès " , Operateur);
+    setIsModalOpen(false);
+    setNumero('');
+    setOperateur('');
+    axios.get('http://localhost:3500/code/operateurtelephonique')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+    
+  } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+  }
+ }
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
@@ -121,11 +146,11 @@ Operateurs telephoniques
     try {
       // Make the PUT/PATCH request to update the data in the database
       await axios.put(
-        `http://localhost:3500/code/datecloture/${selectedEditData.id}`,
+        `http://localhost:3500/code/operateurtelephonique/${selectedEditData.id}`,
         selectedEditData
       );
         // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/datecloture')
+    axios.get('http://localhost:3500/code/operateurtelephonique')
     .then((response) => setDataCode(response.data))
     .catch((error) => console.error(error));
       // Update the edited data in dataCode
@@ -135,7 +160,7 @@ Operateurs telephoniques
         )
       );
 
-      setIsModalOpen(false);
+      setIsModalOpenModifi(false);
       setSelectedEditData(null);
       console.log('Data updated successfully.');
     } catch (error) {
@@ -148,11 +173,13 @@ Operateurs telephoniques
   </Modal>
   <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>
-  
+  <form onSubmit={DataHandler} >
+
   <div className=' m-4 flex justify-between' >
 <Label text=" Numéro :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
-
+value={numero}
+onChange={e => setNumero(e.target.value)}
 ></Input>
     </div>
   
@@ -160,15 +187,17 @@ Operateurs telephoniques
     <div className=' m-4 flex justify-between' >
 <Label text=" Opérateur :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
-
+value={operateur}
+onChange={e => setOperateur(e.target.value)}
 ></Input>
     </div>
 
   <div className="flex justify-between p-4">
-  <Button children="Enregistrer"
+  <Button type='submit' children="Enregistrer"
   ></Button>
   <Button onClick={() =>  setIsModalOpen(false)} children="Quitter"  ></Button>
   </div>
+  </form>
   </Modal>
   </div>
   )

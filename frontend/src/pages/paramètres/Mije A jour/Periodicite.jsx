@@ -33,6 +33,11 @@ function Periodicite() {
   const [selectedEditData, setSelectedEditData] = useState(null);
   
 
+  const handleEditClick = (item) => {
+    setSelectedEditData(item);
+    setIsModalOpenModifi(true);
+  };
+
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/code/periodicite')
@@ -72,17 +77,15 @@ function Periodicite() {
   
       const headers = ["N° Auto" ,"Périodicité " , "" , "" ];
       const formattedData = dataCode.map(item => [item.numero_auto, item.periode 
-      ,
-              <span
-               key={`edit-${item.numero_auto}`} // Make sure to use a unique key
-               className='cursor-pointer'
-               onClick={() => {
-                 setSelectedEditData(item);
-                 setIsModalOpenModifi(true);
-               }}
-             >
-               <BsPencil />
-             </span>,
+        ,
+        <span
+        key={`edit-${item.id}`}
+        className='cursor-pointer'
+        onClick={() => handleEditClick(item)}
+      >
+        <BsPencil />
+      </span>,
+           
       ]);
   
     //Navbar content
@@ -127,7 +130,7 @@ function Periodicite() {
   const handleDelete = (id) => {
     try {
       // Make the DELETE request to your backend API to delete the data by ID
-      axios.delete(`http://localhost:3500/code/datecloture/${id}`);
+      axios.delete(`http://localhost:3500/code/periodicite/${id}`);
   
       // Update the list of data after successful deletion
       setDataCode((prevData) => prevData.filter((data) => data.id !== id));
@@ -141,23 +144,7 @@ function Periodicite() {
 const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" , "" , "" ];
 const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture
 ,
-<span
-      key={item.id} // Make sure to use a unique key
-      className='cursor-pointer'
-      onClick={() => handleDelete(item.id)}
-    >
-      <RiDeleteBinLine />
-    </span>,
-      <span
-       key={`edit-${item.numero_auto}`} // Make sure to use a unique key
-       className='cursor-pointer'
-       onClick={() =>( setSelectedEditData(item),
-        setIsModalOpenModifiPeriode(true)
-) 
-               }
-     >
-       <BsPencil />
-     </span>,
+
 ]);
 
 useEffect(() => {
@@ -288,10 +275,12 @@ onChange={e => setP2(e.target.value)}
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Exercice :"></Label>
-<Input type="text" 
-value={id_clo}
-onChange={e => setId_clo(e.target.value)}
-></Input>
+<Select
+        options={selectOptions}
+        value={selectedValue}
+        onChange={(selected) => setSelectedValue(selected)}
+        className="ml-4 w-40"
+      />
     </div>
   
     
@@ -321,11 +310,19 @@ onChange={e => setId_clo(e.target.value)}
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :" ></Label>
-<Input type="text" className=""></Input>
+<Input type="text" 
+ value={selectedEditData ? selectedEditData.periode : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     periode: e.target.value,
+   }))
+ }
+></Input>
     </div>
 <div className="m-4 flex justify-between">
 
-<Button children="Enregistrer" ></Button>
+<Button children="Modifier" ></Button>
 
 <Button onClick={() => setIsModalOpenModifi(false)} children="Quitter" ></Button>
 
