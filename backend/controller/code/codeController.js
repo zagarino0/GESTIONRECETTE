@@ -23,7 +23,7 @@ const getCodeGeographiqueById = (req, res) => {
 
 const setCodeGeographique = (req, res) => {
     const codeGeos = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code geographique');
-    const id = parseInt(codeGeos[codeGeos.length - 1].id) + 1;
+    let id = codeGeos.length === 0 ? 1 : parseInt(codeGeos[codeGeos.length - 1 ].id) + 1;
     const arrondissement = req.body.arrondissement;
     const fokontany = req.body.fokontany;
     const libelle = req.body.libelle;
@@ -80,7 +80,7 @@ const getCodeBanqueById = (req, res) => {
 
 const setCodeBanque = (req, res) => {
     const codeBanques = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque');
-    const id = parseInt(codeBanques[codeBanques.length - 1].id) + 1;
+    let id = codeBanques.length === 0 ? 1 : parseInt(codeBanques[codeBanques.length - 1 ].id) + 1;
     const raison_social = req.body.raison_social;
     const nom_commercial = req.body.nom_commercial;
     const newCodeBanque = [
@@ -132,7 +132,7 @@ const getCodeFormeJuridiqueByCode = (req, res) => {
 
 const setCodeFormeJuridique = (req, res) => {
     const formeJuris = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code forme juridique');
-    const code = parseInt(formeJuris[formeJuris.length - 1].code) + 1;
+    let code = formeJuris.length === 0 ? 1 : parseInt(formeJuris[formeJuris.length - 1].code) + 1;
     const abreviation = req.body.abreviation;
     const libelle = req.body.libelle;
     const newFormeJuri = [
@@ -183,7 +183,7 @@ const getCodeImpotByNumber = (req, res) => {
 
 const setCodeImpot = (req, res) => {
     const codeImps = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot');
-    const numero_impot = parseInt(codeImps[codeImps.length - 1].numero_impot) + 1;
+    let numero_impot = codeImps.length === 0 ? 1 : parseInt(codeImps[codeImps.length - 1].numero_impot) + 1;
     const libelle = req.body.libelle;
     const abreviation = req.body.abreviation;
     const pcop = req.body.pcop;
@@ -295,7 +295,7 @@ const setPeriodicite = (req, res) => {
     const cloture = req.body.cloture;
     if (!cloture) {
         const periodicites = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'periodicite');
-        const id = parseInt(periodicites[periodicites.length - 1].id) + 1;
+        let id = periodicites.length === 0 ? 1 : parseInt(periodicites[periodicites.length - 1].id) + 1;
         const numero_auto = req.body.numero_auto;
         const periode = req.body.periode;
         const desc_mois = req.body.desc_mois;
@@ -409,7 +409,7 @@ const getObligationFiscaleById = (req, res) => {
 
 const setObligationFiscale = (req, res) => {
     const obligationFiscs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'obligation fiscal');
-    const id = parseInt(obligationFiscs[obligationFiscs.length - 1].id) + 1;
+    let id = obligationFiscs.length === 0 ? 1 : parseInt(obligationFiscs[obligationFiscs.length - 1].id) + 1;
     const numero_impot = req.body.numero_impot;
     const choix = req.body.choix;
     const obligation = req.body.obligation;
@@ -514,7 +514,7 @@ const getProcesVerbauxById = (req, res) => {
 
 const setProcesVerbaux = (req, res) => {
     const procesVerbs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'proces verbaux');
-    const id = parseInt(procesVerbs[procesVerbs.length - 1].id) + 1;
+    let id = procesVerbs.length === 0 ? 1 : parseInt(procesVerbs[procesVerbs.length - 1].id) + 1;
     const numero = req.body.numero;
     const designation = req.body.designation;
    
@@ -627,7 +627,7 @@ const getDateClotureByNumber = (req, res) => {
 
 const setDateCloture = (req, res) => {
     const dateClos = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date cloture');
-    const id = parseInt(dateClos[dateClos.length - 1].id) + 1;
+    let id = dateClos.length === 0 ? 1 : parseInt(dateClos[dateClos.length - 1].id) + 1;
     const numero = req.body.numero;
     const cloture = req.body.cloture;
 
@@ -684,7 +684,7 @@ const getCodePeriodiciteByNumber = (req, res) => {
 
 const setCodePeriodicite = (req, res) => {
     const codePers = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code periodicite');
-    const numero = parseInt(codePers[codePers.length - 1].id) + 1;
+    let numero = codePers.length === 0 ? 1 : parseInt(codePers[codePers.length - 1].numero) + 1;
     const periodicite = req.body.periodicite;
 
     const newCodePer = [
@@ -735,7 +735,7 @@ const getAffectationBudgetaireById = (req, res) => {
 
 const setAffectationBudgetaire = (req, res) => {
     const affectationBudgs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'affectation budgetaire');
-    const id = parseInt(affectationBudgs[affectationBudgs.length - 1].id) + 1;
+    let id = affectationBudgs.length === 0 ? 1 : parseInt(affectationBudgs[affectationBudgs.length - 1].id) + 1;
     const impot = req.body.impot;
     const budget = req.body.budget;
     const taux = req.body.taux;
@@ -798,7 +798,7 @@ const getNumeroBudgetByNumber = (req, res) => {
 
 const setNumeroBudget = (req, res) => {
     const numeroBudgs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget');
-    const numero = parseInt(numeroBudgs[numeroBudgs.length - 1].numero) + 1;
+    let numero = numeroBudgs.length === 0 ? 1 : parseInt(numeroBudgs[numeroBudgs.length - 1].numero) + 1;
     const libelle = req.body.libelle;
     
     const newNumeroBudg = [
@@ -857,7 +857,7 @@ const getCodeActiviteByCode = (req, res) => {
 
 const setCodeActivite = (req, res) => {
     const codeActs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite');
-    const code = parseInt(codeActs[codeActs.length - 1].code) + 1;
+    let code = codeActs.length === 0 ? 1 : parseInt(codeActs[codeActs.length - 1].code) + 1;
     const libelle = req.body.libelle;
     const nature = req.body.nature;
     
@@ -911,7 +911,7 @@ const getChefActionByCode = (req, res) => {
 
 const setChefAction = (req, res) => {
     const chefs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action');
-    const code = parseInt(chefs[chefs.length - 1].code) + 1;
+    let code = chefs.length === 0 ? 1 : parseInt(chefs[chefs.length - 1].code) + 1;
     const libelle = req.body.libelle;
     
     const newChef = [
@@ -960,7 +960,7 @@ const getTypePrevisionById = (req, res) => {
 
 const setTypePrevision = (req, res) => {
     const typePrevs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision');
-    const id = parseInt(typePrevs[typePrevs.length - 1].id) + 1;
+    let id = typePrevs.length === 0 ? 1 : parseInt(typePrevs[typePrevs.length - 1].id) + 1;
     const type_prevision = req.body.type_prevision;
     const libelle = req.body.libelle;
     
@@ -1013,7 +1013,7 @@ const getJourFerieById = (req, res) => {
 
 const setJourFerie = (req, res) => {
     const jourFers = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'jour ferie');
-    const id = parseInt(jourFers[jourFers.length - 1].id) + 1;
+    let id = jourFers.length === 0 ? 1 : parseInt(jourFers[jourFers.length - 1].id) + 1;
     const date = req.body.date;
     const jour = req.body.jour;
     const motif = req.body.motif;
@@ -1103,7 +1103,7 @@ const getDateEcheanceByYear = (req, res) => {
 
 const setDateEcheance = (req, res) => {
     const dateEchs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance');
-    const id = parseInt(dateEchs[dateEchs.length - 1].id) + 1;
+    let id = dateEchs.length === 0 ? 1 : parseInt(dateEchs[dateEchs.length - 1].id) + 1;
     const numero_impot = req.body.numero_impot;
     const type = req.body.type;
     const date_debut_paiement = req.body.date_debut_paiement;
@@ -1225,7 +1225,7 @@ const getRevenusSalariauxByCode = (req, res) => {
 
 const setRevenusSalariaux = (req, res) => {
     const revenusSal = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux');
-    const id = parseInt(revenusSal[revenusSal.length - 1].id) + 1;
+    let id = revenusSal.length === 0 ? 1 : parseInt(revenusSal[revenusSal.length - 1].id) + 1;
     const numero_impot = req.body.numero_impot;
     const paye_impot = req.body.paye_amende;
     const paye_penalite = req.body.paye_penalite;
