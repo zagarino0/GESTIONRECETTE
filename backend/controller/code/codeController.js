@@ -1075,30 +1075,33 @@ const getDateEcheance = (req, res) => {
 
 const getDateEcheanceById = (req, res) => {
     const id = req.params.id;
-    let dateEch = {};
-    getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+    if(id < 2000){
+        let dateEch = [];
+        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {
-            if (imp.numero_impot == ech.numero_impot && dateEch.id == id)
-                revenusSal.push({ ...imp, ...ech });
+            if (imp.numero_impot == ech.numero_impot && ech.id == id)
+                dateEch.push({ ...imp, ...ech });
         })
     })
     res.json(dateEch);
     dateEch = [];
+    }else{
+        getDateEcheanceByYear(req, res, id);
+    }
 }
 
 
-const getDateEcheanceByYear = (req, res) => {
-    let revenusSal = [];
-
-    const annee = req.params.annee;
+const getDateEcheanceByYear = (req, res, annee) => {
+    let dateEchs = [];
+    console.log(annee)
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {
             if (imp.numero_impot == ech.numero_impot && ech.annee == annee)
-                revenusSal.push({ ...imp, ...ech });
+                dateEchs.push({ ...imp, ...ech });
         })
     })
-    res.json(revenusSal);
-    revenusSal = [];
+    res.json(dateEchs);
+    dateEchs = [];
 }
 
 const setDateEcheance = (req, res) => {

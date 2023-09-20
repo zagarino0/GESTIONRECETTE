@@ -159,8 +159,6 @@ router.route('/dateecheance/:id')
     .get(codeController.getDateEcheanceById)
     .put(codeController.updateDateEcheance)
     .delete(codeController.deleteDateEcheance);
-router.route('/dateecheance/:annee')
-    .get(codeController.getDateEcheanceByYear);
 
 //revenus salariaux
 router.route('/revenusalariaux')
