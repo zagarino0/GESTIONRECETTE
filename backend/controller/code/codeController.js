@@ -235,7 +235,7 @@ const updateCodeImpot = (req, res) => {
 const deleteCodeImpot = (req, res) => {
     const numero_impot = req.params.numero_impot;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', numero_impot);
-    resres.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot'));
+    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot'));
 }
 
 //-------------------------------------------------------------------------------------------
@@ -824,7 +824,7 @@ const updateNumeroBudget = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget'));
 }
 
-const deleteNumeroBudget = () => {
+const deleteNumeroBudget = (req , res) => {
     const numero = req.params.numero;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget', numero);
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget'));
@@ -937,7 +937,7 @@ const updateChefAction = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action'));
 }
 
-const deleteChefAction = (req, res) => {
+const deleteChefAction = (req , res) => {
     const code = req.params.code;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action', code);
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action'));
@@ -986,7 +986,7 @@ const updateTypePrevision = (req, res) => {
         type_prevision,
         libelle
     ]
-    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', code, typePrev);
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', id , typePrev);
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision'));
 }
 
@@ -1075,7 +1075,7 @@ const getDateEcheance = (req, res) => {
 
 const getDateEcheanceById = (req, res) => {
     const id = req.params.id;
-    const dateEch = {};
+    let dateEch = {};
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {
             if (imp.numero_impot == ech.numero_impot && dateEch.id == id)
@@ -1166,7 +1166,7 @@ const updateDateEcheance = (req, res) => {
 
 const deleteDateEcheance = (req, res) => {
     const id = req.params.id;
-    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeane', id);
+    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance', id);
     let dateEch = [];
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {

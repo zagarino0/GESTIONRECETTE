@@ -19,8 +19,11 @@ function Operateur() {
   const [fonction , setFonction] = useState('');
   const [compte , setCompte] = useState('');
   const [mdp , setMdp] = useState([]);
-  const [recette_modification , setRecette_modification] = useState(false);;
+  const [recette_modification , setRecette_modification] = useState(false);
   const [recette_visualisation , setRecette_visualisation] = useState(false);
+  const [recette_prise_charge , setRecette_prise_charge] = useState(false);
+  const [gestion_prise_charge , setGestion_prise_charge] = useState(false);
+  const [gestion_modification , setGestion_modification] = useState(false);
   const [gestion_debut_nif , setGestion_debut_nif] = useState([]);
   const [gestion_fin_nif  , setGestion_fin_nif] = useState([]);
   const [recette_creation , setRecette_creation] = useState(false);
@@ -31,6 +34,22 @@ function Operateur() {
     const { checked } = event.target;
     setRecette_modification(checked);
   };
+
+  const handleCheckboxChangeRecette_prise_charge = (event) => {
+    const { checked } = event.target;
+    setRecette_prise_charge(checked);
+  };
+
+  const handleCheckboxChangeGestion_prise_charge = (event) => {
+    const { checked } = event.target;
+    setGestion_prise_charge(checked);
+  };
+  const handleCheckboxChangeGestion_modification = (event) => {
+    const { checked } = event.target;
+    setGestion_modification(checked);
+  };
+
+
   const handleCheckboxChangeCreation = (event) => {
     const { checked } = event.target;
     setRecette_creation(checked);
@@ -60,8 +79,11 @@ function Operateur() {
       recette_modification,
       recette_creation,
       recette_visualisation,
+      recette_prise_charge ,
       immatriculation_creation,
       immatriculation_prise_charge,
+      gestion_prise_charge ,
+      gestion_modification ,
       gestion_debut_nif,
       gestion_fin_nif,
       
@@ -92,6 +114,9 @@ console.error("erreur lors de l'ajout de donnée" , error)
       recette_modification: selectedEditData.recette_modification,
       recette_creation: selectedEditData.recette_creation,
       recette_visualisation : selectedEditData.recette_visualisation,
+      recette_prise_charge : selectedEditData.recette_prise_charge,
+      gestion_modification : selectedEditData.gestion_modification,
+      gestion_prise_charge : selectedEditData.gestion_prise_charge,
       gestion_debut_nif : selectedEditData.gestion_debut_nif,
       gestion_fin_nif : selectedEditData.gestion_fin_nif,
       immatriculation_creation: selectedEditData.immatriculation_creation,
@@ -134,7 +159,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
       console.error('Error deleting data:', error);
     }
   };
-  const headers = ["Code" ,"Nom " ,"Prénom" , "Fonction", "Saisie", "Modification", "Visualisation", "Numéro 1", "Numéro 2", "Création", "prise en charge" , "" , ""];
+  const headers = ["Code" ,"Nom " ,"Prénom" , "Fonction", "Saisie", "Modification", "Visualisation","Prise en charge"," Gest.Modification","Gest.Prise en charge", "Numéro 1", "Numéro 2", "Création", "prise en charge" , "" , ""];
   const formattedData = dataCode.map(item => [
     item.code,
     item.nom,
@@ -143,6 +168,9 @@ console.error("erreur lors de l'ajout de donnée" , error)
     <Checkbox value={item.recette_creation} />,
     <Checkbox value={item.recette_modification} />,
     <Checkbox value={item.recette_visualisation} />,
+    <Checkbox value={item.recette_prise_charge} />,
+    <Checkbox value={item.gestion_modification} />,
+    <Checkbox value={item.gestion_prise_charge} />,
     item.gestion_debut_nif,
     item.gestion_fin_nif,
     <Checkbox value={item.immatriculation_creation} />,
@@ -217,7 +245,7 @@ const optionsCompte = [
   <form onSubmit={DataHandler} >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <div className='mt-2 m-4 flex flex-row bg-black p-4'>
+  <div className='mt-2 m-4 flex flex-row bg-black '>
   <div className=' m-4 flex justify-between' >
 <Label text=" Code Opérateur:" className="mt-2"></Label>
 <Input type="text" placeholder="Votre code" className="ml-4 h-10"
@@ -233,7 +261,7 @@ onChange={e => setMdp(e.target.value)}
 ></Input>
     </div>
   </div>
-  <div className=' m-4 flex justify-between' >
+  <div className=' ml-4 mr-4 mt-2 flex justify-between' >
 <Label text=" Nom :" className="mt-2 "
 
 ></Label>
@@ -242,14 +270,14 @@ value={nom}
 onChange={e => setNom(e.target.value)}
 ></Input>
     </div>
-    <div className=' m-4 flex justify-between' >
+    <div className=' ml-4 mr-4 mt-2 flex justify-between' >
 <Label text=" Prénoms:" className="mt-2"></Label>
 <Input type="text"  className="ml-4 h-10"
 value={prenom}
 onChange={e => setPrenom(e.target.value)}
 ></Input>
     </div>
-    <div className=' m-4 flex justify-between' >
+    <div className=' ml-4 mr-4 mt-2 flex justify-between' >
 <Label text=" Fonction:" className="mt-2"></Label>
  <Select
  options={options}
@@ -273,6 +301,10 @@ onChange={handleCheckboxChangeModification}
 value={recette_visualisation}
 onChange={handleCheckboxChangeVisualisation}
 ></Checkbox>
+<Checkbox label="Prise en charge" className="m-4"
+value={recette_prise_charge}
+onChange={handleCheckboxChangeRecette_prise_charge}
+></Checkbox>
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
@@ -289,6 +321,16 @@ onChange={handleCheckboxChangeVisualisation}
 <div className='flex justify-between m-2 '>
 
 <div>
+<div className="flex flex-row">
+<Checkbox label="Prise en charge" className="m-4"
+value={gestion_modification}
+onChange={handleCheckboxChangeGestion_modification}
+></Checkbox>
+<Checkbox label="Modification" className="m-4"
+value={gestion_prise_charge}
+onChange={handleCheckboxChangeGestion_prise_charge}
+></Checkbox>
+</div>
 <div className='flex justify-between'>
 <label className='text-white mt-2' >RF début :</label>
 <Input type="text" placeholder="RF début"  className="ml-2 h-10"
@@ -335,7 +377,7 @@ onChange={handleCheckboxChangePriseEnCharge}
   <form onSubmit={DataHandler} >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <div className='mt-2 m-4 flex flex-row bg-black p-4'>
+  <div className='mt-2 m-4 flex flex-row bg-black '>
   <div className=' m-4 flex justify-between' >
 <Label text=" Code Opérateur:" className="mt-2"></Label>
 <Input type="text" placeholder="Votre code" className="ml-4 h-10"
@@ -431,6 +473,15 @@ onChange={(e) =>
   }))
 }
 ></Checkbox>
+<Checkbox label="Prise en charge" className="m-4"
+value={selectedEditData ? selectedEditData.recette_prise_charge : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    recette_prise_charge : e.target.checked ,
+  }))
+}
+></Checkbox>
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
@@ -441,7 +492,7 @@ onChange={(e) =>
   onChange={(e) =>
     setSelectedEditData((prevData) => ({
       ...prevData,
-      compte : e.target.value,
+      compte: e.target.value,
     }))
   }
  className="h-12"
@@ -449,7 +500,24 @@ onChange={(e) =>
 <div className='mt-2 ml-4 m-2'>
 <Label text=" GESTION" className="mt-2"></Label>
 <div className='flex justify-between m-2 '>
-
+<Checkbox label="Modification" className="m-4"
+value={selectedEditData ? selectedEditData.gestion_modification : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    gestion_modification : e.target.checked ,
+  }))
+}
+></Checkbox>
+<Checkbox label="Prise en charge" className="m-4"
+value={selectedEditData ? selectedEditData.gestion_prise_charge : ''}
+onChange={(e) =>
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    gestion_prise_charge : e.target.checked ,
+  }))
+}
+></Checkbox>
 <div>
 <div className='flex justify-between'>
 <label className='text-white mt-2' >RF début :</label>

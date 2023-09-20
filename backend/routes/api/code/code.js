@@ -148,7 +148,7 @@ router.route('/jourferie')
     .post(codeController.setJourFerie);
 router.route('/jourferie/:id')
     .get(codeController.getJourFerieById)
-    .post(codeController.updateJourFerie)
+    .put(codeController.updateJourFerie)
     .delete(codeController.deleteJourFerie);
 
 //date echéance

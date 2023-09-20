@@ -14,12 +14,10 @@ function ObligationFiscal() {
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
-  const [selectedData, setSelectedData] = useState(null); 
   const [numero_impot , setNumero_impot ] = useState('');
   const [choix , setChoix] = useState('');
   const [obligation , setObligation] = useState('');
   const [periodicite , setPeriodicite] = useState('');
-  const [titre , setTitre] = useState('');
   const [option , setOption] = useState('');
   const [taxation , setTaxation] = useState('');
   const [penalite , setPenalite] = useState(''); 
@@ -39,8 +37,7 @@ function ObligationFiscal() {
   
       // Update the list of data after successful deletion
       setDataCode((prevData) => prevData.filter((data) => data.id !== id));
-      setSelectedData(null); // Reset the selection
-  
+
       console.log(`Data with ID ${id} deleted successfully.`);
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -56,7 +53,6 @@ function ObligationFiscal() {
       choix ,
       obligation ,
       periodicite ,
-      titre ,
       option ,
       taxation ,
       penalite
@@ -296,13 +292,7 @@ value={periodicite}
 onChange={e => setPeriodicite(e.target.value)}
 ></Input>
     </div>
-    <div className=' m-4 flex justify-between' >
-<Label text=" Titre :" ></Label>
-<Input type="text"
-value={titre}
-onChange={e => setTitre(e.target.value)}  
-></Input>
-    </div>
+
     <div className=' m-4 flex justify-between' >
 <Label text=" Option :" ></Label>
 <Input type="text"  

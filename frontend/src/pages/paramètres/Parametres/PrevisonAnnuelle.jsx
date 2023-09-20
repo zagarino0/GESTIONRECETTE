@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton';
 import { Button } from '../../../components/button/button';
 import Input from '../../../components/input/Input';
 import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
 import Label from '../../../components/title/label';
+import axios from 'axios';
 
 function PrevisonAnnuelle() {
-  const headers = ["Année" ,"Num_imp" , "Libella", "code_Prev", "M1", "M2", "M3", "M4"];
+   
+  const [dataCode, setDataCode] = useState([]);
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/prevision')
+      .then((response) => setDataCode(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+
+  const headers = ["Année" ,"Num_imp" , "Libella", "code_Prev", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10", "M11", "M12", "Montant"];
   const data = [['none','none', 'none', 'none', 'none', 'none', 'none', 'none'],];
   const NavbarContent = (
 <div className='flex justify-between'>

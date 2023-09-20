@@ -17,6 +17,7 @@ import Modal from '../../../components/modals/Modal';
 
 function Periodicite() {
   const [dataCode, setDataCode] = useState([]);
+  const [dataCodeContent, setDataCodeContent] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [numero_auto , setNumero_auto] = useState('') ;
   const [periode , setPeriode] = useState('');
@@ -31,38 +32,38 @@ function Periodicite() {
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [isModalOpenModifiPeriode, setIsModalOpenModifiPeriode] = useState(false);
   const [selectedEditData, setSelectedEditData] = useState(null);
-  
-
-  const handleEditClick = (item) => {
-    setSelectedEditData(item);
-    setIsModalOpenModifi(true);
-  };
-
-  useEffect(() => {
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/periodicite')
-      .then((response) => setDataCode(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+  const [selectedExercice, setSelectedExercice] = useState(null);
 
 
-  // État pour stocker les options du Select
-  const [selectOptions, setSelectOptions] = useState([]);
 
-  useEffect(() => {
-    // Récupérez les options depuis la base de données
-    axios.get('http://localhost:3500/code/datecloture')
-      .then((response) => {
-        // Transformez les données en format requis par le Select
-        const formattedOptions = response.data.map((item) => ({
-          value: item.cloture,
-          label: item.cloture,
-        }));
-        // Mettez à jour l'état des options
-        setSelectOptions(formattedOptions);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+// controler periodicite 
+
+useEffect(() => {
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/code/periodicite')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
+const handleDelete = (id) => {
+  try {
+    // Make the DELETE request to your backend API to delete the data by ID
+    axios.delete(`http://localhost:3500/code/periodicite/${id}`);
+
+    // Update the list of data after successful deletion
+    setDataCode((prevData) => prevData.filter((data) => data.id !== id));
+
+    console.log(`Data with ID ${id} deleted successfully.`);
+  } catch (error) {
+    console.error('Error deleting data:', error);
+  }
+};
+
+
+
+
+
+
 
 
     const { selectedLink } = useSnapshot(states);
@@ -79,12 +80,22 @@ function Periodicite() {
       const formattedData = dataCode.map(item => [item.numero_auto, item.periode 
         ,
         <span
-        key={`edit-${item.id}`}
-        className='cursor-pointer'
-        onClick={() => handleEditClick(item)}
-      >
-        <BsPencil />
-      </span>,
+              key={item.id} // Make sure to use a unique key
+              className='cursor-pointer'
+              onClick={() => handleDelete(item.id)}
+            >
+              <RiDeleteBinLine />
+            </span>,
+              <span
+               key={`edit-${item.id}`} // Make sure to use a unique key
+               className='cursor-pointer'
+               onClick={() => {
+                 setSelectedEditData(item);
+                 setIsModalOpenModifi(true);
+               }}
+             >
+               <BsPencil />
+             </span>
            
       ]);
   
@@ -123,81 +134,61 @@ function Periodicite() {
         
     </nav>
     )
-    // État pour stocker la valeur sélectionnée
-  const [selectedValue, setSelectedValue] = useState(''); // La valeur initiale peut être définie selon vos besoins
-
- 
-  const handleDelete = (id) => {
-    try {
-      // Make the DELETE request to your backend API to delete the data by ID
-      axios.delete(`http://localhost:3500/code/periodicite/${id}`);
   
-      // Update the list of data after successful deletion
-      setDataCode((prevData) => prevData.filter((data) => data.id !== id));
-      setSelectedData(null); // Reset the selection
-  
-      console.log(`Data with ID ${id} deleted successfully.`);
-    } catch (error) {
-      console.error('Error deleting data:', error);
-    }
-  };
 const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" , "" , "" ];
 const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture
-,
-
+  ,
+  <span
+        key={item.id} // Make sure to use a unique key
+        className='cursor-pointer'
+        onClick={() => handleDelete(item.id)}
+      >
+        <RiDeleteBinLine />
+      </span>,
+        <span
+         key={`edit-${item.id}`} // Make sure to use a unique key
+         className='cursor-pointer'
+         onClick={() => {
+           setSelectedEditData(item);
+           setIsModalOpenModifiPeriode(true);
+         }}
+       >
+         <BsPencil />
+       </span>
 ]);
 
+// controller EXERCICE CLOTURE
+
 useEffect(() => {
-  // Vérifiez si une valeur est sélectionnée
-  if (selectedValue) {
-    const filtered = Data.filter((item) => item[6] === selectedValue.value); // Utilisez la colonne appropriée pour la comparaison
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/code/datecloture')
+    .then((response) => setDataCodeContent(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
+// Créez une fonction de filtrage
+const filterDataByExercice = () => {
+  if (selectedExercice) {
+    const filtered = Data.filter((item) => item[6] === selectedExercice.value);
     setFilteredData(filtered);
   } else {
-    // Si aucune valeur n'est sélectionnée, affichez toutes les données
     setFilteredData(Data);
   }
-}, [selectedValue, Data]);
+};
+
+// Utilisez cette fonction dans un useEffect avec selectedExercice comme dépendance
+useEffect(() => {
+  filterDataByExercice();
+}, [selectedExercice]);
+
 
 const NavbarModal =(
-  <div>
   <div className='text-white'>
   Périodicité 
-  </div>
-  </div>
-)
-const NavbarModalModifi =(
-  <div>
-  <div className='text-white'>
-  Périodicité 
-  </div>
   </div>
 )
 
-const DataHandler =  (e) =>{
-  e.preventDefault();
-  const Periodicite ={
-    numero_auto,
-    periode,
-    desc_mois,
-    titre,
-    p1,
-    p2,
-    id_clo
-  };
-  
-  
-  try {
-     axios.post('http://localhost:3500/code/periodicite',Periodicite);
-    console.log("données ajoutées avec succès " , Periodicite);
-    setIsModalOpen(false)
-    axios.get('http://localhost:3500/code/periodicite')
-    .then((response) => setDataCode(response.data))
-    .catch((error) => console.error(error));
-    
-  } catch(error){
-console.error("erreur lors de l'ajout de donnée" , error)
-  }
- }
+
     return (
       <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
@@ -209,11 +200,15 @@ console.error("erreur lors de l'ajout de donnée" , error)
    <div className='flex mt-4 p-4 bg-[#212122]'>
 <Label text="Exercice cloturé :" className="mt-2"></Label>
 <Select
-        options={selectOptions}
-        value={selectedValue}
-        onChange={(selected) => setSelectedValue(selected)}
-        className="ml-4 w-40"
-      />
+  options={dataCodeContent.map((item) => ({
+    value: item.cloture,
+    label: item.cloture,
+  }))}
+  value={selectedExercice}
+  onChange={(selected) => setSelectedExercice(selected)}
+  className="ml-4 w-40"
+/>
+
     </div>
     <div className="mt-4 p-4 bg-[#212122]">
     <Table headers={Headers} data={filteredData} ></Table>
@@ -229,7 +224,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[600px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <form onSubmit={DataHandler} >
+  <form  >
   <div className=' m-4 flex justify-between' >
 <Label text=" N° Auto:" className="mt-2"></Label>
 <Input type="text"  
@@ -276,9 +271,7 @@ onChange={e => setP2(e.target.value)}
     <div className=' m-4 flex justify-between' >
 <Label text=" Exercice :"></Label>
 <Select
-        options={selectOptions}
-        value={selectedValue}
-        onChange={(selected) => setSelectedValue(selected)}
+       
         className="ml-4 w-40"
       />
     </div>
@@ -293,7 +286,7 @@ onChange={e => setP2(e.target.value)}
   </form>
 </Modal>
 <Modal isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[300px]" >
-  <Navbar content={NavbarModalModifi} ></Navbar>
+  <Navbar content={NavbarModal} ></Navbar>
   
   
   <div className=' m-4 flex justify-between' >
@@ -322,7 +315,33 @@ onChange={e => setP2(e.target.value)}
     </div>
 <div className="m-4 flex justify-between">
 
-<Button children="Modifier" ></Button>
+<Button children="Modifier"
+ onClick={async () => {
+  try {
+    // Make the PUT/PATCH request to update the data in the database
+    await axios.put(
+      `http://localhost:3500/code/periodicite/${selectedEditData.id}`,
+      selectedEditData
+    );
+      // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/code/periodicite')
+  .then((response) => setDataCode(response.data))
+  .catch((error) => console.error(error));
+    // Update the edited data in dataCode
+    setDataCode((prevData) =>
+      prevData.map((data) =>
+        data.id === selectedEditData.id ? selectedEditData : data
+      )
+    );
+
+    setIsModalOpenModifi(false);
+    setSelectedEditData(null);
+    console.log('Data updated successfully.');
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
+}}
+></Button>
 
 <Button onClick={() => setIsModalOpenModifi(false)} children="Quitter" ></Button>
 
@@ -335,38 +354,120 @@ onChange={e => setP2(e.target.value)}
   
   <div className=' m-4 flex justify-between' >
 <Label text=" N° Auto:" className="mt-2"></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  className=""
+ value={selectedEditData ? selectedEditData.numero_auto : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     numero_auto: e.target.value,
+   }))
+ }
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :" ></Label>
-<Input type="text" className=""></Input>
+<Input type="text" className=""
+ value={selectedEditData ? selectedEditData.periode : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     periode: e.target.value,
+   }))
+ }
+></Input>
     </div>
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Desc_mois :" ></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  className=""
+ value={selectedEditData ? selectedEditData.desc_mois: ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     desc_mois: e.target.value,
+   }))
+ }
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Titre:"></Label>
-<Input type="text"  className="h-8"></Input>
+<Input type="text"  className="h-8"
+ value={selectedEditData ? selectedEditData.titre : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     titre: e.target.value,
+   }))
+ }
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" P1:" ></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  className=""
+ value={selectedEditData ? selectedEditData.p1 : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     p1: e.target.value,
+   }))
+ }
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" P2 :" ></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  className=""
+ value={selectedEditData ? selectedEditData.p2 : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     p2: e.target.value,
+   }))
+ }
+></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Exercice :"></Label>
-<Input type="text"  className=""></Input>
+<Input type="text"  className=""
+ value={selectedEditData ? selectedEditData.clouture : ''}
+ onChange={(e) =>
+   setSelectedEditData((prevData) => ({
+     ...prevData,
+     cloture: e.target.value,
+   }))
+ }
+></Input>
     </div>
   
     
   <div className='flex justify-between m-4'>
 
-  <Button children="Enregistrer" ></Button>
+  <Button children="Modifier" 
+   onClick={async () => {
+    try {
+      // Make the PUT/PATCH request to update the data in the database
+      await axios.put(
+        `http://localhost:3500/code/periodicite/${selectedEditData.id}`,
+        selectedEditData
+      );
+        // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/code/periodicite')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+      // Update the edited data in dataCode
+      setDataCode((prevData) =>
+        prevData.map((data) =>
+          data.id === selectedEditData.id ? selectedEditData : data
+        )
+      );
+  
+      setIsModalOpenModifi(false);
+      setSelectedEditData(null);
+      console.log('Data updated successfully.');
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }}
+  ></Button>
 
   <Button onClick={() => setIsModalOpenModifiPeriode(false)} children="Quitter" ></Button>
   </div>
