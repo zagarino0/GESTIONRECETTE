@@ -1406,13 +1406,6 @@ module.exports = {
     updateProcesVerbaux,
     deleteProcesVerbaux,
 
-    //type prevision
-    getTypePrevision,
-    getTypePrevisionById,
-    setTypePrevision,
-    updateTypePrevision,
-    deleteTypePrevision,
-
     //code activité
     getCodeActivite,
     getCodeActiviteByCode,
@@ -1449,5 +1442,12 @@ module.exports = {
     getRevenusSalariauxByYear,
     setRevenusSalariaux,
     updateRevenusSalariaux,
-    deleteRevenusSalariaux
+    deleteRevenusSalariaux,
+
+    //type prevision
+    getTypePrevision,
+    setTypePrevision,
+    getTypePrevisionById,
+    updateTypePrevision,
+    deleteTypePrevision
 }
