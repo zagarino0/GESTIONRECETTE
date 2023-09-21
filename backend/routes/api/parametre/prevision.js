@@ -6,6 +6,9 @@ router.route('/')
     .get(previsionController.getAllPrevisions)
     .post(previsionController.setPrevision)
     .put(previsionController.updatePrevision);
+router.route('/:id')
+    .get(previsionController.getPrevisionById)
+    .delete(previsionController.deletePrevisions);
 
 
 module.exports = router;

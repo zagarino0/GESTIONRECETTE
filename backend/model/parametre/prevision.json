@@ -1,10 +1,1 @@
-[
-    {
-        "id": 1,
-        "annee": 2015,
-        "mois": "Janvier",
-        "type_prevision": "LFR",
-        "code_impot": 22,
-        "montant_prevision": 2540000
-    }
-]
+[{"id":1,"annee":2015,"mois":"Janvier","type_prevision":"LFR","code_impot":22,"montant_prevision":2540000},{"id":2,"annee":2016,"mois":"Fevrier","type_prevision":"LFR","code_impot":"22","montant_prevision":2500000}]
