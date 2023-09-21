@@ -23,7 +23,6 @@ const getAllPrevisions = (req, res) => {
 
 const getPrevisionById = (req, res) => {
     const id = req.params.id;
-    if (id < 2000) {
         let prevision = data.previsions.find(prev => prev.id == id);
         const codeImpots = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot');
 
@@ -35,15 +34,12 @@ const getPrevisionById = (req, res) => {
         })
         res.json(prevision);
         prevision = {};
-    }else{
-        getPrevisionByYear(req, res, id);
-    }
 }
 
-const getPrevisionByYear = (req, res, annee) => {
+const getPrevisionByYear = (req, res) => {
     let previsions = [];
     let previsionsOfYear = [];
-
+    let annee = req.params.annee;
     const codeImpots = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot');
 
     data.previsions.map(prev => {

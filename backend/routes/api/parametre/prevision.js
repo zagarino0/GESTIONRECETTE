@@ -9,6 +9,8 @@ router.route('/')
 router.route('/:id')
     .get(previsionController.getPrevisionById)
     .delete(previsionController.deletePrevisions);
+router.route('/annee/:annee')
+    .get(previsionController.getPrevisionByYear);
 
 
 module.exports = router;
