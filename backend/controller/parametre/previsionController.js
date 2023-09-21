@@ -118,7 +118,15 @@ const updatePrevision = async (req, res) => {
     )
 }
 
-const deletePrevisions = (req, res) => {
+const deletePrevisions = async (req, res) => {
+    const id = req.params.id;
+    const prevision = data.previsions.find(prev => prev.id == id);
+    const filteredPrevisions = data.previsions.filter(prev => prev.id != prevision.id);
+    data.setPrevisions([...filteredPrevisions]);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'parametre', 'prevision.json'),
+        JSON.stringify(data.previsions)
+    );
 
 }
 
