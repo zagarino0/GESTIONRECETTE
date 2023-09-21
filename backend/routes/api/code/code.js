@@ -168,9 +168,9 @@ router.route('/revenusalariaux/:id')
     .get(codeController.getRevenusSalariauxById)
     .put(codeController.updateRevenusSalariaux)
     .delete(codeController.deleteRevenusSalariaux);
-router.route('revenusalariaux/:annee')
+router.route('revenusalariaux/annee/:annee')
     .get(codeController.getRevenusSalariauxByYear);
-router.route('revenusalariaux/:code')
+router.route('revenusalariaux/code/:code')
     .get(codeController.getRevenusSalariauxByCode);
 
 

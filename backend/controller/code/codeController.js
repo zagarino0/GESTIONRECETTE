@@ -1209,7 +1209,6 @@ const getRevenusSalariauxById = (req, res) => {
                 revenusSal = { ...imp, ...rev }
         })
     })
-    res.json(revenuSal);
     revenuSal = {};
 }
 
