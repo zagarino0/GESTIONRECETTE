@@ -90,21 +90,23 @@ const setPrevision = async (req, res) => {
 }
 
 const updatePrevision = async (req, res) => {
+    const id = req.params.id;
     const annee = req.body.annee;
     const mois = req.body.mois;
     const type_prevision = req.body.type_prevision;
     const code_impot = req.body.code_impot;
     const montant_prevision = req.body.montant_prevision;
 
-    const prevision = data.previsions.find(prev => prev.annee == annee && prev.mois == mois);
+    const prevision = data.previsions.find(prev => prev.id == id);
 
     if (!prevision) return res.json({ 'message': 'prevision not found' })
 
     if (type_prevision) prevision.type_prevision = type_prevision;
     if (code_impot) prevision.code_impot = code_impot;
     if (montant_prevision) prevision.montant_prevision = montant_prevision;
+    if (mois) prevision.mois = mois;
 
-    const filteredPrevisions = data.previsions.filter(prev => prev.annee != annee && prev.mois != mois);
+    const filteredPrevisions = data.previsions.filter(prev => prev.id != id);
     const unsortedPrevisions = [...filteredPrevisions, prevision];
     data.setUsers(unsortedPrevisions.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
 
