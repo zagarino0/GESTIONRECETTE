@@ -4,11 +4,11 @@ const previsionController = require('../../../controller/parametre/previsionCont
 
 router.route('/')
     .get(previsionController.getAllPrevisions)
-    .post(previsionController.setPrevision)
-    .put(previsionController.updatePrevision);
+    .post(previsionController.setPrevision);
 router.route('/:id')
     .get(previsionController.getPrevisionById)
-    .delete(previsionController.deletePrevisions);
+    .delete(previsionController.deletePrevisions)
+    .put(previsionController.updatePrevision);
 router.route('/annee/:annee')
     .get(previsionController.getPrevisionByYear);
 
