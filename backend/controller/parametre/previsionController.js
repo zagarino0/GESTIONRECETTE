@@ -108,12 +108,14 @@ const updatePrevision = async (req, res) => {
 
     const filteredPrevisions = data.previsions.filter(prev => prev.id != id);
     const unsortedPrevisions = [...filteredPrevisions, prevision];
-    data.setUsers(unsortedPrevisions.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    data.setPrevisions(unsortedPrevisions.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'parametre', 'prevision.json'),
-        JSON.stringify(data.users)
+        JSON.stringify(data.previsions)
     )
+
+    res.json(data.previsions);
 }
 
 const deletePrevisions = async (req, res) => {
