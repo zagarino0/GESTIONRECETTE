@@ -7,8 +7,8 @@ router.route('/')
     .post(previsionController.setPrevision);
 router.route('/:id')
     .get(previsionController.getPrevisionById)
-    .delete(previsionController.deletePrevisions)
-    .put(previsionController.updatePrevision);
+    .put(previsionController.updatePrevision)
+    .delete(previsionController.deletePrevisions);
 router.route('/annee/:annee')
     .get(previsionController.getPrevisionByYear);
 
