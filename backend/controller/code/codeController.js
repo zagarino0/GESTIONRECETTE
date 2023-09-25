@@ -1201,14 +1201,15 @@ const getRevenusSalariaux = (req, res) => {
 
 const getRevenusSalariauxById = (req, res) => {
     const id = req.params.id;
-    const revenuSal = {};
+    let revenuSal = {};
     if (!revenuSal) return res.status(404).json({ 'message': 'data not found' });
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux').map(rev => {
             if (imp.numero_impot == rev.numero_impot && rev.id == id)
-                revenusSal = { ...imp, ...rev }
+                revenuSal = { ...imp, ...rev }
         })
     })
+    res.json(revenuSal);
     revenuSal = {};
 }
 
@@ -1226,10 +1227,11 @@ const getRevenusSalariauxByCode = (req, res) => {
 }
 
 const setRevenusSalariaux = (req, res) => {
-    const revenusSal = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux');
+    let revenusSal = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux');
     let id = revenusSal.length === 0 ? 1 : parseInt(revenusSal[revenusSal.length - 1].id) + 1;
     const numero_impot = req.body.numero_impot;
-    const paye_impot = req.body.paye_amende;
+    const paye_impot = req.body.paye_impot;
+    const paye_amende = req.body.paye_amende;
     const paye_penalite = req.body.paye_penalite;
     const valeur_amende = req.body.valeur_amende;
     const taux_penalite = req.body.taux_penalite;
@@ -1239,8 +1241,8 @@ const setRevenusSalariaux = (req, res) => {
             id,
             numero_impot,
             paye_impot,
-            paye_penalite,
             paye_amende,
+            paye_penalite,
             valeur_amende,
             taux_penalite
         ]
@@ -1276,17 +1278,18 @@ const getRevenusSalariauxByYear = (req, res) => {
 const updateRevenusSalariaux = (req, res) => {
     const id = req.params.id;
     const numero_impot = req.body.numero_impot;
-    const paye_impot = req.body.paye_amende;
+    const paye_impot = req.body.paye_impot;
+    const paye_amende = req.body.paye_amende;
     const paye_penalite = req.body.paye_penalite;
     const valeur_amende = req.body.valeur_amande;
     const taux_penalite = req.body.taux_penalite;
 
-    const revenusSal = [
+    let revenusSal = [
         id,
         numero_impot,
         paye_impot,
-        paye_penalite,
         paye_amende,
+        paye_penalite,
         valeur_amende,
         taux_penalite
     ]
@@ -1306,7 +1309,7 @@ const updateRevenusSalariaux = (req, res) => {
 const deleteRevenusSalariaux = (req, res) => {
     const id = req.params.id;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux', id);
-    revenusSal = [];
+    let revenusSal = [];
     getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'revenus salariaux').map(rev => {
             if (imp.numero_impot == rev.numero_impot)
