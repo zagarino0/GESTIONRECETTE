@@ -102,37 +102,40 @@ console.error("erreur lors de l'ajout de donnée" , error)
       
 }
 
-   const DataHandlerModifie = (e) => {
-    e.preventDefault();
+const DataHandlerModifie = (e) => {
+  e.preventDefault();
+
+  if (selectedEditData) {
     const updatedUser = {
       code: selectedEditData.code,
       nom: selectedEditData.nom,
       prenom: selectedEditData.prenom,
       fonction: selectedEditData.fonction,
-      compte: selectedData.compte,
+      compte: selectedEditData.compte,
       mdp: selectedEditData.mdp,
       recette_modification: selectedEditData.recette_modification,
       recette_creation: selectedEditData.recette_creation,
-      recette_visualisation : selectedEditData.recette_visualisation,
-      recette_prise_charge : selectedEditData.recette_prise_charge,
-      gestion_modification : selectedEditData.gestion_modification,
-      gestion_prise_charge : selectedEditData.gestion_prise_charge,
-      gestion_debut_nif : selectedEditData.gestion_debut_nif,
-      gestion_fin_nif : selectedEditData.gestion_fin_nif,
+      recette_visualisation: selectedEditData.recette_visualisation,
+      recette_prise_charge: selectedEditData.recette_prise_charge,
+      gestion_modification: selectedEditData.gestion_modification,
+      gestion_prise_charge: selectedEditData.gestion_prise_charge,
+      gestion_debut_nif: selectedEditData.gestion_debut_nif,
+      gestion_fin_nif: selectedEditData.gestion_fin_nif,
       immatriculation_creation: selectedEditData.immatriculation_creation,
-      immatriculation_prise_charge : selectedEditData.immatriculation_prise_charge,
+      immatriculation_prise_charge: selectedEditData.immatriculation_prise_charge,
     };
 
     console.log(updatedUser);
     // Effectuez une requête de mise à jour au backend avec les données mises à jour
-    axios.put(`http://localhost:3500/user/updateuser/${selectedEditData.id}`, updatedUser)
+    axios
+      .put(`http://localhost:3500/user/updateuser/${selectedEditData.id}`, updatedUser)
       .then((response) => setDataCode(response.data))
       .catch((error) => console.error("Erreur lors de la mise à jour des données.", error));
-  
+
     setIsModalOpenModifie(false); // Fermez le modal après la mise à jour
-  };
-  
-  
+  }
+};
+
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/user/all/')

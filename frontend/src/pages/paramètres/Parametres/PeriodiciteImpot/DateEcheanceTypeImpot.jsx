@@ -76,10 +76,11 @@ console.error("erreur lors de l'ajout de donnée" , error)
     
 }
 
-  const headers = ['Code', 'Nature', 'Type', 'Date début Paiement', 'Date fin Paiement', 'Année'];
+  const headers = ['Code', 'Libelle', 'Nature', 'Type', 'Date début Paiement', 'Date fin Paiement', 'Année'];
   const data = dataCode.length > 0
   ? dataCode.map((item) => [
       item.id,
+      item.libelle,
       item.numero_impot,
       item.type,
       item.date_debut_paiement,
@@ -167,7 +168,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Date de debut du paiement  :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="date"  className="ml-4"
  value={selectedEditData ? selectedEditData.date_debut_paiement : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -179,7 +180,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Date de fin du paiement :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="date"  className="ml-4"
  value={selectedEditData ? selectedEditData.date_fin_paiement : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -252,14 +253,14 @@ onChange={(e)=> setNumero_impot(e.target.value)}
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Date de debut du paiement  :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="date"  className="ml-4"
 value={date_debut_paiement}
 onChange={(e)=> setDate_debut_paiement(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Date de fin du paiement :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="date"  className="ml-4"
 value={date_fin_paiement}
 onChange={(e)=> setDate_fin_paiement(e.target.value)}
 ></Input>

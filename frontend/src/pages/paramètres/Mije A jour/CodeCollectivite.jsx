@@ -116,10 +116,14 @@ Niveau de Décentralisation
   const NavbarModal =(
     
     <div className='text-white'>
-    Modification code collectivité
+    Modification code fokontany
     </div>
     
   )
+
+  const rafraichirPage = () => {
+    window.location.reload(); // Cette ligne actualisera la page
+  };
 
   return (
     <div className='bg-[#212122] h-screen w-screen'>
@@ -146,10 +150,12 @@ Niveau de Décentralisation
 />
 
      <Button type="submit" children="Ajouter" className="m-2"></Button>
+    
     </div>
     </div>
   
   </form>
+  <Button  children="Actualiser" className="m-2"  onClick={rafraichirPage}></Button>
   <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[360px]" >
   <Navbar content={NavbarModal} ></Navbar>
   <div className=' m-4 flex justify-between' >

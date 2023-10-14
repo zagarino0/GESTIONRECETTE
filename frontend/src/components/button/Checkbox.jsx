@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Checkbox = ({ label, value, className , onChange }) => {
-  console.log(value)
   return (
     <label className={`flex items-center ${className}`}>
       <input

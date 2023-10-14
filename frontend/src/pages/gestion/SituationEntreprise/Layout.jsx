@@ -1,9 +1,9 @@
 import * as React from "react";
-import { states } from "../../states/states";
-import { Navbar } from "../../components/navbar/Navbar";
-import { Link } from "react-router-dom";
 import { useSnapshot } from "valtio";
-import BackButton from "../../components/button/BackButton";
+import { states } from "../../../states/states";
+import { Link } from "react-router-dom";
+import BackButton from "../../../components/button/BackButton";
+import { Navbar } from "../../../components/navbar/Navbar";
 
 
 export const Layout  = ( props ) => {
@@ -11,10 +11,11 @@ export const Layout  = ( props ) => {
 
     //Links navbar
     const links = [
-        { title: "Situation d'une Entreprise", link: "/gestion" },
-        { title: "Consultation ", link: "/ConsultationGestion" },
-        { title: "RF", link: "/consultatioRF" },
-        { title: "Défailants", link: "/Defaillant" },
+        { title: "RENSEIGNEMENTS GENERAUX", link: "/MJRRegimeFiscalETGestionDossier" },
+        { title: "Principaux Actionnaire ou Associés ", link: "/GestionDossier" },
+        { title: "Situation Geographique ", link: "/SituationGeographique" },
+        { title: "Regime Fiscal ", link: "/RegimeFiscal" },
+       
        
       ];
 
@@ -48,7 +49,7 @@ export const Layout  = ( props ) => {
           </li>
         ))}
       </ul>
-<BackButton to="/SIGRL"></BackButton>
+<BackButton to="/Gestion"></BackButton>
         
     </nav>
     )

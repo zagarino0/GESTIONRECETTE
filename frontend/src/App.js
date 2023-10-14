@@ -40,6 +40,25 @@ import PeriodiciteImpotParametre from "./pages/paramètres/Parametres/Periodicit
 import MiseAJourRF from "./pages/immatriculation/Immatriculation/MiseAJourRF";
 import ReleveRF from "./pages/immatriculation/Immatriculation/ReleveRF";
 import ConsultationGestion from "./pages/gestion/Consultation/Consultation";
+import SituationNatureImpot from "./pages/gestion/SituationEntreprise/SituationNatureImpot";
+import ImpressionImpot from "./pages/gestion/SituationEntreprise/ImpressionImpot";
+import MJRRegimeFiscalETGestionDossier from "./pages/gestion/SituationEntreprise/MJRRegimeFiscalETGestionDossier";
+import GestionDossier from "./pages/gestion/SituationEntreprise/GestionDossier";
+import SituationGeographique from "./pages/gestion/SituationEntreprise/SituationGeographique";
+import RegimeFiscal from "./pages/gestion/SituationEntreprise/RegimeFiscal";
+import ResteRecouvreGlobal from "./pages/gestion/Consultation/ResteRecouvreGlobal";
+import TitrePerceptio from "./pages/gestion/Consultation/TitrePerceptio";
+import ListeNatureImpot from "./pages/gestion/Consultation/ListeNatureImpot";
+import ResteRecouvrerDeuxDate from "./pages/gestion/Consultation/ResteRecouvrerDeuxDate";
+import ConsultationRecetteDeuxDate from "./pages/gestion/Consultation/ConsultationRecetteDeuxDate";
+import MontantNatureImpot from "./pages/gestion/Consultation/MontantNatureImpot";
+import Defaillant from "./pages/gestion/Defaillants/Defaillant";
+import RelanceDefaillant from "./pages/gestion/Defaillants/RelanceDefaillant";
+import Listing from "./pages/gestion/Defaillants/Listing";
+import TVA from "./pages/gestion/Defaillants/TVA";
+import AutreImpot from "./pages/gestion/Defaillants/AutreImpot";
+import IRISDA from "./pages/gestion/Defaillants/IRISDA";
+import IRSAIRCM from "./pages/gestion/Defaillants/IRSAIRCM";
 
 function App() {
   
@@ -62,7 +81,26 @@ function App() {
      <Route path="/utilitaireRecette" element={<UtilitairesRecette/>}></Route>
      
      <Route path="/gestion" element={<Gestion/>}></Route>
+     <Route path="/SituationNatureImpot" element={<SituationNatureImpot/>}></Route>
+     <Route path="/GestionDossier" element={<GestionDossier/>}></Route>
+     <Route path="/SituationGeographique" element={<SituationGeographique/>}></Route>
+     <Route path="/RegimeFiscal" element={<RegimeFiscal/>}></Route>     
+     <Route path="/MJRRegimeFiscalETGestionDossier" element={<MJRRegimeFiscalETGestionDossier/>}></Route>
+     <Route path="/ImpressionImpot" element={<ImpressionImpot/>}></Route>
      <Route path="/ConsultationGestion" element={<ConsultationGestion/>}></Route>
+     <Route path="/ResteRecouvreGlobal" element={<ResteRecouvreGlobal/>}></Route>
+     <Route path="/TitrePerceptio" element={<TitrePerceptio/>}></Route>
+     <Route path="/ListeNatureImpot" element={<ListeNatureImpot/>}></Route>
+     <Route path="/ResteRecouvrerDeuxDate" element={<ResteRecouvrerDeuxDate/>}></Route>
+     <Route path="/ConsultationRecetteDeuxDate" element={<ConsultationRecetteDeuxDate/>}></Route>
+     <Route path="/MontantNatureImpot" element={<MontantNatureImpot/>}></Route>
+     <Route path="/Defaillant" element={<Defaillant/>}></Route>
+     <Route path="/RelanceDefaillant" element={<RelanceDefaillant/>}></Route>
+     <Route path="/Listing" element={<Listing/>}></Route>
+     <Route path="/TVA" element={<TVA/>}></Route>
+     <Route path="/AutreImpot" element={<AutreImpot/>}></Route>
+     <Route path="/IRISDA" element={<IRISDA/>}></Route>
+     <Route path="/IRSAIRCM" element={<IRSAIRCM/>}></Route>
 
 
      <Route path="/immatriculation" element={<Immatriculation/>}></Route> 

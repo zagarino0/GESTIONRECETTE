@@ -15,7 +15,7 @@ function PeriodiciteImpotParametre() {
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [jour , setJour] = useState('');
+  const [ setJour] = useState('');
   const [motif , setMotif] = useState('');
   const [date , setDate] = useState('');
   const NavbarModal =(
@@ -24,6 +24,13 @@ function PeriodiciteImpotParametre() {
   </div>
   
   )
+
+  function getDayFromDate(selectedDate) {
+    const date = new Date(selectedDate);
+    const options = { weekday: 'long' }; // Vous pouvez personnaliser le format du jour si nécessaire
+    return new Intl.DateTimeFormat('fr-FR', options).format(date);
+  }
+  
   useEffect(() => {
 
     // Récupérer les données depuis le backend
@@ -53,10 +60,11 @@ function PeriodiciteImpotParametre() {
  // ajout donnée controller 
  const DataHandler =  (e) =>{
   e.preventDefault();
+ const day = getDayFromDate(date);
   const Data ={
  
     date,
-    jour,
+    jour: day, 
     motif
        
   };
@@ -105,34 +113,23 @@ console.error("erreur lors de l'ajout de donnée" , error)
   <div className='mt-4 m-4' >
 <Table headers={headers} data={data} ></Table>
       </div>
-      <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[340px]" >
+      <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[300px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
-
-    <div className=' m-4 flex justify-between' >
-<Label text=" Date :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
- value={selectedEditData ? selectedEditData.date : ''}
- onChange={(e) =>
-   setSelectedEditData((prevData) => ({
-     ...prevData,
-     date: e.target.value,
-   }))
- }
-></Input>
-    </div>
-    <div className=' m-4 flex justify-between' >
-<Label text=" Jour :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
- value={selectedEditData ? selectedEditData.jour : ''}
- onChange={(e) =>
-   setSelectedEditData((prevData) => ({
-     ...prevData,
-     jour: e.target.value,
-   }))
- }
-></Input>
-    </div>
+  <div className=' m-4 flex justify-between' >
+    <Label text=" Date :" className="mt-2"></Label>
+    <Input type="date" className="ml-4"
+      value={selectedEditData ? selectedEditData.date : ''}
+      onChange={(e) =>
+        setSelectedEditData((prevData) => ({
+          ...prevData,
+          date: e.target.value,
+          jour: getDayFromDate(e.target.value), // Mettez à jour également le jour ici
+        }))
+      }
+    ></Input>
+  </div>
+ 
     <div className=' m-4 flex justify-between' >
 <Label text=" Motif :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
@@ -176,24 +173,18 @@ console.error("erreur lors de l'ajout de donnée" , error)
   <Button onClick={() =>  setIsModalOpenModifi(false)} children="Quitter"  ></Button>
   </div>
   </Modal>
-  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[340px]" >
+  <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[300px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
 <form onSubmit={DataHandler}>
     <div className=' m-4 flex justify-between' >
 <Label text=" Date :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="date"  className="ml-4"
 value={date}
 onChange={(e)=> setDate(e.target.value)}
 ></Input>
     </div>
-    <div className=' m-4 flex justify-between' >
-<Label text=" Jour :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
-value={jour}
-onChange={(e)=> setJour(e.target.value)}
-></Input>
-    </div>
+ 
     <div className=' m-4 flex justify-between' >
 <Label text=" Motif :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"

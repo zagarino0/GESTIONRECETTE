@@ -25,7 +25,7 @@ function Periodicite() {
   const [titre , setTitre] = useState('');
   const [p1 , setP1] = useState('');
   const [p2 , setP2] = useState('');
-  const [id_clo , setId_clo] = useState('');
+  const [id_clo , setId_clo] = useState(null);
   const [searchData , setSearchData] = useState([]);
   const [selectedData, setSelectedData] = useState(null); 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -176,12 +176,47 @@ const filterDataByExercice = () => {
   }
 };
 
+const rafraichirPage = () => {
+  window.location.reload(); // Cette ligne actualisera la page
+};
+
 // Utilisez cette fonction dans un useEffect avec selectedExercice comme dépendance
 useEffect(() => {
   filterDataByExercice();
 }, [selectedExercice]);
 
-
+const DataHandler =  (e) =>{
+  e.preventDefault();
+  const Data ={
+    numero_auto,
+    periode,
+    desc_mois,
+    titre,
+    p1,
+    p2,
+    id_clo
+  };
+  
+  
+  try {
+     axios.post('http://localhost:3500/code/periodicite',Data);
+    console.log("données ajoutées avec succès " , Data);
+    
+    setNumero_auto('');
+    setPeriode('');
+    setDesc_mois('');
+    setTitre('');
+    setP1('');
+    setP2('');
+    setId_clo(null);
+    setIsModalOpen(false);
+    axios.get('http://localhost:3500/code/periodicite')
+    .then((response) => setDataCode(response.data))
+    .catch((error) => console.error(error));
+  } catch(error){
+console.error("erreur lors de l'ajout de donnée" , error)
+  }
+ }
 const NavbarModal =(
   <div className='text-white'>
   Périodicité 
@@ -215,8 +250,8 @@ const NavbarModal =(
 
     </div>
     <div className='mt-2 p-2 '>
-<Button children="Ajouter" className="h-16" onClick={() => setIsModalOpen(true)}></Button>
-
+<Button children="Ajouter"  onClick={() => setIsModalOpen(true)}></Button>
+<Button  children="Actualiser" className="m-2"  onClick={rafraichirPage}></Button>
     </div>
    </div>
    </div>
@@ -224,7 +259,7 @@ const NavbarModal =(
    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[600px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <form  >
+  <form onSubmit={DataHandler}>
   <div className=' m-4 flex justify-between' >
 <Label text=" N° Auto:" className="mt-2"></Label>
 <Input type="text"  
@@ -271,7 +306,12 @@ onChange={e => setP2(e.target.value)}
     <div className=' m-4 flex justify-between' >
 <Label text=" Exercice :"></Label>
 <Select
-       
+ options={dataCodeContent.map((item) => ({
+  value: item.numero,
+  label: item.cloture,
+}))}
+value={dataCodeContent.find((option) => option.value === id_clo)}
+onChange={(selected) => setId_clo(selected.value)}
         className="ml-4 w-40"
       />
     </div>
@@ -391,7 +431,7 @@ onChange={e => setP2(e.target.value)}
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Titre:"></Label>
-<Input type="text"  className="h-8"
+<Input type="text"  className=""
  value={selectedEditData ? selectedEditData.titre : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -427,15 +467,22 @@ onChange={e => setP2(e.target.value)}
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Exercice :"></Label>
-<Input type="text"  className=""
- value={selectedEditData ? selectedEditData.clouture : ''}
- onChange={(e) =>
-   setSelectedEditData((prevData) => ({
-     ...prevData,
-     cloture: e.target.value,
-   }))
- }
-></Input>
+<Select
+ options={dataCodeContent.map((item) => ({
+  value: item.numero,
+  label: item.cloture,
+}))}
+  
+value={dataCodeContent.find((option) => option.value === selectedEditData?.id_clo)}
+onChange={(selectedOption) => {
+  setSelectedEditData((prevData) => ({
+    ...prevData,
+    id_clo: selectedOption.value,
+  }));
+}}
+
+        className="ml-4 w-40"
+      />
     </div>
   
     
@@ -460,7 +507,7 @@ onChange={e => setP2(e.target.value)}
         )
       );
   
-      setIsModalOpenModifi(false);
+      setIsModalOpenModifiPeriode(false);
       setSelectedEditData(null);
       console.log('Data updated successfully.');
     } catch (error) {
