@@ -10,6 +10,11 @@ const getAllclients = (req, res) => {
     res.json(data.clients);
 }
 
+const getClientByReferenceFiscal = (req, res) => {
+    const client = data.clients.find(cli => cli.nif === req.body.nif);
+    res.json(client);
+}
+
 const addnewClient = async (req, res) => {
     
     const newClient = {
@@ -138,6 +143,7 @@ const getClient = (req, res) => {
 
 module.exports = {
     getAllclients,
+    getClientByReferenceFiscal,
     addnewClient,
     updateClient,
     deleteClient,
