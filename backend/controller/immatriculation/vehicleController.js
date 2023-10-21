@@ -1,5 +1,5 @@
 const data = {
-    vehicles: require("../../model/immatriculation/vehicule.json"),
+    vehicles: require("../../../../e-immatriculation/backend/model/vehicule.json"),
     setVehicles: function (data) { this.vehicles = data }
 };
 
