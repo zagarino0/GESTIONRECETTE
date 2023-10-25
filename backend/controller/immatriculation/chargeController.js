@@ -1,30 +1,13 @@
 const data = {
-    clients: require('../../../../e-immatriculation/backend/model/client.json'),
-    charges: require('../../model/immatriculation/charge.json'),
+    clients: require("../../../../e-immatriculation/backend/model/client.json"),
+    charges: require("../../model/immatriculation/charge.json"),
     setCharges: function (data) { this.charges = data }
-}
+};
+
 const fsPromises = require('fs').promises;
 const path = require('path');
 
-
-const getChargeByNif = (req, res) => {
-    const reference_fiscal = req.params.nif;
-    let client = {};
-    data.clients.map(cli => {
-        data.charges.map(cha => {
-            if(cli.nif === reference_fiscal && cli.nif === cha.reference_fiscal){
-                client = cli;
-            }
-        })
-    })
-    if(!client)
-        return res.json(data.clients);
-    res.json(client);
-    client = {};
-}
-
-
-const priseCharge = async (req, res) => {
+const addnewClient = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
     const client = data.clients.find(cli => cli.nif === reference_fiscal);
     const charge = data.charges.find(cha => cha.reference_fiscal === reference_fiscal);
@@ -48,10 +31,25 @@ const priseCharge = async (req, res) => {
 
     }else   
         return res.json(data.charges);
-        
+}
+
+const getClient = (req, res) => {
+    const reference_fiscal = req.params.nif;
+    let client = {};
+    data.clients.map(cli => {
+        data.charges.map(cha => {
+            if(cli.nif === reference_fiscal && cli.nif === cha.reference_fiscal){
+                client = cli;
+            }
+        })
+    })
+    if(!client)
+        return res.json(data.clients);
+    res.json(client);
+    client = {};
 }
 
 module.exports = {
-    getChargeByNif,
-    priseCharge
+    addnewClient,
+    getClient
 }

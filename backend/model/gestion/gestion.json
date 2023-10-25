@@ -1,1 +1,6 @@
-[]
+[
+    {
+        "reference_fiscal": "1234234124",
+        "prise_en_charge": true
+    }
+]

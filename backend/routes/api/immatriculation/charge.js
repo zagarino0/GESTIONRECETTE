@@ -3,7 +3,9 @@ const router = express.Router();
 const chargeController = require('../../../controller/immatriculation/chargeController');
 
 router.route('/')
-    .post(chargeController.priseCharge);
+    .post(chargeController.addnewClient);
 
 router.route('/:nif')
-    .get(chargeController.getChargeByNif);
+    .get(chargeController.getClient);
+
+module.exports = router;
