@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Layout } from '../Layout'
-import Majunga from "../../../assets/majunga.jpg"
+import Majunga from "../../../assets/majunga03.jpg"
 import { Button } from '../../../components/button/button'
 import Modal from '../../../components/modals/Modal';
 import { Navbar } from '../../../components/navbar/Navbar';

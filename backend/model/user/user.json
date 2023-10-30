@@ -1,1 +1,27 @@
-[{"id":1,"nom":"TOTO","prenom":"Tata","fonction":"operateur de saisie","compte":"administrateur","code":"0005","mot_de_passe":"$2b$10$hFGyZvBrQjliG9ghfcWHBO0NaCEwKV8qrymBlMIdKs/4GDtUwnpmS"},{"id":5,"nom":"MICHAELSON","prenom":"Elijah","fonction":"Directeur de gestion","code":"1111","mot_de_passe":"$2b$10$3i7.ef9QX4/8FMFSa.ySwerK2aK6/w4acv8ILp9pp.992OfXwys7C"},{"id":6,"nom":"SALVATORE","prenom":"Stephane","fonction":"Directeur de gestion","code":"3215","mot_de_passe":"$2b$10$VMGXjQk2qFhHLMJSJfxuROXkqg/.oNLAUFy3EKy6pH4selaYVNPzO"}]
+[
+    {
+        "id": 1,
+        "nom": "TOTO",
+        "prenom": "Tata",
+        "fonction": "operateur de saisie",
+        "compte": "administrateur",
+        "code": "0005",
+        "mot_de_passe": "$2b$10$hFGyZvBrQjliG9ghfcWHBO0NaCEwKV8qrymBlMIdKs/4GDtUwnpmS"
+    },
+    {
+        "id": 5,
+        "nom": "MICHAELSON",
+        "prenom": "Elijah",
+        "fonction": "Directeur de gestion",
+        "code": "1111",
+        "mot_de_passe": "$2b$10$3i7.ef9QX4/8FMFSa.ySwerK2aK6/w4acv8ILp9pp.992OfXwys7C"
+    },
+    {
+        "id": 6,
+        "nom": "SALVATORE",
+        "prenom": "Stephane",
+        "fonction": "Directeur de gestion",
+        "code": "3215",
+        "mot_de_passe": "$2b$10$VMGXjQk2qFhHLMJSJfxuROXkqg/.oNLAUFy3EKy6pH4selaYVNPzO"
+    }
+]

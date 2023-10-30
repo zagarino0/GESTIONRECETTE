@@ -6,13 +6,11 @@ import LoginPage from "./pages/login/login";
 import MenuPage from "./pages/menu/MenuPage";
 import Sigrl from "./pages/SIGRL/Sigrl";
 import Immatriculation from "./pages/immatriculation/Immatriculation";
-import Recette from "./pages/recette/Recette";
-import SaisieDeclaration from "./pages/recette/SaisieDeclaration";
-import SituationRecette from "./pages/recette/SituationRecette";
-import ConsultationRecette from "./pages/recette/Consultation";
-import NIFRecette from "./pages/recette/NIF";
-import ResteRecovré from "./pages/recette/ResteRecovré";
-import UtilitairesRecette from "./pages/recette/Utilitaires";
+import SituationRecette from "./pages/recette/SituationRecettte/SituationRecette";
+import ConsultationRecette from "./pages/recette/Consulation/Consultation";
+import NIFRecette from "./pages/recette/RF/NIF";
+import ResteRecovré from "./pages/recette/ResteRecouvre/ResteRecovré";
+import UtilitairesRecette from "./pages/recette/Utilitaires/Utilitaires";
 import Gestion from "./pages/gestion/Gestion";
 import ConsultationRF from "./pages/immatriculation/consultatioRF/ConsultationRF";
 import Utilitaire from "./pages/immatriculation/utilitaire/Utilitaire";
@@ -38,7 +36,6 @@ import DateEcheancePeriode from "./pages/paramètres/Parametres/PeriodiciteImpot
 import DateEcheanceTypeImpot from "./pages/paramètres/Parametres/PeriodiciteImpot/DateEcheanceTypeImpot";
 import PeriodiciteImpotParametre from "./pages/paramètres/Parametres/PeriodiciteImpot/PeriodiciteImpot";
 import MiseAJourRF from "./pages/immatriculation/Immatriculation/MiseAJourRF";
-import ReleveRF from "./pages/immatriculation/Immatriculation/ReleveRF";
 import ConsultationGestion from "./pages/gestion/Consultation/Consultation";
 import SituationNatureImpot from "./pages/gestion/SituationEntreprise/SituationNatureImpot";
 import ImpressionImpot from "./pages/gestion/SituationEntreprise/ImpressionImpot";
@@ -59,6 +56,14 @@ import TVA from "./pages/gestion/Defaillants/TVA";
 import AutreImpot from "./pages/gestion/Defaillants/AutreImpot";
 import IRISDA from "./pages/gestion/Defaillants/IRISDA";
 import IRSAIRCM from "./pages/gestion/Defaillants/IRSAIRCM";
+import SaisieDeclaration from "./pages/recette/SaisieDeclaration/SaisieDeclaration";
+import PriseEnCharge from "./pages/immatriculation/PriseEnCharge/PriseEnCharge";
+import PriseCharge from "./pages/immatriculation/PriseEnCharge/PriseCharge";
+import SituationGeographiqueIm from "./pages/immatriculation/PriseEnCharge/SituationGeographique";
+import RegimeFiscalIm from "./pages/immatriculation/PriseEnCharge/RegimeFiscal";
+import ConsultationImmatriculation from "./pages/immatriculation/consultatioRF/consultationImmatriculation";
+import LoginRecette from "./pages/recette/LoginRecette";
+import EnregistrementTitre from "./pages/recette/SaisieDeclaration/EnregistrementTitre";
 
 function App() {
   
@@ -72,8 +77,9 @@ function App() {
      <Route path="/menu" element={<MenuPage/>}></Route> 
      <Route path="/SIGRL" element={<Sigrl/>}></Route> 
     
-     <Route path="/recette" element={<Recette/>}></Route>
+    
      <Route path="/saisiDeclarationRecette" element={<SaisieDeclaration/>}></Route>
+     <Route path="/EnregistrementTitre" element={<EnregistrementTitre/>}></Route>
      <Route path="/situationRecette" element={<SituationRecette/>}></Route>
      <Route path="/consultationRecette" element={<ConsultationRecette/>}></Route>
      <Route path="/NIFRecette" element={<NIFRecette/>}></Route>
@@ -107,7 +113,11 @@ function App() {
      <Route path="/consultatioRF" element={<ConsultationRF/>}></Route>
      <Route path="/utilitaire" element={<Utilitaire/>}></Route>
      <Route path="/MiseAJourRF" element={<MiseAJourRF/>}></Route>
-     <Route path="/ReleveRF" element={<ReleveRF/>}></Route>
+     <Route path="/PriseEnCharge" element={<PriseEnCharge/>}></Route>
+     <Route path="/PriseChargeIm" element={<PriseCharge/>}></Route>
+     <Route path="/SituationGeographiqueIm" element={<SituationGeographiqueIm/>}></Route>
+     <Route path="/RegimeFiscalIm" element={<RegimeFiscalIm/>}></Route>
+     <Route path="/ConsultationImmatriculation" element={<ConsultationImmatriculation/>}></Route>
 
 
 
@@ -137,6 +147,7 @@ function App() {
      <Route path="/operateurTelephonique" element={<OperateurTelephonique/>}></Route>
       
       
+     <Route path="/LoginRecette" element={<LoginRecette/>}></Route>
      
      
      

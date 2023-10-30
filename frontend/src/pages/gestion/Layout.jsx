@@ -13,8 +13,7 @@ export const Layout  = ( props ) => {
     const links = [
         { title: "Situation d'une Entreprise", link: "/gestion" },
         { title: "Consultation ", link: "/ConsultationGestion" },
-        { title: "RF", link: "/consultatioRF" },
-        { title: "Défailants", link: "/Defaillant" },
+        { title: "RF Défailants", link: "/Defaillant" },
        
       ];
 

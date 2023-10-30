@@ -1,21 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { states } from '../../states/states';
-import { useSnapshot } from 'valtio';
 import BackButton from '../../components/button/BackButton';
 
 
 function Layout(props) {
-    const { selectedLink } = useSnapshot(states);
+   
 
   //Links navbar
   const links = [
-      { title: "Saisie des déclarations", link: "/immatriculation" },
-      { title: "Situation de Recette et pièces comptables ", link: "/consultatioRF" },
-      { title: "NIF", link: "/utilitaire" },
-      { title: "Utilitaires", link: "/utilitaire" },
-      { title: "Consultation", link: "/utilitaire" },
-      { title: "Reste à recovré", link: "/utilitaire" },
+      { title: "Saisie des déclarations", link: "/saisiDeclarationRecette" },
+      { title: "Situation de Recette et pièces comptables ", link: "/situationRecette" },
+      { title: "RF", link: "/NIFRecette" },
+      { title: "Utilitaires", link: "/utilitaireRecette" },
+      { title: "Consultation", link: "/consultationRecette" },
+      { title: "Reste à recovré", link: "/ResteRecovreRecette" },
      
     ];
   return (
@@ -45,10 +43,9 @@ function Layout(props) {
            text-bold 
           bg-[#262222]
           m-2
-           ${
-             selectedLink === link.title.toLowerCase() 
-             && " scale-110  bg-[#E96012] shadow-xl transition duration-300 ease-in-out"
-           } `}
+         cursor-pointer
+          hover:scale-110  hover:bg-[#E96012] hover:shadow-xl transition duration-300 ease-in-out"
+           `}
          >
            <Link to={link.link}>{link.title}</Link>
          </li>

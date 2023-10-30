@@ -13,11 +13,7 @@ export const LinkButton = ( props) => {
       text-white 
       text-bold 
       hover:bg-[#E96012] 
-      hover:scale-110
-      hover:shadow-xl 
-      transition 
-      duration-300 
-      ease-in-out
+    
       ${props.className}
       `}>
         {props.text}

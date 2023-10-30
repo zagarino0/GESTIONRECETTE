@@ -1,21 +1,18 @@
-import * as React from "react";
-import { states } from "../../states/states";
-import { Navbar } from "../../components/navbar/Navbar";
-import { Link } from "react-router-dom";
+import React from "react";
 import { useSnapshot } from "valtio";
-import BackButton from "../../components/button/BackButton";
-
-
+import { states } from "../../../states/states";
+import { Link } from "react-router-dom";
+import BackButton from "../../../components/button/BackButton";
+import { Navbar } from "../../../components/navbar/Navbar";
 export const Layout  = ( props ) => {
     const { selectedLink } = useSnapshot(states);
 
     //Links navbar
     const links = [
       
-        { title: "Prise en charge", link: "/PriseEnCharge" },
-        { title: "Mise à jour ", link: "/immatriculation" },
-        { title: "Consultation RF", link: "/consultatioRF" },
-        { title: "Utilitaires", link: "/utilitaire" },
+        { title: "Prise en charge", link: "/PriseChargeIm" },
+        { title: "Regime fiscal", link: "/RegimeFiscalIm" },
+        { title: "Situation géographique", link: "/SituationGeographiqueIm" },
        
       ];
 
@@ -49,7 +46,7 @@ export const Layout  = ( props ) => {
           </li>
         ))}
       </ul>
-<BackButton to="/SIGRL"></BackButton>
+<BackButton to="/PriseEnCharge"></BackButton>
         
     </nav>
     )
