@@ -8,34 +8,66 @@ import axios from 'axios';
 function PriseCharge() {
     const [searchTerm, setSearchTerm] = useState('');
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [ setIsDataVerified] = useState(false);
 
   useEffect(() => {
     if (searchTerm) {
-     // console.log(searchTerm)
+      setIsLoading(true);
       // Effectuer une requête API en utilisant Axios
       axios.get(`http://localhost:3500/client/${searchTerm}`)
         .then((response) => {
           setData(response.data);
-         
+        setIsLoading(false);
+       
         })
         .catch((error) => {
           console.error(error);
         });
     }
   }, [searchTerm]);
+
+  const handlePriseEnCharge = () => {
+    // Perform data verification logic here
+    if (searchTerm) {
+      // Data is verified, set isDataVerified to true
+      setIsDataVerified(true);
+  
+      // Update the data object with the prise_charge property
+      const updatedData = { ...data, prise_charge: true };
+      setData(updatedData);
+  
+      // Send the updated data to the backend
+      axios.post('http://localhost:3500/prisecharge', updatedData)
+        .then((response) => {
+          // Handle the response from the backend, if needed
+          console.log('Verification data sent successfully');
+        })
+        .catch((error) => {
+          console.error('Error sending verification data:', error);
+        });
+    }
+  };
+  
+  
     const contentChildren =(
         <div>
+          {isLoading ? (
+ <div className='flex justify-center mt-4'>
+ <Label className="text-3xl" text="Aucun resultat"></Label>
+ </div>
+) : (
                 <div className='flex flex-col pr-4 pl-4 py-2'>
                      
            <div >        
            <div className=" flex flex-row">
 <Label text="RF" className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
-{data.length > 0 ? data[0].nif : 'Aucune donnée'}
+{data.nif }
 </p>
 <Label text="N° Statistique" className="ml-8 text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.numero_statistique }
 </p>
            </div>
 <div className='flex justify-between '>
@@ -43,40 +75,40 @@ function PriseCharge() {
 <div className="flex justify-between mt-1">
 <Label text="Raison social" className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
-{data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+{ data.raison_sociale}
 </p>
 </div>
 <div className="flex justify-between mt-1">
 <Label text="Nom Commercial" className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
-  {data.length > 0 ? data[0].nom_commercial : 'Aucune donnée'}
+  { data.nom_commerciale }
 </p>
 </div>
 <div className="flex justify-between mt-1">
 <Label text="Adresse" className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.adresse }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
 <Label text="Activité principal"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.activite }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
 <Label text="Forme juridique" className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.forme_juridique}
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="N° téléphone"className="text-[15px]"></Label>
+<Label text="Type"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.type }
 </p>
 </div>
 </div>
@@ -85,21 +117,21 @@ function PriseCharge() {
 <div className="flex justify-between mt-2">
 <Label text="Regime Fiscal"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.regime_fiscal }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
 <Label text="Début exercice"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.date_debut_exe }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
 <Label text="Fin exercice"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.date_cloture_exe}
 </p>
 </div>
 
@@ -113,7 +145,7 @@ function PriseCharge() {
 <div className="flex justify-between mt-2">
 <Label text="N° agrément"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.reference_agrement }
 </p>
 </div>
 </div>
@@ -210,7 +242,14 @@ function PriseCharge() {
 </div>
  
     </div>
-<div className='mt-2 flex justify-between'>
+
+      
+        </div>
+        
+        </div>
+       
+)}
+<div className='m-2 flex justify-between'>
 <div className='flex flex-row'>
 <Label text="RF"></Label>
 <Input type="text" placeholder="RF" className="ml-4 h-10"
@@ -218,22 +257,10 @@ value={searchTerm}
 onChange={(e) => setSearchTerm(e.target.value)}
 ></Input>
 </div>
-<div className='flex flex-row'>
-<Label text="N° Statistique"></Label>
-<Input type="text" placeholder="N° Statistique" className="ml-4 h-10"></Input>
-</div>
-<div className='flex flex-row'>
-<Label text="N° CIN"></Label>
-<Input type="text" placeholder="N° CIN" className="ml-4 h-10"></Input>
-</div>
-<Button children="Prise en Charge"></Button>
-</div>
-      
-        </div>
-        
-        </div>
-       
 
+<Button children="Prise en Charge" onClick={handlePriseEnCharge}></Button>
+
+</div>
      </div>
         )
       return (
