@@ -4,12 +4,13 @@ import Label from '../../../components/title/label'
 import Input from '../../../components/input/Input'
 import { Button } from '../../../components/button/button'
 import axios from 'axios';
+import Checkbox from '../../../components/button/Checkbox'
 
 function PriseCharge() {
     const [searchTerm, setSearchTerm] = useState('');
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [ setIsDataVerified] = useState(false);
+  
 
   useEffect(() => {
     if (searchTerm) {
@@ -31,10 +32,10 @@ function PriseCharge() {
     // Perform data verification logic here
     if (searchTerm) {
       // Data is verified, set isDataVerified to true
-      setIsDataVerified(true);
+      
   
       // Update the data object with the prise_charge property
-      const updatedData = { ...data, prise_charge: true };
+      const updatedData = { reference_fiscal : searchTerm , prise_charge: true };
       setData(updatedData);
   
       // Send the updated data to the backend
@@ -42,6 +43,7 @@ function PriseCharge() {
         .then((response) => {
           // Handle the response from the backend, if needed
           console.log('Verification data sent successfully');
+          window.location.href = `/RegimeFiscalIm?reference_fiscal=${searchTerm}`;
         })
         .catch((error) => {
           console.error('Error sending verification data:', error);
@@ -111,6 +113,18 @@ function PriseCharge() {
   { data.type }
 </p>
 </div>
+<div className="flex justify-between mt-2">
+<Label text="Précision activitée"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px]'>
+  { data.precision_activite }
+</p>
+</div>
+<div className="flex justify-between mt-2">
+<Label text="Capital"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px]'>
+  { data.capital }
+</p>
+</div>
 </div>
 <div className='flex flex-col w-[500px]'>
 
@@ -148,95 +162,125 @@ function PriseCharge() {
   {data.reference_agrement }
 </p>
 </div>
+<div className="flex justify-between mt-2">
+<Label text="Date agrementt"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px]'>
+  {data.date_agrement }
+</p>
+</div>
+<div className="flex justify-between mt-2">
+<Label text="Periode grace"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px]'>
+  {data.periode_grace }
+</p>
+</div>
+<div className="flex justify-between mt-2">
+<Label text="Date creation"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px]'>
+  {data.date_creation }
+</p>
+</div>
 </div>
     </div>
-    <Label text="Actionnaires" className="text-2xl font-bold mt-2"></Label>
+   
     <div className='flex justify-between mt-2'>
 <div className="w-[500px] flex flex-col">
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.1"className="text-[15px]"></Label>
+<Label text="Titre"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.titre }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse"className="text-[15px]"></Label>
+<Label text="Date accord"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.date_accord }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.2"className="text-[15px]"></Label>
+<Label text="Date acte"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.date_acte }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse"className="text-[15px]"></Label>
+<Label text="Type demande"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.type_demande }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.3"className="text-[15px]"></Label>
+<Label text="Proprietaire"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.proprietaire }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse"className="text-[15px]"></Label>
+<Label text="Nombre salarie"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.nombre_salarie }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.4"className="text-[15px]"></Label>
+<Label text="Rib"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.rib }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse"className="text-[15px]"></Label>
+<Label text="Resident"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.resident }
 </p>
 </div>
 </div>
 <div className="w-[500px] flex flex-col">
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.5"className="text-[15px]"></Label>
+<Label text="Delivree le"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.delivree_le }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse"className="text-[15px]"></Label>
+<Label text="Exportateur"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+<Checkbox value={data.exportateur}></Checkbox>
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.6"className="text-[15px]"></Label>
+<Label text="Importateur"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  <Checkbox value={data.importateur}></Checkbox>
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse" className="text-[15px]"></Label>
+<Label text="Date registre" className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.date_registre }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Nom acti.7"className="text-[15px]"></Label>
+<Label text="Registre commerce"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px]'>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  {data.registre_commerce }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Adresse"className="text-[15px]"></Label>
+<Label text="Precision activite"className="text-[15px]"></Label>
 <p className='text-xl ml-2 text-white text-[15px] '>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
+  { data.precision_activite }
+</p>
+</div>
+<div className="flex justify-between mt-2">
+<Label text="Date demande modif"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px] '>
+  { data.date_demande_modif }
+</p>
+</div>
+<div className="flex justify-between mt-2">
+<Label text="Date attribution RF"className="text-[15px]"></Label>
+<p className='text-xl ml-2 text-white text-[15px] '>
+  { data.date_attribution_nif }
 </p>
 </div>
 </div>

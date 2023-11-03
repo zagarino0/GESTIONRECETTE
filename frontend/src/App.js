@@ -64,6 +64,8 @@ import RegimeFiscalIm from "./pages/immatriculation/PriseEnCharge/RegimeFiscal";
 import ConsultationImmatriculation from "./pages/immatriculation/consultatioRF/consultationImmatriculation";
 import LoginRecette from "./pages/recette/LoginRecette";
 import EnregistrementTitre from "./pages/recette/SaisieDeclaration/EnregistrementTitre";
+import LoginParametre from "./pages/paramètres/LoginParametre";
+import LoginImmatriculation from "./pages/immatriculation/LoginImmatriculation";
 
 function App() {
   
@@ -145,9 +147,11 @@ function App() {
      <Route path="/obligationFiscal" element={<ObligationFiscal/>}></Route>
      <Route path="/typeProceVerbaux" element={<TypeProceVerbaux/>}></Route>
      <Route path="/operateurTelephonique" element={<OperateurTelephonique/>}></Route>
-      
-      
+     
+     
      <Route path="/LoginRecette" element={<LoginRecette/>}></Route>
+     <Route path="/LoginParametre" element={<LoginParametre/>}></Route>
+     <Route path="/LoginImmatriculation" element={<LoginImmatriculation/>}></Route>
      
      
      

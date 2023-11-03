@@ -4,8 +4,12 @@ import { Button } from '../../../components/button/button'
 import Checkbox from '../../../components/button/Checkbox'
 import Label from '../../../components/title/label'
 import Input from '../../../components/input/Input'
-
+import { useLocation } from 'react-router-dom';
 function RegimeFiscalIm() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const referenceFiscal = searchParams.get('reference_fiscal');
+  console.log(referenceFiscal)
   const BodyContent = (
     <div className='m-4'>
   <div className='bg-black p-4 flex flex-row'>

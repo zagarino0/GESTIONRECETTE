@@ -10,10 +10,10 @@ function Sigrl() {
 
     //Links navbar
     const links = [
-        { title: "Paramètres", link: "/miseAJourParametre" },
+        { title: "Paramètres", link: "/LoginParametre" },
         { title: "Recette", link: "/LoginRecette" },
         { title: "Gestion", link: "/Gestion" },
-        { title: "Immatriculation", link: "/PriseEnCharge" },
+        { title: "Immatriculation", link: "/LoginImmatriculation" },
         { title: "Statistique", link: "/Statistique" },
       ];
   
