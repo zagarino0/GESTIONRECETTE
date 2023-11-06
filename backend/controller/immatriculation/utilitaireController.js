@@ -6,14 +6,17 @@ const data = {
 const getClientDate = (req, res) => {
     const date_debut_exe = req.body.date_debut_exe_init;
     const date_fin_exe = req.body.date_fin_exe_fin;
-    
-    const client = data.charges.map((charge) => {
-        data.clients.filter((dat) => {
-            return dat.date_debut_exe > date_debut_exe && dat.date_debut_exe < date_fin_exe && dat.nif === charge.reference_fiscal;
+    let client = [];
+
+    data.clients.map(cli => {
+        data.charges.map(charge => {
+            if(cli.nif === charge.reference_fiscal)
+                client.push({...cli, ...charge});
         })
     })
 
     res.json(client);
+    client = [];
 }
 
 module.exports = {
