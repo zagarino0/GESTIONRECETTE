@@ -8,4 +8,11 @@ router.route('/')
 router.route('/:nif')
     .get(chargeController.getClient);
 
+router.route('/physique/:cin')
+    .get(chargeController.getClientByCin);
+
+router.route('/morale/:statistique')
+    .get(chargeController.getClientByStatistique);
+
+
 module.exports = router;

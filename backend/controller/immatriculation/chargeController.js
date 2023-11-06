@@ -49,7 +49,25 @@ const getClient = (req, res) => {
     client = {};
 }
 
+const getClientByStatistique = () => {
+    const numero_statistique = req.params.statistique;
+    const client = data.clients.find(cli => cli.numero_statistique === numero_statistique);
+    if(!client)
+        return res.json({"message": "not found"});
+    res.json(client);
+}
+
+const getClientByCin = () => {
+    const cin = req.params.cin;
+    const client = data.clients.find(cli => cli.cin === cin);
+    if(!client)
+        return res.json({"message": "not found"});
+    res.json(client);
+}
+
 module.exports = {
     addnewClient,
+    getClientByStatistique,
+    getClientByCin,
     getClient
 }
