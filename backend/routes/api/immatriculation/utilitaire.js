@@ -4,3 +4,5 @@ const utilitaireController = require('../../../controller/immatriculation/utilit
 
 router.route('/utilitaire')
     .post(utilitaireController.getClientDate);
+
+module.exports = router;
