@@ -6,6 +6,7 @@ import Input from '../../../components/input/Input'
 import Label from '../../../components/title/label'
 import ReactSelect from 'react-select';
 import Checkbox from '../../../components/button/Checkbox'
+import Select from 'react-select'
 function EnregistrementTitre() {
   const NavbarContent = (
     <div className='flex justify-between'>
@@ -102,10 +103,47 @@ function EnregistrementTitre() {
     <Input type="text" placeholder="Montant à Payer..." className="ml-2 h-10"></Input>
      </div>
      </div>
-       <div className="p-2 bg-black flex justify-center m ">
+       <div className="p-2 bg-black flex justify-center  ">
    <Label text="Mode de Règlement" className="text-center font-semibold"></Label>
      </div>
-     
+    <div className='flex justify-between m-4'>
+    <div className='flex flex-col '>
+      <div className='flex justify-between w-[500px]'>
+      <Checkbox label="Espèce"></Checkbox>
+      <Checkbox label="Chèque"></Checkbox>
+      <Checkbox label="Virement"></Checkbox>
+      <Checkbox label="Dépot"></Checkbox>
+      </div>
+      <div className='flex flex-col mt-2'>
+      <Checkbox label="Autre" ></Checkbox>
+      <Checkbox label="Tresor" className="mt-2"></Checkbox>
+      <Checkbox label="Mobile Banky" className="mt-2"></Checkbox>
+      </div>
+     </div>
+    
+    <div className='w-[500px] flex flex-col'>
+    <div className='flex justify-between'>
+      <Label text="Numéro chèque"></Label>
+      <Input type="text" placeholder="Numéro chèque..." className="ml-2 h-10"></Input>
+    </div>
+    <div className='flex justify-between mt-2'>
+      <Label text="Code banque"></Label>
+      <Select></Select>
+    </div>
+    <div className='flex justify-between mt-2'>
+      <Label text="Nom commercial de la banque"></Label>
+      <Input type="text" placeholder="Nom commercial de la banque..." className="ml-2 h-10"></Input>
+    </div>
+    </div>
+    </div>
+    <div className='m-4 flex justify-between'>
+     <Button type="submit" children="Nouveau"></Button>
+     <Button type="submit" children="Enregistrer"></Button>
+     <Button type="submit" children="Mise à jour"></Button>
+     <Button type="submit" children="Valider Modification"></Button>
+     <Button type="submit" children="Visualisation"></Button>
+     <Button type="submit" children="Quitter"></Button>
+    </div>
     </div>
   )
 }

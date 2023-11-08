@@ -147,7 +147,7 @@ const DataHandlerModifie = (e) => {
   const [isModalOpenModifie, setIsModalOpenModifie] = useState(false);
   
   const [selectedEditData, setSelectedEditData] = useState(null);
-  const [selectedData, setSelectedData] = useState(null); 
+  const [ setSelectedData] = useState(null); 
   const handleDelete = (id) => {
     try {
       // Make the DELETE request to your backend API to delete the data by ID

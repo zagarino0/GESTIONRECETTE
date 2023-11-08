@@ -21,7 +21,8 @@
     "redux": "^4.2.1",
     "valtio": "^1.10.5",
     "wait-on": "^6.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "main": "main.js",
   "scripts": {

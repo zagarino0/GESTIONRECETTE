@@ -14,7 +14,7 @@ function OperateurTelephonique() {
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
-  const [selectedData, setSelectedData] = useState(null); 
+  const [setSelectedData] = useState(null); 
   const [numero , setNumero] = useState('');
   const [operateur , setOperateur] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
