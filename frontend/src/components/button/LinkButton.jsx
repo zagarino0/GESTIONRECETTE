@@ -7,7 +7,8 @@ export const LinkButton = ( props) => {
       className={` 
       py-3
       px-6 
-      
+      rounded-md
+      font-semibold
       bg-[#B85015]  
       text-center
       text-white 

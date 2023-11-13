@@ -11,7 +11,7 @@ function SaisieDeclaration() {
      </div>
     <div className='flex flex-col ml-28 '>
      <LinkButton to="/EnregistrementTitre" text="Enregistrement des déclarations" className="mt-4" ></LinkButton>
-     <LinkButton to="/codeBanque" text="Délivrance Duplicata Récépissé"  className="mt-2"></LinkButton>
+     <LinkButton to="/DelivranceDuplicataRecepisse" text="Délivrance Duplicata Récépissé"  className="mt-2"></LinkButton>
      <LinkButton to="/codeFormeJuridique" text="Visualisation de la Situation Antérieure"  className="mt-2"></LinkButton>
      </div> 
      </div>   

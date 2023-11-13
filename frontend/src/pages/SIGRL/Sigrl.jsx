@@ -1,10 +1,8 @@
 import React from 'react'
 import { states } from '../../states/states';
 import { useSnapshot } from 'valtio';
-import { Navbar } from '../../components/navbar/Navbar';
 import { Link } from 'react-router-dom';
-import Hotel from "../../assets/baobab-17.jpg"
-import BackButton from '../../components/button/BackButton';
+import Hotel from "../../assets/baobab-17.jpg";
 function Sigrl() {
     const { selectedLink } = useSnapshot(states);
 
@@ -15,28 +13,20 @@ function Sigrl() {
         { title: "Gestion", link: "/Gestion" },
         { title: "Immatriculation", link: "/LoginImmatriculation" },
         { title: "Statistique", link: "/Statistique" },
+        { title: "Ordre de Virrement", link: "/Statistique" },
       ];
   
-      const content = (
-       <div className='flex justify-between'>
-           <div className='text-white'>
-  Commune Urbairne Mahajanga 
+        return (
+      <div className=' h-screen w-screen flex items-center justify-center  fixed inset-0 bg-neutral-700  transition-opacity'>
+          
+    <div >
+   
+    <div className='flex flex-row bg-[#212122] rounded-lg '>
+       <div className='relative overflow-hidden bg-no-repeat bg-cover  '>
+              <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[600px] rounded-x-lg   hover:scale-110 transition duration-300 ease-in-out bg-cover' />
           </div>
-          <div>
-<BackButton to="/menu"></BackButton>
-          </div>
-       </div>
-      )
-    return (
-      <div className='bg-[#212122] h-screen w-screen'>
-          <Navbar content={content}></Navbar>
-    <div className='flex justify-center mt-8'>
-    <div className='flex flex-row'>
-       <div>
-              <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[540px] bg-cover' />
-          </div>
-        <div className='fle flex-col ml-12'>
-            <div className='w-96 mt-16 text-white text-3xl '>
+        <div className='fle flex-col  pl-8 pr-8'>
+            <div className='w-96  text-white text-3xl mt-8'>
             Système Informatisé de Gestion des Ressources Locals
             </div>
         <div className=' '>
@@ -53,13 +43,9 @@ function Sigrl() {
               text-center
               bg-[#B85015]  
               text-white 
-              text-bold 
-              hover:scale-110
-              hover:shadow-xl 
-              transition 
-              duration-300 
-              ease-in-out
-              
+              font-semibold 
+              rounded-md
+              cursor-pointer
               ${
                 selectedLink === link.title.toLowerCase() 
                 
@@ -71,10 +57,17 @@ function Sigrl() {
           }
         
           </div>
+          <div>
+          <div className='flex flex-row mt-2 '>
+         <p className='text-white text-center '>Retourner au page</p>
+          <Link to="/menu" className='ml-2 text-red-500 hover:text-blue-500'>Acceuil</Link>
+        </div>
+          </div>
         </div>
        </div>
     </div>
-      </div>
+    </div>
+    
 )
 }
 

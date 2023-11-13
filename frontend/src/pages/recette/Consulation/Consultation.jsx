@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { LinkButton } from '../../../components/button/LinkButton'
 import Layout from '../Layout'
+import TableauRecapitulatifRecette from './TableauRecapitulatifRecette'
+import { Button } from '../../../components/button/button'
 
 function ConsultationRecette() {
+  const [isModal, setIsModal] = useState(false);
   const contentChildren=(
     <div className='flex justify-center items-center '>
      <div className='flex flex-col'>
@@ -10,8 +13,8 @@ function ConsultationRecette() {
        Consultations
      </div>
     <div className='flex flex-col ml-28 '>
-     <LinkButton to="/codeActivite" text="Consultation détail recette" className="mt-4" ></LinkButton>
-     <LinkButton to="/codeBanque" text="Tableau récapitulatif de recette"  className="mt-2"></LinkButton>
+     <LinkButton to="/ConsultationDetailRecette" text="Consultation détail recette" className="mt-4" ></LinkButton>
+     <Button children="Tableau récapitulatif de recette"  className="mt-2" onClick={()=>setIsModal(true)}></Button>
      <LinkButton to="/codeFormeJuridique" text="Consultation du fichier mouvement"  className="mt-2"></LinkButton>
      </div> 
      </div>   
@@ -20,6 +23,7 @@ function ConsultationRecette() {
    return (
      <div className='bg-[#212122] flex flex-row h-screen w-screen'>
  <Layout children={contentChildren}></Layout>
+ <TableauRecapitulatifRecette isOpen={isModal} onClose={()=> setIsModal(false)} quitter={()=> setIsModal(false)} className="w-[500px] h-[420px]"></TableauRecapitulatifRecette>
  </div>
    )
 }

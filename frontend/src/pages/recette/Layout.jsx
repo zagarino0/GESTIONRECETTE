@@ -44,7 +44,7 @@ function Layout(props) {
           bg-[#262222]
           m-2
          cursor-pointer
-          hover:scale-110  hover:bg-[#E96012] hover:shadow-xl transition duration-300 ease-in-out"
+          rounded-md hover:bg-[#E96012] hover:shadow-xl "
            `}
          >
            <Link to={link.link}>{link.title}</Link>

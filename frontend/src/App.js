@@ -66,6 +66,10 @@ import LoginRecette from "./pages/recette/LoginRecette";
 import EnregistrementTitre from "./pages/recette/SaisieDeclaration/EnregistrementTitre";
 import LoginParametre from "./pages/paramètres/LoginParametre";
 import LoginImmatriculation from "./pages/immatriculation/LoginImmatriculation";
+import EtatDetailleEncaissement from "./pages/recette/SituationRecettte/EtatDetailleEncaissement";
+import DelivranceDuplicataRecepisse from "./pages/recette/SaisieDeclaration/DelivranceDuplicataRecepisse";
+import SituationRecetteImpression from "./pages/recette/SituationRecettte/SituationRecetteImpression";
+import ConsultationDetailRecette from "./pages/recette/Consulation/ConsultationDetailRecette";
 
 function App() {
   
@@ -87,7 +91,14 @@ function App() {
      <Route path="/NIFRecette" element={<NIFRecette/>}></Route>
      <Route path="/ResteRecovreRecette" element={<ResteRecovré/>}></Route>
      <Route path="/utilitaireRecette" element={<UtilitairesRecette/>}></Route>
+     <Route path="/EtatDetailleEncaissement" element={<EtatDetailleEncaissement/>}></Route>
+     <Route path="/DelivranceDuplicataRecepisse" element={<DelivranceDuplicataRecepisse/>}></Route>
+     <Route path="/SituationRecetteImpression" element={<SituationRecetteImpression/>}></Route>
+     <Route path="/ConsultationDetailRecette" element={<ConsultationDetailRecette/>}></Route>
      
+     
+
+    
      <Route path="/gestion" element={<Gestion/>}></Route>
      <Route path="/SituationNatureImpot" element={<SituationNatureImpot/>}></Route>
      <Route path="/GestionDossier" element={<GestionDossier/>}></Route>
