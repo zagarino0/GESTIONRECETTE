@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const clientController = require('../../../controller/immatriculation/clientController');
-const verifyJWT = require('../../../middleware/verifyJWT');
 
 router.route('/')
     .get(clientController.getAllclients)

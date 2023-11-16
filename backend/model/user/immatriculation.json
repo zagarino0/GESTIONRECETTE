@@ -1,5 +1,22 @@
-<<<<<<< HEAD
-[{"id_user":1,"immatriculation_creation":false,"immatriculation_prise_charge":false},{"id_user":5,"immatriculation_creation":false,"immatriculation_prise_charge":false},{"id_user":6,"immatriculation_creation":true,"immatriculation_prise_charge":true},{"id_user":7,"immatriculation_creation":true,"immatriculation_prise_charge":true}]
-=======
-[{"id_user":5,"immatriculation_creation":false,"immatriculation_prise_charge":false},{"id_user":6,"immatriculation_creation":true,"immatriculation_prise_charge":true},{"id_user":1,"immatriculation_creation":true,"immatriculation_prise_charge":true},{"id_user":7,"immatriculation_creation":false,"immatriculation_prise_charge":true}]
->>>>>>> f9ca36d9d15f8f95228d7a5b89ffbe18a1226a5d
+[
+    {
+        "id_user": 1,
+        "immatriculation_creation": false,
+        "immatriculation_prise_charge": false
+    },
+    {
+        "id_user": 5,
+        "immatriculation_creation": false,
+        "immatriculation_prise_charge": false
+    },
+    {
+        "id_user": 6,
+        "immatriculation_creation": true,
+        "immatriculation_prise_charge": true
+    },
+    {
+        "id_user": 7,
+        "immatriculation_creation": true,
+        "immatriculation_prise_charge": true
+    }
+]

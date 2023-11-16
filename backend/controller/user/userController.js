@@ -138,17 +138,31 @@ const handleLogin = async (req, res) => {
             { expiresIn: '1d' }
         );
         const otherUsers = data.users.filter(person => person.code !== foundUser.code);
-        const currentUser = { ...foundUser, refreshToken };
+        let currentUser = { ...foundUser, refreshToken };
         data.setUsers([...otherUsers, currentUser]);
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'user', 'user.json'),
             JSON.stringify(data.users)
         );
+        data.gestions.find(gest => {
+            if(gest.id_user === currentUser.id){
+                currentUser = {...currentUser, ...gest}
+            }
+        })
+
+        data.immatriculations.find(im => {
+            if(im.id_user === currentUser.id)
+                currentUser = {...currentUser, ...im};
+        })
+
+        data.recettes.find(rec => {
+            if(rec.id_user === currentUser.id)
+                currentUser = {...currentUser, ...rec};
+        })
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', sercure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({ "code": code, "username": ( currentUser.nom + " " + currentUser.prenom ),"login": true});
-        res.json({"massage": "loged in"});
+        res.json({ "code": code, "username": ( currentUser.nom + " " + currentUser.prenom ), "login": true, ...currentUser});
     } else {
-        res.status(401).json({"login": false, "message": "Verifier bien votre code d'identification et mot de passe"});
+        res.status(401).json({ "login": false, "message": "Verifier bien votre code d'identification et mot de passe" });
     }
 }
 

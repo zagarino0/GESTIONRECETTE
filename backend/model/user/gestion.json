@@ -1,5 +1,26 @@
-<<<<<<< HEAD
-[{"id_user":1,"gestion_debut_nif":0,"gestion_fin_nif":9999999999999},{"id_user":5,"gestion_debut_nif":"0","gestion_fin_nif":"0"},{"id_user":6,"gestion_debut_nif":"1","gestion_fin_nif":"99999","gestion_modification":true,"gestion_prise_charge":true},{"id_user":7,"gestion_debut_nif":"1","gestion_prise_charge":true,"gestion_modification":true,"gestion_fin_nif":"99999"}]
-=======
-[{"id_user":5,"gestion_debut_nif":"0","gestion_fin_nif":"0"},{"id_user":6,"gestion_debut_nif":"1","gestion_fin_nif":"99999","gestion_modification":true,"gestion_prise_charge":true},{"id_user":1,"gestion_debut_nif":0,"gestion_fin_nif":9999999999999,"gestion_modification":true,"gestion_prise_charge":true},{"id_user":7,"gestion_debut_nif":[],"gestion_prise_charge":false,"gestion_modification":false,"gestion_fin_nif":[]}]
->>>>>>> f9ca36d9d15f8f95228d7a5b89ffbe18a1226a5d
+[
+    {
+        "id_user": 1,
+        "gestion_debut_nif": 0,
+        "gestion_fin_nif": 9999999999999
+    },
+    {
+        "id_user": 5,
+        "gestion_debut_nif": "0",
+        "gestion_fin_nif": "0"
+    },
+    {
+        "id_user": 6,
+        "gestion_debut_nif": "1",
+        "gestion_fin_nif": "99999",
+        "gestion_modification": true,
+        "gestion_prise_charge": true
+    },
+    {
+        "id_user": 7,
+        "gestion_debut_nif": "1",
+        "gestion_prise_charge": true,
+        "gestion_modification": true,
+        "gestion_fin_nif": "99999"
+    }
+]
