@@ -70,6 +70,12 @@ import EtatDetailleEncaissement from "./pages/recette/SituationRecettte/EtatDeta
 import DelivranceDuplicataRecepisse from "./pages/recette/SaisieDeclaration/DelivranceDuplicataRecepisse";
 import SituationRecetteImpression from "./pages/recette/SituationRecettte/SituationRecetteImpression";
 import ConsultationDetailRecette from "./pages/recette/Consulation/ConsultationDetailRecette";
+import LoginOrdreVirment from "./pages/ordreVirement/LoginOrdreVirment";
+import LoginGestion from "./pages/gestion/LoginGestion";
+import VisualisationResteRecouvrer from "./pages/recette/ResteRecouvre/VisualisationResteRecouvrer";
+import MouvementHistorique from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementHistorique";
+import MouvementOperateur from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementOperateur";
+import MouvementRecette from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementRecette";
 
 function App() {
   
@@ -95,6 +101,10 @@ function App() {
      <Route path="/DelivranceDuplicataRecepisse" element={<DelivranceDuplicataRecepisse/>}></Route>
      <Route path="/SituationRecetteImpression" element={<SituationRecetteImpression/>}></Route>
      <Route path="/ConsultationDetailRecette" element={<ConsultationDetailRecette/>}></Route>
+     <Route path="/VisualisationResteRecouvrer" element={<VisualisationResteRecouvrer/>}></Route>
+     <Route path="/MouvementHistorique" element={<MouvementHistorique/>}></Route>
+     <Route path="/MouvementOperateur" element={<MouvementOperateur/>}></Route>
+     <Route path="/MouvementRecette" element={<MouvementRecette/>}></Route>
      
      
 
@@ -163,7 +173,9 @@ function App() {
      <Route path="/LoginRecette" element={<LoginRecette/>}></Route>
      <Route path="/LoginParametre" element={<LoginParametre/>}></Route>
      <Route path="/LoginImmatriculation" element={<LoginImmatriculation/>}></Route>
-     
+     <Route path="/LoginOrdreVirment" element={<LoginOrdreVirment/>}></Route>
+     <Route path="/LoginGestion" element={<LoginGestion/>}></Route>
+      
      
      
       </Routes>

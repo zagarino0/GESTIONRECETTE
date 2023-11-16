@@ -7,8 +7,10 @@ import CompteRendu from './CompteRendu';
 import ReleveCheque from './ReleveCheque';
 import InterpretationRecette from './InterpretationRecette';
 import EtatRecapitulatifRecette from './EtatRecapitulatifRecette';
+import { useLocation } from 'react-router-dom';
 
 function SituationRecette() {
+  const location = useLocation();
   const [isModalSituationRecette, setIsModalSituationRecette] = useState(false);
   const [isModalCompteRendue, setIsModalCompteRendu] = useState(false);
   const [isModalReleveCheque, setIsModalReleveCheque] = useState(false);
@@ -45,7 +47,7 @@ function SituationRecette() {
        ) 
    return (
      <div className='bg-[#212122] flex flex-row h-screen w-screen'>
- <Layout children={contentChildren}></Layout>
+ <Layout children={contentChildren} currentPath={location.pathname} ></Layout>
  <ReleveCheque isOpen={isModalReleveCheque} onClose={()=> setIsModalReleveCheque(false)} quitter={()=> setIsModalReleveCheque(false)} className="w-[500px] h-[300px]"></ReleveCheque>
  <CompteRendu isOpen={isModalCompteRendue} onClose={()=> setIsModalCompteRendu(false)} quitter={()=> setIsModalCompteRendu(false)} className="w-[500px] h-[700px]"></CompteRendu>
  <SituationdeRecette isOpen={isModalSituationRecette} onClose={()=>setIsModalSituationRecette(false)} quitter={()=>setIsModalSituationRecette(false)} className="w-[500px] h-[700px]"></SituationdeRecette>

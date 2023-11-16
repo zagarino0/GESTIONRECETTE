@@ -2,7 +2,9 @@ import React from 'react'
 import { LinkButton } from '../../../components/button/LinkButton'
 import { Layout } from '../Layout'
 import Majunga from "../../../assets/majunga04.jpg"
+import { useLocation } from 'react-router-dom';
 function ConsultationRF() {
+    const location = useLocation(); 
     const contentChildren =(
         <div className='flex p-8 justify-center items-center'>
             <div>
@@ -24,7 +26,7 @@ function ConsultationRF() {
         )
       return (
      <div  className='bg-[#212122] h-screen w-screen'>
-        <Layout children={contentChildren}></Layout>
+        <Layout currentPath={location.pathname} children={contentChildren}></Layout>
      </div>
       )
     }

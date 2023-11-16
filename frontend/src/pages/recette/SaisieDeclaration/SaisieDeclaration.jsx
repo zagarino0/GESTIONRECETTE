@@ -1,8 +1,10 @@
 import React from 'react'
 import { LinkButton } from '../../../components/button/LinkButton'
 import Layout from '../Layout'
+import { useLocation } from 'react-router-dom';
 
 function SaisieDeclaration() {
+  const location = useLocation(); 
   const contentChildren=(
     <div className='flex justify-center items-center '>
      <div className='flex flex-col'>
@@ -19,7 +21,7 @@ function SaisieDeclaration() {
        ) 
    return (
      <div className='bg-[#212122] flex flex-row h-screen w-screen'>
- <Layout children={contentChildren}></Layout>
+ <Layout currentPath={location.pathname} children={contentChildren}></Layout>
  </div>
    )
 }

@@ -10,10 +10,9 @@ function Sigrl() {
     const links = [
         { title: "Paramètres", link: "/LoginParametre" },
         { title: "Recette", link: "/LoginRecette" },
-        { title: "Gestion", link: "/Gestion" },
+        { title: "Gestion", link: "/LoginGestion" },
         { title: "Immatriculation", link: "/LoginImmatriculation" },
-        { title: "Statistique", link: "/Statistique" },
-        { title: "Ordre de Virrement", link: "/Statistique" },
+        { title: "Ordre de Virrement", link: "/LoginOrdreVirment" },
       ];
   
         return (
@@ -58,7 +57,7 @@ function Sigrl() {
         
           </div>
           <div>
-          <div className='flex flex-row mt-2 '>
+          <div className='flex flex-row mt-4 '>
          <p className='text-white text-center '>Retourner au page</p>
           <Link to="/menu" className='ml-2 text-red-500 hover:text-blue-500'>Acceuil</Link>
         </div>

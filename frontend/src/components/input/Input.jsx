@@ -7,7 +7,7 @@ const Input = (props) => {
     <input
       {...props}
 
-      className={`border-2 px-6 py-3  text-black rounded-md  ${props.className} `}
+      className={`shadow appearance-none border h-10 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${props.className} `}
     />
   );
 };

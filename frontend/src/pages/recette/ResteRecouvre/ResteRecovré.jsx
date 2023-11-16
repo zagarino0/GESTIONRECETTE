@@ -1,8 +1,10 @@
 import React from 'react'
 import Layout from '../Layout'
 import { LinkButton } from '../../../components/button/LinkButton'
+import { useLocation } from 'react-router-dom';
 
 function ResteRecovré() {
+  const location = useLocation(); 
   const contentChildren=(
     <div className='flex justify-center items-center '>
      <div className='flex flex-col'>
@@ -11,7 +13,7 @@ function ResteRecovré() {
      </div>
     <div className='flex flex-col ml-28 '>
     
-     <LinkButton to="/codeActivite" text="Visualisation de tous les restes à recouvres" className="mt-4" ></LinkButton>
+     <LinkButton to="/VisualisationResteRecouvrer" text="Visualisation de tous les restes à recouvres" className="mt-4" ></LinkButton>
     
      </div> 
      </div>   
@@ -19,7 +21,7 @@ function ResteRecovré() {
        ) 
    return (
      <div className='bg-[#212122] flex flex-row h-screen w-screen'>
- <Layout children={contentChildren}></Layout>
+ <Layout currentPath={location.pathname} children={contentChildren}></Layout>
  </div>
    )
 }

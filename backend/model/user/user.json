@@ -23,5 +23,14 @@
         "fonction": "Directeur de gestion",
         "code": "3215",
         "mot_de_passe": "$2b$10$VMGXjQk2qFhHLMJSJfxuROXkqg/.oNLAUFy3EKy6pH4selaYVNPzO"
+    },
+    {
+        "id": 7,
+        "nom": "teta",
+        "prenom": "tara",
+        "fonction": "Percepteur",
+        "compte": "",
+        "code": "4000",
+        "mot_de_passe": "$2b$10$6id.Q2sGp3sERyuZZPMh.O0OKr3dRE845vs2vnZgCto4fTHaOqgki"
     }
 ]

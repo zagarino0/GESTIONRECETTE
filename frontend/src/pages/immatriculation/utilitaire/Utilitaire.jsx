@@ -10,8 +10,10 @@ import * as  XLSX from 'xlsx';
 import axios from 'axios'; 
 import Loader from '../../../components/loading/loading';
 import { Title4 } from '../../../components/title/title';
+import { useLocation } from "react-router-dom";
 
 function Utilitaire() {
+  const location = useLocation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [date_debut_exe_init, setDate_debut_exe_init] = useState('');
@@ -108,7 +110,7 @@ Il s'agit d'avoir une copie du fichier Immatriculation dans votre ordinateur
         )
       return (
      <div  className='bg-[#212122] h-screen w-screen'>
-        <Layout children={contentChildren}></Layout>
+        <Layout  currentPath={location.pathname} children={contentChildren}></Layout>
      </div>
       )
     }

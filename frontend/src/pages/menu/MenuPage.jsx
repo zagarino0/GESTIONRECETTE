@@ -1,5 +1,4 @@
 import React from 'react'
-import { Navbar } from '../../components/navbar/Navbar'
 import Hotel from "../../assets/hoteldeville.jpg"
 import { states } from '../../states/states';
 import { useSnapshot } from 'valtio';
@@ -15,62 +14,58 @@ function MenuPage() {
       { title: "Statistique", link: "/Statistique" },
     ];
 
-    const content = (
-<div className='flex justify-between'>
-<div className='text-white'>
-Commune Urbairne Mahajanga 
-        </div>
-        <div className='text-white cursor-pointer'>
-          Déconnexion
-        </div>
-</div>
-    )
-  return (
-    <div className='bg-[#212122] h-screen w-screen'>
-        <Navbar content={content}></Navbar>
-   <div className='flex justify-center mt-8'>
-   <div className='flex flex-row'>
-     <div>
-            <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[540px] bg-cover' />
-        </div>
-        <div className='ml-12 mt-28'>
-        <div className=' w-96 '>
-      {
-        
-        links.map((link) => (
-          <div
-            key={link.title}
-            className={`
-            py-3
-            px-6
-            mt-4
-            text-center
-            hover:bg-[#E96012] 
-            bg-[#B85015]  
-            text-white 
-            text-bold 
-            hover:scale-110
-            hover:shadow-xl 
-            transition 
-            duration-300 
-            ease-in-out
-            
-            ${
-              selectedLink === link.title.toLowerCase() 
-              
-            } `}
-          >
-            <Link to={link.link}>{link.title}</Link>
+  
+    return (
+      <div className=' h-screen w-screen flex items-center justify-center  fixed inset-0 bg-neutral-700  transition-opacity'>
+          
+    <div >
+   
+    <div className='flex flex-row bg-[#212122] rounded-lg '>
+       <div className='relative overflow-hidden bg-no-repeat bg-cover  '>
+              <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[600px] rounded-x-lg   hover:scale-110 transition duration-300 ease-in-out bg-cover' />
           </div>
-        ))
-        }
-      
+        <div className='fle flex-col  pl-8 pr-8'>
+            <div className='w-96  text-white text-3xl mt-28'>
+            Commune Urbairne Mahajanga 
+            </div>
+        <div className='mt-8'>
+        {
+          
+          links.map((link) => (
+            <div
+              key={link.title}
+              className={`
+              py-3
+              px-6
+              mt-4
+              hover:bg-[#E96012] 
+              text-center
+              bg-[#B85015]  
+              text-white 
+              font-semibold 
+              rounded-md
+              cursor-pointer
+              ${
+                selectedLink === link.title.toLowerCase() 
+                
+              } `}
+            >
+              <Link to={link.link}>{link.title}</Link>
+            </div>
+          ))
+          }
+        
+          </div>
+          <div>
+        
+          </div>
         </div>
-        </div>
-     </div>
-   </div>
+       </div>
     </div>
-  )
+    </div>
+    
+)
 }
+
 
 export default MenuPage
