@@ -145,7 +145,7 @@ const handleLogin = async (req, res) => {
             JSON.stringify(data.users)
         );
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', sercure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({ "code": code, "username": ( currentUser.nom + " " + currentUser.prenom ),"login": true, "accessToken": accessToken });
+        res.json({ "code": code, "username": ( currentUser.nom + " " + currentUser.prenom ),"login": true});
         res.json({"massage": "loged in"});
     } else {
         res.status(401).json({"login": false, "message": "Verifier bien votre code d'identification et mot de passe"});
