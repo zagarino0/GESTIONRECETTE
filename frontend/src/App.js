@@ -66,6 +66,16 @@ import LoginRecette from "./pages/recette/LoginRecette";
 import EnregistrementTitre from "./pages/recette/SaisieDeclaration/EnregistrementTitre";
 import LoginParametre from "./pages/paramètres/LoginParametre";
 import LoginImmatriculation from "./pages/immatriculation/LoginImmatriculation";
+import EtatDetailleEncaissement from "./pages/recette/SituationRecettte/EtatDetailleEncaissement";
+import DelivranceDuplicataRecepisse from "./pages/recette/SaisieDeclaration/DelivranceDuplicataRecepisse";
+import SituationRecetteImpression from "./pages/recette/SituationRecettte/SituationRecetteImpression";
+import ConsultationDetailRecette from "./pages/recette/Consulation/ConsultationDetailRecette";
+import LoginOrdreVirment from "./pages/ordreVirement/LoginOrdreVirment";
+import LoginGestion from "./pages/gestion/LoginGestion";
+import VisualisationResteRecouvrer from "./pages/recette/ResteRecouvre/VisualisationResteRecouvrer";
+import MouvementHistorique from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementHistorique";
+import MouvementOperateur from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementOperateur";
+import MouvementRecette from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementRecette";
 
 function App() {
   
@@ -87,7 +97,18 @@ function App() {
      <Route path="/NIFRecette" element={<NIFRecette/>}></Route>
      <Route path="/ResteRecovreRecette" element={<ResteRecovré/>}></Route>
      <Route path="/utilitaireRecette" element={<UtilitairesRecette/>}></Route>
+     <Route path="/EtatDetailleEncaissement" element={<EtatDetailleEncaissement/>}></Route>
+     <Route path="/DelivranceDuplicataRecepisse" element={<DelivranceDuplicataRecepisse/>}></Route>
+     <Route path="/SituationRecetteImpression" element={<SituationRecetteImpression/>}></Route>
+     <Route path="/ConsultationDetailRecette" element={<ConsultationDetailRecette/>}></Route>
+     <Route path="/VisualisationResteRecouvrer" element={<VisualisationResteRecouvrer/>}></Route>
+     <Route path="/MouvementHistorique" element={<MouvementHistorique/>}></Route>
+     <Route path="/MouvementOperateur" element={<MouvementOperateur/>}></Route>
+     <Route path="/MouvementRecette" element={<MouvementRecette/>}></Route>
      
+     
+
+    
      <Route path="/gestion" element={<Gestion/>}></Route>
      <Route path="/SituationNatureImpot" element={<SituationNatureImpot/>}></Route>
      <Route path="/GestionDossier" element={<GestionDossier/>}></Route>
@@ -152,7 +173,9 @@ function App() {
      <Route path="/LoginRecette" element={<LoginRecette/>}></Route>
      <Route path="/LoginParametre" element={<LoginParametre/>}></Route>
      <Route path="/LoginImmatriculation" element={<LoginImmatriculation/>}></Route>
-     
+     <Route path="/LoginOrdreVirment" element={<LoginOrdreVirment/>}></Route>
+     <Route path="/LoginGestion" element={<LoginGestion/>}></Route>
+      
      
      
       </Routes>

@@ -10,18 +10,20 @@ function LoadingPage() {
     
   }, []);
   return (
-    <div className='bg-[#212122] w-screen h-screen flex flex-col '>
+    <div className='bg-[#212122] w-screen h-screen flex items-center justify-center'>
+      <div className=' flex flex-col '>
 
-        <div className='flex justify-between ml-20 mr-20 mt-10'>
-          <img src={LogoMahajanga} alt="mahajanga logo" />
-          <img src={LogoBianco} alt="bianco logo" />
-        </div>
-        <div className='text-white  text-5xl flex items-center justify-center mt-10'>
-          Bienvenu sur SIGRL
-        </div>
-        <div className='mt-10'>
-        <Loader></Loader>
-        </div>
+<div className='flex justify-between w-[1000px] '>
+  <img src={LogoMahajanga} alt="mahajanga logo" />
+  <img src={LogoBianco} alt="bianco logo" />
+</div>
+<div className='text-white  text-5xl flex items-center justify-center mt-10'>
+  Bienvenu sur SIGRL
+</div>
+<div className='mt-10 flex justify-center'>
+<Loader></Loader>
+</div>
+</div>
     </div>
   )
 }

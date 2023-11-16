@@ -16,7 +16,7 @@ function TypeProceVerbaux() {
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [numero , setNumero] = useState('');
   const [designation , setDesignation] = useState('');
-  const [selectedData, setSelectedData] = useState(null); 
+  const [setSelectedData] = useState(null); 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = (id) => {

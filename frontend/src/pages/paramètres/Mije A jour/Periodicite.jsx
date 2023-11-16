@@ -26,8 +26,6 @@ function Periodicite() {
   const [p1 , setP1] = useState('');
   const [p2 , setP2] = useState('');
   const [id_clo , setId_clo] = useState(null);
-  const [searchData , setSearchData] = useState([]);
-  const [selectedData, setSelectedData] = useState(null); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenModifi, setIsModalOpenModifi] = useState(false);
   const [isModalOpenModifiPeriode, setIsModalOpenModifiPeriode] = useState(false);
