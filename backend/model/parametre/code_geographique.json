@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1",
+        "arrondisement": "2",
+        "fokontany": "1",
+        "libelle": "Belobaka"
+    },
+    {
+        "id": "2",
+        "arrondisement": "1",
+        "fokontany": "2",
+        "libelle": "Ambohimandamina"
+    }
+]

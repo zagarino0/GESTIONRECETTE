@@ -2,15 +2,22 @@ const getDataExcel = require('../../utils/ExcelData');
 const setDataExcel = require('../../utils/setDataExcel');
 const updateDataExcel = require('../../utils/updateDataExcel');
 const deleteDataExcel = require('../../utils/deleteDataExcel');
-const path = require('path')
 
+
+const path = require('path')
+const fsPromises = require('fs').promises;
 
 //-------------------------------------------------------------------------------------------
 //                                   code geographique
 //-------------------------------------------------------------------------------------------
 
-const getCodeGeographique = (req, res) => {
+const getCodeGeographique = async (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code geographique'));
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'parametre', 'code_geographique.json'),
+        JSON.stringify(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code geographique'))
+    );
 }
 
 const getCodeGeographiqueById = (req, res) => {
