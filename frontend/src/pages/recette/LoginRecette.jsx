@@ -5,38 +5,42 @@ import { Button } from '../../components/button/button'
 import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/input/PasswordInput'
 import axios from 'axios'
+import { ModalError, ModalErrorServer } from '../immatriculation/Modal'
 
 function LoginRecette() {
   const [code, setCode] = useState('');
-  const [password, setPassword] = useState('');
-  const history = useNavigate();
-
+  const [mdp, setMdp] = useState('');
+  let navigate = useNavigate();
+  const [isModalError, setIsModalError] = useState(false);
+  const [isModalErrorServer, setIsModalErrorServer] = useState(false);
+  
   const handleLogin = () => {
     // Replace with your API endpoint for user authentication
-    const apiUrl = 'your-api-endpoint';
+    const apiUrl = 'http://localhost:3500/user/auth';
 
     // Create a request body with user input
     const requestBody = {
-      code: code,
-      password: password,
+      "code": code,
+      "mdp": mdp,
     };
 
     axios
       .post(apiUrl, requestBody)
       .then((response) => {
         const userData = response.data;
-
+        console.log(userData)
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
         if ( userData.immatriculation_prise_charge === true) {
           // Redirect to the desired page if the condition is met
-          history.push('/PriseEnCharge');
+          navigate('/PriseEnCharge');
         } else {
-          console.log('Invalid credentials or immatriculation_prise_charge is not set to true.');
+          setIsModalError(true);
         }
       })
       .catch((error) => {
         console.error('Login error:', error);
-        console.log('Login failed. Please try again.');
+       
+        setIsModalErrorServer(true);
       });
   };
 
@@ -51,7 +55,7 @@ function LoginRecette() {
           </div>
           <div className='flex flex-col mt-4'>
             <Label text="Mot de passe"></Label>
-            <PasswordInput value={password} onChange={(e)=> setPassword(e.target.value)}></PasswordInput>
+            <PasswordInput value={mdp} onChange={(e)=> setMdp(e.target.value)}></PasswordInput>
           </div>
           <Button type="submit" children="Se connecter" onClick={handleLogin} className="mt-8"></Button>
           <div className='flex flex-row mt-2 '>
@@ -60,6 +64,8 @@ function LoginRecette() {
           </div>
         </div>
       </div>
+      <ModalError isOpen={isModalError} onClose={()=> setIsModalError(false)} quitter={()=> setIsModalError(false)}></ModalError>
+      <ModalErrorServer isOpen={isModalErrorServer} onClose={()=> setIsModalErrorServer(false)} quitter={()=> setIsModalErrorServer(false)}></ModalErrorServer>
     </div>
   );
 }

@@ -1,74 +1,47 @@
 import React from 'react'
-import { IoMdArrowRoundBack } from 'react-icons/io'
 import { Link } from 'react-router-dom'
-import { states } from '../../states/states';
-import { useSnapshot } from 'valtio';
+import { Navbar } from '../../components/navbar/Navbar';
+import BackButton from '../../components/button/BackButton';
 
 
-function Layout(props) {
-    const { selectedLink } = useSnapshot(states);
-
+const Layout = ({ children, currentPath }) => {
+   
   //Links navbar
   const links = [
       { title: "Mise à jour", link: "/miseAJourParametre" }, 
       { title: "Utilitaires", link: "/utilitaireParametre" },
       { title: "Paramètres", link: "/parametreParametre" },
-      { title: "Sauvegarde", link: "/sauvegardeParametre" },
      
     ];
+  // Navbar content
+  const contentNavbar = (
+    <nav className="flex items-center justify-between">
+      <ul className="flex">
+        {links.map((link) => (
+          <li
+            key={link.title}
+            className={`mx-4 
+            text-center
+            py-3
+            px-6 
+            text-white 
+            font-semibold
+            ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
+          `}
+          >
+            <Link to={link.link}>{link.title}</Link>
+          </li>
+        ))}
+      </ul>
+      <BackButton to="/SIGRL"></BackButton>
+    </nav>
+  );
+
   return (
-    <>
-    <div className='flex flex-row'>
-    <div className='w-[500px] bg-black h-screen '>
-    <nav className=" flex flex-col  ">
-<div className='flex justify-between m-4'>
-<div className='text-5xl text-white '>
-                Paramètres
-            </div>
-<div>
-<Link to="/SIGRL" >
-<IoMdArrowRoundBack className='text-white text-2xl '></IoMdArrowRoundBack>
-</Link>
-</div>
-</div>
-    <div>
-    <ul className="flex flex-col">
-       {links.map((link) => (
-         <li
-           key={link.title}
-           className={`
-           mx-4 
-           text-center
-           py-3
-           px-6 
-           text-white 
-           text-bold 
-          bg-[#262222]
-          m-2
-          hover:scale-110  hover:bg-[#E96012] hover:shadow-xl transition duration-300 ease-in-out
-           ${
-             selectedLink === link.title.toLowerCase() 
-            
-           } `}
-         >
-           <Link to={link.link}>{link.title}</Link>
-         </li>
-       ))}
-     </ul>
+    <div className="h-screen w-screen">
+      <Navbar content={contentNavbar} />
+      <main className="flex items-center justify-center ">{children}</main>
     </div>
-
-       
-   </nav>
-   <div>
-    
-   </div>
-    </div>
- <div>
-    {props.children}
- </div>
-    </div>
-    </>
-  )
-}
-
+  );
+};
 export default Layout

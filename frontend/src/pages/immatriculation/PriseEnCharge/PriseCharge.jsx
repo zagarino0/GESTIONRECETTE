@@ -5,8 +5,10 @@ import Input from '../../../components/input/Input'
 import { Button } from '../../../components/button/button'
 import axios from 'axios';
 import Checkbox from '../../../components/button/Checkbox'
+import { useLocation } from 'react-router-dom'
 
 function PriseCharge() {
+  const location = useLocation(); 
     const [searchTerm, setSearchTerm] = useState('');
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +56,18 @@ function PriseCharge() {
   
     const contentChildren =(
         <div>
+          <div className='m-4 flex justify-between'>
+<div className='flex flex-col w-[300px]'>
+<Label text="Référence Fiscal" ></Label>
+<Input type="text" placeholder="Référence Fiscal..." className=" h-10 mt-2"
+value={searchTerm}
+onChange={(e) => setSearchTerm(e.target.value)}
+></Input>
+</div>
+
+<Button children="Prise en Charge" onClick={handlePriseEnCharge} className="h-12 mt-8"></Button>
+
+</div>
           {isLoading ? (
  <div className='flex justify-center mt-4'>
  <Label className="text-3xl" text="Aucun resultat"></Label>
@@ -293,23 +307,12 @@ function PriseCharge() {
         </div>
        
 )}
-<div className='m-2 flex justify-between'>
-<div className='flex flex-row'>
-<Label text="RF"></Label>
-<Input type="text" placeholder="RF" className="ml-4 h-10"
-value={searchTerm}
-onChange={(e) => setSearchTerm(e.target.value)}
-></Input>
-</div>
 
-<Button children="Prise en Charge" onClick={handlePriseEnCharge}></Button>
-
-</div>
      </div>
         )
       return (
      <div  className='bg-[#212122] h-screen w-screen'>
-        <Layout children={contentChildren}></Layout>
+        <Layout currentPath={location.pathname} children={contentChildren}></Layout>
      </div>
       )
 }

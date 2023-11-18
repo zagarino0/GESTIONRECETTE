@@ -1,22 +1,18 @@
 import React from 'react'
 import Layout from '../Layout';
-import { useLocation } from 'react-router-dom';
 import { LinkButton } from '../../../components/button/LinkButton';
+import { useLocation } from 'react-router-dom';
 
-function Fichier() {
-  
-  const location = useLocation(); 
+function Utilitaires() {
+    const location = useLocation(); 
     const contentChildren=(
    <div className='flex justify-center items-center '>
     <div className='flex flex-col'>
     <div className='text-white text-3xl text-center m-2'>
-      Fichier
+      Utilitaires
     </div>
    <div className='flex flex-col  '>
-    <LinkButton to="/codeActivite" text="Saisie" className="mt-4" ></LinkButton>
-    <LinkButton to="/codeBanque" text="Délivré un Récépissé"  className="mt-2"></LinkButton>
-    <LinkButton to="/codeFormeJuridique" text="Extrait de Journal"  className="mt-2"></LinkButton>
-    
+    <LinkButton to="/codeActivite" text="Copie du fichier Impôt de Virement " className="mt-4" ></LinkButton>
     </div> 
     </div>   
      </div>
@@ -28,4 +24,4 @@ function Fichier() {
   )
 }
 
-export default Fichier
+export default Utilitaires

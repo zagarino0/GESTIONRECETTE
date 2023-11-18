@@ -135,12 +135,12 @@ Niveau de Décentralisation
     <Input type="text" placeholder="Fokotany"
     value={libelle}
     onChange={e => setLibelle(e.target.value)}
-    className="h-12 m-4"
+    className="h-12 m-4 w-60"
     ></Input>
     <Input type="text" placeholder="Code Fokotany"
     value={fokontany}
     onChange={e => setFokontany(e.target.value)}
-    className="h-12 m-4"
+    className="h-12 m-4 w-60"
     ></Input>
      <Select
  options={options}
@@ -149,7 +149,7 @@ Niveau de Décentralisation
  className=" m-4 w-40"
 />
 
-     <Button type="submit" children="Ajouter" className="m-2"></Button>
+     <Button type="submit" children="Ajouter" className="m-2 h-12"></Button>
     
     </div>
     </div>
@@ -175,7 +175,7 @@ Niveau de Décentralisation
     </div>  
     <div className=' m-4 flex justify-between' >
 <Label text=" Code Fokontany :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.fokontany : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -187,7 +187,7 @@ Niveau de Décentralisation
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Fokotany :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.libelle : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({

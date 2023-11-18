@@ -107,7 +107,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Abréviation :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.abreviation : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -120,7 +120,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Libellé :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.libelle : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -166,8 +166,8 @@ console.error("erreur lors de l'ajout de donnée" , error)
   <form onSubmit={DataHandler} >
   
     <div className=' m-4 flex justify-between' >
-<Label text=" Abréviation :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Label text=" Abréviation :" className="mt-2 "></Label>
+<Input type="text"  className="ml-4 w-60"
 
 value={abreviation}
 onChange={e => setAbreviation(e.target.value)} 
@@ -176,7 +176,7 @@ onChange={e => setAbreviation(e.target.value)}
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Libellé :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
 
 value={libelle}
 onChange={e => setLibelle(e.target.value)}

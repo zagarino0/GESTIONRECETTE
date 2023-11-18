@@ -4,8 +4,11 @@ import Input from '../../../components/input/Input';
 import Label from '../../../components/title/label';
 import Table from '../../../components/table/Table';
 import { Layout } from './Layout';
+import { useLocation } from 'react-router-dom';
+import PasswordInput from '../../../components/input/PasswordInput';
 
 function SituationGeographiqueIm() {
+  const location = useLocation(); 
    // header Table components 
    const headers = [  "Fokontany de","Commune de","District de", "Region de" , "", ""];
 
@@ -16,20 +19,23 @@ function SituationGeographiqueIm() {
  ];
    const BodyContent = (
        <div className='m-4'>
-     <div className='bg-black p-4 flex flex-row'>
-    <div className='flex flex-row '>
+     <div className='bg-black p-4 flex justify-between rounded-md'>
+    <div className='flex flex-col w-[250px]'>
      <Label text="Votre code :"></Label>
-     <Input type="text" placeholder="Code " className="ml-4"></Input>
+     <Input type="text" placeholder="Code... " className="mt-2" ></Input>
     </div>
-    <div className='flex flex-row ml-4 '>
+    <div className='flex flex-col w-[250px] '>
      <Label text="Votre Mot de passe :"></Label>
-     <Input type="password" placeholder="Mot de passe" className="ml-4"></Input>
+     <PasswordInput ></PasswordInput>
+    </div>
+    <div className='mt-8'>
+      <Button children="s'identifier"></Button>
     </div>
     </div>
-    <div className='p-4 bg-black mt-2 '>
+    <div className='p-4 bg-black mt-2 rounded-md'>
       <p className='text-white text-xl text-center'>Situation Geographique</p>
     </div>
-    <div className='mt-2'>
+    <div className='mt-2 hidden'>
    
 <div className='flex flex-row'>
 <Label text="Taper ici une partie du nom du Fokontany" ></Label>
@@ -68,7 +74,7 @@ function SituationGeographiqueIm() {
      )
      return (
        <div  className='bg-[#212122] h-screen w-screen'>
-        <Layout children={BodyContent} ></Layout>
+        <Layout currentPath={location.pathname} children={BodyContent} ></Layout>
        </div>
      )
 }
