@@ -21,7 +21,7 @@ const getClientByNif = (req, res) => {
     modePayments.map(pay => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
             if(pay.code_impot === imp.numero_impot)
-                impots.push(...pay, ...imp);            
+                impots.push({...pay, ...imp});            
         })
     })
 
