@@ -17,8 +17,8 @@ function LoginImmatriculation() {
 
     // Create a request body with user input
     const requestBody = {
-      code: code,
-      password: mdp,
+      "code": code,
+      "mdp": mdp,
     };
 
     axios
@@ -27,7 +27,7 @@ function LoginImmatriculation() {
         const userData = response.data;
 
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
-        if ( userData.immatriculation_prise_charge === true) {
+        if (userData.login && userData.immatriculation_prise_charge) {
           // Redirect to the desired page if the condition is met
           history.push('/PriseEnCharge');
         } else {
