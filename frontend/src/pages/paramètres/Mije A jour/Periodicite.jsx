@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
-import { Link } from 'react-router-dom';
-import { useSnapshot } from 'valtio';
+import { Link, useLocation } from 'react-router-dom';
+
 import BackButton from '../../../components/button/BackButton';
 import { Button } from '../../../components/button/button';
 import Input from '../../../components/input/Input';
 import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
 import Label from '../../../components/title/label';
-import { states } from '../../../states/states';
+
 import axios from 'axios';
 import { RiDeleteBinLine } from 'react-icons/ri'
 import {BsPencil} from 'react-icons/bs'
 import Modal from '../../../components/modals/Modal';
 
 
-function Periodicite() {
+const Periodicite = ({  currentPath }) => {
+  const location = useLocation(); 
   const [dataCode, setDataCode] = useState([]);
   const [dataCodeContent, setDataCodeContent] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -64,7 +65,7 @@ const handleDelete = (id) => {
 
 
 
-    const { selectedLink } = useSnapshot(states);
+    
 
     //Links navbar
     const links = [
@@ -100,7 +101,7 @@ const handleDelete = (id) => {
     //Navbar content
     const NavbarContent = (
         <nav className=" flex items-center justify-between  ">
-     <div className='text-white'>
+     <div className='text-white font-semibold'>
   Périodicité
       </div>
       <ul className="flex">
@@ -108,21 +109,13 @@ const handleDelete = (id) => {
           <li
             key={link.title}
             className={`mx-4 
-            hover:bg-[#E96012] 
             text-center
             py-3
             px-6 
             text-white 
-            text-bold 
-            hover:scale-110
-            hover:shadow-xl 
-            transition 
-            duration-300 
-            ease-in-out
-            ${
-              selectedLink === link.title.toLowerCase() 
-              
-            } `}
+            font-semibold
+            ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
+          `}
           >
             <Link to={link.link}>{link.title}</Link>
           </li>
@@ -224,7 +217,7 @@ const NavbarModal =(
 
     return (
       <div className='bg-[#212122] h-screen w-screen'>
-      <Navbar content={NavbarContent}></Navbar>
+      <Navbar currentPath={location.pathname}  content={NavbarContent}></Navbar>
    <div className="flex justify-between">
    <div className='mt-32 p-4 bg-[#212122]' >
   <Table headers={headers} data={formattedData} className="w-[100px]" ></Table>

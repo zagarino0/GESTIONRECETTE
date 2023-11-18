@@ -11,6 +11,7 @@ import axios from 'axios';
 import { RiDeleteBinLine } from 'react-icons/ri'
 import {BsPencil} from 'react-icons/bs'
 import Select from '../../../components/input/SelectInput';
+import PasswordInput from '../../../components/input/PasswordInput';
 function Operateur() {
   const [dataCode, setDataCode] = useState([]);
   const [code , setCode ] = useState([]);
@@ -162,12 +163,13 @@ const DataHandlerModifie = (e) => {
       console.error('Error deleting data:', error);
     }
   };
-  const headers = ["Code" ,"Nom " ,"Prénom" , "Fonction", "Saisie", "Modification", "Visualisation","Prise en charge"," Gest.Modification","Gest.Prise en charge", "Numéro 1", "Numéro 2", "Création", "prise en charge" , "" , ""];
+  const headers = ["Code" ,"Nom " ,"Prénom" , "Fonction", "Compte", "Saisie", "Modification", "Visualisation","Prise en charge"," Gest.Modification","Gest.Prise en charge", "Numéro 1", "Numéro 2", "Création", "prise en charge" , "" , ""];
   const formattedData = dataCode.map(item => [
     item.code,
     item.nom,
     item.prenom,
     item.fonction,
+    item.compte,
     <Checkbox value={item.recette_creation} />,
     <Checkbox value={item.recette_modification} />,
     <Checkbox value={item.recette_visualisation} />,
@@ -244,53 +246,53 @@ const optionsCompte = [
     <div className='m-4'>
       <Button children="Créer un utilisateur" onClick={() => setIsModalOpen(true)}></Button>
     </div>
-  <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[680px]">
+  <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[770px]">
   <form onSubmit={DataHandler} >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <div className='mt-2 m-4 flex flex-row bg-black '>
-  <div className=' m-4 flex justify-between' >
+  <div className='mt-2 m-4 flex justify-between bg-black '>
+  <div className=' m-4 flex flex-col w-[250px]' >
 <Label text=" Code Opérateur:" className="mt-2"></Label>
-<Input type="text" placeholder="Votre code" className="ml-4 h-10"
+<Input type="text" placeholder="Votre code" className=" mt-2 h-10"
  value={code}
  onChange={e => setCode(e.target.value)}
 ></Input>
     </div>
-    <div className=' m-4 flex justify-between' >
-<Label text=" Mot de passe:" className="mt-2"></Label>
-<Input type="password" placeholder="Mot de passe" className="ml-4 h-10"
+    <div className=' m-4 flex flex-col w-[250px]' >
+<Label text=" Mot de passe" className="mt-2"></Label>
+<PasswordInput type="password" placeholder="Mot de passe" className=" h-10"
 value={mdp}
 onChange={e => setMdp(e.target.value)}
-></Input>
+></PasswordInput>
     </div>
   </div>
   <div className=' ml-4 mr-4 mt-2 flex justify-between' >
-<Label text=" Nom :" className="mt-2 "
+<Label text=" Nom " className="mt-2 "
 
 ></Label>
-<Input type="text"  className="ml-4 h-10"
+<Input type="text"  className=" w-60 h-10"
 value={nom}
 onChange={e => setNom(e.target.value)}
 ></Input>
     </div>
     <div className=' ml-4 mr-4 mt-2 flex justify-between' >
-<Label text=" Prénoms:" className="mt-2"></Label>
-<Input type="text"  className="ml-4 h-10"
+<Label text=" Prénoms" className="mt-2"></Label>
+<Input type="text"  className="w-60 h-10"
 value={prenom}
 onChange={e => setPrenom(e.target.value)}
 ></Input>
     </div>
     <div className=' ml-4 mr-4 mt-2 flex justify-between' >
-<Label text=" Fonction:" className="mt-2"></Label>
+<Label text=" Fonction" className="mt-2"></Label>
  <Select
  options={options}
  value={fonction}
  onChange={e => setFonction(e.target.value)}
- className="h-12"
+ className="h-12 w-60 rounded-md"
 />
     </div>
     <div className='mt-2 ml-4'>
-<Label text="RECETTE"></Label>
+<Label text="RECETTE" className="font-semibold"></Label>
 <div className='flex flex-row '>
 <Checkbox label="Création" className="m-4"
 value={recette_creation}
@@ -311,7 +313,7 @@ onChange={handleCheckboxChangeRecette_prise_charge}
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
-<Label text=" Compte  :" className="mt-2"></Label>
+<Label text=" Compte  " className="mt-2"></Label>
 <Select
  options={optionsCompte}
  value={compte}
@@ -320,7 +322,7 @@ onChange={handleCheckboxChangeRecette_prise_charge}
 />
     </div>
 <div className='mt-2 ml-4 m-2'>
-<Label text=" GESTION" className="mt-2"></Label>
+<Label text=" GESTION" className="mt-2 font-semibold"></Label>
 <div className='flex justify-between m-2 '>
 
 <div>
@@ -334,18 +336,18 @@ value={gestion_prise_charge}
 onChange={handleCheckboxChangeGestion_prise_charge}
 ></Checkbox>
 </div>
-<div className='flex justify-between'>
-<label className='text-white mt-2' >RF début :</label>
-<Input type="text" placeholder="RF début"  className="ml-2 h-10"
+<div className='flex flex-col'>
+<label className='text-white mt-2 ' >RF début </label>
+<Input type="text" placeholder="RF début"  className="mt-2 h-10"
 value={gestion_debut_nif}
 onChange={e => setGestion_debut_nif(e.target.value)}
 ></Input>
 </div>
 </div>
 <div>
-<div className='flex justify-between'>
-<label className='text-white mt-2' >RF fin :</label>
-<Input type="text" placeholder="RF fin"  className="ml-2 h-10"
+<div className='flex flex-col'>
+<label className='text-white mt-2' >RF fin </label>
+<Input type="text" placeholder="RF fin"  className="mt-2 h-10"
 value={gestion_fin_nif}
 onChange={e => setGestion_fin_nif(e.target.value)}
 ></Input>
@@ -354,7 +356,7 @@ onChange={e => setGestion_fin_nif(e.target.value)}
 </div>
 </div>
 <div className='flex justify-between'>
-  <Label text="IMMATRICULATION"></Label>
+  <Label text="IMMATRICULATION" className="font-semibold"></Label>
   <Checkbox label="Creation RF" className="m-4"
 value={immatriculation_creation}
 onChange={handleCheckboxChangeCreation1}
@@ -376,14 +378,14 @@ onChange={handleCheckboxChangePriseEnCharge}
   </div>
   </form>
 </Modal>
-<Modal isOpen={isModalOpenModifie} onClose={() => setIsModalOpenModifie(false)} className="w-[1100px] h-[680px]">
+<Modal isOpen={isModalOpenModifie} onClose={() => setIsModalOpenModifie(false)} className="w-[1100px] h-[750px]">
   <form onSubmit={DataHandler} >
   <Navbar content={NavbarModal} ></Navbar>
   
-  <div className='mt-2 m-4 flex flex-row bg-black '>
-  <div className=' m-4 flex justify-between' >
-<Label text=" Code Opérateur:" className="mt-2"></Label>
-<Input type="text" placeholder="Votre code" className="ml-4 h-10"
+  <div className='mt-2 m-4 flex justify-between bg-black rounded'>
+  <div className=' m-4 flex flex-col w-[250px]' >
+<Label text=" Code Opérateur" className="mt-2"></Label>
+<Input type="text" placeholder="Votre code" className="w-60 h-10"
   value={selectedEditData ? selectedEditData.code : ''}
   onChange={(e) =>
     setSelectedEditData((prevData) => ({
@@ -393,9 +395,9 @@ onChange={handleCheckboxChangePriseEnCharge}
   }
 ></Input>
     </div>
-    <div className=' m-4 flex justify-between' >
-<Label text=" Mot de passe:" className="mt-2"></Label>
-<Input type="password" placeholder="Mot de passe" className="ml-4 h-10"
+    <div className=' m-4 flex flex-col w-[250px]' >
+<Label text=" Mot de passe" className="mt-2"></Label>
+<PasswordInput type="password" placeholder="Mot de passe" className="  h-10"
 value={selectedEditData ? selectedEditData.mdp : ''}
 onChange={(e) =>
   setSelectedEditData((prevData) => ({
@@ -403,14 +405,14 @@ onChange={(e) =>
     mdp: e.target.value,
   }))
 }
-></Input>
+></PasswordInput>
     </div>
   </div>
   <div className=' m-4 flex justify-between' >
-<Label text=" Nom :" className="mt-2 "
+<Label text=" Nom " className="mt-2 "
 
 ></Label>
-<Input type="text"  className="ml-4 h-10"
+<Input type="text"  className="w-60 h-10"
 value={selectedEditData ? selectedEditData.nom : ''}
 onChange={(e) =>
   setSelectedEditData((prevData) => ({
@@ -421,8 +423,8 @@ onChange={(e) =>
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
-<Label text=" Prénoms:" className="mt-2"></Label>
-<Input type="text"  className="ml-4 h-10"
+<Label text=" Prénoms" className="mt-2"></Label>
+<Input type="text"  className="w-60 h-10"
 value={selectedEditData ? selectedEditData.prenom : ''}
 onChange={(e) =>
   setSelectedEditData((prevData) => ({
@@ -443,11 +445,11 @@ onChange={(e) =>
       fonction : e.target.value,
     }))
   }
- className="h-12"
+ className="h-12 w-60"
 />
     </div>
     <div className='mt-2 ml-4'>
-<Label text="RECETTE"></Label>
+<Label text="RECETTE" className="font-semibold"></Label>
 <div className='flex flex-row '>
 <Checkbox label="Création" className="m-4"
 value={selectedEditData ? selectedEditData.recette_creation : ''}
@@ -488,7 +490,7 @@ onChange={(e) =>
 </div>
 
 <div className=' ml-4 mr-4 flex justify-between' >
-<Label text=" Compte  :" className="mt-2"></Label>
+<Label text=" Compte  " className="mt-2"></Label>
 <Select
  options={optionsCompte}
  value={selectedEditData ? selectedEditData.compte : ''}
@@ -498,10 +500,10 @@ onChange={(e) =>
       compte: e.target.value,
     }))
   }
- className="h-12"
+ className="h-12 w-60"
 />    </div>
 <div className='mt-2 ml-4 m-2'>
-<Label text=" GESTION" className="mt-2"></Label>
+<Label text=" GESTION" className="mt-2 font-semibold"></Label>
 <div className='flex justify-between m-2 '>
 <Checkbox label="Modification" className="m-4"
 value={selectedEditData ? selectedEditData.gestion_modification : ''}
@@ -522,9 +524,9 @@ onChange={(e) =>
 }
 ></Checkbox>
 <div>
-<div className='flex justify-between'>
+<div className='flex flex-col'>
 <label className='text-white mt-2' >RF début :</label>
-<Input type="text" placeholder="RF début"  className="ml-2 h-10"
+<Input type="text" placeholder="RF début"  className=" h-10"
 value={selectedEditData ? selectedEditData.gestion_debut_nif : ''}
 onChange={(e) =>
   setSelectedEditData((prevData) => ({
@@ -536,9 +538,9 @@ onChange={(e) =>
 </div>
 </div>
 <div>
-<div className='flex justify-between'>
+<div className='flex flex-col'>
 <label className='text-white mt-2' >RF fin :</label>
-<Input type="text" placeholder="RF fin"  className="ml-2 h-10"
+<Input type="text" placeholder="RF fin"  className=" h-10"
 value={selectedEditData ? selectedEditData.gestion_fin_nif : ''}
 onChange={(e) =>
   setSelectedEditData((prevData) => ({
@@ -552,7 +554,7 @@ onChange={(e) =>
 </div>
 </div>
 <div className='flex justify-between'>
-  <Label text="IMMATRICULATION"></Label>
+  <Label text="IMMATRICULATION" className="font-semibold"></Label>
   <Checkbox label="Creation RF" className="m-4"
 value={selectedEditData ? selectedEditData.immatriculation_creation : ''}
 onChange={(e) =>

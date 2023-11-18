@@ -6,14 +6,17 @@ import Label from '../../components/title/label';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PasswordInput from '../../components/input/PasswordInput';
+import { ModalError, ModalErrorServer } from './Modal';
 function LoginImmatriculation() {
   const [code, setCode] = useState('');
   const [mdp, setMdp] = useState('');
-  const history = useNavigate();
-
+  let navigate = useNavigate();
+  const [isModalError, setIsModalError] = useState(false);
+  const [isModalErrorServer, setIsModalErrorServer] = useState(false);
+  
   const handleLogin = () => {
     // Replace with your API endpoint for user authentication
-    const apiUrl = 'http://localhost:3500/auth';
+    const apiUrl = 'http://localhost:3500/user/auth';
 
     // Create a request body with user input
     const requestBody = {
@@ -25,18 +28,19 @@ function LoginImmatriculation() {
       .post(apiUrl, requestBody)
       .then((response) => {
         const userData = response.data;
-
+        console.log(userData)
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
         if (userData.login && userData.immatriculation_prise_charge) {
           // Redirect to the desired page if the condition is met
-          history.push('/PriseEnCharge');
+          navigate('/PriseEnCharge');
         } else {
-          console.log('Invalid credentials or immatriculation_prise_charge is not set to true.');
+          setIsModalError(true);
         }
       })
       .catch((error) => {
         console.error('Login error:', error);
-        console.log('Login failed. Please try again.');
+       
+        setIsModalErrorServer(true);
       });
   };
 
@@ -60,6 +64,8 @@ function LoginImmatriculation() {
           </div>
         </div>
       </div>
+      <ModalError isOpen={isModalError} onClose={()=> setIsModalError(false)} quitter={()=> setIsModalError(false)}></ModalError>
+      <ModalErrorServer isOpen={isModalErrorServer} onClose={()=> setIsModalErrorServer(false)} quitter={()=> setIsModalErrorServer(false)}></ModalErrorServer>
     </div>
   );
 }

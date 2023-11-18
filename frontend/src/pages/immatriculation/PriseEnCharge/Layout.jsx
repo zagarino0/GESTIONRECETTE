@@ -1,11 +1,9 @@
 import React from "react";
-import { useSnapshot } from "valtio";
-import { states } from "../../../states/states";
 import { Link } from "react-router-dom";
 import BackButton from "../../../components/button/BackButton";
 import { Navbar } from "../../../components/navbar/Navbar";
-export const Layout  = ( props ) => {
-    const { selectedLink } = useSnapshot(states);
+export const Layout = ({ children, currentPath })  => {
+    
 
     //Links navbar
     const links = [
@@ -21,26 +19,18 @@ export const Layout  = ( props ) => {
     const contentNavbar = (
         <nav className=" flex items-center justify-between  ">
      
-      <ul className="flex">
+     <ul className="flex">
         {links.map((link) => (
           <li
             key={link.title}
             className={`mx-4 
-            hover:bg-[#E96012] 
             text-center
             py-3
             px-6 
             text-white 
-            text-bold 
-            hover:scale-110
-            hover:shadow-xl 
-            transition 
-            duration-300 
-            ease-in-out
-            ${
-              selectedLink === link.title.toLowerCase() 
-              
-            } `}
+            font-semibold
+            ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
+          `}
           >
             <Link to={link.link}>{link.title}</Link>
           </li>
@@ -50,10 +40,11 @@ export const Layout  = ( props ) => {
         
     </nav>
     )
-  return (
-    <div className=" h-screen  w-screen">
-      <Navbar content={contentNavbar} />
-      <main className="">{props.children}</main>
-    </div>
-  );
-};
+    return (
+      <div className="h-screen w-screen">
+        <Navbar content={contentNavbar} />
+        <main className="">{children}</main>
+      </div>
+    );
+  };
+  

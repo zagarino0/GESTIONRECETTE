@@ -122,13 +122,14 @@ const NavbarModal =(
 <Table headers={headers} data={formattedData}  ></Table>
     </div>
 
-    <Modal isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[1100px] h-[680px]" >
+    <Modal isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[1100px] h-[580px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
   
     <div className=' m-4 flex justify-between' >
 <Label text=" Numéro:" ></Label>
 <Input type="text" 
+className="w-60"
  value={selectedEditData ? selectedEditData.numero : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -141,7 +142,8 @@ const NavbarModal =(
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Choix:" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.choix : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -153,7 +155,8 @@ const NavbarModal =(
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Obligation:"></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.obligation : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -166,7 +169,8 @@ const NavbarModal =(
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :"></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.periodicite : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -178,7 +182,8 @@ const NavbarModal =(
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Titre :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.titre : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -190,7 +195,8 @@ const NavbarModal =(
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Option :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.option : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -202,7 +208,8 @@ const NavbarModal =(
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Taxation :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.taxation: ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -214,7 +221,8 @@ const NavbarModal =(
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Pénalité :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={selectedEditData ? selectedEditData.penalite : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -258,13 +266,14 @@ const NavbarModal =(
   <Button onClick={() => setIsModalOpenModifi(false)} children="Quitter" ></Button>
   </div>
 </Modal>
-<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[680px]" >
+<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[1100px] h-[580px]" >
   <Navbar content={NavbarModal} ></Navbar>
   
   <form onSubmit={DataHandler}>
     <div className=' m-4 flex justify-between' >
 <Label text=" Numéro:" ></Label>
 <Input type="text" 
+className="w-60"
 value={numero_impot}
 onChange={e => setNumero_impot(e.target.value)}
 ></Input>
@@ -272,14 +281,16 @@ onChange={e => setNumero_impot(e.target.value)}
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Choix:" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
 value={choix}
 onChange={e => setChoix(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Obligation:"></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
 value={obligation}
 onChange={e => setObligation(e.target.value)}
 ></Input>
@@ -287,7 +298,8 @@ onChange={e => setObligation(e.target.value)}
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Périodicité :"></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
 value={periodicite}
 onChange={e => setPeriodicite(e.target.value)}
 ></Input>
@@ -295,21 +307,24 @@ onChange={e => setPeriodicite(e.target.value)}
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Option :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
 value={option}
 onChange={e => setOption(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Taxation :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
 value={taxation}
 onChange={e => setTaxation(e.target.value)}
 ></Input>
     </div>
     <div className=' m-4 flex justify-between' >
 <Label text=" Pénalité :" ></Label>
-<Input type="text"  
+<Input type="text"
+className="w-60"  
  value={penalite}
  onChange={e => setPenalite(e.target.value)}
 ></Input>

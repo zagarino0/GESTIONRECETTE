@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { useSnapshot } from 'valtio';
+import { Link, useLocation } from 'react-router-dom';
+
 import BackButton from '../../../components/button/BackButton';
 import { Button } from '../../../components/button/button';
 import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
-import { states } from '../../../states/states';
+
 import axios from 'axios';
 import {BsPencil} from 'react-icons/bs'
 import Label from '../../../components/title/label';
@@ -13,7 +13,8 @@ import Input from '../../../components/input/Input';
 import Modal from '../../../components/modals/Modal';
 import { RiDeleteBinLine } from 'react-icons/ri'
 
-function PeriodiciteImpot() {
+const PeriodiciteImpot = ({  currentPath }) =>{
+  const location = useLocation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
@@ -27,7 +28,7 @@ function PeriodiciteImpot() {
       .catch((error) => console.error(error));
   }, []);
 
-  const { selectedLink } = useSnapshot(states);
+  
 
   //Links navbar
   const links = [
@@ -98,34 +99,26 @@ function PeriodiciteImpot() {
   //Navbar content
   const NavbarContent = (
       <nav className=" flex items-center justify-between  ">
-   <div className='text-white'>
+   <div className='text-white font-semibold'>
 Périodicité
     </div>
     <ul className="flex">
-      {links.map((link) => (
-        <li
-          key={link.title}
-          className={`mx-4 
-          hover:bg-[#E96012] 
-          text-center
-          py-3
-          px-6 
-          text-white 
-          text-bold 
-          hover:scale-110
-          hover:shadow-xl 
-          transition 
-          duration-300 
-          ease-in-out
-          ${
-            selectedLink === link.title.toLowerCase() 
-            
-          } `}
-        >
-          <Link to={link.link}>{link.title}</Link>
-        </li>
-      ))}
-    </ul>
+        {links.map((link) => (
+          <li
+            key={link.title}
+            className={`mx-4 
+            text-center
+            py-3
+            px-6 
+            text-white 
+            font-semibold
+            ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
+          `}
+          >
+            <Link to={link.link}>{link.title}</Link>
+          </li>
+        ))}
+      </ul>
 <BackButton to="/miseAJourParametre"></BackButton>
       
   </nav>
@@ -138,19 +131,19 @@ Périodicité
   )
   return (
     <div className='bg-[#212122] h-screen w-screen'>
-    <Navbar content={NavbarContent}></Navbar>
+    <Navbar currentPath={location.pathname}  content={NavbarContent}></Navbar>
     <div className='mt-24 flex bg-[#212122] justify-center p-4' >
      <form onSubmit={DataHandler} >
        <div className='flex flex-col mr-4'>
-        <Input type="text" className="h-16 " placeholder="N° Auto"
+        <Input type="text" className="h-12 " placeholder="N° Auto"
         value={numero}
         onChange={e => setNumero(e.target.value)}
         ></Input>
-        <Input type="text"  className="h-16 mt-4" placeholder="Date cloture"
+        <Input type="text"  className="h-12 mt-4" placeholder="Date cloture"
         value={cloture}
         onChange={e => setCloture(e.target.value)}
         ></Input>
-        <Button children="Ajouter" type="submit" className="h-16 mt-4"></Button>
+        <Button children="Ajouter" type="submit" className="h-12 mt-4"></Button>
       </div>
      </form>
 <Table headers={headers} data={formattedData} ></Table>
@@ -161,7 +154,7 @@ Périodicité
   
   <div className=' m-4 flex justify-between' >
 <Label text=" N° Auto :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.numero : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -175,7 +168,7 @@ Périodicité
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Date de Cloture :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.cloture : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({

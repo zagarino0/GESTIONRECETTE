@@ -2,7 +2,6 @@ import React from"react";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import './App.css';
 import LoadingPage from "./pages/loadingPage/loadingPage";
-import LoginPage from "./pages/login/login";
 import MenuPage from "./pages/menu/MenuPage";
 import Sigrl from "./pages/SIGRL/Sigrl";
 import Immatriculation from "./pages/immatriculation/Immatriculation";
@@ -16,7 +15,6 @@ import ConsultationRF from "./pages/immatriculation/consultatioRF/ConsultationRF
 import Utilitaire from "./pages/immatriculation/utilitaire/Utilitaire";
 import MiseAJour from "./pages/paramètres/Mije A jour/MiseAJour";
 import UtilitaireParametre from "./pages/paramètres/Utilitaires/UtilitaireParametre";
-import Sauvegarde from "./pages/paramètres/Sauvegarde/Sauvegarde";
 import Parametres from "./pages/paramètres/Parametres/Parametres";
 import ChangementMotPasse from "./pages/paramètres/Utilitaires/ChangementMotPasse";
 import CodeActivite from "./pages/paramètres/Mije A jour/CodeActivite";
@@ -76,6 +74,9 @@ import VisualisationResteRecouvrer from "./pages/recette/ResteRecouvre/Visualisa
 import MouvementHistorique from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementHistorique";
 import MouvementOperateur from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementOperateur";
 import MouvementRecette from "./pages/recette/Consulation/ConsultationFichierMouvement/MouvementRecette";
+import Fichier from "./pages/ordreVirement/Fichier/Fichier";
+import Edition from "./pages/ordreVirement/Edition/Edition";
+import Utilitaires from "./pages/ordreVirement/Utilitaires/Utilitaires";
 
 function App() {
   
@@ -85,7 +86,6 @@ function App() {
     <Router>
       <Routes>
      <Route path="/" element={<LoadingPage />}></Route>  
-     <Route path="/login" element={<LoginPage />}></Route>
      <Route path="/menu" element={<MenuPage/>}></Route> 
      <Route path="/SIGRL" element={<Sigrl/>}></Route> 
     
@@ -148,7 +148,6 @@ function App() {
      <Route path="/utilitaireParametre" element={<UtilitaireParametre/>}></Route>
      <Route path="/Operateur" element={<Operateur/>}></Route>
    
-     <Route path="/sauvegardeParametre" element={<Sauvegarde/>}></Route>
 
      <Route path="/parametreParametre" element={<Parametres/>}></Route>
      <Route path="/previsonAnnuelle" element={<PrevisonAnnuelle/>}></Route>
@@ -176,7 +175,9 @@ function App() {
      <Route path="/LoginOrdreVirment" element={<LoginOrdreVirment/>}></Route>
      <Route path="/LoginGestion" element={<LoginGestion/>}></Route>
       
-     
+     <Route path="/Fichier" element={<Fichier/>}></Route>
+     <Route path="/Edition" element={<Edition/>}></Route>
+     <Route path="/UtilitairesOrdreVirment" element={<Utilitaires/>}></Route>
      
       </Routes>
     </Router>
