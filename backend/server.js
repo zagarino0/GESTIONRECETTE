@@ -29,11 +29,14 @@ app.use(cookieParser());
 app.use('/user', require('./routes/api/user/user'));
 
 app.use(verifyJWT);
+//immatriculation
 app.use('/client', require('./routes/api/immatriculation/client'));
 app.use('/vehicle', require('./routes/api/immatriculation/vehicle'));
 app.use('/prisecharge', require('./routes/api/immatriculation/charge'));
 app.use('/immatriculation', require('./routes/api/immatriculation/utilitaire'));
 
+//recette
+app.use('/recette', require('./routes/api/recette/recette'))
 
 // Route to get code
 app.use('/code', require('./routes/api/code/code'));
