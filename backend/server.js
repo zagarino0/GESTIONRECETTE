@@ -36,7 +36,10 @@ app.use('/prisecharge', require('./routes/api/immatriculation/charge'));
 app.use('/immatriculation', require('./routes/api/immatriculation/utilitaire'));
 
 //recette
-app.use('/recette', require('./routes/api/recette/recette'))
+app.use('/recette', require('./routes/api/recette/recette'));
+
+//gestion
+app.use('/gestion', require('./routes/api/gestion/gestion'));
 
 // Route to get code
 app.use('/code', require('./routes/api/code/code'));

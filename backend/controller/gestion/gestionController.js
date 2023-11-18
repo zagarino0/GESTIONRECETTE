@@ -1,52 +1,38 @@
+const getDataExcel = require('../../utils/ExcelData');
 const data = {
-    gestions: require("../../model/gestion/gestion.json"),
-    setGestions: function (data) { this.gestions = data },
-    clients: require("../../model/immatriculation/client.json")
-};
-
-const getImpotNClient = (req,res) => {
-    const annee = req.body.annee;
-    const numero_impot = req.body.numero_impot;
-    const raison_commercial = req.body.raison_commercial;
-    const nom_commercial = req.body.nom_commercial;
-    const addresse = req.body.addresse;
-    const reference_fiscal = req.body.reference_fiscal;
-    
-
+    client: require('../../../../e-immatriculation/backend/model/client.json'),
+    modePayment: require('../../model/recette/mode_payment.json')
 }
 
-const updateRegimeFiscal = (req, res) => {
-    const reference_fiscal = req.body.reference_fiscal;
-    const client = data.clients.find(cli => cli.nif === reference_fiscal);
 
-
-
-
-}
-
-const getAllResteARecouvrerByReferenceFiscal = (req, res) => {
+const getClientByNif = (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
 
-    if(reference_fiscal === "")
-        res.json(data.clients);
-    else{
-        const client = data.clients.find(cli => cli.nif === reference_fiscal)
-        res.json(client)
-    }
+    let client = data.client.find(cli => cli.nif === reference_fiscal);
+
+    let modePayments = [];
+    let impots = [];
+
+    data.modePayment.mep(pay => {
+        if(pay.reference_fiscal === reference_fiscal)
+            modePayments.push(pay);
+    })
+
+    modePayments.map(pay => {
+        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+            if(pay.code_impot === imp.numero_impot)
+                impots.push(...pay, ...imp);            
+        })
+    })
+
+    client.impots = impots;
+    res.json(client);
+    modePayments = [];
+    impots = [];
 }
 
-const getResteARecouvrerByTwoDates = (req, res) => {
-    const date_debut = req.body.date_debut;
-    const date_fin = req.body.date_fin;
-    const reference_fiscal = req.body.reference_fiscal;
 
-}
 
-const getResteARecouvrerByTwoDatesNnatureImpot = (req, res) => {
-    const date_debut = req.body.date_debut;
-    const date_fin = req.body.date_fin;
-
-    const numero_impot = req.body.numero_impot;
-
-    
+module.exports = {
+    getClientByNif
 }
