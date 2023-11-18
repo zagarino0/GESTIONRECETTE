@@ -29,8 +29,11 @@ const setModePayment = async (req, res) => {
     const periode1 = req.body.periode1;
     const periode2 = req.body.periode2;
 
+    const reference_fiscal = req.body.reference_fiscal;
+
     const payment = {
         "id": id,
+        "reference_fiscal": reference_fiscal,
         "numero_impot": numero_impot,
         "annee": annee,
         "base_impot": base_impot,
