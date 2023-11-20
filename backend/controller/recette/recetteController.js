@@ -1,5 +1,7 @@
 const data = {
     modePayment: require('../../model/recette/mode_payment.json'),
+    clients: require("../../../../e-immatriculation/backend/model/client.json"),
+    charges: require("../../model/immatriculation/charge.json"),
     setModePayment: function (data) { this.modePayment = data }
 }
 
@@ -115,8 +117,58 @@ const getAllPayment = (req, res) => {
     res.json({ "espece_amount": espece_amount, "espece_count": espece_count, "cheque_amount": cheque_amount, "cheque_count": cheque_count, "virement_amount": virement_amount, "virement_count": virement_count });
 }
 
+const getClientByRaisonSocial = (req, res) => {
+    const raison_social = req.body.raison_social;
+    let client = [];
+
+    data.clients.map(cli => {
+        data.charges.map(cha => {
+            if(cha.reference_fiscal === cli.nif && cli.raison_sociale === raison_social)
+                client.push({...cli, ...cha});
+        })
+    })
+
+    res.json(client);
+    client = [];
+
+}
+
+const getClientByNomCommercial = (req, res) => {
+    const nom_commercial = req.body.nom_commercial;
+    let client = []
+    
+    data.clients.map(cli => {
+        data.charges.map(cha => {
+            if(cha.reference_fiscal === cli.nif && cli.nom_commerciale === nom_commercial)
+                client.push({...cli, ...cha});
+        })
+    })
+
+
+    res.json(client);
+    client = [];
+}
+
+const getClientByAddresse = (req, res) => {
+    const addresse = req.body.addresse;
+    let client = [];
+
+    data.clients.map(cli => {
+        data.charges.map(cha => {
+            if(cha.reference_fiscal === cli.nif && cli.adresse === addresse)
+                client.push({...cli, ...cha});
+        })
+    })
+
+    res.json(client);
+    client = [];
+}
+
 module.exports = {
     setModePayment,
     getPaymentByTwoDate,
-    getAllPayment
+    getAllPayment,
+    getClientByRaisonSocial,
+    getClientByNomCommercial,
+    getClientByAddresse
 }

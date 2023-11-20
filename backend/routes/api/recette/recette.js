@@ -11,4 +11,14 @@ router.route('/consultationpayment')
 router.route('/payment')
     .get(recetteController.getAllPayment);
 
+router.route('/client/addresse')
+    .post(recetteController.getClientByAddresse);
+
+router.route('/client/nomcommercial')
+    .post(recetteController.getClientByNomCommercial);
+
+router.route('/client/raisoncommercial')
+    .post(recetteController.getClientByRaisonSocial);
+    
+
 module.exports = router;
