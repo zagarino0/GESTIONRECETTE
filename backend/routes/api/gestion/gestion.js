@@ -6,6 +6,7 @@ router.route('/')
     .post(gestionController.getClientByNif);
 
 router.route('/restearecouvrer')
+    .get(gestionController.getAllResteARecouvrer)
     .post(gestionController.getResteARecouvrerBetweenTwoDate);
 
 router.route('/recette')

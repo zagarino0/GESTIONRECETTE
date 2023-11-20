@@ -63,9 +63,18 @@ const getResteARecouvrerBetweenTwoDate = (req, res) => {
     impots = [];
 }
 
+const getAllResteARecouvrer = (req, res) => {
+    let restes = [];
+    data.modePayment.map(pay => {
+        if(pay.reste_a_payer !== 0)
+            restes.push(pay);
+    })
+    res.json(restes);
+}
 
 module.exports = {
     getClientByNif,
     getRecetteBetweenTwoDate,
-    getResteARecouvrerBetweenTwoDate
+    getResteARecouvrerBetweenTwoDate,
+    getAllResteARecouvrer
 }

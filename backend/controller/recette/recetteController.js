@@ -52,7 +52,7 @@ const setModePayment = async (req, res) => {
     }
 
     data.setModePayment([...data.modePayment, payment]);
-    
+
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
         JSON.stringify(data.modePayment)
@@ -60,7 +60,61 @@ const setModePayment = async (req, res) => {
     res.status(200).json(data.json);
 }
 
+const getPaymentByTwoDate = (req, res) => {
+    const date_init = req.body.date_init;
+    const date_fin = req.body.date_fin;
+
+    let cheque_count = 0;
+    let espece_count = 0;
+    let virement_count = 0;
+
+    let cheque_amount = 0;
+    let espece_amount = 0;
+    let virement_amount = 0;
+
+    data.modePayment.map(pay => {
+        if (pay.date_creation >= date_init && pay.date_creation <= date_fin) {
+            if (pay.type_payment === "virement") {
+                virement_count++;
+                virement_amount += pay.montant_verser;
+            } else if (pay.type_payment === "espece") {
+                espece_count++;
+                espece_amount += pay.montant_verser;
+            } else if (pay.type_payment === "cheque") {
+                cheque_count++;
+                cheque_amount += pay.montant_verser;
+            }
+        }
+    })
+    res.json({ "espece_amount": espece_amount, "espece_count": espece_count, "cheque_amount": cheque_amount, "cheque_count": cheque_count, "virement_amount": virement_amount, "virement_count": virement_count });
+}
+
+const getAllPayment = (req, res) => {
+    let cheque_count = 0;
+    let espece_count = 0;
+    let virement_count = 0;
+
+    let cheque_amount = 0;
+    let espece_amount = 0;
+    let virement_amount = 0;
+
+    data.modePayment.map(pay => {
+        if (pay.type_payment === "virement") {
+            virement_count++;
+            virement_amount += pay.montant_verser;
+        } else if (pay.type_payment === "espece") {
+            espece_count++;
+            espece_amount += pay.montant_verser;
+        } else if (pay.type_payment === "cheque") {
+            cheque_count++;
+            cheque_amount += pay.montant_verser;
+        }
+    })
+    res.json({ "espece_amount": espece_amount, "espece_count": espece_count, "cheque_amount": cheque_amount, "cheque_count": cheque_count, "virement_amount": virement_amount, "virement_count": virement_count });
+}
 
 module.exports = {
-    setModePayment
+    setModePayment,
+    getPaymentByTwoDate,
+    getAllPayment
 }
