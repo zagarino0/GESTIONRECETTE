@@ -7,7 +7,7 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setModePayment = async (req, res) => {
-    const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment - 1] + 1
+    const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1] + 1;
     const numero_impot = req.body.numero_impot;
     const annee = req.body.annee;
     const base_impot = req.body.base_impot;
@@ -47,7 +47,8 @@ const setModePayment = async (req, res) => {
         "numero_recepisse": numero_recepisse,
         "periode": periode,
         "periode1": periode1,
-        "periode2": periode2
+        "periode2": periode2,
+        "date_creation": new Date()
     }
 
     data.setModePayment([...data.modePayment, payment]);

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const declarationController = require('../../../controller/recette/declarationController');
+const recetteController = require('../../../controller/recette/recetteController');
 
 router.route('/declaration')
-    .post(declarationController.setModePayment);
+    .post(recetteController.setModePayment);
 
 module.exports = router;

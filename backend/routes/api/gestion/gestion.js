@@ -5,4 +5,10 @@ const gestionController = require('../../../controller/gestion/gestionController
 router.route('/')
     .post(gestionController.getClientByNif);
 
+router.route('/restearecouvrer')
+    .post(gestionController.getResteARecouvrerBetweenTwoDate);
+
+router.route('/recette')
+    .post(gestionController.getRecetteBetweenTwoDate);
+
 module.exports = router;

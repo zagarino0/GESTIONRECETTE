@@ -1,1 +1,40 @@
-[]
+[
+    {
+        "id": 1,
+        "reference_fiscal": "712011021765",
+        "numero_impot": 22,
+        "annee": "2023",
+        "base_impot": "",
+        "montant_a_payer": 20000,
+        "montant_verser": 5000,
+        "reste_a_payer": 15000,
+        "type_payment": "virement",
+        "numero_cheque": "",
+        "code_banque": "",
+        "transporteur": true,
+        "numero_recepisse": "",
+        "periode": "",
+        "periode1": "",
+        "periode2": "",
+        "date_creation": "2023-11-20"
+    },
+    {
+        "id": 2,
+        "reference_fiscal": "712011021765",
+        "numero_impot": 5,
+        "annee": "2023",
+        "base_impot": "",
+        "montant_a_payer": 30000,
+        "montant_verser": 5000,
+        "reste_a_payer": 25000,
+        "type_payment": "virement",
+        "numero_cheque": "",
+        "code_banque": "",
+        "transporteur": true,
+        "numero_recepisse": "",
+        "periode": "",
+        "periode1": "",
+        "periode2": "",
+        "date_creation": "2023-11-20"
+    }
+]
