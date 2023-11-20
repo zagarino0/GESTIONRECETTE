@@ -7,7 +7,9 @@ const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setModePayment = async (req, res) => {
-    const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1] + 1;
+
+    const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id + 1;
+    
     const numero_impot = req.body.numero_impot;
     const annee = req.body.annee;
     const base_impot = req.body.base_impot;

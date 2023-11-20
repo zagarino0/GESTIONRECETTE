@@ -36,5 +36,24 @@
         "periode1": "",
         "periode2": "",
         "date_creation": "2023-11-20"
+    },
+    {
+        "id": 3,
+        "reference_fiscal": "712011021765",
+        "numero_impot": 6,
+        "annee": "2023",
+        "base_impot": "",
+        "montant_a_payer": 10000,
+        "montant_verser": 10000,
+        "reste_a_payer": 0,
+        "type_payment": "virement",
+        "numero_cheque": "",
+        "code_banque": "",
+        "transporteur": true,
+        "numero_recepisse": "",
+        "periode": "",
+        "periode1": "",
+        "periode2": "",
+        "date_creation": "2023-11-20"
     }
 ]
