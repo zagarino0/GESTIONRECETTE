@@ -35,7 +35,7 @@ function SituationGeographiqueIm() {
     <div className='p-4 bg-black mt-2 rounded-md'>
       <p className='text-white text-xl text-center'>Situation Geographique</p>
     </div>
-    <div className='mt-2 hidden'>
+    <div className='mt-2 '>
    
 <div className='flex flex-row'>
 <Label text="Taper ici une partie du nom du Fokontany" ></Label>

@@ -115,7 +115,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
   
   <div className=' m-4 flex justify-between' >
 <Label text=" Numéro :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.numero : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -129,7 +129,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Désignation :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
  value={selectedEditData ? selectedEditData.designation : ''}
  onChange={(e) =>
    setSelectedEditData((prevData) => ({
@@ -188,7 +188,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
   <form onSubmit={DataHandler} >
   <div className=' m-4 flex justify-between' >
 <Label text=" Numéro :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
   value={numero}
   onChange={e => setNumero(e.target.value)}
 ></Input>
@@ -197,7 +197,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
 
     <div className=' m-4 flex justify-between' >
 <Label text=" Désignation :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
+<Input type="text"  className="ml-4 w-60"
   value={designation}
   onChange={e => setDesignation(e.target.value)}
 ></Input>

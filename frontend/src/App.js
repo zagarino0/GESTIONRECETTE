@@ -77,6 +77,16 @@ import MouvementRecette from "./pages/recette/Consulation/ConsultationFichierMou
 import Fichier from "./pages/ordreVirement/Fichier/Fichier";
 import Edition from "./pages/ordreVirement/Edition/Edition";
 import Utilitaires from "./pages/ordreVirement/Utilitaires/Utilitaires";
+import ConsultationMontant from "./pages/recette/SituationRecettte/ConsultationMontant";
+import ClassementRF from "./pages/recette/RF/VisualisationRF/ClassementRF";
+import RechercheRF from "./pages/recette/RF/VisualisationRF/RechercheRF/RechercheRF";
+import Saisir from "./pages/ordreVirement/Fichier/Saisir";
+import DelivrerRecipisse from "./pages/ordreVirement/Fichier/DelivrerRecipisse";
+import ExtraitJournal from "./pages/ordreVirement/Fichier/ExtraitJournal";
+import EtatDétaille from "./pages/ordreVirement/Edition/EtatDétaille";
+import AvisCredit from "./pages/ordreVirement/AvisCredit/AvisCredit";
+import SaisiAvisCredit from "./pages/ordreVirement/AvisCredit/SaisiAvisCredit";
+import DetailAvisCredit from "./pages/ordreVirement/AvisCredit/DetailAvisCredit";
 
 function App() {
   
@@ -105,9 +115,11 @@ function App() {
      <Route path="/MouvementHistorique" element={<MouvementHistorique/>}></Route>
      <Route path="/MouvementOperateur" element={<MouvementOperateur/>}></Route>
      <Route path="/MouvementRecette" element={<MouvementRecette/>}></Route>
+     <Route path="/ConsultationMontant" element={<ConsultationMontant/>}></Route>
+     <Route path="/ClassementRF" element={<ClassementRF/>}></Route>
+     <Route path="/RechercheRF" element={<RechercheRF/>}></Route>
      
      
-
     
      <Route path="/gestion" element={<Gestion/>}></Route>
      <Route path="/SituationNatureImpot" element={<SituationNatureImpot/>}></Route>
@@ -176,8 +188,16 @@ function App() {
      <Route path="/LoginGestion" element={<LoginGestion/>}></Route>
       
      <Route path="/Fichier" element={<Fichier/>}></Route>
+     <Route path="/Saisir" element={<Saisir/>}></Route>
+     <Route path="/DelivrerRecipisse" element={<DelivrerRecipisse/>}></Route>
+     <Route path="/ExtraitJournal" element={<ExtraitJournal/>}></Route>
+     <Route path="/Edition" element={<Edition/>}></Route>
+     <Route path="/EtatDétaille" element={<EtatDétaille/>}></Route>
      <Route path="/Edition" element={<Edition/>}></Route>
      <Route path="/UtilitairesOrdreVirment" element={<Utilitaires/>}></Route>
+     <Route path="/AvisCredit" element={<AvisCredit/>}></Route>
+     <Route path="/SaisiAvisCredit" element={<SaisiAvisCredit/>}></Route>
+     <Route path="/DetailAvisCredit" element={<DetailAvisCredit/>}></Route>
      
       </Routes>
     </Router>

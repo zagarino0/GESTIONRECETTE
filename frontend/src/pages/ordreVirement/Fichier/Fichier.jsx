@@ -13,9 +13,9 @@ function Fichier() {
       Fichier
     </div>
    <div className='flex flex-col  '>
-    <LinkButton to="/codeActivite" text="Saisie" className="mt-4" ></LinkButton>
-    <LinkButton to="/codeBanque" text="Délivré un Récépissé"  className="mt-2"></LinkButton>
-    <LinkButton to="/codeFormeJuridique" text="Extrait de Journal"  className="mt-2"></LinkButton>
+    <LinkButton to="/Saisir" text="Saisie" className="mt-4" ></LinkButton>
+    <LinkButton to="/DelivrerRecipisse" text="Délivré un Récépissé"  className="mt-2"></LinkButton>
+    <LinkButton to="/ExtraitJournal" text="Extrait de Journal"  className="mt-2"></LinkButton>
     
     </div> 
     </div>   

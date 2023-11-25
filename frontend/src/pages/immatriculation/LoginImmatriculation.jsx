@@ -51,7 +51,7 @@ function LoginImmatriculation() {
           <Label className="text-5xl" text="Identification"></Label>
           <div className='flex flex-col mt-8'>
             <Label text="Code"></Label>
-            <Input type="text" placeholder="Votre code" value={code} onChange={(e) => setCode(e.target.value)} />
+            <Input type="text" placeholder="Votre code" value={code} onChange={(e) => setCode(e.target.value)} className="w-full"/>
           </div>
           <div className='flex flex-col mt-4'>
             <Label text="Mot de passe"></Label>

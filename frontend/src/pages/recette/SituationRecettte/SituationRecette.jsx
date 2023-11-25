@@ -8,14 +8,18 @@ import ReleveCheque from './ReleveCheque';
 import InterpretationRecette from './InterpretationRecette';
 import EtatRecapitulatifRecette from './EtatRecapitulatifRecette';
 import { useLocation } from 'react-router-dom';
+import ConsultationOperateur from './ConsultationOperateur';
+import ConsultationMontant from './ConsultationMontant';
 
 function SituationRecette() {
   const location = useLocation();
   const [isModalSituationRecette, setIsModalSituationRecette] = useState(false);
+  const [isModalConsultationOperateur, setIsModalConsultationOperateur] = useState(false);
   const [isModalCompteRendue, setIsModalCompteRendu] = useState(false);
   const [isModalReleveCheque, setIsModalReleveCheque] = useState(false);
   const [isModalInterpretationRecette, setIsModalInterpretationRecette] = useState(false);
   const [isModalEtatRecapitulatifRecette, setIsModalEtatRecapitulatifRecette] = useState(false);
+  const [isModalConsultationMontant, setIsModalConsultationMontant] = useState(false);
   const contentChildren=(
     <div className='flex justify-center items-center '>
      <div className='flex flex-col mt-3'>
@@ -37,8 +41,8 @@ function SituationRecette() {
      <Button children="Compte Rendu de Recette et Etat Récap" onClick={()=>setIsModalCompteRendu(true)} className="mt-2"></Button>
      <Button  children="Etat Récapitilatif des recette au profil des collectivités"  onClick={()=>setIsModalEtatRecapitulatifRecette(true)}  className="mt-2"></Button>
      <Button  children="Versement bancaire " onClick={()=>setIsModalReleveCheque(true)}  className="mt-2"></Button>
-     <LinkButton to="/" text="Consultation chèque\espèce  par opérateur"  className="mt-2"></LinkButton>
-     <LinkButton to="/" text="Consultation montant chèque\espèce saisi"  className="mt-2"></LinkButton>
+     <Button  children="Consultation chèque\espèce  par opérateur"  onClick={()=>setIsModalConsultationOperateur(true)}  className="mt-2"></Button>
+     <Button children="Consultation montant chèque\espèce saisi" onClick={()=>setIsModalConsultationMontant(true)} className="mt-2"></Button>
      <Button children="Interprétation de recette" onClick={()=>setIsModalInterpretationRecette(true)}  className="mt-2"></Button>
     </div>
      </div> 
@@ -52,7 +56,9 @@ function SituationRecette() {
  <CompteRendu isOpen={isModalCompteRendue} onClose={()=> setIsModalCompteRendu(false)} quitter={()=> setIsModalCompteRendu(false)} className="w-[500px] h-[700px]"></CompteRendu>
  <SituationdeRecette isOpen={isModalSituationRecette} onClose={()=>setIsModalSituationRecette(false)} quitter={()=>setIsModalSituationRecette(false)} className="w-[500px] h-[700px]"></SituationdeRecette>
  <InterpretationRecette isOpen={isModalInterpretationRecette} onClose={()=>setIsModalInterpretationRecette(false)} quitter={()=>setIsModalInterpretationRecette(false)} className="w-[500px] h-[620px]"></InterpretationRecette>
- <EtatRecapitulatifRecette isOpen={isModalEtatRecapitulatifRecette} onClose={()=>setIsModalEtatRecapitulatifRecette(false)} quitter={()=>setIsModalEtatRecapitulatifRecette(false)} className="w-[800px] h-[620px]"></EtatRecapitulatifRecette>
+ <EtatRecapitulatifRecette isOpen={isModalEtatRecapitulatifRecette} onClose={()=>setIsModalEtatRecapitulatifRecette(false)} quitter={()=>setIsModalEtatRecapitulatifRecette(false)} className="w-[900px] h-[700px]"></EtatRecapitulatifRecette>
+ <ConsultationOperateur isOpen={isModalConsultationOperateur} onClose={()=>setIsModalConsultationOperateur(false)} quitter={()=>setIsModalConsultationOperateur(false)} className="w-[900px] h-[850px]"></ConsultationOperateur>
+ <ConsultationMontant isOpen={isModalConsultationMontant} onClose={()=>setIsModalConsultationMontant(false)} quitter={()=>setIsModalConsultationMontant(false)} className="w-[500px] h-[500px]"></ConsultationMontant>
  </div>
    )
 }

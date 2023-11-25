@@ -30,7 +30,7 @@ function LoginOrdreVirment() {
         const userData = response.data;
         console.log(userData)
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
-        if ( userData.immatriculation_prise_charge === true) {
+        if ( userData.compte === "BNQ") {
           // Redirect to the desired page if the condition is met
           navigate('/Fichier');
         } else {
@@ -51,7 +51,7 @@ function LoginOrdreVirment() {
           <Label className="text-5xl" text="Identification"></Label>
           <div className='flex flex-col mt-8'>
             <Label text="Code"></Label>
-            <Input type="text" placeholder="Votre code" value={code} onChange={(e) => setCode(e.target.value)} />
+            <Input type="text" className="w-full" placeholder="Votre code" value={code} onChange={(e) => setCode(e.target.value)} />
           </div>
           <div className='flex flex-col mt-4'>
             <Label text="Mot de passe"></Label>

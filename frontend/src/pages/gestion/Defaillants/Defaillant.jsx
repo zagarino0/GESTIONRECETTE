@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Layout } from '../Layout'
-import Majunga from "../../../assets/majunga04.jpg"
 import { Button } from '../../../components/button/button'
 
 import { Navbar } from '../../../components/navbar/Navbar'
 import Modal from '../../../components/modals/Modal'
+import { useLocation } from 'react-router-dom'
 
 function Defaillant() {
+  const location = useLocation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
     const NavbarModal =(
         
@@ -17,9 +18,7 @@ Relance des Defaillants
       )
   const contentChildren =(
     <div className='flex p-8 justify-center items-center'>
-        <div>
-            <img src={Majunga} alt="majunga" className='w-[700px] h-[540px] bg-cover'/>
-        </div>
+      
         <div className='mt-16 ml-12'>
             <div className='w-96 mt-16 text-white text-3xl '>
                Relance des Defaillants
@@ -52,7 +51,7 @@ RELANCE DES DEFAILLANTS **IMPOT SUR LES REVENUS SALARIAUX** MENSUEL PERIODE 7 AU
     )
   return (
  <div  className='bg-[#212122] h-screen w-screen'>
-    <Layout children={contentChildren}></Layout>
+    <Layout currentPath={location.pathname} children={contentChildren}></Layout>
  </div>
   )
 }

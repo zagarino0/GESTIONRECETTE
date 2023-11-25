@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { Layout } from '../Layout'
-import Majunga from "../../../assets/majunga02.jpg"
 import { Button } from '../../../components/button/button'
 import Input from '../../../components/input/Input'
 import Label from '../../../components/title/label'
 import { Navbar } from '../../../components/navbar/Navbar'
 import Modal from '../../../components/modals/Modal'
 import { LinkButton } from '../../../components/button/LinkButton'
+import { useLocation } from 'react-router-dom'
 
 function ConsultationGestion() {
+  const location = useLocation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
     const NavbarModal =(
         
@@ -19,9 +20,7 @@ function ConsultationGestion() {
       )
   const contentChildren =(
     <div className='flex p-8 justify-center items-center'>
-        <div>
-            <img src={Majunga} alt="majunga" className='w-[700px] h-[540px] bg-cover'/>
-        </div>
+       
         <div className='mt-16 ml-12'>
             <div className='w-96 mt-16 text-white text-3xl '>
                Consultation
@@ -35,7 +34,7 @@ function ConsultationGestion() {
             </div>
         </div>
         </div>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[700px] h-[250px] ">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[250px] ">
         <Navbar content={NavbarModal} ></Navbar>
         <div className='flex justify-center items-center p-4 '>
        <div className='flex flex-col'>
@@ -44,7 +43,7 @@ Il s'agit d'avoir une copie du fichier ASSUJETISSEMENTS
             </div>
             <div className='flex justify-between m-2 '>
              <Label text="Année :"></Label>
-            <Input type="texr"></Input>
+            <Input type="text" className="w-60"></Input>
             </div>
             
             <div className='flex justify-between  m-2 '>
@@ -60,7 +59,7 @@ Il s'agit d'avoir une copie du fichier ASSUJETISSEMENTS
     )
   return (
  <div  className='bg-[#212122] h-screen w-screen'>
-    <Layout children={contentChildren}></Layout>
+    <Layout currentPath={location.pathname} children={contentChildren}></Layout>
  </div>
   )
 }

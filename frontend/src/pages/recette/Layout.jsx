@@ -19,7 +19,7 @@ import { Navbar } from '../../components/navbar/Navbar';
     ];
   // Navbar content
   const contentNavbar = (
-    <nav className="flex items-center justify-between">
+    <nav className="flex items-center h-16 justify-between">
       <ul className="flex">
         {links.map((link) => (
           <li
@@ -29,6 +29,7 @@ import { Navbar } from '../../components/navbar/Navbar';
             py-3
             px-6 
             text-white 
+            text-xs
             font-semibold
             ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
           `}

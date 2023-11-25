@@ -30,102 +30,89 @@ function RegimeFiscalIm() {
  <div className='p-4 bg-black mt-2 rounded-md '>
    <p className='text-white text-xl text-center'>Regime Fiscal</p>
  </div>
- <div className='flex hidden justify-between'>
+ <div className='flex  justify-between'>
 
   <div className=' h-[400px] w-[700px] p-2'>
 <div className="flex justify-between">
-<div>
-
-</div>
-<Label text="Période"></Label>
-<Label text="Date début"></Label>
-<Label text="Date fin"></Label>
-</div>
-<div className='flex justify-between mt-2'>
-<Checkbox label="Impot synthétique"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<Checkbox label="Impot ou les révenus"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40" ></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<Checkbox label="IRSA"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<Checkbox label="IRCM"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<Checkbox label="DA[Local]"></Checkbox>
-<Input type="text" placeholder="Période"  className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
-<Checkbox label="TVA"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-</div>
+<div className='flex flex-col'>
+  <Checkbox label="Impot synthétique"></Checkbox>
+  <Checkbox label="Impot ou les révenus"></Checkbox>
+  <Checkbox label="IRSA"></Checkbox>
+  <Checkbox label="IRCM"></Checkbox>
+  <Checkbox label="DA[Local]"></Checkbox>
+  <Checkbox label="TVA"></Checkbox>
   </div>
-  <div className=' h-[400px] w-[700px] p-2'>
-<div className="flex justify-between">
-<div>
+<div className='flex flex-col'>
+<Label text="Période"></Label>
+<Input type="text" placeholder="Période" className="w-40 mt-2" ></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période"  className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+</div>
+<div className='flex flex-col'>
+<Label text="Date début"></Label>
+<Input type="date" className=" w-40 mt-2"></Input>
+<Input type="date" className=" w-40 mt-2"></Input>
+<Input type="date" className=" w-40 mt-2"></Input>
+<Input type="date" className=" w-40 mt-2"></Input>
+<Input type="date" className=" w-40 mt-2"></Input>
+<Input type="date" className=" w-40 mt-2"></Input>
+</div>
+<div className='flex flex-col'>
+<Label text="Date fin"></Label>
+<Input type="date"  className=" w-40 mt-2"></Input>
+<Input type="date"  className=" w-40 mt-2"></Input>
+<Input type="date"  className=" w-40 mt-2"></Input>
+<Input type="date" className=" w-40 mt-2"></Input>
+<Input type="date"  className=" w-40 mt-2"></Input>
+<Input type="date" className="w-40 mt-2"></Input>
+</div>
 
 </div>
-<Label text="Période"></Label>
-<Label text="Date début"></Label>
-<Label text="Date fin"></Label>
-</div>
-<div className='flex justify-between mt-2'>
+
+  </div>
+<div className='flex flex-col'>
 <Checkbox label="Licences de Vente des BA"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
 <Checkbox label="Prél. sur Produits de Jeux"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40" ></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
 <Checkbox label="Prél. sur BA et Alcolisé"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
 <Checkbox label="Taxes sur Appareils Auto."></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
 <Checkbox label="Taxes sur Contrats Assur."></Checkbox>
-<Input type="text" placeholder="Période"  className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date"  className="ml-2 w-40"></Input>
-</div>
-<div className='flex justify-between mt-2'>
 <Checkbox label="Taxe Spéc Jeunesse et Sport"></Checkbox>
-<Input type="text" placeholder="Période" className="w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
-<Input type="date" className="ml-2 w-40"></Input>
 </div>
-  </div>
+<div className='flex flex-col'>
+<Label text="Période"></Label>
+<Input type="text" placeholder="Période" className="w-40 mt-2" ></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période"  className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+<Input type="text" placeholder="Période" className="w-40 mt-2"></Input>
+</div>
+<div className='flex flex-col'>
+<Label text="Date début"></Label>
+<Input type="date" className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+</div>
+<div className='flex flex-col'>
+<Label text="Date fin"></Label>
+<Input type="date"  className="mt-2 w-40"></Input>
+<Input type="date"  className="mt-2 w-40"></Input>
+<Input type="date"  className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+<Input type="date"  className="mt-2 w-40"></Input>
+<Input type="date" className="mt-2 w-40"></Input>
+</div>
+
 
  
+
+ </div>
  <div className='flex justify-between mt-2'>
 <div >
 <Label text="2023" className="text-3xl"></Label>
@@ -139,7 +126,6 @@ function RegimeFiscalIm() {
 <Button type="submit" children="Enregistrer MAJ" className="ml-2"></Button>
 </div>
 </div>
- </div>
     </div>
   )
   return (
