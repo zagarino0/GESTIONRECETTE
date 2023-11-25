@@ -29,6 +29,7 @@ app.use(cookieParser());
 app.use('/user', require('./routes/api/user/user'));
 
 //app.use(verifyJWT);
+
 //immatriculation
 app.use('/client', require('./routes/api/immatriculation/client'));
 app.use('/vehicle', require('./routes/api/immatriculation/vehicle'));
@@ -41,9 +42,12 @@ app.use('/recette', require('./routes/api/recette/recette'));
 //gestion
 app.use('/gestion', require('./routes/api/gestion/gestion'));
 
+//consultation
+
+app.use('/consulation', require('./routes/api/consultation/consultation'))
+
 // Route to get code
 app.use('/code', require('./routes/api/code/code'));
 app.use('/prevision', require('./routes/api/parametre/prevision'));
-
 
 app.listen(PORT, () => console.log(`Server running http://localhost:${PORT}`));
