@@ -10,8 +10,10 @@ const getClientByNif = (req, res) => {
 
     data.client.map(cli => {
         data.charge.map(cha => {
-            if(cli.reference_fiscal === reference_fiscal && cli.reference_fiscal === cha.reference_fiscal)
+            if(cli.nif === reference_fiscal && cli.nif === cha.reference_fiscal)
+            {
                 client = {...cli, ...cha};
+            }
         })
     })
     

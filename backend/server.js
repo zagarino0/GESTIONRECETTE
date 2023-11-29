@@ -43,8 +43,7 @@ app.use('/recette', require('./routes/api/recette/recette'));
 app.use('/gestion', require('./routes/api/gestion/gestion'));
 
 //consultation
-
-app.use('/consulation', require('./routes/api/consultation/consultation'))
+app.use('/consultation', require('./routes/api/consultation/consultation'));
 
 // Route to get code
 app.use('/code', require('./routes/api/code/code'));
