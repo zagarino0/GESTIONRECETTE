@@ -40,7 +40,7 @@ const getRecetteBetweenTwoDate = (req, res) => {
     let impots = [];
 
     data.modePayment.map(mod => {
-        if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_a_payer === mod.montant_verser)
+        if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0)
             impots.push(mod);
     })
 
@@ -49,16 +49,24 @@ const getRecetteBetweenTwoDate = (req, res) => {
 }
 
 const getResteARecouvrerBetweenTwoDate = (req, res) => {
+    let reference_fiscal = req.body.reference_fiscal;
     const date_init = req.body.date_init;
     const date_fin = req.body.date_fin;
 
     let impots = [];
-
-    data.modePayment.map(mod => {
-        if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.reste_a_payer !== 0)
-            impots.push(mod);
-    })
-
+    if(reference_fiscal === ""){
+        data.modePayment.map(mod => {
+            if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.reste_a_payer !== 0)
+                impots.push(mod);
+        })
+    }else{
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.reste_a_payer !== 0 && cli.nif === mod.reference_fiscal)
+                    impots.push(mod);
+            })
+        })
+    }
     res.json(impots);
     impots = [];
 }
