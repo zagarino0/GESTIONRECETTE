@@ -6,7 +6,7 @@ import Label from '../../components/title/label'
 import axios from 'axios'
 import PasswordInput from '../../components/input/PasswordInput'
 import { ModalError, ModalErrorServer } from '../immatriculation/Modal'
-
+import Cookies from 'js-cookie';
 function LoginParametre() {
   const [code, setCode] = useState('');
   const [mdp, setMdp] = useState('');
@@ -32,9 +32,10 @@ function LoginParametre() {
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
         if ( userData.compte === "BNQ") {
           // Redirect to the desired page if the condition is met
+          const refreshToken = userData.refreshToken;
+          Cookies.set('refreshToken', refreshToken, { secure: true, sameSite: 'Strict' });
+        
          
-          localStorage.setItem('refreshToken', userData.refreshToken);
-          localStorage.setItem('id_user', userData.id_user);
           
           navigate('/miseAJourParametre');
         } else {

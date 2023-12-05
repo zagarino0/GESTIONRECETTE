@@ -39,11 +39,11 @@ const NavbarContent = (
      </div>
      <div className='flex flex-row ml-2 '>
       <Label text="RF :"></Label>
-      <Input type="text" placeholder="Code " className="ml-4"></Input>
+      <Input type="text"  className="ml-4"></Input>
      </div>
      <div className='flex flex-row ml-4 '>
       <Label text="Reste à recouvrer :"></Label>
-      <Input type="text" placeholder="Mot de passe" className="ml-4"></Input>
+      <Input type="text"  className="ml-4"></Input>
      </div>
      </div>
      <div className='p-4 bg-black mt-2 '>

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const Table = (props) => {
-  const { headers, data , classNameTd  } = props;
+  const { headers, data , classNameTd ,onClick } = props;
   const DataCell = ({ content }) => (
     <td className={`px-6 py-4  whitespace-no-wrap border-b border-gray-200 `} onClick={props.onClick}>
      {content}
@@ -25,7 +25,7 @@ const Table = (props) => {
     
       <tbody>
           {data.map((row, rowIndex) => (
-            <tr key={rowIndex} className={classNameTd}>
+            <tr key={rowIndex} className={classNameTd} onClick={onClick} >
               {row.map((cell, cellIndex) => (
                 <DataCell key={cellIndex} content={cell} />
               ))}

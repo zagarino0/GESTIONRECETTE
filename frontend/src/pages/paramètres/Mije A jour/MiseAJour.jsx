@@ -1,12 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkButton } from '../../../components/button/LinkButton'
 import Layout from '../Layout'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 function MiseAJour() {
+  const [userData, setUserData] = useState(null);
 
-  
+  useEffect(() => {
+    const cookies = Cookies.get('refreshToken');
+    console.log(cookies);
+    if (cookies) {
+      const apiUrl = 'http://localhost:3500/user/refresh';  // Adjust the endpoint
+
+      axios
+        .get(apiUrl, { cookies })
+        .then((response) => {
+          const user = response.data;
+          setUserData(user);
+        })
+        .catch((error) => {
+          console.error('User details error:', error);
+        });
+    }
+  }, []);
  
   const location = useLocation(); 
     const contentChildren=(
@@ -25,7 +42,12 @@ function MiseAJour() {
     <LinkButton to="/typeProceVerbaux" text="Type de Procés Verbaux "  className="mt-2"></LinkButton>
     <LinkButton to="/operateurTelephonique" text="Les opérateurs telephoniques"  className="mt-2"></LinkButton>
     </div> 
-    </div>   
+    </div>  
+    {userData && (
+          <div className='text-white text-center'>
+            Welcome, {userData.nom} ({userData.prenom})
+          </div>
+        )} 
      </div>
       ) 
   return (
