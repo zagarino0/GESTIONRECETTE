@@ -64,6 +64,36 @@ const setModePayment = async (req, res) => {
     res.status(200).json(data.json);
 }
 
+const getClientByRecepisse = (req, res) => {
+    const numero_recepisse = req.body.numero_recepisse;
+
+    let client = [];
+
+    if(numero_recepisse === ""){
+        data.clients.map(cli => {
+            data.charges.map(cha => {
+                data.modePayment.map(mod => {
+                    if(mod.numero_recepisse === numero_recepisse && cli.nif === cha.reference_fiscal)
+                        client.push({...cli, ...cha, ...mod});
+                })
+            })
+        })
+    }else if(numero_recepisse !== ""){
+        data.clients.map(cli => {
+            data.charges.map(cha => {
+                data.modePayment.map(mod => {
+                    if(mod.numero_recepisse === numero_recepisse && cli.nif === cha.reference_fiscal && mod.numero_recepisse === numero_recepisse)
+                        client.push({...cli, ...cha, ...mod});
+                })
+            })
+        })
+    }
+    
+    res.json(client);
+    client = [];
+}
+
+
 const getPaymentByTwoDate = (req, res) => {
     const date_init = req.body.date_init;
     const date_fin = req.body.date_fin;
@@ -170,5 +200,6 @@ module.exports = {
     getAllPayment,
     getClientByRaisonSocial,
     getClientByNomCommercial,
-    getClientByAddresse
+    getClientByAddresse,
+    getClientByRecepisse
 }

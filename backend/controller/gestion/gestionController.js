@@ -40,18 +40,22 @@ const getRecetteBetweenTwoDate = (req, res) => {
 
     let clients = [];
 
-    if(numero_impot === ""){
-        data.modePayment.map(mod => {
-            getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
-                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && mod.numero_impot == imp.numero_impot)
-                    clients.push({...mod, ...imp});
+    if (numero_impot === "") {
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+                    if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && mod.numero_impot == imp.numero_impot && mod.reference_fiscal === cli.nif)
+                        clients.push({ ...mod, ...imp, ...cli });
+                })
             })
         })
-    }else if(numero_impot !== ""){
-        data.modePayment.map(mod => {
-            getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
-                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && imp.numero_impot == numero_impot && mod.numero_impot == imp.numero_impot)
-                    clients.push({...mod, ...imp});
+    } else if (numero_impot !== "") {
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+                    if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && imp.numero_impot == numero_impot && mod.numero_impot == imp.numero_impot && mod.reference_fiscal === cli.nif)
+                        clients.push({ ...mod, ...imp, ...cli });
+                })
             })
         })
     }
@@ -68,18 +72,18 @@ const getResteARecouvrerBetweenTwoDate = (req, res) => {
     let impots = [];
     let clients = [];
 
-    if(reference_fiscal === ""){
+    if (reference_fiscal === "") {
         data.client.map(cli => {
             data.modePayment.map(mod => {
-                if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0)
-                    clients.push({...cli, ...mod});
+                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && mod.reference_fiscal === cli.nif)
+                    clients.push({ ...cli, ...mod });
             })
         })
-    }else if(reference_fiscal !== ""){
+    } else if (reference_fiscal !== "") {
         data.client.map(cli => {
             data.modePayment.map(mod => {
-                if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && cli.nif === reference_fiscal)
-                    clients.push({...cli, ...mod});
+                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && cli.nif === reference_fiscal && mod.reference_fiscal === cli.nif)
+                    clients.push({ ...cli, ...mod });
             })
         })
     }
@@ -92,18 +96,18 @@ const getAllResteARecouvrer = (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
 
     let clients = [];
-    if(reference_fiscal === ""){
+    if (reference_fiscal === "") {
         data.client.map(cli => {
             data.modePayment.map(mod => {
-                if(mod.montant_a_payer !== 0)
-                    clients.push({...cli, ...mod});
+                if (mod.montant_a_payer !== 0 && cli.nif === mod.reference_fiscal)
+                    clients.push({ ...cli, ...mod });
             })
         })
-    }else if(reference_fiscal !== ""){
+    } else if (reference_fiscal !== "") {
         data.client.map(cli => {
             data.modePayment.map(mod => {
-                if(mod.montant_a_payer !== 0 && cli.nif === reference_fiscal)
-                    clients.push({...cli, ...mod});
+                if (mod.montant_a_payer !== 0 && cli.nif === reference_fiscal && cli.nif === mod.reference_fiscal)
+                    clients.push({ ...cli, ...mod });
             })
         })
     }

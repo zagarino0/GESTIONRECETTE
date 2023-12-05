@@ -19,6 +19,9 @@ router.route('/client/nomcommercial')
 
 router.route('/client/raisoncommercial')
     .post(recetteController.getClientByRaisonSocial);
+
+router.route('/recepisse')
+    .post(recetteController.getClientByRecepisse);
     
 
 module.exports = router;
