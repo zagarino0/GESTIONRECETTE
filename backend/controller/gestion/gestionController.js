@@ -15,14 +15,14 @@ const getClientByNif = (req, res) => {
     let impots = [];
 
     data.modePayment.map(pay => {
-        if(pay.reference_fiscal === reference_fiscal)
+        if (pay.reference_fiscal === reference_fiscal)
             modePayments.push(pay);
     })
 
     modePayments.map(pay => {
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
-            if(pay.numero_impot === imp.numero_impot){
-                impots.push({...pay, ...imp});            
+            if (pay.numero_impot === imp.numero_impot) {
+                impots.push({ ...pay, ...imp });
             }
         })
     })
@@ -34,50 +34,82 @@ const getClientByNif = (req, res) => {
 }
 
 const getRecetteBetweenTwoDate = (req, res) => {
+    const numero_impot = req.body.numero_impot;
     const date_init = req.body.date_init;
     const date_fin = req.body.date_fin;
 
-    let impots = [];
+    let clients = [];
 
-    data.modePayment.map(mod => {
-        if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0)
-            impots.push(mod);
-    })
-
-    res.json(impots);
-    impots = [];
-}
-
-const getResteARecouvrerBetweenTwoDate = (req, res) => {
-    let reference_fiscal = req.body.reference_fiscal;
-    const date_init = req.body.date_init;
-    const date_fin = req.body.date_fin;
-
-    let impots = [];
-    if(reference_fiscal === ""){
+    if(numero_impot === ""){
         data.modePayment.map(mod => {
-            if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.reste_a_payer !== 0)
-                impots.push(mod);
+            getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && mod.numero_impot == imp.numero_impot)
+                    clients.push({...mod, ...imp});
+            })
         })
-    }else{
-        data.client.map(cli => {
-            data.modePayment.map(mod => {
-                if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.reste_a_payer !== 0 && cli.nif === mod.reference_fiscal)
-                    impots.push(mod);
+    }else if(numero_impot !== ""){
+        data.modePayment.map(mod => {
+            getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
+                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && imp.numero_impot == numero_impot && mod.numero_impot == imp.numero_impot)
+                    clients.push({...mod, ...imp});
             })
         })
     }
-    res.json(impots);
-    impots = [];
+
+    res.json(clients);
+    clients = [];
+}
+
+const getResteARecouvrerBetweenTwoDate = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    const date_init = req.body.date_init;
+    const date_fin = req.body.date_fin;
+
+    let impots = [];
+    let clients = [];
+
+    if(reference_fiscal === ""){
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0)
+                    clients.push({...cli, ...mod});
+            })
+        })
+    }else if(reference_fiscal !== ""){
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                if(mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && cli.nif === reference_fiscal)
+                    clients.push({...cli, ...mod});
+            })
+        })
+    }
+
+    res.json(clients);
+    clients = [];
 }
 
 const getAllResteARecouvrer = (req, res) => {
-    let restes = [];
-    data.modePayment.map(pay => {
-        if(pay.reste_a_payer !== 0)
-            restes.push(pay);
-    })
-    res.json(restes);
+    const reference_fiscal = req.body.reference_fiscal;
+
+    let clients = [];
+    if(reference_fiscal === ""){
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                if(mod.montant_a_payer !== 0)
+                    clients.push({...cli, ...mod});
+            })
+        })
+    }else if(reference_fiscal !== ""){
+        data.client.map(cli => {
+            data.modePayment.map(mod => {
+                if(mod.montant_a_payer !== 0 && cli.nif === reference_fiscal)
+                    clients.push({...cli, ...mod});
+            })
+        })
+    }
+
+    res.json(clients);
+    clients = [];
 }
 
 module.exports = {
