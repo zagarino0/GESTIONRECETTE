@@ -163,6 +163,22 @@ const getClientByRaisonSocial = (req, res) => {
 
 }
 
+const getRecapRecette = (req, res) => {
+    const date_init = req.body.date_init;
+    const date_fin = req.body.date_fin;
+
+    let totalRecette = 0;
+
+    data.modePayment.map(mod => {
+        if(mod.date_creation >= date_init && mod.date_creation <= date_fin)
+            totalRecette += parseFloat(mod.montant_verser);
+    })
+
+    res.json(totalRecette);
+    totalRecette = 0;
+
+}
+
 const getClientByNomCommercial = (req, res) => {
     const nom_commercial = req.body.nom_commercial;
     let client = []
@@ -201,5 +217,6 @@ module.exports = {
     getClientByRaisonSocial,
     getClientByNomCommercial,
     getClientByAddresse,
-    getClientByRecepisse
+    getClientByRecepisse,
+    getRecapRecette
 }

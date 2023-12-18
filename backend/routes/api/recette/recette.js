@@ -22,6 +22,8 @@ router.route('/client/raisoncommercial')
 
 router.route('/recepisse')
     .post(recetteController.getClientByRecepisse);
-    
+
+router.route('/recapitulatif')
+    .post(recetteController.getRecapRecette);
 
 module.exports = router;

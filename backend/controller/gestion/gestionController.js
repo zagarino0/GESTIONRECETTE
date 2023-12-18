@@ -69,20 +69,19 @@ const getResteARecouvrerBetweenTwoDate = (req, res) => {
     const date_init = req.body.date_init;
     const date_fin = req.body.date_fin;
 
-    let impots = [];
     let clients = [];
 
     if (reference_fiscal === "") {
         data.client.map(cli => {
             data.modePayment.map(mod => {
-                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && mod.reference_fiscal === cli.nif)
+                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 )
                     clients.push({ ...cli, ...mod });
             })
         })
     } else if (reference_fiscal !== "") {
         data.client.map(cli => {
             data.modePayment.map(mod => {
-                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && cli.nif === reference_fiscal && mod.reference_fiscal === cli.nif)
+                if (mod.date_creation >= date_init && mod.date_creation <= date_fin && mod.montant_verser !== 0 && cli.nif === reference_fiscal)
                     clients.push({ ...cli, ...mod });
             })
         })

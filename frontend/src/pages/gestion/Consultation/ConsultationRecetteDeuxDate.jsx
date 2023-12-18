@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Label from '../../../components/title/label';
 import Input from '../../../components/input/Input';
 import Table from '../../../components/table/Table';
@@ -21,7 +21,7 @@ function ConsultationRecetteDeuxDate() {
     
     date_init:"",
     date_fin:"",
-    nif:""
+    numero_impot:""
   });
 
  //code Impot
@@ -38,25 +38,23 @@ function ConsultationRecetteDeuxDate() {
 //nature impot 
 // Rechercher le libellé correspondant au numéro d'impôt sélectionné
 const selectedLibelle = dataCodeImpot.find((item) => item.numero_impot === selectedNumeroImpot);
-  const HandleData = useCallback(async () => {
+
+  const HandleData = async  (e) => {
+    e.preventDefault();
     const baseUrl = `http://localhost:3500/gestion`;
     try {
       const response = await axios.post(`${baseUrl}/recette`, {
         date_init: value.date_init,
         date_fin: value.date_fin,
+        numero_impot: value.numero_impot
       });
-  
       const BetweenToDate = response.data;
       setResponse(BetweenToDate);
     } catch (error) {
       console.error(`l'erreur est`, error);
     }
-  }, [value.date_init, value.date_fin]);
+  }
   
-  useEffect(() => {
-    // Fetch initial data on component mount
-    HandleData();
-  }, [HandleData]);
   
 
       const [valueSelected, setValueSelected] = useState([]);
@@ -116,17 +114,22 @@ const selectedLibelle = dataCodeImpot.find((item) => item.numero_impot === selec
     // Mettre à jour l'état avec le numéro d'impôt sélectionné
     setSelectedNumeroImpot(selectedOption.value);
     setCode_impot(selectedOption.value);
-    setSelected(selectedOption)
+    
+    setSelected(selectedOption);
     
   };
   
   // Créez une fonction de filtrage
 const filterDataImpot= () => {
   if (selected) {
-    const filtered = Response.filter((item) => item[13] === selected.value);
+    const filtered = data.filter((item) => item[13] === selected.value);
     setFilteredData(filtered);
+   console.log("filter",filtered)
+    
   } else {
-    setFilteredData(Response);
+    setFilteredData(data);
+    console.log("data",data)
+    
   }
 };
 
@@ -163,6 +166,7 @@ useEffect(() => {
        onChange={(e)=> setValue({...value , date_fin: e.target.value})}
        ></Input>
        </div>
+       <Button type="submit" onClick={HandleData} children="Executer" className="h-12 mt-8 ml-4" ></Button>
       </div>
        <div className='bg-black p-4 mt-2 flex  justify-between'>
        <div className='flex flex-col '>

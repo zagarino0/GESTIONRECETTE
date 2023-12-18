@@ -40,26 +40,20 @@ function ResteRecouvrerDeuxDate() {
   };
 
   const [Response , setResponse] = useState([]);
-  // header Table components 
-  useEffect(() => {
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/gestion/restearecouvrer')
-      .then((response) => setResponse(response.data))
-      .catch((error) => console.error(error));
-     
-  }, []);
+  
 const HandleData = async() => {
 const baseUrl = `http://localhost:3500/gestion`
 
   try {
 
 
-    const response = await axios.post(`${baseUrl}/restearecouvrer`, {
+    const response = await axios.post(`${baseUrl}/restearecouvrer/deuxdate`, {
       date_init: value.date_init,
       date_fin: value.date_fin,
-      nif : value.nif      
+      reference_fiscal : value.nif      
     });
-  
+  console.log(value.date_init)
+  console.log(value.date_fin)
   
     // Extract the data property from the response
     const BetweenToDate = response.data;

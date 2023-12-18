@@ -28,7 +28,7 @@ app.use(cookieParser());
 // User routes
 app.use('/user', require('./routes/api/user/user'));
 
-//app.use(verifyJWT);
+app.use(verifyJWT);
 
 //immatriculation
 app.use('/client', require('./routes/api/immatriculation/client'));
