@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Layout } from '../Layout'
-import Majunga from "../../../assets/majunga03.jpg"
 import { Button } from '../../../components/button/button'
 import Modal from '../../../components/modals/Modal';
 import { Navbar } from '../../../components/navbar/Navbar';
@@ -58,9 +57,7 @@ function Utilitaire() {
       )
     const contentChildren =(
         <div className='flex p-8 justify-center items-center'>
-            <div>
-                <img src={Majunga} alt="majunga" className='w-[700px] h-[540px] bg-cover'/>
-            </div>
+            
             <div className='mt-16 ml-12'>
             <div className='w-96 mt-16 text-white text-3xl '>
                 Utilitaires
