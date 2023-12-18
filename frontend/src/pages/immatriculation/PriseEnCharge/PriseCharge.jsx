@@ -77,8 +77,8 @@ onChange={(e) => setSearchTerm(e.target.value)}
                      
            <div >        
            <div className=" flex flex-row">
-<Label text="RF" className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
+<Label text="RF" className="text-xs"></Label>
+<p className='text-xs ml-2 text-white text-[15px] text-[15px]'>
 {data.nif }
 </p>
 <Label text="N° Statistique" className="ml-8 text-[15px]"></Label>
@@ -311,7 +311,7 @@ onChange={(e) => setSearchTerm(e.target.value)}
      </div>
         )
       return (
-     <div  className='bg-[#212122] h-screen w-screen'>
+     <div  className='bg-[#212122] h-full w-full'>
         <Layout currentPath={location.pathname} children={contentChildren}></Layout>
      </div>
       )
