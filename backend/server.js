@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 3500;
 app.use(credentials);
 
 // cross origin resource sharing
-app.use(cors(corsOption));
+app.use(cors());
+//corsOption
 
 // build-in middleware to handle urlencoded form data
 app.use(express.urlencoded({extended: false}));

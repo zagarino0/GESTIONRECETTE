@@ -27,6 +27,10 @@ const getClientByNif = (req, res) => {
         })
     })
 
+    if(!client){
+        return res.status(404).json([]);
+    }
+
     client.impots = impots;
     res.json(client);
     modePayments = [];
