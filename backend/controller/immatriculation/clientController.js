@@ -1,5 +1,6 @@
 const data = {
     clients: require("../../../../e-immatriculation/backend/model/client.json"),
+    assujetissement: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
     setClients: function (data) { this.clients = data }
 };
 
@@ -135,9 +136,16 @@ const deleteClient = async (req, res) => {
 
 const getClient = (req, res) => {
     const client = data.clients.find(cli => cli.nif === req.params.nif);
+    let assujetissements = [];
+    data.assujetissement.map(ass => {
+        if(ass.id_contribuable === client.id)
+            assujetissements.push(ass)
+    });
     if(!client){
         return res.status(400).json({'message': 'client not found'});
     }
+
+    client.assujetissements = assujetissements;
     res.json(client);
 }
 
