@@ -1,1 +1,22 @@
-[{"id_user":1,"immatriculation_creation":false,"immatriculation_prise_charge":false},{"id_user":5,"immatriculation_creation":false,"immatriculation_prise_charge":false},{"id_user":6,"immatriculation_creation":true,"immatriculation_prise_charge":true},{"id_user":7,"immatriculation_creation":true,"immatriculation_prise_charge":true}]
+[
+    {
+        "id_user": 1,
+        "immatriculation_creation": false,
+        "immatriculation_prise_charge": false
+    },
+    {
+        "id_user": 5,
+        "immatriculation_creation": false,
+        "immatriculation_prise_charge": false
+    },
+    {
+        "id_user": 6,
+        "immatriculation_creation": true,
+        "immatriculation_prise_charge": true
+    },
+    {
+        "id_user": 7,
+        "immatriculation_creation": true,
+        "immatriculation_prise_charge": true
+    }
+]

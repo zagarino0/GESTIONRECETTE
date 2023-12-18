@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 3500;
 app.use(credentials);
 
 // cross origin resource sharing
-app.use(cors(corsOption));
+app.use(cors());
+//corsOption
 
 // build-in middleware to handle urlencoded form data
 app.use(express.urlencoded({extended: false}));
@@ -28,7 +29,7 @@ app.use(cookieParser());
 // User routes
 app.use('/user', require('./routes/api/user/user'));
 
-app.use(verifyJWT);
+//app.use(verifyJWT);
 
 //immatriculation
 app.use('/client', require('./routes/api/immatriculation/client'));

@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"id":7,"nom":"MICKAELSON","prenom":"Bella","fonction":"Directeur de gestion","code":"2468","mot_de_passe":"$2b$10$OXF/3Ikcvnd66qFIDZJZdu0BWsbUE79bChVyFaD0x3/wbAz6M5wiu","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMjQ2OCIsImlhdCI6MTcwMjkyODI5NCwiZXhwIjoxNzAzMDE0Njk0fQ.459Sq2tTLGqO2qutztJ6d5JTghCD28fQvsy-UlOe4WE","compte":"BNQ"}]
+=======
+[{"id":7,"nom":"MICKAELSON","prenom":"Bella","fonction":"Directeur de gestion","code":"2468","mot_de_passe":"$2b$10$OXF/3Ikcvnd66qFIDZJZdu0BWsbUE79bChVyFaD0x3/wbAz6M5wiu","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiMjQ2OCIsImlhdCI6MTcwMjkyOTQ4NiwiZXhwIjoxNzAzMDE1ODg2fQ.7kSb_-Y2XoPdSyxCLDGPcfQ_Ln5xt0rzoID8gWgV_eg","compte":"BNQ"}]
+>>>>>>> ae8854624141a4b179be176cac814150bb7c3c82

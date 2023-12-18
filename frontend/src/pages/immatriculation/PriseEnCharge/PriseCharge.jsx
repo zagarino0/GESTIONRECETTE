@@ -77,65 +77,70 @@ onChange={(e) => setSearchTerm(e.target.value)}
                      
            <div >        
            <div className=" flex flex-row">
+<<<<<<< HEAD
 <Label text="RF" className="text-xs"></Label>
 <p className='text-xs ml-2 text-white text-[15px] text-[15px]'>
+=======
+<Label text="RF" ></Label>
+<p className='text-xs ml-2 text-white '>
+>>>>>>> ae8854624141a4b179be176cac814150bb7c3c82
 {data.nif }
 </p>
-<Label text="N° Statistique" className="ml-8 text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
+<Label text="N° Statistique" className="ml-8 "></Label>
+<p className='text-xs ml-2 text-white '>
   { data.numero_statistique }
 </p>
            </div>
 <div className='flex justify-between '>
 <div className='flex flex-col w-[500px]'>
 <div className="flex justify-between mt-1">
-<Label text="Raison social" className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
+<Label text="Raison social" className=""></Label>
+<p className='text-xs ml-2 text-white '>
 { data.raison_sociale}
 </p>
 </div>
 <div className="flex justify-between mt-1">
-<Label text="Nom Commercial" className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
+<Label text="Nom Commercial" className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.nom_commerciale }
 </p>
 </div>
 <div className="flex justify-between mt-1">
-<Label text="Adresse" className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] text-[15px]'>
+<Label text="Adresse" className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.adresse }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="Activité principal"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Activité principal"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.activite }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="Forme juridique" className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Forme juridique" className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.forme_juridique}
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="Type"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Type"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.type }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Précision activitée"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Précision activitée"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.precision_activite }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Capital"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Capital"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.capital }
 </p>
 </div>
@@ -143,54 +148,54 @@ onChange={(e) => setSearchTerm(e.target.value)}
 <div className='flex flex-col w-[500px]'>
 
 <div className="flex justify-between mt-2">
-<Label text="Regime Fiscal"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Regime Fiscal"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.regime_fiscal }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="Début exercice"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Début exercice"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.date_debut_exe }
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="Fin exercice"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Fin exercice"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.date_cloture_exe}
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="RCS"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="RCS"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
 </p>
 </div>
 
 <div className="flex justify-between mt-2">
-<Label text="N° agrément"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="N° agrément"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.reference_agrement }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date agrementt"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Date agrementt"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.date_agrement }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Periode grace"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Periode grace"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.periode_grace }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date creation"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Date creation"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.date_creation }
 </p>
 </div>
@@ -200,100 +205,100 @@ onChange={(e) => setSearchTerm(e.target.value)}
     <div className='flex justify-between mt-2'>
 <div className="w-[500px] flex flex-col">
 <div className="flex justify-between mt-2">
-<Label text="Titre"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Titre"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.titre }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date accord"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Date accord"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.date_accord }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date acte"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Date acte"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.date_acte }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Type demande"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Type demande"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.type_demande }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Proprietaire"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Proprietaire"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.proprietaire }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Nombre salarie"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Nombre salarie"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.nombre_salarie }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Rib"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Rib"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.rib }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Resident"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Resident"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.resident }
 </p>
 </div>
 </div>
 <div className="w-[500px] flex flex-col">
 <div className="flex justify-between mt-2">
-<Label text="Delivree le"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Delivree le"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   { data.delivree_le }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Exportateur"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Exportateur"className=""></Label>
+<p className='text-xs ml-2 text-white '>
 <Checkbox value={data.exportateur}></Checkbox>
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Importateur"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Importateur"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   <Checkbox value={data.importateur}></Checkbox>
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date registre" className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Date registre" className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.date_registre }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Registre commerce"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px]'>
+<Label text="Registre commerce"className=""></Label>
+<p className='text-xs ml-2 text-white '>
   {data.registre_commerce }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Precision activite"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] '>
+<Label text="Precision activite"className=""></Label>
+<p className='text-xs ml-2 text-white  '>
   { data.precision_activite }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date demande modif"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] '>
+<Label text="Date demande modif"className=""></Label>
+<p className='text-xs ml-2 text-white  '>
   { data.date_demande_modif }
 </p>
 </div>
 <div className="flex justify-between mt-2">
-<Label text="Date attribution RF"className="text-[15px]"></Label>
-<p className='text-xl ml-2 text-white text-[15px] '>
+<Label text="Date attribution RF"className=""></Label>
+<p className='text-xs ml-2 text-white  '>
   { data.date_attribution_nif }
 </p>
 </div>

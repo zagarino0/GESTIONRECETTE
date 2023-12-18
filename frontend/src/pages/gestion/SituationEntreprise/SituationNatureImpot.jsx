@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar } from '../../../components/navbar/Navbar'
 import BackButton from '../../../components/button/BackButton'
 import Label from '../../../components/title/label'
@@ -6,8 +6,33 @@ import ReactSelect from 'react-select'
 import Input from '../../../components/input/Input'
 import Table from '../../../components/table/Table'
 import { Button } from '../../../components/button/button'
+import axios from 'axios'
 
 function SituationNatureImpot() {
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [Data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
+
+  useEffect(() => {
+    if (searchTerm) {
+      setIsLoading(true);
+      // Effectuer une requête API en utilisant Axios
+      const updatedData = { "reference_fiscal" : searchTerm  };
+      axios.post('http://localhost:3500/gestion' , updatedData)
+        .then((response) => {
+          setData(response.data);
+        setIsLoading(false);
+       console.log(Data)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [searchTerm]);
+
+
     const Navbarcontent = (
         <div className='flex justify-between '>
           <div className='text-white '>
@@ -41,7 +66,10 @@ function SituationNatureImpot() {
           </div>
           <div className='flex flex-row ml-6'>
             <Label text="RF :"></Label>
-            <Input type="text" className="ml-4"></Input>
+            <Input type="text" className="ml-4"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            ></Input>
           </div>
         </div>
         <div className='flex flex-col ml-4 mt-2 bg-black p-4 mr-4'>
