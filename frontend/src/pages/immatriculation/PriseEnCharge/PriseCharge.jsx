@@ -77,13 +77,15 @@ onChange={(e) => setSearchTerm(e.target.value)}
                      
            <div >        
            <div className=" flex flex-row">
-<<<<<<< HEAD
+
 <Label text="RF" className="text-xs"></Label>
 <p className='text-xs ml-2 text-white text-[15px] text-[15px]'>
-=======
+
+{data.reference_fiscal }
+</p>
 <Label text="RF" ></Label>
 <p className='text-xs ml-2 text-white '>
->>>>>>> ae8854624141a4b179be176cac814150bb7c3c82
+
 {data.nif }
 </p>
 <Label text="N° Statistique" className="ml-8 "></Label>
