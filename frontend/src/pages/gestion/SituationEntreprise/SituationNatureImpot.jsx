@@ -9,29 +9,34 @@ import { Button } from '../../../components/button/button'
 import axios from 'axios'
 
 function SituationNatureImpot() {
-
   const [searchTerm, setSearchTerm] = useState('');
   const [Data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  
-
+  const [Impot , setImpot] = useState([])
   useEffect(() => {
-    if (searchTerm) {
-      setIsLoading(true);
-      // Effectuer une requête API en utilisant Axios
-      const updatedData = { "reference_fiscal" : searchTerm  };
-      axios.post('http://localhost:3500/gestion' , updatedData)
-        .then((response) => {
-          setData(response.data);
-        setIsLoading(false);
-       console.log(Data)
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [searchTerm]);
+    const fetchData = async () => {
+      if (searchTerm) {
+        
 
+        try {
+          const response = await axios.post('http://localhost:3500/gestion', {
+            reference_fiscal: searchTerm,
+          });
+
+          setData(response.data);
+          setImpot(response.data.impots);
+          console.log(Impot)
+          console.log(Data);
+          
+        } catch (error) {
+          console.error(error);
+          
+        }
+      }
+    };
+
+    // Call the fetchData function when the searchTerm changes
+    fetchData();
+  }, [searchTerm , Data , Impot])
 
     const Navbarcontent = (
         <div className='flex justify-between '>
@@ -45,13 +50,31 @@ function SituationNatureImpot() {
      )
 
     // header Table components 
-    const headers = [  "Date de regl.","Nature Impot","Nature Amende ", "Montant à payer" , "Total versé", "Reste à payer ", "Année", "", ""];
-    const headerscontent = [  "Date de paiment","Impot","Nature Impot ", "Ppl" , "Année", "P1 ", "P2", "Montant à Payer", "Total Versé", "Reste", "N Quittance", "",""];
+    const headers = [  "Date de regl.","Nature Impot","Nature Amende ", "Montant à payer" , "Total versé", "Reste à payer ", "Année"];
+    const headerscontent = [  "Date de paiment","Impot","Nature Impot ", "Ppl" , "Année", "P1 ", "P2", "Montant à Payer", "Total Versé", "Reste", "N Quittance", "Abreviation", "Base Impot" , "Abreviation", "Chapitre", "Code banque", "Groupe Impot", "Numéro budget",  "Numéro chèque", "Numéro classe", "Numéro impot", "Numéro récépissé", "pcop", "Période", "Periode1", "Periode2", "Transporteur"];
     // data Table components 
-    const data = [
-        ['none', 'none', 'none', 'none'],
-       
-      ];
+    const data = Impot.map(item =>[item.date_creation , item.libelle , item.type_payment , item.montant_a_payer , item.montant_verser , item.reste_a_payer , item.annee ] )
+
+    
+
+      // const formattedData = dataCode.map(item => [item.code, item.libelle, item.nature ,
+      //   <span
+      //         key={item.code} // Make sure to use a unique key
+      //         className='cursor-pointer'
+      //         onClick={() => handleDelete(item.code)}
+      //       >
+      //         <RiDeleteBinLine />
+      //       </span>,
+      //         <span
+      //          key={`edit-${item.code}`} // Make sure to use a unique key
+      //          className='cursor-pointer'
+      //          onClick={() => {
+      //            setSelectedEditData(item);
+      //            setIsModalOpenModifi(true);
+      //          }}
+      //        >
+      //          <BsPencil />
+      //        </span>,]);
       const dataContent = [
         ['none', 'none', 'none', 'none'],
        
@@ -75,20 +98,35 @@ function SituationNatureImpot() {
         <div className='flex flex-col ml-4 mt-2 bg-black p-4 mr-4'>
           <Label text="Renseignements Permanents "></Label>
           <div className='flex justify-between'>
-            <Label text="Raison social :" className="mt-4"></Label>
-            <Input type="text"></Input>
+            <Label text="Raison social " className="mt-4"></Label>
+            <p className='text-xs ml-2 text-white '>
+  {Data.raison_sociale
+}
+</p>
           </div>
           <div className='flex mt-2 justify-between'>
-            <Label text="Nom commercial :" className="mt-2"></Label>
-            <Input type="text"></Input>
+            <Label text="Nom commercial " className="mt-2"></Label>
+            <p className='text-xs ml-2 text-white '>
+  {Data.nom_commerciale
+
+}
+</p>
           </div>
           <div className='flex mt-2 justify-between'>
             <Label text="Adresse :" className="mt-2"></Label>
-            <Input type="text"></Input>
+            <p className='text-xs ml-2 text-white '>
+  {Data.adresse
+
+}
+</p>
           </div>
           <div className='flex mt-2 justify-between'>
             <Label text="Numéro Impot :" className="mt-2"></Label>
-            <ReactSelect className='ml-4'></ReactSelect> 
+            <p className='text-xs ml-2 text-white '>
+  {Data.adresse
+
+}
+</p>
           </div>
         </div>
 
