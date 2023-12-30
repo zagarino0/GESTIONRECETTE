@@ -27,7 +27,7 @@ const getClientByNumeroStatistique = (req, res) => {
 
     data.client.map(cli => {
         data.charge.map(cha => {
-            if(cli.numero_statistique === numero_statistique && cli.reference_fiscal === cha.reference_fiscal)
+            if(cli.numero_statistique === numero_statistique && cli.nif === cha.reference_fiscal)
                 client = {...cli, ...cha};
         })
     })
@@ -41,7 +41,7 @@ const getClientByAddresse = (req, res) => {
 
     data.client.map(cli => {
         data.charge.map(cha => {
-            if(cli.adresse === addresse && cli.reference_fiscal === cha.reference_fiscal)
+            if(cli.adresse === addresse && cli.nif === cha.reference_fiscal)
                 clients.push({...cli, ...cha});
         })
     })
@@ -52,16 +52,17 @@ const getClientByAddresse = (req, res) => {
 
 const getClientByNomCommercial = (req, res) => {
     const nom_commercial = req.body.nom_commercial;
-    let client;
+    let clients = {};
 
     data.client.map(cli => {
         data.charge.map(cha => {
-            if(cli.nom_commerciale === nom_commercial && cli.reference_fiscal === cha.reference_fiscal)
-                client = {...cli, ...cha};
+            if(cli.nom_commerciale === nom_commercial && cli.nif === cha.reference_fiscal){
+                clients = {...cli, ...cha};
+            }
         })
     })
-
-    res.json(client);
+    console.log(clients);
+    res.json(clients);
     client = {};
 }
 
@@ -71,7 +72,7 @@ const getClientByCIN = (req, res) => {
     
     data.client.map(cli => {
         data.charge.map(cha => {
-            if(cli.cin === cin && cli.reference_fiscal === cha.reference_fiscal)
+            if(cli.cin === cin && cli.nif === cha.reference_fiscal)
                 client = {...cli, ...cha};
         })
     })
