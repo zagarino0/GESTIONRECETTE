@@ -1,7 +1,8 @@
 const data = {
     clients: require("../../../../e-immatriculation/backend/model/client.json"),
     assujetissement: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
-    setClients: function (data) { this.clients = data }
+    setClients: function (data) { this.clients = data },
+    charges: require('../../model/immatriculation/charge.json')
 };
 
 const fsPromises = require('fs').promises;
@@ -149,11 +150,25 @@ const getClient = (req, res) => {
     res.json(client);
 }
 
+const getClientNonPriseCharge = (req, res) => {
+    const reference_fiscal = req.body.reference_fiscal;
+    let client = {};
+    data.clients.map(cli => {
+        data.charges.map(cha => {
+            if(cli.nif === reference_fiscal && cli.nif !== cha.reference_fiscal)
+                client = {...cli};
+        })       
+    })
+
+    res.json(client);
+}
+
 module.exports = {
     getAllclients,
     getClientByReferenceFiscal,
     addnewClient,
     updateClient,
     deleteClient,
-    getClient
+    getClient,
+    getClientNonPriseCharge
 }

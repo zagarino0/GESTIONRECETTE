@@ -15,7 +15,7 @@ const addnewClient = async (req, res) => {
 
     if(charge){
         return res.json(data.charges);
-    }else if(client){
+    }else if(client && !charge){
         const newCharge = {
             'reference_fiscal': reference_fiscal,
             'prise_charge': true

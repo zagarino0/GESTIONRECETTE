@@ -11,4 +11,7 @@ router.route('/')
 router.route('/:nif')
     .get(clientController.getClient);
 
+router.route('/prisecharge')
+    .post(clientController.getClientNonPriseCharge);
+
 module.exports = router;
