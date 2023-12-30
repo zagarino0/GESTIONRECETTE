@@ -6,9 +6,11 @@ import { Button } from '../../../components/button/button'
 import axios from 'axios';
 import Checkbox from '../../../components/button/Checkbox'
 import { useLocation } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom';
 function PriseCharge() {
   const location = useLocation(); 
+  const navigate = useNavigate();
+
     const [searchTerm, setSearchTerm] = useState('');
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +23,7 @@ function PriseCharge() {
       axios.get(`http://localhost:3500/client/${searchTerm}`)
         .then((response) => {
           setData(response.data);
+          console.log(data)
         setIsLoading(false);
        
         })
@@ -37,19 +40,8 @@ function PriseCharge() {
       
   
       // Update the data object with the prise_charge property
-      const updatedData = { reference_fiscal : searchTerm , prise_charge: true };
-      setData(updatedData);
   
-      // Send the updated data to the backend
-      axios.post('http://localhost:3500/prisecharge', updatedData)
-        .then((response) => {
-          // Handle the response from the backend, if needed
-          console.log('Verification data sent successfully');
-          window.location.href = `/RegimeFiscalIm?reference_fiscal=${searchTerm}`;
-        })
-        .catch((error) => {
-          console.error('Error sending verification data:', error);
-        });
+          navigate(`/RegimeFiscalIm?reference_fiscal=${searchTerm}`);
     }
   };
   
@@ -65,7 +57,7 @@ onChange={(e) => setSearchTerm(e.target.value)}
 ></Input>
 </div>
 
-<Button children="Prise en Charge" onClick={handlePriseEnCharge} className="h-12 mt-8"></Button>
+<Button children="Suivant" onClick={handlePriseEnCharge} className="h-12 mt-8"></Button>
 
 </div>
           {isLoading ? (

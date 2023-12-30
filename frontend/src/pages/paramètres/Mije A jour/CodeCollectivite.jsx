@@ -130,17 +130,19 @@ Niveau de Décentralisation
     <Navbar content={NavbarContent}></Navbar>
   <form onSubmit={DataHandler}>
       <div className='mt-24 m-4 '  >
-    <Table headers={headers} data={formattedData} className="w-[1000px]" ></Table>
-    <div className="flex flex-row m-4">
+    <div className='overflow-y-auto h-40'>
+    <Table headers={headers} data={formattedData} className="w-[1000px] " ></Table>
+    </div>
+    <div className="flex flex-row ml-4">
     <Input type="text" placeholder="Fokotany"
     value={libelle}
     onChange={e => setLibelle(e.target.value)}
-    className="h-12 m-4 w-60"
+    className=" m-4 w-60"
     ></Input>
     <Input type="text" placeholder="Code Fokotany"
     value={fokontany}
     onChange={e => setFokontany(e.target.value)}
-    className="h-12 m-4 w-60"
+    className=" m-4 w-60"
     ></Input>
      <Select
  options={options}
@@ -155,7 +157,7 @@ Niveau de Décentralisation
     </div>
   
   </form>
-  <Button  children="Actualiser" className="m-2"  onClick={rafraichirPage}></Button>
+  <Button  children="Actualiser" className="ml-12"  onClick={rafraichirPage}></Button>
   <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[360px]" >
   <Navbar content={NavbarModal} ></Navbar>
   <div className=' m-4 flex justify-between' >

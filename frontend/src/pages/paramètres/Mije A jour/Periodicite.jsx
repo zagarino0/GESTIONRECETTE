@@ -219,7 +219,7 @@ const NavbarModal =(
       <div className='bg-[#212122] h-screen w-screen'>
       <Navbar currentPath={location.pathname}  content={NavbarContent}></Navbar>
    <div className="flex justify-between">
-   <div className='mt-32 p-4 bg-[#212122]' >
+   <div className='overflow-y-auto h-60 mt-32 pl-4 bg-[#212122]' >
   <Table headers={headers} data={formattedData} className="w-[100px]" ></Table>
       </div>
    <div className='flex flex-col'>
@@ -236,7 +236,7 @@ const NavbarModal =(
 />
 
     </div>
-    <div className="mt-4 p-4 bg-[#212122]">
+    <div className="overflow-y-auto h-60 mt-4  bg-[#212122]">
     <Table headers={Headers} data={filteredData} ></Table>
 
     </div>
