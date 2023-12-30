@@ -12,7 +12,7 @@ function UtilitairesRecette() {
        Utilitaires
      </div>
     <div className='flex flex-col ml-28 '>
-     <LinkButton to="/codeActivite" text="Copie du fichier impôt" className="mt-4 w-96" ></LinkButton>
+     <LinkButton to="#" text="Copie du fichier impôt" className="mt-4 w-96" ></LinkButton>
      </div> 
      </div>   
       </div>

@@ -201,7 +201,9 @@ useEffect(() => {
         
       </div>
       <div className='mt-2  flex justify-center'>
-      <Table headers={headers} data={data} classTable="overflow-y-auto h-80" ></Table>
+     <div  className='overflow-y-auto w-[1480px]'>
+     <Table headers={headers} data={data}  classTable="owerflow-y-auto h-40" ></Table>
+     </div>
       </div>
       <div className='flex justify-between mt-2'>
         <Button type="submit" children="Imprimer " onClick={ () => {window.location.href = "/MontantNatureImpot"}} ></Button>

@@ -12,7 +12,7 @@ function Sigrl() {
         { title: "Recette", link: "/LoginRecette" },
         { title: "Gestion", link: "/LoginGestion" },
         { title: "Immatriculation", link: "/LoginImmatriculation" },
-        { title: "Ordre de Virrement", link: "/LoginOrdreVirment" },
+        { title: "Ordre de Virement", link: "/LoginOrdreVirment" },
       ];
   
         return (

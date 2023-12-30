@@ -13,7 +13,7 @@ function NIFRecette() {
      </div>
     <div className='flex flex-col ml-28 '>
      <LinkButton to="/RechercheRF" text="Visualisation RF" className="mt-4 w-96" ></LinkButton>
-     <LinkButton to="/" text="Recherche RF"  className="mt-2 w-96"></LinkButton>
+     <LinkButton to="#" text="Recherche RF"  className="mt-2 w-96"></LinkButton>
      </div> 
      </div>   
       </div>

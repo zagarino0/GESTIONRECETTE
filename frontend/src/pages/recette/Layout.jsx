@@ -14,7 +14,7 @@ import { Navbar } from '../../components/navbar/Navbar';
       { title: "Référence Fiscal", link: "/NIFRecette" },
       { title: "Utilitaires", link: "/utilitaireRecette" },
       { title: "Consultation", link: "/consultationRecette" },
-      { title: "Reste à recovré", link: "/ResteRecovreRecette" },
+      { title: "Reste à recovrer", link: "/ResteRecovreRecette" },
      
     ];
   // Navbar content

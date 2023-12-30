@@ -32,7 +32,7 @@ function LoginRecette() {
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
         if ( userData.immatriculation_prise_charge === true) {
           // Redirect to the desired page if the condition is met
-          navigate('/PriseEnCharge');
+          navigate('/saisiDeclarationRecette');
         } else {
           setIsModalError(true);
         }

@@ -9,7 +9,9 @@ import * as  XLSX from 'xlsx';
 import axios from 'axios'; 
 import Loader from '../../../components/loading/loading';
 import { Title4 } from '../../../components/title/title';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ModalError, ModalErrorServer } from '../Modal';
+import PasswordInput from '../../../components/input/PasswordInput';
 
 function Utilitaire() {
   const location = useLocation(); 
@@ -48,6 +50,46 @@ function Utilitaire() {
     }
   };
   
+
+
+  //Login fonction 
+  const [code, setCode] = useState('');
+  const [mdp, setMdp] = useState('');
+  
+  const [isModalError, setIsModalError] = useState(false);
+  const [isModalErrorServer, setIsModalErrorServer] = useState(false);
+  
+  const handleLogin = () => {
+    // Replace with your API endpoint for user authentication
+    const apiUrl = 'http://localhost:3500/user/auth';
+
+    // Create a request body with user input
+    const requestBody = {
+      "code": code,
+      "mdp": mdp,
+    };
+
+    axios
+      .post(apiUrl, requestBody)
+      .then((response) => {
+        const userData = response.data;
+        console.log(userData)
+        // Check if the user is authenticated and has immatriculation_prise_charge set to true
+        if (userData.login && userData.immatriculation_prise_charge) {
+          // Redirect to the desired page if the condition is met
+          setIsModalOpen(true);
+          setCode('');
+          setMdp('');
+        } else {
+          setIsModalError(true);
+        }
+      })
+      .catch((error) => {
+        console.error('Login error:', error);
+       
+        setIsModalErrorServer(true);
+      });
+  };
     const NavbarModal =(
         
         <div className='text-white'>
@@ -56,19 +98,27 @@ function Utilitaire() {
         
       )
     const contentChildren =(
-        <div className='flex p-8 justify-center items-center'>
+        <div >
             
-            <div className='mt-16 ml-12'>
-            <div className='w-96 mt-16 text-white text-3xl '>
-                Utilitaires
+            <div className='flex  justify-center  mt-14 '>
+        <div className='w-[500px] h-[500px] bg-[#212122] rounded-xl flex justify-center'>
+          <div className='mt-8 flex flex-col p-4 w-[400px]'>
+            <Label className="text-5xl" text="Utilitaire"></Label>
+            <div className='flex flex-col mt-8'>
+              <Label text="Code"></Label>
+              <Input type="text" placeholder="Votre code" value={code} onChange={(e) => setCode(e.target.value)} className="w-full"/>
             </div>
-        <div className='mt-12'>
-            <div className='w-96'>
-            <Button  children="Copie de Fichier FRP (Répertoire)" className="" isOpen={isModalOpen} onClick={() => setIsModalOpen(true)} ></Button>
-            
+            <div className='flex flex-col mt-4'>
+              <Label text="Mot de passe"></Label>
+              <PasswordInput value={mdp} onChange={(e)=> setMdp(e.target.value)}></PasswordInput>
             </div>
+            <Button type="submit" children="Se connecter" onClick={handleLogin} className="mt-8"></Button>
+           
+          </div>
         </div>
-        </div>
+        <ModalError isOpen={isModalError} onClose={()=> setIsModalError(false)} quitter={()=> setIsModalError(false)}></ModalError>
+        <ModalErrorServer isOpen={isModalErrorServer} onClose={()=> setIsModalErrorServer(false)} quitter={()=> setIsModalErrorServer(false)}></ModalErrorServer>
+      </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[700px] h-[420px] ">
         <Navbar content={NavbarModal} ></Navbar>
         <div className='flex justify-center items-center p-4 '>
@@ -105,11 +155,11 @@ Il s'agit d'avoir une copie du fichier Immatriculation dans votre ordinateur
         </div>
     
         )
-      return (
-     <div  className='bg-[#212122] h-screen w-screen'>
-        <Layout  currentPath={location.pathname} children={contentChildren}></Layout>
-     </div>
-      )
-    }
+        return (
+          <div  className='inset-0 bg-neutral-700 transition-opacity h-screen' >
+             <Layout currentPath={location.pathname} children={contentChildren}></Layout>
+          </div>
+           )
+     }
 
 export default Utilitaire

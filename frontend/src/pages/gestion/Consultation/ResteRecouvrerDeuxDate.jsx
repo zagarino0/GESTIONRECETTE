@@ -167,6 +167,38 @@ const exportToExcel = () => {
   XLSX.writeFile(wb, 'données.xlsx');
 };
 
+
+// ...
+
+const exportToExcelAllData = () => {
+  const allData = Response.map((item) => ({
+    "Référence Fiscal": item.reference_fiscal,
+    " Base Impôt": item.base_impot,
+    " P1 ": item.periode1,
+    "P2": item.periode2,
+    "Année": item.annee,
+    "Reste à recouvrer": item.reste_a_payer,
+    "Transporteur": item.transporteur,
+    "Type de payement": item.type_payment,
+    "Montant à payer": item.montant_a_payer,
+    "Montant verser": item.motant_verser,
+    "code banque": item.code_banque,
+    "date de création": item.date_creation,
+    "numéro de chèque": item.numero_cheque,
+    "numéro impôt": item.numero_impot,
+    "numéro récépissé": item.numero_recepisse,
+    "periode": item.periode,
+    // ... add other properties you want to export
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(allData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'AllData');
+  XLSX.writeFile(wb, 'all_data.xlsx');
+};
+
+// ...
+
 const NavbarContent = (
     <div className='flex justify-between'>
     <div className='text-white'>
@@ -257,6 +289,7 @@ const NavbarContent = (
        <Button type="submit" onClick={HandleData} children="Executer" ></Button>
        <Button children="Rafraîchir" onClick={()=> window.location.href = "/ResteRecouvrerDeuxDate"} ></Button>
        <Button  children="Vers Excel" onClick={exportToExcel} ></Button>
+       <Button  children="Vers Excel tous les Données" onClick={exportToExcelAllData} ></Button>
        <Button  children="Imprimer Mise en Demeure" onClick={ () => {window.location.href = "/TitrePerceptio"}} ></Button>
        <Button  children="Imprimer par nature Impot" onClick={() => {window.location.href="/ListeNatureImpot"}}></Button>
      </div>

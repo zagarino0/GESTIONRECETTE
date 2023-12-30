@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../../../components/input/Input'
 import Label from '../../../components/title/label'
 import Checkbox from '../../../components/button/Checkbox'
@@ -6,11 +6,29 @@ import { Button } from '../../../components/button/button'
 import Select from 'react-select'
 import BackButton from '../../../components/button/BackButton'
 import { Navbar } from '../../../components/navbar/Navbar'
+import axios from 'axios'
+import Table from '../../../components/table/Table'
 
 function MiseAJourRF() {
+   const [Client , setClient ] = useState([]);
+
+  
+   useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/client')
+      .then((response) =>{  
+        setClient(response.data)
+        console.log(Client)
+      })
+      .catch((error) => console.error(error));
+  }, []);
+// Header table client
+const ClientHeaders =[ "Référence fiscal", "Raison sociale", "Nom commerciale" , "Type", "adresse", "activité","capital" , "commune", "Date accord" , "Date acte", "Date agrement" , "Date attribution RF" , "Date début exe" , "Date cloture exe" , "Date création" , "Date "]
+// Data client Table
+const ClientData = Client.map((item)=>[item.nif , item.raison_sociale, item.nom_commerciale , item.type , item.adresse , item.activite , item.capital , item.commune , item.date_accord , item.date_acte , item.date_agrement, item.date_attribution_nif , item.date_debut_exe , item.date_cloture_exe , item.date_creation]) 
   const Navbarcontent = (
     <div className='flex justify-between '>
-      <div className='text-white '>
+      <div className='text-white font-semibold'>
       Mise à jour 
      </div>
      <div>
@@ -22,21 +40,15 @@ function MiseAJourRF() {
     <div  className='bg-[#212122] h-screen w-screen'>
          <Navbar content={Navbarcontent}></Navbar>
        <div className='p-4'>
-     <div className='bg-black p-4 flex flex-row'>
-     <div className='flex flex-row '>
-      <Label text="Votre code :"></Label>
-      <Input type="text" placeholder="Code " className="ml-4"></Input>
-     </div>
-     <div className='flex flex-row ml-4 '>
-      <Label text="Votre Mot de passe :"></Label>
-      <Input type="password" placeholder="Mot de passe" className="ml-4"></Input>
-     </div>
-     </div>
-     <div className='p-4 bg-black mt-2 '>
-       <p className='text-white text-xl text-center'>RENSEIGNEMENTS GENERAUX</p>
+    
+     <div className='p-4 bg-black mt-2 rounded '>
+       <p className='text-white text-xl text-center font-semibold'>RENSEIGNEMENTS GENERAUX</p>
      </div>
      <div className='mt-2 flex justify-between'>
-<div className=' w-[500px]  h-[400px] p-2'>
+      <div className='overflow-y-auto w-[1400px]'>
+        <Table headers={ClientHeaders} data={ClientData}></Table>
+      </div>
+{/* <div className=' w-[500px]  h-[400px] p-2'>
 <div className='flex justify-between'>
 <Label text="Raison social:" className="text-[15px]  "></Label>
 <Input type="text" placeholder="Raison social" className="w-36 h-10"></Input>
@@ -150,10 +162,10 @@ function MiseAJourRF() {
 <Label text="Nombre établ. secondaire:" className="text-[15px]"></Label>
 <Input type="text" placeholder="Nombre établissement secondaire" className="h-10"></Input>
 </div>
-</div>
+</div> */}
      </div>
      <div className='flex justify-between mt-2'>
-       
+{/*        
  <div className='flex justify-between'>
 <Label text="N° Autorisation:" className="text-[15px]"></Label>
 <Input type="text"  className="w-20 h-10 ml-2"></Input>
@@ -179,7 +191,8 @@ className='ml-2'
        <Button type="submit" children="Prise en charge"></Button>
        <Button type="submit" children="Nouveau" ></Button>
        <Button type="submit" children="Enregistrer MAJ" ></Button>
-     </div>
+     </div> */}
+    </div>
     </div>
     </div>
   )

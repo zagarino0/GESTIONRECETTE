@@ -54,10 +54,10 @@ function SituationRecette() {
  <Layout children={contentChildren} currentPath={location.pathname} ></Layout>
  <ReleveCheque isOpen={isModalReleveCheque} onClose={()=> setIsModalReleveCheque(false)} quitter={()=> setIsModalReleveCheque(false)} className="w-[500px] h-[300px]"></ReleveCheque>
  <CompteRendu isOpen={isModalCompteRendue} onClose={()=> setIsModalCompteRendu(false)} quitter={()=> setIsModalCompteRendu(false)} className="w-[500px] h-[700px]"></CompteRendu>
- <SituationdeRecette isOpen={isModalSituationRecette} onClose={()=>setIsModalSituationRecette(false)} quitter={()=>setIsModalSituationRecette(false)} className="w-[500px] h-[700px]"></SituationdeRecette>
+ <SituationdeRecette isOpen={isModalSituationRecette} onClose={()=>setIsModalSituationRecette(false)} quitter={()=>setIsModalSituationRecette(false)} className="w-[500px] h-[650px]"></SituationdeRecette>
  <InterpretationRecette isOpen={isModalInterpretationRecette} onClose={()=>setIsModalInterpretationRecette(false)} quitter={()=>setIsModalInterpretationRecette(false)} className="w-[500px] h-[620px]"></InterpretationRecette>
  <EtatRecapitulatifRecette isOpen={isModalEtatRecapitulatifRecette} onClose={()=>setIsModalEtatRecapitulatifRecette(false)} quitter={()=>setIsModalEtatRecapitulatifRecette(false)} className="w-[900px] h-[700px]"></EtatRecapitulatifRecette>
- <ConsultationOperateur isOpen={isModalConsultationOperateur} onClose={()=>setIsModalConsultationOperateur(false)} quitter={()=>setIsModalConsultationOperateur(false)} className="w-[900px] h-[850px]"></ConsultationOperateur>
+ <ConsultationOperateur isOpen={isModalConsultationOperateur} onClose={()=>setIsModalConsultationOperateur(false)} quitter={()=>setIsModalConsultationOperateur(false)} className="w-[900px] h-[750px]"></ConsultationOperateur>
  <ConsultationMontant isOpen={isModalConsultationMontant} onClose={()=>setIsModalConsultationMontant(false)} quitter={()=>setIsModalConsultationMontant(false)} className="w-[500px] h-[500px]"></ConsultationMontant>
  </div>
    )

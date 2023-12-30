@@ -9,7 +9,7 @@ import SearchInput from '../../../components/input/SearchInput'
 import axios from "axios"
 function ConsultationImmatriculation() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({
-    raisonSociale: false,
+    
     nomCommercial: false,
     adresse: false,
     cin: false,
@@ -18,109 +18,68 @@ function ConsultationImmatriculation() {
 
   const [searchInput, setSearchInput] = useState('');
  const [ data , setData] = useState([])
-  const handleSearch = async () => {
-    const baseUrl = 'http://localhost:3500/consultation';
-  
-    if (selectedCheckboxes.nif === true){
 
-    try{
+ const handleSearch = async () => {
+  const baseUrl = 'http://localhost:3500/consultation';
 
-const reponse = await axios.post(`${baseUrl}/nif` , searchInput )
-const value = reponse.data
-console.log(reponse);
-setData(value);
-setSelectedCheckboxes({
-  raisonSociale: false,
-  nomCommercial: false,
-  adresse: false,
-  cin: false,
-  nif: false,
-});
+  try {
+    if (selectedCheckboxes.nif) {
+      const reference_fiscal = { "reference_fiscal" : searchInput}
+      const response = await axios.post(`${baseUrl}/nif`, reference_fiscal);
+      setData(response.data);
+      setSearchInput('');
+      console.log(data)
+    }
 
+    if (selectedCheckboxes.adresse) {
+      const adresse = {"adresse" : searchInput};
+      const response = await axios.post(`${baseUrl}/adresse`, adresse);
+      setData(response.data);
+      setSearchInput('');
+      console.log(data)
+    }
 
-       }
+    if (selectedCheckboxes.cin) {
+      const cin = {"cin": searchInput};
+      const response = await axios.post(`${baseUrl}/cin`, cin);
+      setData(response.data);
+      setSearchInput('');
+      console.log(data)
+    }
 
-     catch (error){
+    if (selectedCheckboxes.nomCommercial) {
+      const nom_commercial = { "nom_commerciale" : searchInput};
+      const response = await axios.post(`${baseUrl}/nomcommercial`, nom_commercial);
+      setData(response.data);
+      setSearchInput('');
+      console.log(data)
+    }
 
-  console.error('Error fetching data:', error);
-                  }}
-
-
-   if (selectedCheckboxes.adresse === true){
-
-   try{
-    
-  const reponse = await axios.post(`${baseUrl}/adresse` , searchInput)
-  const value = reponse.data
-console.log(reponse);
-setData(value);
-  setSelectedCheckboxes({
-    raisonSociale: false,
-    nomCommercial: false,
-    adresse: false,
-    cin: false,
-    nif: false,
-  });
-      }
-  catch (error){
-    console.error('Error fetching data:', error);
-  }
-  }
-
-  if (selectedCheckboxes.cin === true){
-
-    try{
-      
-    const reponse = await axios.post(`${baseUrl}/cin` , searchInput)
-    const value = reponse.data
-console.log(reponse);
-setData(value);
+    // Reset all checkboxes
     setSelectedCheckboxes({
+      ...selectedCheckboxes,
       raisonSociale: false,
       nomCommercial: false,
       adresse: false,
       cin: false,
       nif: false,
-
     });
-    }
-    catch (error){
-      console.error('Error fetching data:', error);
-    }
-    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 
-    if (selectedCheckboxes.nomCommercial === true){
-
-      try{
-        
-      const reponse = await axios.post(`${baseUrl}/nomcommercial` , searchInput)
-      const value = reponse.data
-console.log(reponse);
-setData(value);
-      setSelectedCheckboxes({
-        raisonSociale: false,
-        nomCommercial: false,
-        adresse: false,
-        cin: false,
-        nif: false,
-      });
-      }
-      catch (error){
-        console.error('Error fetching data:', error);
-      }
-      }
-  };
-
-  const headers = ['Raison social', 'Nom commercial', 'CIN', 'Adresse', 'RF',"",""];
-  const formattedData = Array.isArray(data) ? data.map(item => [item.raisonsociale, item.nomcommercial, item.cin, item.adresse, item.nif]) : [];
-
+  const headers = ['Raison social', 'Nom commercial', 'CIN', 'Adresse', 'RF',"activité","capital", "commune" , "Date accord", "Date acte", "Date agrement", "Date attribution RF", "Date cloture exe", "Date creation", "Date début exe" , "Date demande modif" , "Date registre", "Délivrée le" , "district", "exportateur", "fokontany", "forme juridique", "importateur", "Nombre salarié", "Numéro statistique","Période grace", "Pécision activité", "Prise en charge" , "Propriétaire","province", "Référence agrement", "Régime fiscal", "Région", "Régistre commerce", "Résident","RIB","titre","type","type amende"];
+  const formattedData = [
+    [data.raison_sociale , data.nom_commerciale , data.cin , data.adresse , data.reference_fiscal , data.activite , data.capital , data.commune  , data.date_accord , data.date_acte , data.agrement , data.date_attribution_nif , data.date_cloture_exe , data.creation , data.date_debut_exe , data.date_demande_modif , data.date_registre , data.delivree_le , data.district , <Checkbox value={data.exportateur}></Checkbox> , data.fokontany, data.forme_juridique , <Checkbox value={data.importateur}></Checkbox> , data.nombre_salarie , data.numero_statistique , data.periode_grace , data.precision_activite , <Checkbox value={data.prise_en_charge}></Checkbox> , data.proprietaire , data.province , data.reference_agrement , data.regime_fiscal , data.region , data.registre_commerce , data.resident , data.rib , data.titre , data.type , data.type_amende]
+  ]
   const Navbarcontent = (
     <div className='flex justify-between '>
-      <div className='text-white '>
+      <div className='text-white font-semibold '>
       Consultation 
      </div>
      <div>
-<BackButton to="/immatriculation"></BackButton>
+<BackButton to="/consultatioRF"></BackButton>
      </div>
     </div>
  )
@@ -130,16 +89,7 @@ setData(value);
     <div className="m-4">
 <div className='bg-black p-4 flex justify-between'>
 <div className='flex flex-col'>
-<Label text="Choix par" ></Label>
-<Checkbox label="Raison social"
- value={selectedCheckboxes.raisonSociale}
- onChange={() =>
-   setSelectedCheckboxes((prev) => ({
-     ...prev,
-     raisonSociale: !prev.raisonSociale,
-   }))
- }
-></Checkbox>
+
 <Checkbox label="Nom commercial"
 value={selectedCheckboxes.nomCommercial}
  onChange={() =>
@@ -172,21 +122,67 @@ value={selectedCheckboxes.nif}
 onChange={() =>
   setSelectedCheckboxes((prev) => ({
     ...prev,
-    nif: !prev.rf,
+    nif: !prev.nif,
   }))
 }
 ></Checkbox>
 </div>
 <div className='flex flex-col'>
-<SearchInput type="text" placeholder="Recherche"
+
+{ selectedCheckboxes.nomCommercial === true && (
+  <>
+  <SearchInput type="text" placeholder="Nom Commercial"
+  className="mt-2"
 value={searchInput}
 onChange={(e)=> setSearchInput(e.target.value)}
  onSearch={handleSearch}
 ></SearchInput>
+  </>
+)
+}
+
+{ selectedCheckboxes.nif === true && (
+  <>
+  <SearchInput type="text" placeholder="Référence fiscal"
+value={searchInput}
+onChange={(e)=> setSearchInput(e.target.value)}
+ onSearch={handleSearch}
+ className="mt-2"
+></SearchInput>
+  </>
+)
+}
+{ selectedCheckboxes.cin === true && (
+  <>
+  <SearchInput type="text" placeholder="CIN"
+value={searchInput}
+onChange={(e)=> setSearchInput(e.target.value)}
+ onSearch={handleSearch}
+ className="mt-2"
+></SearchInput>
+  </>
+)
+
+}
+
+{selectedCheckboxes.adresse === true && (
+  <>
+  <SearchInput type="text" placeholder="Adresse"
+value={searchInput}
+onChange={(e)=> setSearchInput(e.target.value)}
+ onSearch={handleSearch}
+ className="mt-2"
+></SearchInput>
+  </>
+)
+
+}
 </div>
 </div>
-<div className='mt-4'>
+<div className='flex justify-center'>
+<div className='overflow-y-auto w-[1480px]  mt-4'>
 <Table headers={headers} data={formattedData} ></Table>
+</div>
 </div>
     </div>
     <div className='m-4'>

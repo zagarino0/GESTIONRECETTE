@@ -95,20 +95,20 @@ return (
   
 
 </div>   
- <div className=' h-16 m-4 rounded flex justify-center p-4 bg-black '>
- <Label text="Recette"></Label>
+ <div className=' p-4 rounded flex justify-center p-4 bg-black '>
+ <Label text="Recette" className="font-bold"></Label>
  </div>
  <div className='flex justify-between m-4 '>
   <div className='flex flex-col'>
-  <Label text="Montant total Chèque" ></Label>
-  <Label text="Montant total Espèce" className="mt-2"></Label>
-  <Label text="Montant total Virement" className="mt-2"></Label>
-  <Label text="Montant total Bar" className="mt-2"></Label>
-  <Label text="Montant total Autre" className="mt-2"></Label>
-  <Label text="Montant total Annulation" className="mt-2"></Label>
+  <Label text="Montant total Chèque" className="mt-4" ></Label>
+  <Label text="Montant total Espèce" className="mt-4"></Label>
+  <Label text="Montant total Virement" className="mt-4"></Label>
+  <Label text="Montant total Bar" className="mt-4"></Label>
+  <Label text="Montant total Autre" className="mt-4"></Label>
+  <Label text="Montant total Annulation" className="mt-4"></Label>
   </div>
   <div>
-  <div className='flex flex-row mt-2'>
+  <div className='flex flex-row mt-4'>
 
 <Title2 text="Montant" className="ml-2 font-semibold"></Title2>
 </div>
@@ -165,14 +165,16 @@ return (
   </div>
 <div className='flex justify-between m-4'>
   <div>
-
+  
+   <Button children="Quitter" onClick={props.quitter}></Button>
+  
   </div>
 <div className='flex flex-row '>
 <Title2 text="Depot sans paiment"></Title2>
 <Title2 text="Nombre" className="ml-2 font-semibold"></Title2>
 </div>
 </div>
-<div className='flex justify-between m-4'>
+<div className='flex justify-between m-4 mb-8'>
 <div>
 </div>
 <div className='flex flex-row'>
@@ -183,9 +185,7 @@ return (
 <Title2 text="Nombre" className="ml-2 font-semibold"></Title2>
 </div>
 </div>
-   <div className='m-4'>
-   <Button children="Quitter" onClick={props.quitter}></Button>
-   </div>
+   
     </Modal>
 </div>
 )

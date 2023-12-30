@@ -9,9 +9,8 @@ function MenuPage() {
   //Links navbar
   const links = [
       { title: "SIGRL", link: "/SIGRL" },
-      { title: "Impot e-immatriculation", link: "/e-immatriculation" },
-      { title: "immatriculation", link: "/immatriculation" },
-      { title: "Statistique", link: "/Statistique" },
+      { title: " E-immatriculation", link: "#" },
+      
     ];
 
   
@@ -25,10 +24,10 @@ function MenuPage() {
               <img src={Hotel} alt="hotel de ville" className='w-[700px] h-[600px] rounded-x-lg   hover:scale-110 transition duration-300 ease-in-out bg-cover' />
           </div>
         <div className='fle flex-col  pl-8 pr-8'>
-            <div className='w-96  text-white text-3xl mt-28'>
-            Commune Urbairne Mahajanga 
+            <div className='w-96  text-white text-3xl mt-36'>
+            Commune Urbaine Mahajanga 
             </div>
-        <div className='mt-8'>
+        <div className='mt-16'>
         {
           
           links.map((link) => (
