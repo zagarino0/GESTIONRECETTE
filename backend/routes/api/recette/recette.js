@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const recetteController = require('../../../controller/recette/recetteController');
+const situationController = require('../../../controller/recette/situationController');
 
 router.route('/declaration')
     .post(recetteController.setModePayment);
@@ -25,5 +26,12 @@ router.route('/recepisse')
 
 router.route('/recapitulatif')
     .post(recetteController.getRecapRecette);
+
+router.route('/situation/decade')
+    .post(situationController.getRecetteByDecade);
+
+router.route('/situation/deuxdate')
+    .post(situationController.getRecetteByTwoDate);
+
 
 module.exports = router;
