@@ -209,6 +209,24 @@ const getClientByRecepisseAndDate = (req, res) => {
     client = [];
 }
 
+const getClientByDate = (req, res) => {
+    const date = req.body.date
+
+    let client = [];
+
+        data.clients.map(cli => {
+            data.charges.map(cha => {
+                data.modePayment.map(mod => {
+                    if(mod.numero_recepisse === numero_recepisse && cli.nif === cha.reference_fiscal && mod.date_creation == date)
+                        client.push({...cli, ...cha, ...mod});
+                })
+            })
+        })
+    
+    res.json(client);
+    client = [];
+}
+
 const getClientByNomCommercial = (req, res) => {
     const nom_commercial = req.body.nom_commercial;
     let client = []
