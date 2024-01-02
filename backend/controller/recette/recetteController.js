@@ -179,6 +179,36 @@ const getRecapRecette = (req, res) => {
 
 }
 
+const getClientByRecepisseAndDate = (req, res) => {
+    const numero_recepisse = req.body.numero_recepisse;
+    const date = new Date(req.body.date)
+
+    let client = [];
+
+    if(numero_recepisse === ""){
+        data.clients.map(cli => {
+            data.charges.map(cha => {
+                data.modePayment.map(mod => {
+                    if(mod.numero_recepisse === numero_recepisse && cli.nif === cha.reference_fiscal && (new Date(mod.date_creation)) == date)
+                        client.push({...cli, ...cha, ...mod});
+                })
+            })
+        })
+    }else if(numero_recepisse !== ""){
+        data.clients.map(cli => {
+            data.charges.map(cha => {
+                data.modePayment.map(mod => {
+                    if(mod.numero_recepisse === numero_recepisse && cli.nif === cha.reference_fiscal && mod.numero_recepisse === numero_recepisse && (new Date(mod.date_creation)) == date)
+                        client.push({...cli, ...cha, ...mod});
+                })
+            })
+        })
+    }
+    
+    res.json(client);
+    client = [];
+}
+
 const getClientByNomCommercial = (req, res) => {
     const nom_commercial = req.body.nom_commercial;
     let client = []
@@ -218,5 +248,6 @@ module.exports = {
     getClientByNomCommercial,
     getClientByAddresse,
     getClientByRecepisse,
-    getRecapRecette
+    getRecapRecette,
+    getClientByRecepisseAndDate
 }

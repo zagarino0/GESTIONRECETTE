@@ -27,11 +27,15 @@ router.route('/recepisse')
 router.route('/recapitulatif')
     .post(recetteController.getRecapRecette);
 
+router.route('/client/daterecepisse')
+    .post(recetteController.getClientByRecepisseAndDate);
+
 router.route('/situation/decade')
     .post(situationController.getRecetteByDecade);
 
 router.route('/situation/deuxdate')
     .post(situationController.getRecetteByTwoDate);
+
 
 
 module.exports = router;
