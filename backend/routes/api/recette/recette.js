@@ -53,6 +53,9 @@ router.route('/ov')
 router.route('/ov/bordereau')
     .post(ordreVirementController.getAvisDeCreditByNumBordereau);
 
+router.route('/ov/visualisation/aviscredit')
+    .post(ordreVirementController.visualisationAvisCredit);
+
 router.route('/client/ov')
     .post(ordreVirementController.setOrdreClient);
 

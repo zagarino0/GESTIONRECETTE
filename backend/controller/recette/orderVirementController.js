@@ -4,8 +4,10 @@ const data = {
     charge: require('../../model/immatriculation/charge.json'),
     ordre: require('../../model/recette/ordre_virement.json'),
     virement: require('../../model/recette/bordereau.json'),
+    declaration: require('../../model/recette/declaration_ov.json'),
+    setDeclaration: function (data) { this.declaration = data },
     setVirement: function (data) { this.virement = data },
-    setOrdre: function (data) { this.ordre = data}
+    setOrdre: function (data) { this.ordre = data }
 }
 
 const path = require('path');
@@ -15,7 +17,7 @@ const fsPromises = require('fs').promises;
 const setOrdreVirement = async (req, res) => {
 
     const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id + 1;
-    
+
     const numero_impot = req.body.numero_impot;
     const annee = req.body.annee;
     const base_impot = req.body.base_impot;
@@ -62,10 +64,10 @@ const setOrdreVirement = async (req, res) => {
         "date_creation": new Date()
     }
 
-    data.setModePayment([...data.modePayment, payment]);
+    data.setDeclaration([...data.declaration, payment]);
 
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
+        path.join(__dirname, '..', '..', 'model', 'recette', 'declaration_ov.json'),
         JSON.stringify(data.modePayment)
     )
 
@@ -92,7 +94,7 @@ const setAvisDeCredit = (req, res) => {
     }
 
     data.setOrdre([...data.ordre, avis]);
-    
+
     fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'recette', 'ordre_virement.json'),
         JSON.stringify(data.modePayment)
@@ -106,8 +108,8 @@ const getAvisDeCreditByNumBordereau = (req, res) => {
 
     const avis = data.ordre.find(or => or.numero_bordereau === numero_bordereau);
 
-    if(!avis){
-        return res.status(401).json({'message': 'bordereau introuvable'});
+    if (!avis) {
+        return res.status(401).json({ 'message': 'bordereau introuvable' });
     }
     res.json(avis);
 }
@@ -121,7 +123,8 @@ const setOrdreClient = (req, res) => {
     const order = {
         "id": id,
         "numero_bordereau": numero_bordereau,
-        "reference_fiscal": reference_fiscal
+        "reference_fiscal": reference_fiscal,
+        "export": false
     }
 
     data.setVirement([...data.virement, order]);
@@ -135,9 +138,67 @@ const setOrdreClient = (req, res) => {
 
 }
 
+const visualisationAvisCredit = (req, res) => {
+    const date_init = req.body.date_init;
+    const date_fin = req.body.date_fin;
+    const reference_fiscal = req.body.reference_fiscal;
+    const banque = req.body.banque;
+
+    let avis = [];
+
+    if (reference_fiscal.length === 0 && banque.length === 0) {
+        data.virement.map(vir => {
+            data.ordre.map(or => {
+                data.client.map(cli => {
+                    data.declaration.map(decl => {
+                        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque').map(ban => {
+                            if (vir.reference_fiscal === cli.nif && vir.numero_bordereau === or.numero_bordereau && or.date_bordereau >= date_init && or.date_bordereau <= date_fin && decl.reference_fiscal === cli.nif && ban.id === decl.code_banque) {
+                                avis.push({ ...cli, ...or, ...vir, ...decl, ...ban});
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    } else if (reference_fiscal.length !== 0 && banque.length === 0) {
+        data.virement.map(vir => {
+            data.ordre.map(or => {
+                data.client.map(cli => {
+                    data.declaration.map(decl => {
+                        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque').map(ban => {
+                            if (vir.reference_fiscal === cli.nif && vir.numero_bordereau === or.numero_bordereau && vir.reference_fiscal === reference_fiscal && or.date_bordereau >= date_init && or.date_bordereau <= date_fin && decl.reference_fiscal === cli.nif && decl.code_banque === ban.id) {
+                                avis.push({ ...cli, ...or, ...vir, ...decl, ...ban });
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    } else if (reference_fiscal !== 0 && banque.length !== 0) {
+        data.virement.map(vir => {
+            data.ordre.map(or => {
+                data.client.map(cli => {
+                    data.declaration.map(decl => {
+                        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque').map(ban => {
+                            if (vir.reference_fiscal === cli.nif && vir.numero_bordereau === or.numero_bordereau && vir.reference_fiscal === reference_fiscal && or.date_bordereau >= date_init && or.date_bordereau <= date_fin && decl.reference_fiscal === cli.nif && decl.code_banque === ban.id && ban.nom_commercial === banque) {
+                                avis.push({ ...cli, ...or, ...vir, ...decl, ...ban });
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    }
+
+    res.json(avis);
+
+    avis = [];
+}
+
 module.exports = {
     setOrdreVirement,
     setAvisDeCredit,
     getAvisDeCreditByNumBordereau,
-    setOrdreClient
+    setOrdreClient,
+    visualisationAvisCredit
 }
