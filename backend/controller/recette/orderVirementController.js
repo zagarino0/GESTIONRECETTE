@@ -3,6 +3,8 @@ const data = {
     client: require('../../../../e-immatriculation/backend/model/client.json'),
     charge: require('../../model/immatriculation/charge.json'),
     ordre: require('../../model/recette/ordre_virement.json'),
+    virement: require('../../model/recette/bordereau.json'),
+    setVirement: function (data) { this.virement = data },
     setOrdre: function (data) { this.ordre = data}
 }
 
@@ -95,6 +97,8 @@ const setAvisDeCredit = (req, res) => {
         path.join(__dirname, '..', '..', 'model', 'recette', 'ordre_virement.json'),
         JSON.stringify(data.modePayment)
     )
+
+    res.json(data.ordre);
 }
 
 const getAvisDeCreditByNumBordereau = (req, res) => {
@@ -110,6 +114,24 @@ const getAvisDeCreditByNumBordereau = (req, res) => {
 
 
 const setOrdreClient = (req, res) => {
+    const id = data.virement.length === 0 ? 1 : data.virement[data.virement.length - 1].id + 1;
+    const numero_bordereau = req.body.numero_bordereau;
+    const reference_fiscal = req.body.reference_fiscal;
+
+    const order = {
+        "id": id,
+        "numero_bordereau": numero_bordereau,
+        "reference_fiscal": reference_fiscal
+    }
+
+    data.setVirement([...data.virement, order]);
+
+    fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'recette', 'bordereau.json'),
+        JSON.stringify(data.modePayment)
+    )
+
+    res.json(data.virement);
 
 }
 
