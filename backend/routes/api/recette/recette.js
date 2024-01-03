@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const recetteController = require('../../../controller/recette/recetteController');
 const situationController = require('../../../controller/recette/situationController');
+const ordreVirementController = require('../../../controller/recette/orderVirementController');
 
 router.route('/declaration')
     .post(recetteController.setModePayment);
@@ -45,6 +46,15 @@ router.route('/extrait/date')
 router.route('/extrait/deuxdate')
     .post(recetteController.getExtraitRecetteByTwoDate);
 
+
+router.route('/ov')
+    .post(ordreVirementController.setAvisDeCredit);
+
+router.route('/ov/bordereau')
+    .post(ordreVirementController.getAvisDeCreditByNumBordereau);
+
+router.route('/client/ov')
+    .post(ordreVirementController.setOrdreClient);
 
 
 module.exports = router;

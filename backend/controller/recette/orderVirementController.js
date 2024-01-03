@@ -1,7 +1,9 @@
 const getDataExcel = require('../../utils/ExcelData');
 const data = {
     client: require('../../../../e-immatriculation/backend/model/client.json'),
-    charge: require('../../model/immatriculation/charge.json')
+    charge: require('../../model/immatriculation/charge.json'),
+    ordre: require('../../model/recette/ordre_virement.json'),
+    setOrdre: function (data) { this.ordre = data}
 }
 
 const path = require('path');
@@ -61,7 +63,7 @@ const setOrdreVirement = async (req, res) => {
     data.setModePayment([...data.modePayment, payment]);
 
     await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'recette', 'ordre_virement.json'),
+        path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
         JSON.stringify(data.modePayment)
     )
 
@@ -69,18 +71,51 @@ const setOrdreVirement = async (req, res) => {
 }
 
 const setAvisDeCredit = (req, res) => {
+    const id = data.ordre.length === 0 ? 1 : data.ordre[data.ordre.length - 1].id + 1;
+    const numero_bordereau = req.body.numero_bordereau;
+    const date_bordereau = req.body.date_bordereau;
+    const date_valeur = req.body.date_valeur;
+    const montant_total = req.body.montant_total;
+    const montant_exporte = req.body.montant_exporte;
+    const montant_restant = req.body.montant_restant;
 
+    const avis = {
+        "id": id,
+        "numero_bordereau": numero_bordereau,
+        "date_bordereau": date_bordereau,
+        "date_valeur": date_valeur,
+        "montant_total": montant_total,
+        "montant_exporte": montant_exporte,
+        "montant_restant": montant_restant
+    }
 
-
+    data.setOrdre([...data.ordre, avis]);
+    
+    fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'recette', 'ordre_virement.json'),
+        JSON.stringify(data.modePayment)
+    )
 }
 
-const getAvisDeCredit = (req, res) => {
+const getAvisDeCreditByNumBordereau = (req, res) => {
+    const numero_bordereau = req.body.numero_bordereau;
 
+    const avis = data.ordre.find(or => or.numero_bordereau === numero_bordereau);
 
+    if(!avis){
+        return res.status(401).json({'message': 'bordereau introuvable'});
+    }
+    res.json(avis);
 }
 
+
+const setOrdreClient = (req, res) => {
+
+}
 
 module.exports = {
     setOrdreVirement,
     setAvisDeCredit,
+    getAvisDeCreditByNumBordereau,
+    setOrdreClient
 }
