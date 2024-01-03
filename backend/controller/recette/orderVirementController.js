@@ -63,12 +63,21 @@ const setOrdreVirement = async (req, res) => {
         "periode2": periode2,
         "date_creation": new Date()
     }
-
     data.setDeclaration([...data.declaration, payment]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'recette', 'declaration_ov.json'),
         JSON.stringify(data.modePayment)
+    )
+
+    const virements = data.virement.find(vir => vir.reference_fiscal === reference_fiscal);
+    const out_virements = data.virement.filter(vir => vir.reference_fiscal !== reference_fiscal);
+
+    data.setVirement([...out_virements, virements]);
+
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'recette', 'bordereau.json'),
+        JSON.stringify(data.virement)
     )
 
     res.status(200).json(data.json);

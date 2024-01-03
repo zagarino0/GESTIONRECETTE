@@ -46,7 +46,6 @@ router.route('/extrait/date')
 router.route('/extrait/deuxdate')
     .post(recetteController.getExtraitRecetteByTwoDate);
 
-
 router.route('/ov')
     .post(ordreVirementController.setAvisDeCredit);
 
