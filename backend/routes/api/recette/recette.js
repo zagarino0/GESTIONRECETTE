@@ -30,11 +30,20 @@ router.route('/recapitulatif')
 router.route('/client/daterecepisse')
     .post(recetteController.getClientByRecepisseAndDate);
 
+router.route('/client/date')
+    .post(recetteController.getClientByDate);
+
 router.route('/situation/decade')
     .post(situationController.getRecetteByDecade);
 
 router.route('/situation/deuxdate')
     .post(situationController.getRecetteByTwoDate);
+
+router.route('/extrait/date')
+    .post(recetteController.getExtraitRecetteByDate);
+
+router.route('/extrait/deuxdate')
+    .post(recetteController.getExtraitRecetteByTwoDate);
 
 
 

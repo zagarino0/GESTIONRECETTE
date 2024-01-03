@@ -67,3 +67,20 @@ const setOrdreVirement = async (req, res) => {
 
     res.status(200).json(data.json);
 }
+
+const setAvisDeCredit = (req, res) => {
+
+
+
+}
+
+const getAvisDeCredit = (req, res) => {
+
+
+}
+
+
+module.exports = {
+    setOrdreVirement,
+    setAvisDeCredit,
+}
