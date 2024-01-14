@@ -12,6 +12,7 @@ router.route('/restearecouvrer/deuxdate')
     .post(gestionController.getResteARecouvrerBetweenTwoDate);
 
 router.route('/recette')
+    .get(gestionController.getAllRecette)
     .post(gestionController.getRecetteBetweenTwoDate);
 
 module.exports = router;
