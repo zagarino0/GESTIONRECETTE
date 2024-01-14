@@ -6,7 +6,7 @@ router.route('/')
     .get(clientController.getAllclients)
     .post(clientController.getClientPriseChargeByReferenceFiscal);
 
-router.route('/prisecharge')
+router.route('/nonprisecharge')
     .post(clientController.getClientNonPriseChargeByReferenceFiscal);
 
 module.exports = router;

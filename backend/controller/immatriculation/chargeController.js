@@ -24,21 +24,18 @@ const addnewClient = async (req, res) => {
     const charge = data.charges.find(cha => cha.reference_fiscal === reference_fiscal);
 
     if(charge){
-        return res.json(data.charges);
+        return res.json({'message': 'Contribuable déjà pris en charge'});
     }else if(client && !charge){
         const newCharge = {
             'reference_fiscal': reference_fiscal,
             'prise_charge': true
         }
-        let table = [];
         data.setCharges([...data.charges, newCharge]);
         res.json({...client, ...charge})
-
         await fsPromises.writeFile(
             path.join(__dirname, '..', '..', 'model', 'immatriculation', 'charge.json'),
             JSON.stringify(data.charges)
         );
-
     }else   
         return res.json(data.charges);
 }
