@@ -1,6 +1,9 @@
 const data = {
     clients: require("../../../../e-immatriculation/backend/model/contribuable.json"),
-
+    activites: require("../../../../e-immatriculation/backend/model/activite.json"),
+    actionnaires: require("../../../../e-immatriculation/backend/model/actionnaire.json"),
+    dirigeants: require("../../../../e-immatriculation/backend/model/dirigeant.json"),
+    interlocuteurs: require("../../../../e-immatriculation/backend/model/interlocuteur.json"),
     charges: require("../../model/immatriculation/charge.json"),
     assujetissements: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
     setCharges: function (data) { this.charges = data }

@@ -239,7 +239,7 @@ const updateCodeImpot = async (req, res) => {
     impot.periodique = req.body.periodique;
 
     const filteredImpot = data.impots.filter(imp => imp.numero_impot === numero_impot);
-    const unsortedImpot = [...data.impots, impot];
+    const unsortedImpot = [...filteredImpot, impot];
     data.setImpots(unsortedImpot.sort((a, b) => a.numero_impot > b.numero_impot ? 1 : a.numero_impot < b.numero_impot ? -1 : 0))
     await fsPromises(
         path.join(__dirname, '..', '..', 'model', 'parametre', 'impot.json'),

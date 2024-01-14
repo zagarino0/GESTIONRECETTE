@@ -4,14 +4,11 @@ const clientController = require('../../../controller/immatriculation/clientCont
 
 router.route('/')
     .get(clientController.getAllclients)
-    .post(clientController.addnewClient)
-    .put(clientController.updateClient)
-    .delete(clientController.deleteClient);
 
 router.route('/:nif')
-    .get(clientController.getClient);
+    .get(clientController.getClientByReferenceFiscal);
 
 router.route('/prisecharge')
-    .post(clientController.getClientNonPriseCharge);
+    .post(clientController.getClientNonPriseChargeByReferenceFiscal);
 
 module.exports = router;
