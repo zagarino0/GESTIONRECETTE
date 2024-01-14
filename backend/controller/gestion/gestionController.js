@@ -123,8 +123,7 @@ const getRecetteBetweenTwoDate = (req, res) => {
             contribuable.interlocuteur = data.autres.length === 0 ? {} : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
         }
     }
-    res.json(contribuable);
-    
+    res.json(contribuable);   
 }
 
 const getResteARecouvrerBetweenTwoDate = (req, res) => {

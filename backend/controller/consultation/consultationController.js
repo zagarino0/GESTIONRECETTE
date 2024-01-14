@@ -1,4 +1,3 @@
-const getDataExcel = require('../../utils/ExcelData');
 const data = {
     client: require('../../../../e-immatriculation/backend/model/contribuable.json'),
 
@@ -63,7 +62,7 @@ const getClientByAddresse = (req, res) => {
     const contribuables = [];
     contribuable.map(contrib => {
         data.charge.map(cha => {
-            if (contrib.id === adresse.id_contribuable && contrib.reference_fiscal === cha.reference_fiscal) {
+            if (contrib.id === adresse.id_contribuable && contrib.reference_fiscal === cha.reference_fiscal && contrib.reference_fiscal === cha.reference_fiscal) {
                 contrib.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === contrib.id);
                 contrib.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === contrib.id);
                 contrib.activite = data.activites.length === 0 ? {} : data.activites.find(act => act.id_contribuable === contribuable.id);
@@ -85,6 +84,9 @@ const getClientByNomCommercial = (req, res) => {
     if(!etablissement)
         return res.status(404).json({'message': 'Contribuable introuvable'});
     const contribuable = data.client.find(cli => cli.id === etablissement.id_contribuable);
+    const charge = data.charge.find(cha => cha.reference_fiscal === contribuable.reference_fiscal);
+    if(!charge)
+        return res.status(404).json({'message': 'Contribuable non prise en charge'})
     contribuable.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
     contribuable.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
     contribuable.activite = data.activites.length === 0 ? {} : data.activites.find(act => act.id_contribuable === contribuable.id);
@@ -101,6 +103,9 @@ const getClientByCIN = (req, res) => {
     const contribuable = data.client.find(cli => cli.cin === cin);
     if (!contribuable)
         return res.status(404).json({ 'message': 'Contribuable introuvable' });
+    const charge = data.charge.find(cha => cha.prise_charge === contribuable.prise_charge);
+    if(!charge)
+        return res.status(404).json({'message': 'Contribuable non prise en charge'});
     contribuable.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
     contribuable.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
     contribuable.activite = data.activites.length === 0 ? {} : data.activites.find(act => act.id_contribuable === contribuable.id);
@@ -111,7 +116,6 @@ const getClientByCIN = (req, res) => {
     contribuable.interlocuteur = data.autres.length === 0 ? {} : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
     res.json(contribuable);
 }
-
 
 module.exports = {
     getClientByNif,
