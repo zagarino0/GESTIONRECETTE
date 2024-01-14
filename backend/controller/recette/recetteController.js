@@ -35,6 +35,8 @@ const setModePaymentPeriodique = async (req, res) => {
 
     const reference_fiscal = req.body.reference_fiscal;
 
+    const abbreviation_type_payment = req.body.abbreviation_type_payment;
+
     const payment = {
         "id": id,
         "reference_fiscal": reference_fiscal,
@@ -45,6 +47,7 @@ const setModePaymentPeriodique = async (req, res) => {
         "montant_verser": montant_verser,
         "reste_a_payer": reste_a_payer,
         "type_payment": type_payment,
+        "abbreviation_type_payment": abbreviation_type_payment,
         "numero_cheque": numero_cheque,
         "code_banque": code_banque,
         "transporteur": transporteur,
@@ -327,7 +330,7 @@ const getClientByAddresse = (req, res) => {
 }
 
 const setModePaymentNonPeriodique = async (req, res) => {
-    
+
 }
 
 module.exports = {
