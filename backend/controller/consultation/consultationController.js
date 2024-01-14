@@ -80,7 +80,20 @@ const getClientByAddresse = (req, res) => {
 }
 
 const getClientByNomCommercial = (req, res) => {
-    const nom_commercial = 
+    const nom_commercial = req.body.nom_commercial;
+    const etablissement = data.etablissements.find(eta => eta.etablissement_nom_commercial === nom_commercial);
+    if(!etablissement)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+    const contribuable = data.client.find(cli => cli.id === etablissement.id_contribuable);
+    contribuable.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
+    contribuable.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
+    contribuable.activite = activite;
+    contribuable.etablissement = data.activites.length === 0 ? [] : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
+    contribuable.coordonnees = data.coordonnees.length === 0 ? {} : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
+    contribuable.siege = data.sieges.length === 0 ? {} : data.sieges.find(sie => sie.id_contribuable === contribuable.id);
+    contribuable.autre = data.autres.length === 0 ? {} : data.autres.find(aut => aut.id_contribuable === contribuable.id);
+    contribuable.interlocuteur = data.autres.length === 0 ? {} : data.interlocuteurs.find(inter => inter.id_contribuable === contribuable.id);
+    res.json(contribuable);
 }
 
 const getClientByCIN = (req, res) => {
