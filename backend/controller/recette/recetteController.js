@@ -354,6 +354,7 @@ const setModePaymentNonPeriodique = async (req, res) => {
     const periode = req.body.periode;
     const periode1 = req.body.periode1;
     const periode2 = req.body.periode2;
+    const abbreviation_type_payment = req.body.abbreviation_type_payment;
 
     const date_cloture_exercice = req.body.date_cloture_exercice;
     const type_prev = req.body.type_prev;
@@ -384,7 +385,8 @@ const setModePaymentNonPeriodique = async (req, res) => {
         "periode2": periode2,
         "date_cloture_exercice": date_cloture_exercice,
         "type_prev": type_prev,
-        "amende_penalite": amende_penalite
+        "amende_penalite": amende_penalite,
+        "abbreviation_type_payment": abbreviation_type_payment,
     }
 
     data.setModePaymentNonPeriodiques([...data.modePaymentNonPeriodiques, payment]);
