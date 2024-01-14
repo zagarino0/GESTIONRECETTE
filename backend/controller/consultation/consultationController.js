@@ -66,7 +66,7 @@ const getClientByAddresse = (req, res) => {
             if (contrib.id === adresse.id_contribuable && contrib.reference_fiscal === cha.reference_fiscal) {
                 contrib.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === contrib.id);
                 contrib.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === contrib.id);
-                contrib.activite = activite;
+                contrib.activite = data.activites.length === 0 ? {} : data.activites.find(act => act.id_contribuable === contribuable.id);
                 contrib.etablissement = data.activites.length === 0 ? [] : data.etablissements.filter(eta => eta.id_contribuable === contrib.id);
                 contrib.coordonnees = data.coordonnees.length === 0 ? {} : data.coordonnees.find(coo => coo.id_contribuable === contrib.id);
                 contrib.siege = data.sieges.length === 0 ? {} : data.sieges.find(sie => sie.id_contribuable === contrib.id);
@@ -87,7 +87,7 @@ const getClientByNomCommercial = (req, res) => {
     const contribuable = data.client.find(cli => cli.id === etablissement.id_contribuable);
     contribuable.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === contribuable.id);
     contribuable.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === contribuable.id);
-    contribuable.activite = activite;
+    contribuable.activite = data.activites.length === 0 ? {} : data.activites.find(act => act.id_contribuable === contribuable.id);
     contribuable.etablissement = data.activites.length === 0 ? [] : data.etablissements.filter(eta => eta.id_contribuable === contribuable.id);
     contribuable.coordonnees = data.coordonnees.length === 0 ? {} : data.coordonnees.find(coo => coo.id_contribuable === contribuable.id);
     contribuable.siege = data.sieges.length === 0 ? {} : data.sieges.find(sie => sie.id_contribuable === contribuable.id);
