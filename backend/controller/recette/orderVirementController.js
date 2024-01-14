@@ -80,7 +80,7 @@ const setOrdreVirement = async (req, res) => {
         JSON.stringify(data.virement)
     )
 
-    res.status(200).json(data.json);
+    res.status(200).json(payment);
 }
 
 const setAvisDeCredit = (req, res) => {
