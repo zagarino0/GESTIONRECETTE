@@ -4,9 +4,7 @@ const clientController = require('../../../controller/immatriculation/clientCont
 
 router.route('/')
     .get(clientController.getAllclients)
-
-router.route('/:nif')
-    .get(clientController.getClientByReferenceFiscal);
+    .post(clientController.getClientPriseChargeByReferenceFiscal);
 
 router.route('/prisecharge')
     .post(clientController.getClientNonPriseChargeByReferenceFiscal);
