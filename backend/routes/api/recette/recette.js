@@ -4,8 +4,11 @@ const recetteController = require('../../../controller/recette/recetteController
 const situationController = require('../../../controller/recette/situationController');
 const ordreVirementController = require('../../../controller/recette/orderVirementController');
 
-router.route('/declaration')
-    .post(recetteController.setModePayment);
+router.route('/declarationperiodique')
+    .post(recetteController.setModePaymentPeriodique);
+
+router.route('/declarationnonperiodique')
+    .post(recetteController.setModePaymentNonPeriodique);
 
 router.route('/consultationpayment')
     .post(recetteController.getPaymentByTwoDate);

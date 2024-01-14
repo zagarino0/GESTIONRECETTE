@@ -8,7 +8,7 @@ const data = {
 const path = require('path');
 const fsPromises = require('fs').promises;
 
-const setModePayment = async (req, res) => {
+const setModePaymentPeriodique = async (req, res) => {
 
     const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id + 1;
     
@@ -55,7 +55,7 @@ const setModePayment = async (req, res) => {
         "date_creation": new Date()
     }
 
-    data.setModePayment([...data.modePayment, payment]);
+    data.Periodique([...data.modePayment, payment]);
 
     await fsPromises.writeFile(
         path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
@@ -326,8 +326,13 @@ const getClientByAddresse = (req, res) => {
     client = [];
 }
 
+const setModePaymentNonPeriodique = async (req, res) => {
+    
+}
+
 module.exports = {
-    setModePayment,
+    setModePaymentPeriodique,
+    setModePaymentNonPeriodique,
     getPaymentByTwoDate,
     getAllPayment,
     getClientByRaisonSocial,
