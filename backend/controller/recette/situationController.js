@@ -11,6 +11,8 @@ const data = {
     etablissements: require("../../../../e-immatriculation/backend/model/etablissement.json"),
     autres: require("../../../../e-immatriculation/backend/model/autre.json"),
 
+    impots: require('../../model/parametre/impot.json'),
+
     recettes: require('../../model/recette/mode_payment.json'),
 }
 
@@ -111,9 +113,95 @@ const getEncaissementBCM = (req, res) => {
 
 }
 
+const extraitTotauxRecetteEntreDeuxDate = (req, res) => {
+    const date_debut = req.body.date_debut;
+    const date_fin = req.body.date_fin;
+
+    let numero_impot_temp = 0;
+    let total = 0;
+    const payment = data.recettes.filter(rec => (new Date(rec.date_creation)) >= (new Date(date_debut)) && (new Date(rec.date_creation)) <= (new Date(date_fin)) && rec.montant_a_payer !== 0);
+    const impots = [];
+    payment.map(pay => {
+        data.impots.map(imp => {
+            if(imp.numero_impot === pay.numero_impot){
+                if(imp.numero_impot === numero_impot_temp){
+                    total += pay.montant_verser;
+                }else{
+                    impots.push({...imp, ...pay, total});
+                    numero_impot_temp = imp.numero_impot;
+                    total = 0;
+                }
+            }
+        })
+    })
+    res.json(impots);
+}
+
+const compteRenduRecette = (req, res) => {
+    const date_debut = req.body.date_debut;
+    const date_fin = req.body.date_fin;
+
+    let numero_impot_temp = 0;
+    let numero_impot_temp2 = 0;
+    let numero_impot_temp3 = 0;
+
+    let numero1 = 0;
+    let numero2 = 0;
+
+    let total = 0;
+    let total_entre_mois = 0;
+    let total_entre_annees = 0;
+
+    const payment = data.recettes.filter(rec => (new Date(rec.date_creation)) >= (new Date(date_debut)) && (new Date(rec.date_creation)) <= (new Date(date_fin)) && rec.montant_a_payer !== 0);
+    const impots = [];
+    payment.map(pay => {
+        data.impots.map(imp => {
+            if(imp.numero_impot === pay.numero_impot){
+                if(imp.numero_impot === numero_impot_temp){
+                    total += pay.montant_verser;
+                }else{
+                    const paymentTemps1 = data.recettes.filter(rec => (new Date(rec.date_creation)).getMonth() === (new Date(date_debut)).getMonth() && rec.montant_a_payer !== 0)
+                    paymentTemps1.map(paytmp1 => {
+                        data.impots.map(imptmp1 => {
+                            if(paytmp1.numero_cheque === imptmp1.numero_impot){
+                                if(imptmp1.numero_impot === numero_impot_temp2){
+                                    total_entre_mois += paytmp1.montant_verser;
+                                }else{
+                                    numero1 = total_entre_mois
+                                    total_entre_mois = 0;
+                                    numero_impot_temp2 = imptmp1.numero_impot;
+                                }
+                            }
+                        })
+                    })
+                    const paymentTemps2 = data.recettes.filter(rec => (new Date(rec.date_creation)).getFullYear() === (new Date(date_debut)).getFullYear() && rec.montant_a_payer !== 0)
+                    paymentTemps2.map(paytmp2 => {
+                        data.impots.map(imptmp2 => {
+                            if(paytmp2.numero_cheque === imptmp2.numero_impot){
+                                if(paytmp2.numero_impot === numero_impot_temp2){
+                                    total_entre_annees += paytmp2.montant_verser;
+                                }else{
+                                    numero2 = total_entre_annees;
+                                    total_entre_annees = 0;
+                                    numero_impot_temp2 = imptmp2.numero_impot;
+                                }
+                            }
+                        })
+                    })
+                    impots.push({...imp, ...pay, total_entre_annees, total_entre_mois, total});
+                    numero_impot_temp = imp.numero_impot;
+                    total = 0;
+                }
+            }
+        })
+    })
+    res.json(impots);
+}
 
 module.exports = {
     getRecetteByTwoDate,
+    compteRenduRecette,
+    extraitTotauxRecetteEntreDeuxDate,
     getRecetteByDecade,
     getEncaissementBCM,
     getEncaissementBar,

@@ -74,5 +74,7 @@ router.route('/encaissementespece')
 router.route('/encaissementbcm')
     .post(situationController.getEncaissementBCM);
 
+router.route('/recette/deuxdates')
+    .post(situationController.extraitTotauxRecetteEntreDeuxDate);
 
 module.exports = router;
