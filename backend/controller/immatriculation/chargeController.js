@@ -1,6 +1,6 @@
 const data = {
     clients: require("../../../../e-immatriculation/backend/model/contribuable.json"),
-    
+
     charges: require("../../model/immatriculation/charge.json"),
     assujetissements: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
     setCharges: function (data) { this.charges = data }
@@ -11,7 +11,7 @@ const path = require('path');
 
 const addnewClient = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
-    const client = data.clients.find(cli => cli.nif === reference_fiscal);
+    const client = data.clients.find(cli => cli.reference_fiscal === reference_fiscal);
     const charge = data.charges.find(cha => cha.reference_fiscal === reference_fiscal);
 
     if(charge){
@@ -36,11 +36,11 @@ const addnewClient = async (req, res) => {
 }
 
 const getClient = (req, res) => {
-    const reference_fiscal = req.params.nif;
+    const reference_fiscal = req.params.reference_fiscal;
     let client = {};
     data.clients.map(cli => {
         data.charges.map(cha => {
-            if(cli.nif === reference_fiscal && cli.nif === cha.reference_fiscal){
+            if(cli.reference_fiscal === reference_fiscal && cli.reference_fiscal === cha.reference_fiscal){
                 client = cli;
             }
         })
