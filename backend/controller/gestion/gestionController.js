@@ -138,7 +138,7 @@ const getAllRecette = (res, req) => {
     const contribuables = [];
     data.client.map(cli => {
         data.modePayment.map(mod => {
-            if(cli.reference_fiscal === mod.reference_fiscal && mod.reste_a_payer !== 0){
+            if(cli.reference_fiscal === mod.reference_fiscal && mod.montant_a_payer !== 0){
                 cli.actionnaire = data.actionnaires.length === 0 ? [] : data.actionnaires.filter(act => act.id_contribuable === cli.id);
                 cli.dirigeant = data.dirigeants.length === 0 ? [] : data.dirigeants.filter(dir => dir.id_contribuable === cli.id);
                 cli.activite = data.activites.length === 0 ? {} : data.activites.find(act => act.id_contribuable === cli.id);
