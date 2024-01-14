@@ -84,13 +84,28 @@ const getRecetteByDecade = (req, res) => {
     impots = {};
 }
 
+const getEncaissementEspece = (req, res) => {
 
+}
 
+const getEncaissementCheque = (req, res) => {
 
+}
 
+const getEncaissementBar = (req, res) => {
+
+}
+
+const getEncaissementBCM = (req, res) => {
+
+}
 
 
 module.exports = {
     getRecetteByTwoDate,
-    getRecetteByDecade
+    getRecetteByDecade,
+    getEncaissementBCM,
+    getEncaissementBar,
+    getEncaissementCheque,
+    getEncaissementEspece
 }

@@ -1,3 +1,8 @@
+const data = {
+    impots: require('../../model/parametre/impot.json'),
+    setImpots: function (data) { this.impots = data }
+}
+
 const getDataExcel = require('../../utils/ExcelData');
 const setDataExcel = require('../../utils/setDataExcel');
 const updateDataExcel = require('../../utils/updateDataExcel');
@@ -30,7 +35,7 @@ const getCodeGeographiqueById = (req, res) => {
 
 const setCodeGeographique = (req, res) => {
     const codeGeos = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code geographique');
-    let id = codeGeos.length === 0 ? 1 : parseInt(codeGeos[codeGeos.length - 1 ].id) + 1;
+    let id = codeGeos.length === 0 ? 1 : parseInt(codeGeos[codeGeos.length - 1].id) + 1;
     const arrondissement = req.body.arrondissement;
     const fokontany = req.body.fokontany;
     const libelle = req.body.libelle;
@@ -87,7 +92,7 @@ const getCodeBanqueById = (req, res) => {
 
 const setCodeBanque = (req, res) => {
     const codeBanques = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code banque');
-    let id = codeBanques.length === 0 ? 1 : parseInt(codeBanques[codeBanques.length - 1 ].id) + 1;
+    let id = codeBanques.length === 0 ? 1 : parseInt(codeBanques[codeBanques.length - 1].id) + 1;
     const raison_social = req.body.raison_social;
     const nom_commercial = req.body.nom_commercial;
     const newCodeBanque = [
@@ -178,18 +183,18 @@ const deleteCodeFormeJuridique = (req, res) => {
 //-------------------------------------------------------------------------------------------
 
 const getCodeImpot = (req, res) => {
-    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot'));
+    res.json(data.impots);
 }
 
 const getCodeImpotByNumber = (req, res) => {
     const numero_impot = req.params.numero_impot;
-    const impot = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').find(imp => imp.numero_impot == numero_impot);
+    const impot = data.impots.find(imp => imp.numero_impot == numero_impot);
     if (!impot) return res.status(400).json({ "message": "tax not found" });
     res.json(impot);
 }
 
-const setCodeImpot = (req, res) => {
-    const codeImps = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot');
+const setCodeImpot = async (req, res) => {
+    const codeImps = data.impots;
     let numero_impot = codeImps.length === 0 ? 1 : parseInt(codeImps[codeImps.length - 1].numero_impot) + 1;
     const libelle = req.body.libelle;
     const abreviation = req.body.abreviation;
@@ -211,38 +216,48 @@ const setCodeImpot = (req, res) => {
             groupe_impot
         ]
     ]
-    setDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', newCodeImp);
-    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot'));
+    data.setImpots([...data.impots, newCodeImp]);
+    res.json(data.impots);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'parametre', 'impot.json'),
+        JSON.stringify(data.impots)
+    )
 }
 
-const updateCodeImpot = (req, res) => {
+const updateCodeImpot = async (req, res) => {
     const numero_impot = req.params.numero_impot;
-    const libelle = req.body.libelle;
-    const abreviation = req.body.abreviation;
-    const pcop = req.body.pcop;
-    const numero_budget = req.body.numero_budget;
-    const numero_classes = req.body.numero_classes;
-    const chapitre = req.body.chapitre;
-    const groupe_impot = req.body.groupe_impot;
 
-    const codeImp = [
-            numero_impot,
-            libelle,
-            abreviation,
-            pcop,
-            numero_budget,
-            numero_classes,
-            chapitre,
-            groupe_impot
-    ]
-    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', numero_impot, codeImp);
-    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot'));
+    const impot = data.impots.find(imp => imp.numero_impot === numero_impot);
+    if (!impot)
+        return res.status(404).json({ 'message': 'Code impot introuvable' });
+
+    if (req.body.libelle) impot.libelle = req.body.libelle;
+    if (req.body.abbreviation) impot.abbreviation = req.body.abbreviation;
+    if (req.body.pcop) impot.pcop = req.body.pcop;
+    if (req.body.abbrev_periodicite) impot.abbrev_periodicite = req.body.abbrev_periodicite;
+    if (req.body.periodicite) impot.periodicite = req.body.periodicite;
+    impot.periodique = req.body.periodique;
+
+    const filteredImpot = data.impots.filter(imp => imp.numero_impot === numero_impot);
+    const unsortedImpot = [...data.impots, impot];
+    data.setImpots(unsortedImpot.sort((a, b) => a.numero_impot > b.numero_impot ? 1 : a.numero_impot < b.numero_impot ? -1 : 0))
+    await fsPromises(
+        path.join(__dirname, '..', '..', 'model', 'parametre', 'impot.json'),
+        JSON.stringify(data.impots)
+    )
 }
 
-const deleteCodeImpot = (req, res) => {
+const deleteCodeImpot = async (req, res) => {
     const numero_impot = req.params.numero_impot;
-    deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot', numero_impot);
-    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot'));
+    const impot = data.impots.find(imp => imp.numero_impot == numero_impot);
+    if (!impot)
+        return res.status(404).json({ 'message': 'Code impot introuvable' });
+    const filteredImpot = data.impots.filter(imp => imp.numero_impot != numero_impot);
+    data.setImpots(filteredImpot);
+    await fsPromises.writeFile(
+        path.join(__dirname, '..', '..', 'model', 'parametre', 'impot.json'),
+        JSON.stringify(data.impots)
+    )
 }
 
 //-------------------------------------------------------------------------------------------
@@ -524,7 +539,7 @@ const setProcesVerbaux = (req, res) => {
     let id = procesVerbs.length === 0 ? 1 : parseInt(procesVerbs[procesVerbs.length - 1].id) + 1;
     const numero = req.body.numero;
     const designation = req.body.designation;
-   
+
 
     const newProcesVerb = [
         [
@@ -579,7 +594,7 @@ const setOperateurTelephonique = (req, res) => {
     let id = operateurTels.length === 0 ? 1 : parseInt(operateurTels[operateurTels.length - 1].id) + 1;;
     const numero = req.body.numero;
     const operateur = req.body.operateur;
-   
+
 
     const newOperateur = [
         [
@@ -807,7 +822,7 @@ const setNumeroBudget = (req, res) => {
     const numeroBudgs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget');
     let numero = numeroBudgs.length === 0 ? 1 : parseInt(numeroBudgs[numeroBudgs.length - 1].numero) + 1;
     const libelle = req.body.libelle;
-    
+
     const newNumeroBudg = [
         [
             numero,
@@ -831,7 +846,7 @@ const updateNumeroBudget = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget'));
 }
 
-const deleteNumeroBudget = (req , res) => {
+const deleteNumeroBudget = (req, res) => {
     const numero = req.params.numero;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget', numero);
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'numero budget'));
@@ -867,7 +882,7 @@ const setCodeActivite = (req, res) => {
     let code = codeActs.length === 0 ? 1 : parseInt(codeActs[codeActs.length - 1].code) + 1;
     const libelle = req.body.libelle;
     const nature = req.body.nature;
-    
+
     const newCodeAct = [
         [
             code,
@@ -897,7 +912,7 @@ const updateCodeActivite = (req, res) => {
 const deleteCodeActivite = (req, res) => {
     const code = req.params.code;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite', code);
-     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite'));
+    res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code activite'));
 }
 
 
@@ -920,7 +935,7 @@ const setChefAction = (req, res) => {
     const chefs = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action');
     let code = chefs.length === 0 ? 1 : parseInt(chefs[chefs.length - 1].code) + 1;
     const libelle = req.body.libelle;
-    
+
     const newChef = [
         [
             code,
@@ -944,7 +959,7 @@ const updateChefAction = (req, res) => {
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action'));
 }
 
-const deleteChefAction = (req , res) => {
+const deleteChefAction = (req, res) => {
     const code = req.params.code;
     deleteDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action', code);
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'chef d_action'));
@@ -970,7 +985,7 @@ const setTypePrevision = (req, res) => {
     let id = typePrevs.length === 0 ? 1 : parseInt(typePrevs[typePrevs.length - 1].id) + 1;
     const type_prevision = req.body.type_prevision;
     const libelle = req.body.libelle;
-    
+
     const newTypePrev = [
         [
             id,
@@ -993,7 +1008,7 @@ const updateTypePrevision = (req, res) => {
         type_prevision,
         libelle
     ]
-    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', id , typePrev);
+    updateDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision', id, typePrev);
     res.json(getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'type prevision'));
 }
 
@@ -1082,17 +1097,17 @@ const getDateEcheance = (req, res) => {
 
 const getDateEcheanceById = (req, res) => {
     const id = req.params.id;
-    if(id < 2000){
+    if (id < 2000) {
         let dateEch = [];
         getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot').map(imp => {
-        getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {
-            if (imp.numero_impot == ech.numero_impot && ech.id == id)
-                dateEch.push({ ...imp, ...ech });
+            getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'date echeance').map(ech => {
+                if (imp.numero_impot == ech.numero_impot && ech.id == id)
+                    dateEch.push({ ...imp, ...ech });
+            })
         })
-    })
-    res.json(dateEch);
-    dateEch = [];
-    }else{
+        res.json(dateEch);
+        dateEch = [];
+    } else {
         getDateEcheanceByYear(req, res, id);
     }
 }

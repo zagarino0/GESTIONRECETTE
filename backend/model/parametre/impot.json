@@ -1,0 +1,1008 @@
+[
+    {
+        "numero_impot": 1,
+        "pcop": 7021,
+        "libelle": "Impôt synthétiques",
+        "abbreviation": "IS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "MENSUEL"
+    },
+    {
+        "numero_impot": 2,
+        "pcop": 7080,
+        "libelle": "Autres impôts général sur le révenus",
+        "abbreviation": "AIGR",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "MENSUEL"
+    },
+    {
+        "numero_impot": 3,
+        "pcop": 7140,
+        "libelle": "Impôts fonciers sur les terrains",
+        "abbreviation": "IFT",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 4,
+        "pcop": 715,
+        "libelle": "Impôts fonciers sur les propriété bât et ses centimes additionnels",
+        "abbreviation": "IFPBC",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 5,
+        "pcop": 7151,
+        "libelle": "Impôts fonciers sur les propriétés bâties",
+        "abbreviation": "IFPB",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 6,
+        "pcop": 7152,
+        "libelle": "Taxes annexes foncieres sur le proprietées bâties",
+        "abbreviation": "TAFP",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 7,
+        "pcop": 7158,
+        "libelle": "Autres impôts locaux sur les propriétés baties",
+        "abbreviation": "AILPB",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 8,
+        "pcop": 718,
+        "libelle": "Taxe annuelle sur autres patrimoines",
+        "abbreviation": "TAAP",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 9,
+        "pcop": 7181,
+        "libelle": "Taxes sur les appareils automatiques ou électronique ex 7252",
+        "abbreviation": "TAAE",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 10,
+        "pcop": 71812,
+        "libelle": "Machine à sous",
+        "abbreviation": "MS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 11,
+        "pcop": 7182,
+        "libelle": "Taxes sur les appareils mécaniques",
+        "abbreviation": "TAM",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 12,
+        "pcop": 71821,
+        "libelle": "Taxes sur les velomoteurs et autres vehicules non IM",
+        "abbreviation": "TVAI",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 13,
+        "pcop": 71822,
+        "libelle": "Taxes sur les bicyclette",
+        "abbreviation": "TB",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 14,
+        "pcop": 71823,
+        "libelle": "Taxes sur les pousses pousses",
+        "abbreviation": "TPP",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 15,
+        "pcop": 71824,
+        "libelle": "Taxes sur les charettes",
+        "abbreviation": "TC",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 16,
+        "pcop": 7183,
+        "libelle": "Taxes sur les pylonnes, antênnes, relais ou mâts",
+        "abbreviation": "TPARM",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 17,
+        "pcop": 71831,
+        "libelle": "Taxes sur les pylonnes",
+        "abbreviation": "TP",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 18,
+        "pcop": 71832,
+        "libelle": "Taxes sur les relis, antênnes ou mâts",
+        "abbreviation": "TRAM",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 19,
+        "pcop": 7251,
+        "libelle": "Taxes sur l'électricité",
+        "abbreviation": "TE",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 19,
+        "pcop": 7252,
+        "libelle": "Taxes sur les appareils automatiques",
+        "abbreviation": "TAA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 20,
+        "pcop": 7253,
+        "libelle": "Surtaxe sur l'eau et l'électricité",
+        "abbreviation": "SEE",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 21,
+        "pcop": 726,
+        "libelle": "Taxes particulières sur les services",
+        "abbreviation": "TPS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 22,
+        "pcop": 7261,
+        "libelle": "Taxe sur la publicité",
+        "abbreviation": "TPB",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 23,
+        "pcop": 7262,
+        "libelle": "Taxe d'abbatage",
+        "abbreviation": "TA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 24,
+        "pcop": 72621,
+        "libelle": "Taxe d'abbatage des bovins",
+        "abbreviation": "TAB",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 25,
+        "pcop": 72622,
+        "libelle": "Taxe d'abbatage des porcins",
+        "abbreviation": "TAP",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 26,
+        "pcop": 72623,
+        "libelle": "Taxe d'abbatage des cabris",
+        "abbreviation": "TAC",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 27,
+        "pcop": 7263,
+        "libelle": "Taxe de visite et du poinçonnage de viande ex 7482",
+        "abbreviation": "TVOV",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 28,
+        "pcop": 72631,
+        "libelle": "Taxe de visite et du poinçonnage des bovins",
+        "abbreviation": "TVPB",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 29,
+        "pcop": 72632,
+        "libelle": "Taxe de visite et de poinçonnage des porcs",
+        "abbreviation": "TVPP",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 30,
+        "pcop": 72633,
+        "libelle": "Taxe de visite et de poinçonnage des cabris",
+        "abbreviation": "TVPC",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 31,
+        "pcop": 7264,
+        "libelle": "Taxe de protection civiles",
+        "abbreviation": "TPC",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 32,
+        "pcop": 7265,
+        "libelle": "Taxes de résidence pour le dévéloppement local",
+        "abbreviation": "TRDL",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 33,
+        "pcop": 7271,
+        "libelle": "Taxes professionnelles",
+        "abbreviation": "TPR",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 34,
+        "pcop": 7273,
+        "libelle": "Impôts de licence de vente des prod alcooliques",
+        "abbreviation": "ILVPA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 35,
+        "pcop": 72731,
+        "libelle": "Impôt de licence sur les alcools et produits alcoolisées",
+        "abbreviation": "ILVPD",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 36,
+        "pcop": 72733,
+        "libelle": "Impot de licence foraine",
+        "abbreviation": "ILF",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 37,
+        "pcop": 7274,
+        "libelle": "Prélèvement sur les produits des jeux",
+        "abbreviation": "PPJ",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 38,
+        "pcop": 72741,
+        "libelle": "Taxes sur les billards et assimilées",
+        "abbreviation": "TBA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 39,
+        "pcop": 7276,
+        "libelle": "Taxes sur les fêts et spectacles, manifestations divers",
+        "abbreviation": "TFSMD",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 40,
+        "pcop": 7277,
+        "libelle": "Taxes sur les établissements exerçants des activités à but lucratif",
+        "abbreviation": "TEEABL",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 41,
+        "pcop": 72771,
+        "libelle": "Taxes des sejours dans les hotels",
+        "abbreviation": "TSH",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 42,
+        "pcop": 72772,
+        "libelle": "Taxes sur établissements de nuits: Cabarets, Dancing, night clubs, karaoké",
+        "abbreviation": "TENCDNK",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 43,
+        "pcop": 72773,
+        "libelle": "Taxes sur pension de famille, maison hote",
+        "abbreviation": "TPFMH",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 44,
+        "pcop": 72778,
+        "libelle": "Autres taxes sur les établissements d'hébergement",
+        "abbreviation": "ATEH",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 45,
+        "pcop": 7278,
+        "libelle": "Autres taxes locales sur les activités",
+        "abbreviation": "ATLA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 46,
+        "pcop": 727811,
+        "libelle": "Grand Evènements : STAR Tours, Caravane B, …",
+        "abbreviation": "GESC",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 47,
+        "pcop": 727812,
+        "libelle": "Braderie",
+        "abbreviation": "BRD",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 48,
+        "pcop": 727813,
+        "libelle": "Braderie fourniture scolaire",
+        "abbreviation": "BFS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 49,
+        "pcop": 727814,
+        "libelle": "Autres evenments",
+        "abbreviation": "AEV",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 50,
+        "pcop": 72782,
+        "libelle": "Animations produits hygièniques",
+        "abbreviation": "APH",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 51,
+        "pcop": 72783,
+        "libelle": "Animations publicitaires, TAM TAM",
+        "abbreviation": "APTT",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 52,
+        "pcop": 7280,
+        "libelle": "Autres biens et services",
+        "abbreviation": "ABS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 53,
+        "pcop": 741,
+        "libelle": "Droit de timbre",
+        "abbreviation": "DT",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 54,
+        "pcop": 7414,
+        "libelle": "Taxes sur les spectacles",
+        "abbreviation": "TS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 55,
+        "pcop": 743,
+        "libelle": "Amendes fiscales et pénalités",
+        "abbreviation": "AFP",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 56,
+        "pcop": 7432,
+        "libelle": "Pénalité de retard",
+        "abbreviation": "PR",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 57,
+        "pcop": 7480,
+        "libelle": "Taxes diverses",
+        "abbreviation": "TDV",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 58,
+        "pcop": 7482,
+        "libelle": "Activités agricoles",
+        "abbreviation": "AA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 59,
+        "pcop": 7432,
+        "libelle": "Amendes fiscales et pénalités",
+        "abbreviation": "AFPN",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 60,
+        "pcop": 7432,
+        "libelle": "Pénalité",
+        "abbreviation": "PEN",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 61,
+        "pcop": 771,
+        "libelle": "Redevances",
+        "abbreviation": "RED",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 62,
+        "pcop": 7714,
+        "libelle": "Rédevance sur autorisations administratives",
+        "abbreviation": "RAA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 63,
+        "pcop": 77141,
+        "libelle": "Cérémonie coutimières autorisées",
+        "abbreviation": "CCA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 64,
+        "pcop": 77143,
+        "libelle": "Prélèvement sur les extractions des terres, sables, pierres",
+        "abbreviation": "PETSP",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 65,
+        "pcop": 77148,
+        "libelle": "Autres redevances sur autorisations administratives",
+        "abbreviation": "ARAA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 66,
+        "pcop": 771481,
+        "libelle": "Rédevance sur autorisations de cession et donnation des terrains",
+        "abbreviation": "RACDT",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 67,
+        "pcop": 771482,
+        "libelle": "Produits des expeditions des actes civils",
+        "abbreviation": "PEACC",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 68,
+        "pcop": 771483,
+        "libelle": "Légalisations des signatures",
+        "abbreviation": "LS",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 69,
+        "pcop": 771484,
+        "libelle": "Certifications",
+        "abbreviation": "CCA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 70,
+        "pcop": 77145,
+        "libelle": "Droit de délivrance des tickets de mutations",
+        "abbreviation": "DDTM",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 71,
+        "pcop": 7718,
+        "libelle": "Autres redevances locales",
+        "abbreviation": "ARL",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 72,
+        "pcop": 77181,
+        "libelle": "Rédevance utilisation stade",
+        "abbreviation": "RUS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 73,
+        "pcop": 77182,
+        "libelle": "Rédevance sur éclairages stade",
+        "abbreviation": "RES",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 74,
+        "pcop": 77183,
+        "libelle": "Rédevances sur les blocs sanitaires, maison des quarties, KIAO",
+        "abbreviation": "RBSMQK",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 75,
+        "pcop": 771831,
+        "libelle": "Blocs sanitaires",
+        "abbreviation": "BSN",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 76,
+        "pcop": 771832,
+        "libelle": "Bains douches",
+        "abbreviation": "BDC",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 77,
+        "pcop": 771833,
+        "libelle": "Kiosques à eau et lavoirs",
+        "abbreviation": "KEL",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 78,
+        "pcop": 771834,
+        "libelle": "Maisons des quartiers",
+        "abbreviation": "MQA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 79,
+        "pcop": 77184,
+        "libelle": "Rédevances sur constructions illicites (amendes)",
+        "abbreviation": "RCI",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 80,
+        "pcop": 77185,
+        "libelle": "rédevances portuaires",
+        "abbreviation": "REPO",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 81,
+        "pcop": 77186,
+        "libelle": "Droit sur dépôt des marchandises et occupations sur voie public",
+        "abbreviation": "DDMOVP",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 82,
+        "pcop": 772,
+        "libelle": "Produits des activitées des services",
+        "abbreviation": "PAS",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 83,
+        "pcop": 7721,
+        "libelle": "Prestations des services",
+        "abbreviation": "PESE",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 84,
+        "pcop": 77211,
+        "libelle": "Revenus des services à caractères économiques",
+        "abbreviation": "RSCE",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 85,
+        "pcop": 772111,
+        "libelle": "Droit de place: Ticket des marchés",
+        "abbreviation": "DDTM",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 86,
+        "pcop": 772112,
+        "libelle": "Droits de parking : privés",
+        "abbreviation": "DPPI",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 87,
+        "pcop": 772113,
+        "libelle": "Droits de construction : permis de construire",
+        "abbreviation": "DCPC",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 88,
+        "pcop": 772114,
+        "libelle": "Droit de démolition et constitution des dossiers",
+        "abbreviation": "DDCD",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 89,
+        "pcop": 772115,
+        "libelle": "Droit de parking: payant",
+        "abbreviation": "DPPA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 90,
+        "pcop": 772116,
+        "libelle": "Droit de stationnement",
+        "abbreviation": "DST",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 91,
+        "pcop": 772118,
+        "libelle": "Autres : Permis d'exploitations des lignes et licence (taxi be, bus)",
+        "abbreviation": "APELL",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 92,
+        "pcop": 7727,
+        "libelle": "Revenus des domaines",
+        "abbreviation": "REDO",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 93,
+        "pcop": 77271,
+        "libelle": "Droits d'entrée dans le site touristiques",
+        "abbreviation": "DEST",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 94,
+        "pcop": 77274,
+        "libelle": "Droits d'occupations des marchands",
+        "abbreviation": "DOM",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 95,
+        "pcop": 77275,
+        "libelle": "Droit d'arrivage",
+        "abbreviation": "DDAA",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 96,
+        "pcop": 772781,
+        "libelle": "Entrée payantes au stade",
+        "abbreviation": "EPS",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 97,
+        "pcop": 772782,
+        "libelle": "Droits d'arrivages au quais",
+        "abbreviation": "DAQ",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 98,
+        "pcop": 772783,
+        "libelle": "Droits d'arrivages: routes",
+        "abbreviation": "DAR",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 99,
+        "pcop": 772784,
+        "libelle": "Droits d'occupations des marchands hors marchés",
+        "abbreviation": "DOMHM",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 100,
+        "pcop": 772785,
+        "libelle": "Parasols au plage",
+        "abbreviation": "PAPA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 101,
+        "pcop": 7728,
+        "libelle": "Autres produits des activités des services",
+        "abbreviation": "APAS",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 102,
+        "pcop": 77281,
+        "libelle": "Droit de capacité bajaj",
+        "abbreviation": "CCA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 103,
+        "pcop": 77282,
+        "libelle": "Droit de capacité taxi, taxi be",
+        "abbreviation": "DCTT",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 104,
+        "pcop": 773,
+        "libelle": "Produits des activités annexes et accessoires",
+        "abbreviation": "PAAA",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 105,
+        "pcop": 7732,
+        "libelle": "Locations diverses",
+        "abbreviation": "LODI",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 106,
+        "pcop": 77321,
+        "libelle": "Bâtiment",
+        "abbreviation": "BTM",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 107,
+        "pcop": 77322,
+        "libelle": "Piscine municipale",
+        "abbreviation": "PSM",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 108,
+        "pcop": 77323,
+        "libelle": "Parcelle des terrains",
+        "abbreviation": "PCT",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 109,
+        "pcop": 77324,
+        "libelle": "Terrains affecté aux inhumations",
+        "abbreviation": "TAI",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "ANNUEL"
+    },
+    {
+        "numero_impot": 110,
+        "pcop": 77325,
+        "libelle": "Location des terrains lotis",
+        "abbreviation": "LTL",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 111,
+        "pcop": 77326,
+        "libelle": "Location bac à ordure",
+        "abbreviation": "LBO",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "BIMESTRIEL"
+    },
+    {
+        "numero_impot": 112,
+        "pcop": 77327,
+        "libelle": "Enlèvement bac à ordure",
+        "abbreviation": "EBO",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 113,
+        "pcop": 7734,
+        "libelle": "Droits des fourrières",
+        "abbreviation": "DOFO",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 114,
+        "pcop": 77341,
+        "libelle": "Véhicules (moto, voitures)",
+        "abbreviation": "VHC",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 114,
+        "pcop": 77342,
+        "libelle": "Marchandises divers",
+        "abbreviation": "MADI",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 115,
+        "pcop": 7736,
+        "libelle": "Frais de poursuite",
+        "abbreviation": "FAPO",
+        "periodique": 0,
+        "abbrev_periodicite": "N"
+    },
+    {
+        "numero_impot": 116,
+        "pcop": 7738,
+        "libelle": "Taxes communales portuaires: embarquement et débarquement",
+        "abbreviation": "TCPED",
+        "periodique": 1,
+        "abbrev_periodicite": "P",
+        "periodicite": "TRIMESTRIEL"
+    }
+]

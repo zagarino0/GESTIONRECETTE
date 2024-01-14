@@ -1,5 +1,6 @@
 const data = {
-    clients: require("../../../../e-immatriculation/backend/model/client.json"),
+    clients: require("../../../../e-immatriculation/backend/model/contribuable.json"),
+    
     charges: require("../../model/immatriculation/charge.json"),
     assujetissements: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
     setCharges: function (data) { this.charges = data }
