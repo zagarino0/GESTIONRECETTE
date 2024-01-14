@@ -1,5 +1,16 @@
 const data = {
-    clients: require('../../../../e-immatriculation/backend/model/client.json'),
+    clients: require('../../../../e-immatriculation/backend/model/contribuable.json'),
+    
+    activites: require("../../../../e-immatriculation/backend/model/activite.json"),
+    actionnaires: require("../../../../e-immatriculation/backend/model/actionnaire.json"),
+    dirigeants: require("../../../../e-immatriculation/backend/model/dirigeant.json"),
+    interlocuteurs: require("../../../../e-immatriculation/backend/model/interlocuteur.json"),
+    assujetissements: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
+    sieges: require("../../../../e-immatriculation/backend/model/siege.json"),
+    coordonnees: require("../../../../e-immatriculation/backend/model/coordonnees.json"),
+    etablissements: require("../../../../e-immatriculation/backend/model/etablissement.json"),
+    autres: require("../../../../e-immatriculation/backend/model/autre.json"),
+
     recettes: require('../../model/recette/mode_payment.json'),
 }
 

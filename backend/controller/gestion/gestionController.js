@@ -1,6 +1,18 @@
 const getDataExcel = require('../../utils/ExcelData');
 const data = {
-    client: require('../../../../e-immatriculation/backend/model/client.json'),
+    client: require('../../../../e-immatriculation/backend/model/contribuable.json'),
+
+    activites: require("../../../../e-immatriculation/backend/model/activite.json"),
+    actionnaires: require("../../../../e-immatriculation/backend/model/actionnaire.json"),
+    dirigeants: require("../../../../e-immatriculation/backend/model/dirigeant.json"),
+    interlocuteurs: require("../../../../e-immatriculation/backend/model/interlocuteur.json"),
+    assujetissements: require('../../../../e-immatriculation/backend/model/assujetissement.json'),
+    sieges: require("../../../../e-immatriculation/backend/model/siege.json"),
+    coordonnees: require("../../../../e-immatriculation/backend/model/coordonnees.json"),
+    etablissements: require("../../../../e-immatriculation/backend/model/etablissement.json"),
+    autres: require("../../../../e-immatriculation/backend/model/autre.json"),
+    charges: require('../../model/immatriculation/charge.json'),
+
     modePayment: require('../../model/recette/mode_payment.json')
 }
 
@@ -8,8 +20,11 @@ const path = require('path');
 
 const getClientByNif = (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
+    const client = data.client.find(cli => cli.nif === reference_fiscal);
+    if(!client)
+        return res.status(404).json({'message': 'Contribuable introuvable'});
+    const charge = data.charges.find(cha => cha.reference_fiscal === client.reference_fiscal)
 
-    let client = data.client.find(cli => cli.nif === reference_fiscal);
 
     let modePayments = [];
     let impots = [];
