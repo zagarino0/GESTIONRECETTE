@@ -1,4 +1,3 @@
-const getDataExcel = require('../../utils/ExcelData');
 const data = {
     client: require('../../../../e-immatriculation/backend/model/contribuable.json'),
 
