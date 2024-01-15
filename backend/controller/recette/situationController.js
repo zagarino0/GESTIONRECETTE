@@ -203,13 +203,26 @@ const etatDetailleEncaissement = (req, res) => {
     const date_debut = req.body.date_debut;
     const date_fin = req.body.date_fin;
 
+    const contribuables = [];
 
+    const payment = data.recettes.filter(rec => (new Date(rec.date_creation)) >= (new Date(date_debut)) && (new Date(rec.date_creation)) <= (new Date(date_fin)) && rec.montant_a_payer !== 0);
 
-
-    res.json(contribuable)
+    data.impots.map(imp => {
+        payment.map(pay => {
+            if(pay.numero_impot === imp.numero_impot){
+                contribuables.push({...pay, ...imp});
+            }
+        })
+    })
+    res.json(contribuables);
 }
+
+
+
 module.exports = {
     getRecetteByTwoDate,
+    compteRenduRecette,
+    etatDetailleEncaissement,
     compteRenduRecette,
     extraitTotauxRecetteEntreDeuxDate,
     getRecetteByDecade,
