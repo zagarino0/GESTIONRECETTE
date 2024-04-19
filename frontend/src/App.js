@@ -87,14 +87,6 @@ import EtatDétaille from "./pages/ordreVirement/Edition/EtatDétaille";
 import AvisCredit from "./pages/ordreVirement/AvisCredit/AvisCredit";
 import SaisiAvisCredit from "./pages/ordreVirement/AvisCredit/SaisiAvisCredit";
 import DetailAvisCredit from "./pages/ordreVirement/AvisCredit/DetailAvisCredit";
-import BordeauxTransfertRecetteEntreDeuxDate from "./pages/recette/SituationRecettte/SituationRecetteImpression/BordeauxTransfertRecetteEntreDeuxDate";
-import BordeauxTransfertRecetteJournalier from "./pages/recette/SituationRecettte/SituationRecetteImpression/BordeauxTransfertRecetteJournalier";
-import DecadeEntreDeuxDate from "./pages/recette/SituationRecettte/SituationRecetteImpression/DecadeEntreDeuxDate";
-import DecadeJournalier from "./pages/recette/SituationRecettte/SituationRecetteImpression/DecadeJournalier";
-import ExtraitRecetteEntreDeuxDate from "./pages/recette/SituationRecettte/SituationRecetteImpression/ExtraitRecetteEntreDeuxDate";
-import ExtraitRecetteJournalier from "./pages/recette/SituationRecettte/SituationRecetteImpression/ExtraitRecetteJournalier";
-import SituationRecetteEntreDeuxDate from "./pages/recette/SituationRecettte/SituationRecetteImpression/SituationRecetteEntreDeuxDate";
-import SituationRecetteJournalier from "./pages/recette/SituationRecettte/SituationRecetteImpression/SituationRecetteJournalier";
 
 function App() {
   
@@ -207,14 +199,6 @@ function App() {
      <Route path="/SaisiAvisCredit" element={<SaisiAvisCredit/>}></Route>
      <Route path="/DetailAvisCredit" element={<DetailAvisCredit/>}></Route>
 
-
-     <Route path="/BordeauxTransfertRecetteEntreDeuxDate" element={<BordeauxTransfertRecetteEntreDeuxDate/>}></Route>
-     <Route path="/BordeauxTransfertRecetteJournalier" element={<BordeauxTransfertRecetteJournalier/>}></Route>
-     <Route path="/DecadeEntreDeuxDate" element={<DecadeEntreDeuxDate/>}></Route>
-     <Route path="/ExtraitRecetteEntreDeuxDate" element={<ExtraitRecetteEntreDeuxDate/>}></Route>
-     <Route path="/ExtraitRecetteJournalier" element={<ExtraitRecetteJournalier/>}></Route>
-     <Route path="/SituationRecetteEntreDeuxDate" element={<SituationRecetteEntreDeuxDate/>}></Route>
-     <Route path="/SituationRecetteJournalier" element={<SituationRecetteJournalier/>}></Route>
      
       </Routes>
     </Router>

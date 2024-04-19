@@ -2,5 +2,9 @@
     {
         "reference_fiscal": "712011021765",
         "prise_charge": true
+    },
+    {
+        "reference_fiscal": "987654321",
+        "prise_charge": true
     }
 ]

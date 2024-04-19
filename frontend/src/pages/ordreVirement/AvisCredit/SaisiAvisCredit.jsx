@@ -31,9 +31,9 @@ function SaisiAvisCredit() {
     </div>
   )
   return (
-    <div className='bg-[#212122]  h-screen w-screen'>
+    <div className='bg-[#212122]  h-full w-full'>
       <Navbar content={NavbarContent}></Navbar>
-      <div className='flex justify-center mt-4'>
+      <div className='flex justify-center p-8'>
     <div className='flex flex-col'>
     <div className='bg-black p-4 flex justify-center w-[1000px] rounded'>
         <Title2 text="Bordéreau des avis de crédits" className="font-semibold"></Title2>

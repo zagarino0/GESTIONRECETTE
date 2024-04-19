@@ -12,7 +12,7 @@ function Utilitaires() {
       Utilitaires
     </div>
    <div className='flex flex-col  '>
-    <LinkButton to="/codeActivite" text="Copie du fichier Impôt de Virement " className="mt-4" ></LinkButton>
+    <LinkButton to="#" text="Copie du fichier Impôt de Virement " className="mt-4" ></LinkButton>
     </div> 
     </div>   
      </div>

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const Table = (props) => {
-  const { headers, data, classNameTd, onClick, selectedRowIndex, setSelectedRowIndex, className } = props;
+  const { headers, data, classNameTd, onClick, selectedRowIndex, setSelectedRowIndex, className , ref } = props;
 
   const DataCell = ({ content, rowIndex }) => (
     <td
@@ -16,7 +16,7 @@ const Table = (props) => {
 
   return (
     <div className={`overflow-y-auto h-96   ${props.classTable}`}>
-      <table className={`bg-white ${className}`}>
+      <table ref={ref} className={`bg-white ${className}`}>
         <thead>
           <tr>
             {headers.map((header, index) => (

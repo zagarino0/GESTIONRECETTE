@@ -35,11 +35,11 @@ const data3 = [
     </div>
   )
   return (
-    <div className='bg-[#212122]  h-screen w-screen'>
+    <div className='bg-[#212122]  h-full w-full'>
       <Navbar content={NavbarContent}></Navbar>
       <div className='flex justify-center'>
       <div className='flex flex-col'>
-      <div className='flex justify-between w-[1000px] m-4'>
+      <div className='flex justify-between w-[1000px] p-8'>
          <div className='flex flex-col'>
          <Checkbox label="Ref"></Checkbox>
          <SearchInput type="text" className="mt-2"></SearchInput>

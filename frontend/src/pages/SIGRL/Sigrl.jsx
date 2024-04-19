@@ -26,7 +26,7 @@ function Sigrl() {
           </div>
         <div className='fle flex-col  pl-8 pr-8'>
             <div className='w-96  text-white text-3xl mt-8'>
-            Système Informatisé de Gestion des Ressources Locals
+            Système Informatisé de Gestion des Ressources Locales
             </div>
         <div className=' '>
         {
@@ -58,7 +58,7 @@ function Sigrl() {
           </div>
           <div>
           <div className='flex flex-row mt-4 '>
-         <p className='text-white text-center '>Retourner au page</p>
+         <p className='text-white text-center '>Retourner à la page</p>
           <Link to="/menu" className='ml-2 text-red-500 hover:text-blue-500'>Acceuil</Link>
         </div>
           </div>

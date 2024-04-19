@@ -15,9 +15,9 @@ function Saisir() {
     </div>
   )
   return (
-    <div className='bg-[#212122]  h-screen w-screen'>
+    <div className='bg-[#212122]  h-full w-full'>
       <Navbar content={NavbarContent}></Navbar>
-      <div className='flex justify-center items-center'>
+      <div className='flex justify-center items-center p-8'>
 <div className='flex flex-col mt-2'>
 <div className='flex fex-row'>
   <Input type="date" className="mt-6"></Input>

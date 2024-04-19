@@ -19,8 +19,11 @@ function PriseCharge() {
   useEffect(() => {
     if (searchTerm) {
       setIsLoading(true);
+      const reference_fiscal = {
+        "reference_fiscal" : searchTerm
+      }
       // Effectuer une requête API en utilisant Axios
-      axios.get(`http://localhost:3500/client/${searchTerm}`)
+      axios.post(`http://localhost:3500/client/nonprisecharge` , reference_fiscal)
         .then((response) => {
           setData(response.data);
           console.log(data)

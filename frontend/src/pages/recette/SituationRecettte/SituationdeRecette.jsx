@@ -28,35 +28,13 @@ function SituationdeRecette(props) {
 
   });
   const [Date , setDate] = useState('');
+  const [DateValue , setDateValue] = useState({
+    date_init : "",
+    date_fin: ""
+  }) 
+  const HandleImpression = () => {
 
-  const HandleImpression = () =>{
-
-if(Options.Situation_de_Recette === true && Date === true){
-navigate("/SituationRecetteJournalier")
-}
-if(Options.Situation_de_Recette === true && Date === false){
-  navigate("/SituationRecetteEntreDeuxDate")
-}
-if(Options.Extrait_Recette === true && Date === true){
-  navigate("/ExtraitRecetteJournalier")
-}
-if(Options.Extrait_Recette === true && Date === false){
-  navigate("/ExtraitRecetteEntreDeuxDate")
-}
-if(Options.Decade === true && Date === true){
-  navigate("/DecadeJournalier")
-}
-if(Options.Decade === true && Date === false){
-  navigate("/DecadeEntreDeuxDate")
-}
-if(Options.Bordeaux_transfert_Recette === true && Date === true){
-  navigate("/BordeauxTransfertRecetteJournalier")
-}
-if(Options.Bordeaux_transfert_Recette === true && Date === false){
-  navigate("/BordeauxTransfertRecetteEntreDeuxDate")
-}
-  } 
-
+  };
   return (
     <div>
         <Modal isOpen={props.isOpen} onClose={props.onClose} className={props.className}>
@@ -104,11 +82,17 @@ if(Options.Bordeaux_transfert_Recette === true && Date === false){
   <>
   <div className='flex flex-col '>
         <Label text="Du"></Label>
-       <Input type="date" className="mt-1" ></Input>
+       <Input type="date" className="mt-1"
+       value={DateValue.date_init}
+       onChange={(e)=> setDateValue({ ...DateValue , date_init : e.target.value})}
+        ></Input>
        </div>
        <div className='flex flex-col  '>
         <Label text="Au"></Label>
-       <Input type="date" className="mt-1"></Input>
+       <Input type="date" className="mt-1"
+       value={DateValue.date_fin}
+       onChange={(e)=>setDateValue({...DateValue , date_fin : e.target.value})}
+       ></Input>
        </div>
        
 
@@ -118,7 +102,10 @@ if(Options.Bordeaux_transfert_Recette === true && Date === false){
   <>
   <div className='flex flex-col'>
         <Label text="Date"></Label>
-       <Input type="date" className="mt-1" ></Input>
+        <Input type="date" className="mt-1"
+       value={DateValue.date_init}
+       onChange={(e)=> setDateValue({ ...DateValue , date_init : e.target.value})}
+        ></Input>
        </div>
   </>
 )

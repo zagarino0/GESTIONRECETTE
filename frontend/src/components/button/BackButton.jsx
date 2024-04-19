@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function BackButton(props) {
   return (
-    <div>
+    <div onClick={props.onClick}>
 <Link to={props.to !== undefined ? props.to : ''} >
 <IoMdArrowRoundBack className={`
 text-white text-2xl  
