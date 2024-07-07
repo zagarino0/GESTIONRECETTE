@@ -1,6 +1,7 @@
 const data = {
     clients: require("../../../../e-immatriculation/backend/model/contribuable.json"),
 
+    modifications: require('../../../../e-immatriculation/backend/model/modificationContribuable.json'),
     activites: require("../../../../e-immatriculation/backend/model/activite.json"),
     actionnaires: require("../../../../e-immatriculation/backend/model/actionnaire.json"),
     dirigeants: require("../../../../e-immatriculation/backend/model/dirigeant.json"),
@@ -11,12 +12,51 @@ const data = {
     etablissements: require("../../../../e-immatriculation/backend/model/etablissement.json"),
     autres: require("../../../../e-immatriculation/backend/model/autre.json"),
 
+
+
     charges: require("../../model/immatriculation/charge.json"),
     setCharges: function (data) { this.charges = data }
 };
 
 const fsPromises = require('fs').promises;
 const path = require('path');
+
+
+const getAllContribuableValide = (req, res) => {
+    const contribuable = data.clients.filter(con => con.actif);
+    const contribuableValide = [];
+    contribuable.map(con => {
+        const modif = data.modifications.find(mod => mod.id_contribuable == con.id);
+        if(!modif.blockage){
+            con.actionnaire = data.actionnaires.length === 0 ? null : data.actionnaires.filter(act => act.id_contribuable === con.id);
+            con.dirigeant = data.dirigeants.length === 0 ? null : data.dirigeants.filter(dir => dir.id_contribuable === con.id);
+            con.activite = data.activites.length === 0 ? null : data.activites.find(act => act.id_contribuable === con.id);
+            con.autre = data.autres.length === 0 ? null : data.autres.find(aut => aut.id_contribuable === con.id);
+            // con.coordonnees = data.coordonnees.length === 0 ? null : data.coordonnees.find(coo => coo.id_contribuable === con.id);
+            // con.etablissement = data.etablissements.length === 0 ? null : data.etablissements.filter(eta => eta.id_contribuable === con.id);
+            // con.interlocuteur = data.interlocuteurs.length === 0 ? null : data.interlocuteurs.find(inter => inter.id_contribuable === con.id);
+            // con.siege = data.siege.length === 0 ? null : data.siege.find(sie => sie.id_contribuable === con.id);
+            // const vehicule = [];
+            // data.vehicule.map(veh => {
+            //     data.vehiculecontribuable.map(vdh => {
+            //         if(vdh.reference_fiscal === con.reference_fiscal){
+            //             vdh.id_vehicules.map(idvcl => {
+            //                 if(idvcl === veh.id_vehicule)
+            //                     vehicule.push(veh);
+            //             })
+            //         }
+            //     })
+            // })
+            // con.vehicules = vehicule.length === 0 ? null : vehicule;
+            // con.assujetissement = data.assujetissement.length === 0 ? null : data.assujetissement.filter(ass => ass.id_contribuable === con.id);
+                        
+            contribuableValide.push({...con});
+        }
+    })
+
+    res.json(contribuableValide);
+}
+
 
 const addnewClient = async (req, res) => {
     const reference_fiscal = req.body.reference_fiscal;
@@ -41,7 +81,7 @@ const addnewClient = async (req, res) => {
         return res.json(data.charges);
 }
 
-const getClient = (req, res) => {
+const  getClient = (req, res) => {
     const reference_fiscal = req.params.reference_fiscal;
     let client = {};
     data.clients.map(cli => {
@@ -87,5 +127,6 @@ module.exports = {
     addnewClient,
     getClientByStatistique,
     getClientByCin,
-    getClient
+    getClient,
+    getAllContribuableValide
 }

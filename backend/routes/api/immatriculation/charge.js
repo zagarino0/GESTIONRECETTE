@@ -5,6 +5,9 @@ const chargeController = require('../../../controller/immatriculation/chargeCont
 router.route('/')
     .post(chargeController.addnewClient);
 
+router.route('/contribuable/valide')
+    .get(chargeController.getAllContribuableValide);
+
 router.route('/:nif')
     .get(chargeController.getClient);
 
