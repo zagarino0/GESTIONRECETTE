@@ -8,6 +8,9 @@ router.route('/')
 router.route('/contribuable/valide')
     .get(chargeController.getAllContribuableValide);
 
+router.route('/contribuable/encharge')
+    .get(chargeController.getContribuableEnCharge);
+
 router.route('/:nif')
     .get(chargeController.getClient);
 

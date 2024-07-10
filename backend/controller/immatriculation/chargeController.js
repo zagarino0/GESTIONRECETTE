@@ -123,10 +123,29 @@ const getClientByCin = () => {
     res.json(client);
 }
 
+const getContribuableEnCharge = (req, res) => {
+    const contribuables = data.clients;
+    const contribuableEnCharge = [];
+
+    contribuables.map(con => {
+        data.charges.map(cha => {
+            if(con.reference_fiscal === cha.reference_fiscal && cha.prise_charge){
+                contribuableEnCharge.push(con);
+            }
+        })
+    })
+
+    res.json(contribuableEnCharge);
+}
+
+
+
+
 module.exports = {
     addnewClient,
     getClientByStatistique,
     getClientByCin,
     getClient,
-    getAllContribuableValide
+    getAllContribuableValide,
+    getContribuableEnCharge
 }
