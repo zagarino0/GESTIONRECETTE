@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from '../Layout'
 import { LinkButton } from '../../../components/button/LinkButton'
 import { useLocation } from 'react-router-dom';
+import { Button } from '../../../components/button/button';
 
 function NIFRecette() {
   const location = useLocation();
@@ -12,8 +13,8 @@ function NIFRecette() {
        Référence Fiscal
      </div>
     <div className='flex flex-col ml-28 '>
-     <LinkButton to="/RechercheRF" text="Visualisation RF" className="mt-4 w-96" ></LinkButton>
-     <LinkButton to="#" text="Recherche RF"  className="mt-2 w-96"></LinkButton>
+     <Button  children="Visualisation RF" onClick={() => {  window.open('http://localhost:3000/PriseEnCharge' )}} className="mt-4 w-96" ></Button>
+     <LinkButton to="/ConsultationRegisseur" text="Consultation des paiments des RF REGISSEURS"  className="mt-2 w-96"></LinkButton>
      </div> 
      </div>   
       </div>

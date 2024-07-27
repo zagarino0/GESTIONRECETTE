@@ -30,14 +30,14 @@ function SituationRecette() {
      <div className='flex flex-col'>
      <Button  children="Situation de Recette" className="mt-2 " onClick={()=>setIsModalSituationRecette(true)}></Button>
      <LinkButton to="/EtatDetailleEncaissement" text="Etat détaillé des encaissements"  className="mt-2"></LinkButton>
-     <LinkButton to="/" text="Etat détaillé des encaissements par natures d'impôts"  className="mt-2"></LinkButton>
-     <LinkButton to="/" text="Etat détaillé des encaissements (Avis de crédit reçu par la BCM)"  className="mt-2"></LinkButton>
-     <LinkButton to="/" text="Etat détaillé des encaissements (Espèce)"  className="mt-2"></LinkButton>
-     <LinkButton to="/" text="Etat détaillé des encaissements (Chèque)"  className="mt-2"></LinkButton>
-     <LinkButton to="/" text="Etat détaillé des encaissements (BAR)"  className="mt-2"></LinkButton>
+     <LinkButton to="/EtatDetailleEncaissementParNatureImpot" text="Etat détaillé des encaissements par natures d'impôts"  className="mt-2"></LinkButton>
+     <LinkButton to="/EtatDetailleAvisCreditRecusBCM" text="Etat détaillé des encaissements (Avis de crédit reçu par la BCM)"  className="mt-2"></LinkButton>
+     <LinkButton to="/EtatDetailleEncaissementEspece" text="Etat détaillé des encaissements (Espèce)"  className="mt-2"></LinkButton>
+     <LinkButton to="/EtatDetailleEncaissementCheque" text="Etat détaillé des encaissements (Chèque)"  className="mt-2"></LinkButton>
+     <LinkButton to="/Bar" text="Etat détaillé des encaissements (BAR)"  className="mt-2"></LinkButton>
      </div>
     <div className='flex flex-col ml-2'>
-    <LinkButton to="/" text="Etat détaillé des encaissements (Trésor)"  className="mt-2"></LinkButton>
+    <LinkButton to="/EtatDetailleEncaissementTresor" text="Etat détaillé des encaissements (Trésor)"  className="mt-2"></LinkButton>
      <Button children="Compte Rendu de Recette et Etat Récap" onClick={()=>setIsModalCompteRendu(true)} className="mt-2"></Button>
      <Button  children="Etat Récapitilatif des recette au profil des collectivités"  onClick={()=>setIsModalEtatRecapitulatifRecette(true)}  className="mt-2"></Button>
      <Button  children="Versement bancaire " onClick={()=>setIsModalReleveCheque(true)}  className="mt-2"></Button>

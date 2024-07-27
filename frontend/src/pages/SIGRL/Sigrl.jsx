@@ -12,7 +12,7 @@ function Sigrl() {
         { title: "Recette", link: "/LoginRecette" },
         { title: "Gestion", link: "/LoginGestion" },
         { title: "Immatriculation", link: "/LoginImmatriculation" },
-        { title: "Ordre de Virement", link: "/LoginOrdreVirment" },
+        //{ title: "Ordre de Virement", link: "/LoginOrdreVirment" },
       ];
   
         return (
@@ -28,7 +28,7 @@ function Sigrl() {
             <div className='w-96  text-white text-3xl mt-8'>
             Système Informatisé de Gestion des Ressources Locales
             </div>
-        <div className=' '>
+        <div className=' mt-10 '>
         {
           
           links.map((link) => (
@@ -37,7 +37,7 @@ function Sigrl() {
               className={`
               py-3
               px-6
-              mt-4
+              mt-6
               hover:bg-[#E96012] 
               text-center
               bg-[#B85015]  

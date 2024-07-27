@@ -49,6 +49,11 @@ router.route('/extrait/date')
 router.route('/extrait/deuxdate')
     .post(recetteController.getExtraitRecetteByTwoDate);
 
+router.route('/getEnregistrementdeclaration')
+     .get(recetteController.getAllEnregistrementDeclaration);
+
+router.route('/getAllEnregistrementDeclarationNonPeriodique')
+     .get(recetteController.getAllEnregistrementDeclarationNonPeriodique);
 // Ordre de virement
 router.route('/ov')
     .post(ordreVirementController.setAvisDeCredit);
@@ -83,4 +88,6 @@ router.route('/encaissement/deuxdate')
 router.route('/compterendu/deuxdate')
     .post(situationController.compteRenduRecette);
 
+router.route('/history')
+    .get(recetteController.getAllHistoryRecette)    
 module.exports = router;

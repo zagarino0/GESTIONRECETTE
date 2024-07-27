@@ -1,10 +1,1 @@
-[
-    {
-        "reference_fiscal": "712011021765",
-        "prise_charge": true
-    },
-    {
-        "reference_fiscal": "000000000003",
-        "prise_charge": true
-    }
-]
+[{"reference_fiscal":"712011021765","prise_charge":true},{"reference_fiscal":"000000000003","prise_charge":true},{"reference_fiscal":"000000000001","prise_charge":true,"date_prise_charge":"2024-07-15T15:06:39.725Z"}]

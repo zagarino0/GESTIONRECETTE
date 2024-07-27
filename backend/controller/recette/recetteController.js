@@ -4,41 +4,45 @@ const data = {
     modePaymentNonPeriodiques: require('../../model/recette/mode_payment_non_periodique.json'),
     setModePaymentNonPeriodiques: function (data) { this.modePaymentNonPeriodiques = data },
     charges: require("../../model/immatriculation/charge.json"),
-    setModePayment: function (data) { this.modePayment = data }
-}
+    setModePayment: function (data) { this.modePayment = data },
+    // Ajoutez la méthode Periodique ici
+    Periodique: function(payments) {
+        this.modePayment = payments;
+    } ,
+    recette_history : require("../../model/recette/recette_historique.json"),
+    setRecetteHistory: function (data) { this.recette_history = data },
+    user_history : require("../../model/user/user_historique.json"),
+    setUserHistory : function (data) { this.user_history = data },
+};
 
 const path = require('path');
 const fsPromises = require('fs').promises;
 
 const setModePaymentPeriodique = async (req, res) => {
 
-    const id = data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id + 1;
+    const id = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
 
-    const numero_impot = req.body.numero_impot;
-    const annee = req.body.annee;
-    const base_impot = req.body.base_impot;
-    const montant_a_payer = req.body.montant_a_payer;
-    const montant_verser = req.body.montant_verser;
-    const reste_a_payer = req.body.reste_a_payer;
-
-    const type_payment = req.body.type_payment;
-
-    const numero_cheque = req.body.numero_cheque;
-    const code_banque = req.body.code_banque;
-
-    const numero_recepisse = req.body.numero_recepisse;
-
-    const periode = req.body.periode;
-
-    const transporteur = req.body.transporteur;
-
-    const periode1 = req.body.periode1;
-    const periode2 = req.body.periode2;
-
-    const reference_fiscal = req.body.reference_fiscal;
-
-    const abbreviation_type_payment = req.body.abbreviation_type_payment;
-
+    const {
+        numero_impot,
+        annee,
+        base_impot,
+        montant_a_payer,
+        montant_verser,
+        reste_a_payer,
+        type_payment,
+        numero_cheque,
+        code_banque,
+        numero_recepisse,
+        periode,
+        transporteur,
+        periode1,
+        periode2,
+        reference_fiscal,
+        abbreviation_type_payment,
+        type_prevision,
+        numero_immatriculation ,
+        annulation
+    } = req.body;
 
     const payment = {
         "id_payment": id,
@@ -58,17 +62,66 @@ const setModePaymentPeriodique = async (req, res) => {
         "periode": periode,
         "periode1": periode1,
         "periode2": periode2,
+        "type_prevision": type_prevision,
+        "numero_immatriculation": numero_immatriculation,
+        "annulation" : annulation ,
         "date_creation": new Date()
+    };
+
+    const id_modepayment = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
+    
+    const history_recette = {
+        "id" : id_modepayment ,
+        "numero_recepisse" : numero_recepisse ,
+        "motif": "création de recette Periodique",
+        "date_creation" : new Date(),
+    }
+    
+    const id_user_history = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
+
+    const User_history = {
+        "id": id_user_history ,
+        "user": req.body.user,
+        "motif": "creationde recette Peridoque",
+        "date_creation" : new Date()
     }
 
+    data.setRecetteHistory([...data.recette_history , history_recette])
     data.Periodique([...data.modePayment, payment]);
+    data.setUserHistory([...data.user_history , User_history]);
 
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
-        JSON.stringify(data.modePayment)
-    )
-    res.status(200).json(data.json);
-}
+
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
+            JSON.stringify(data.modePayment)
+        );
+        res.json(data.modePayment);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file' });
+    }
+
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+        res.json(data.recette_history);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file history recette' });
+    }
+
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'user', 'user_historique.json'),
+            JSON.stringify(data.user_history)
+        );
+        res.json(data.user_history);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file history user' });
+    }
+};
+
 
 const getClientByRecepisse = (req, res) => {
     const numero_recepisse = req.body.numero_recepisse;
@@ -333,7 +386,7 @@ const getClientByAddresse = (req, res) => {
 }
 
 const setModePaymentNonPeriodique = async (req, res) => {
-    const id = data.length === 0 ? 1 : data.modePaymentNonPeriodiques[data.modePaymentNonPeriodiques.length - 1].id_payment + 1;
+    const id = data.length === 0 || !data.modePaymentNonPeriodiques ? 1 : data.modePaymentNonPeriodiques.length === 0 ? 1 : data.modePaymentNonPeriodiques[data.modePaymentNonPeriodiques.length - 1].id_payment + 1;
     const nif_regisseur = req.body.nif_regisseur;
     const numero_impot = req.body.numero_impot;
     const raison_social = req.body.raison_social;
@@ -360,7 +413,9 @@ const setModePaymentNonPeriodique = async (req, res) => {
     const type_prev = req.body.type_prev;
 
     const amende_penalite = req.body.amende_penalite;
-
+    const annulation = req.body.annulation;
+    const activite = req.body.activite;
+    const fokontany = req.body.fokontany
     const payment = {
         "id_payment": id,
         "nif_regisseur": nif_regisseur,
@@ -387,7 +442,23 @@ const setModePaymentNonPeriodique = async (req, res) => {
         "type_prev": type_prev,
         "amende_penalite": amende_penalite,
         "abbreviation_type_payment": abbreviation_type_payment,
+        "annulation": annulation ,
+        "activite": activite ,
+        "fokontany": fokontany , 
+        "date_creation": new Date()
     }
+
+    const id_modepayment = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
+    
+    const history_recette = {
+        "id" : id_modepayment ,
+        "numero_recepisse" : numero_recepisse ,
+        "motif": "création de recette Non Periodique",
+        "date_creation" : new Date(),
+    }
+
+    
+    data.setRecetteHistory([...data.recette_history , history_recette])
 
     data.setModePaymentNonPeriodiques([...data.modePaymentNonPeriodiques, payment]);
     await fsPromises.writeFile(
@@ -395,7 +466,77 @@ const setModePaymentNonPeriodique = async (req, res) => {
         JSON.stringify(data.modePaymentNonPeriodiques)
     )
     res.json(payment);
+
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+        res.json(data.recette_history);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file history recette' });
+    }
 }
+
+const getAllEnregistrementDeclaration = async (req, res) => {
+    try {
+        // Define the path to the JSON file
+        const filePath = path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json');
+        
+        // Read the file asynchronously
+        const data = await fsPromises.readFile(filePath, 'utf8');
+        
+        // Parse the JSON data
+        const modePayment = JSON.parse(data);
+        
+        // Send the data as a response
+        res.status(200).json(modePayment);
+    } catch (error) {
+        // Handle errors (e.g., file not found, JSON parse error)
+        res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+};
+
+
+const getAllEnregistrementDeclarationNonPeriodique = async (req, res) => {
+    try {
+        // Define the path to the JSON file
+        const filePath = path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment_non_periodique.json');
+        
+        // Read the file asynchronously
+        const data = await fsPromises.readFile(filePath, 'utf8');
+        
+        // Parse the JSON data
+        const modePayment = JSON.parse(data);
+        
+        // Send the data as a response
+        res.status(200).json(modePayment);
+    } catch (error) {
+        // Handle errors (e.g., file not found, JSON parse error)
+        res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+};
+
+
+const getAllHistoryRecette = async (req, res) => {
+    try {
+        // Define the path to the JSON file
+        const filePath = path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json');
+        
+        // Read the file asynchronously
+        const data = await fsPromises.readFile(filePath, 'utf8');
+        
+        // Parse the JSON data
+        const modePayment = JSON.parse(data);
+        
+        // Send the data as a response
+        res.status(200).json(modePayment);
+    } catch (error) {
+        // Handle errors (e.g., file not found, JSON parse error)
+        res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+};
+
 
 module.exports = {
     setModePaymentPeriodique,
@@ -410,5 +551,8 @@ module.exports = {
     getClientByRecepisseAndDate,
     getClientByDate,
     getExtraitRecetteByDate,
-    getExtraitRecetteByTwoDate
+    getExtraitRecetteByTwoDate ,
+    getAllEnregistrementDeclaration ,
+    getAllEnregistrementDeclarationNonPeriodique ,
+    getAllHistoryRecette , 
 }

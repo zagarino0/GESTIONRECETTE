@@ -7,7 +7,56 @@ import Label from '../../components/title/label'
 import { Navbar } from '../../components/navbar/Navbar'
 import Modal from '../../components/modals/Modal'
 import { useLocation } from 'react-router-dom'
+import axios from 'axios'
+import PasswordInput from '../../components/input/PasswordInput'
+import { ModalError, ModalErrorServer } from '../immatriculation/Modal'
 function Gestion() {
+
+  const [ModalLogin , setModalLogin] = useState(false);
+  const [mdp , setMdp] = useState('');
+  const [code , setCode] = useState('');
+  const [isModalError, setIsModalError] = useState(false);
+  const [isModalErrorServer, setIsModalErrorServer] = useState(false);
+
+  const handleLogin = () => {
+    // Replace with your API endpoint for user authentication
+    const apiUrl = 'http://localhost:3500/user/auth';
+
+    // Create a request body with user input
+    const requestBody = {
+      "code": code,
+      "mdp": mdp,
+    };
+
+    axios
+      .post(apiUrl, requestBody)
+      .then((response) => {
+        const userData = response.data;
+        console.log(userData)
+        // Check if the user is authenticated and has immatriculation_prise_charge set to true
+        if (userData.login && userData.immatriculation_prise_charge) {
+          // Redirect to the desired page if the condition is met
+          
+          setModalLogin(false);
+          
+          setMdp('');
+          setCode('');
+          
+          
+           // Call createWindow function here
+    window.open('http://localhost:3000/PriseEnCharge' )
+        } else {
+          setIsModalError(true);
+        }
+      })
+      .catch((error) => {
+        console.error('Login error:', error);
+       
+        setIsModalErrorServer(true);
+      });
+  };
+
+
     const location = useLocation(); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const NavbarModal =(
@@ -27,7 +76,7 @@ function Gestion() {
         <div className='mt-12'>
             <div className='w-96'>
             <LinkButton to="/SituationNatureImpot" text="Situation par Nature d'impot ou tous Impots" ></LinkButton>
-            <LinkButton to="/MJRRegimeFiscalETGestionDossier" text="Mise à jour Régime Fiscal et Gestion de Dossier " className="mt-4"></LinkButton>
+             <Button children="Mise à jour Régime Fiscal et Gestion de Dossier" isOpen={ModalLogin} onClick={() => setModalLogin(true)} className="mt-4 p-4 w-96"></Button>
             <Button  children="Export en Excel des Assujetissements" isOpen={isModalOpen} onClick={() => setIsModalOpen(true)} className="mt-4 w-96"></Button>
             </div>
         </div>
@@ -52,6 +101,25 @@ Il s'agit d'avoir une copie du fichier ASSUJETISSEMENTS
         
         </div>
         </Modal>
+        <Modal isOpen={ModalLogin} onClose={()=> setModalLogin(false)} className={`flex justify-center w-[500px] h-[450px]`}>
+        <div className='mt-8 flex flex-col p-4 w-[400px]'>
+          <Label className="text-5xl" text="Identification"></Label>
+          <div className='flex flex-col mt-8'>
+            <Label text="Code"></Label>
+            <Input type="text" placeholder="Votre code" value={code} onChange={(e) => setCode(e.target.value)} className="w-full"/>
+          </div>
+          <div className='flex flex-col mt-4'>
+            <Label text="Mot de passe"></Label>
+            <PasswordInput value={mdp} onChange={(e)=> setMdp(e.target.value)}></PasswordInput>
+          </div>
+          <Button type="submit" children="Se connecter" onClick={handleLogin} className="mt-8"></Button>
+         
+          </div>
+        </Modal>
+    {/* error modal login prise en charge */}
+    <ModalError isOpen={isModalError} onClose={()=> setIsModalError(false)} quitter={()=> setIsModalError(false)}></ModalError>
+        <ModalErrorServer isOpen={isModalErrorServer} onClose={()=> setIsModalErrorServer(false)} quitter={()=> setIsModalErrorServer(false)}></ModalErrorServer>
+
     </div>
 
     )

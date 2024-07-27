@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table';
 import { Title3 } from '../../../components/title/title';
@@ -8,15 +8,43 @@ import Checkbox from '../../../components/button/Checkbox';
 import ReactSelect from 'react-select';
 import { Button } from '../../../components/button/button';
 import BackButton from '../../../components/button/BackButton';
+import axios from 'axios';
+import SearchInput from '../../../components/input/SearchInput';
 function VisualisationResteRecouvrer() {
-       // header Table components 
-   const headers = [  "Periode2","MNT_AP","TOT_VER", "RESTE_AP" , "N_QUIT", "NQUIT1", "NUM_REC", "MOD_RGL", "DTE_RGL", "PAIE"];
+  const [recepisse , setRecepisse] = useState([])
 
-   // data Table components  
-  const data = [
-   ['none', 'none', 'none', 'none' , 'none', 'none', 'none', 'none', 'none', 'none'],
+  const [searchTerm , setSearchTerm] = useState('');
   
- ];
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/recette/getEnregistrementdeclaration')
+      .then((response) => setRecepisse(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+  
+  const filteredData = recepisse.filter((item) => 
+    item.numero_recepisse && item.numero_recepisse.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+   
+  
+  console.log(recepisse)
+      const headers = ['N° Récepissé', 'Référence Fiscal',  'année', "Période", 'P1', 'P2',"Impôt","Nature Impôt" , "montant à payer" , "montant à verser" , "reste à payer" , "Code Banque" , "Mode de payment"];
+      const formattedData =  filteredData.map(item => [
+        item.numero_recepisse, 
+        item.reference_fiscal, 
+        item.annee, 
+        item.periode, 
+        item.periode1, 
+        item.periode2, 
+        item.numero_impot,
+        item.base_impot ,
+        item.montant_a_payer ,
+        item.montant_verser , 
+        item.reste_a_payer ,
+        item.code_banque ,
+        item.type_payment   
+      ]);
+  
     const NavbarContent = (
         <div className='flex justify-between'>
         <div className='text-white font-semibold'>
@@ -28,10 +56,13 @@ function VisualisationResteRecouvrer() {
         </div>
           )
   return (
-    <div className='bg-[#212122]  h-screen w-screen'>
+    <div className='bg-[#212122]  h-full w-full'>
     <Navbar content={NavbarContent} ></Navbar>
-    <div className='flex justify-center mt-4 '>
-    <Table headers={headers} data={data} classTable="overflow-y-auto h-40" ></Table>
+    <div className='ml-4 mt-4'>
+     <SearchInput  onChange={(e) => setSearchTerm(e.target.value)} ></SearchInput>
+    </div>
+    <div className='flex justify-center mt-4 p-4'>
+    <Table headers={headers} data={formattedData} classTable="overflow-y-auto h-40" ></Table>
     </div>
     <div className='m-4 flex justify-between'>
      <Title3 text="Référence fiscal" ></Title3>
@@ -108,7 +139,7 @@ function VisualisationResteRecouvrer() {
         <Checkbox label="Tous non payé" className="ml-4"></Checkbox>
 
     </div>
-    <div className='flex justify-between m-4'>
+    <div className='bg-[#212122] flex justify-between m-4'>
      <Button children="Afficher"></Button>
      <Button children="En caisse"></Button>
      <Button children="Vers Excel"></Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect , useState } from 'react'
 import BackButton from '../../../components/button/BackButton'
 import { Navbar } from '../../../components/navbar/Navbar'
 import { Button } from '../../../components/button/button'
@@ -12,6 +12,8 @@ import axios from 'axios'
 import SearchInput from '../../../components/input/SearchInput'
 import PasswordInput from '../../../components/input/PasswordInput'
 import { ModalError, ModalErrorServer } from '../../immatriculation/Modal'
+import DateFormatConverter from '../../../components/input/DateFormatConvert'
+import { useNavigate } from 'react-router-dom'
 
 function EnregistrementTitre() {
   const [isModalImpot , setIsModalImpot] = useState(false)
@@ -19,11 +21,11 @@ function EnregistrementTitre() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [selectedRowIndexCodeBanque, setSelectedRowIndexCodeBanque] = useState(null);
   const [selectedRowIndexCodeFokontany, setSelectedRowIndexCodeFokontany] = useState(null);
+  const [selectedRowIndexPriseEnCharge , setSelectedRowIndexPriseEnCharge] = useState(null);
+  const [DataSelectedPriseEnCharge , setDataSelectdPriseEnCharge] = useState([]);
   const [DataCodeFokontanySelect , setDataCodeFokontanySelect] = useState([]);
   const [DataSelected , setDataSelected] = useState([]);
   const [searchTerm ,setSearchTerm] = useState([]);
-  const [Client , setClient] = useState([])
-  const [searchClient , setSeacrchClient] = useState([])
   const [CodeBanque , setCodeBanque] = useState([]);
   const [ModalCodeBanque , setModalCodeBanque] = useState(false)
   const [selectCodeBanque , setSelectCodeBanque] = useState([])
@@ -38,12 +40,13 @@ function EnregistrementTitre() {
   const [isModalErrorPriseEnCharge, setIsModalErrorPriseEnCharge] = useState(false);
   const [isModalSucessPriseEnCharge, setIsModalSuccessPiseEnCharge] = useState(false);
   const [ModalLogin , setModalLogin] = useState(false);
-  const [searchPriseEnCharge, setSearchPriseEnCharge] = useState('');
+  const [searchPriseEnCharge] = useState('');
 const [data, setData] = useState([]);
-const [isLoading, setIsLoading] = useState(false);
+const [ setIsLoading] = useState(false);
 
-
-
+const [EnregistementDeclaration, setEnregistementDeclaration] = useState(false);
+const [ErrorEnregistrementDecleration , setErrorEnregistrementDecleration] = useState(false);
+ const [user ] = useState("");
 useEffect(() => {
   if (searchPriseEnCharge) {
     setIsLoading(true);
@@ -60,29 +63,7 @@ useEffect(() => {
       });
   }
 
-}, [searchPriseEnCharge , data]);
-
-const handlePriseEnCharge = () => {
-  // Perform data verification logic here
-  if (searchPriseEnCharge) {
-    // Data is verified, set isDataVerified to true
-    
-
-    // Update the data object with the prise_charge property
-    const updatedData = { reference_fiscal : searchPriseEnCharge , prise_charge: true };
-
-    // Send the updated data to the backend
-    axios.post('http://localhost:3500/prisecharge', updatedData)
-      .then((response) => {
-        // Handle the response from the backend, if needed
-       setIsModalSuccessPiseEnCharge(true);
-      })
-      .catch((error) => {
-        console.error('Error sending verification data:', error);
-        setIsModalErrorPriseEnCharge(true);
-      });
-  }
-};
+}, [searchPriseEnCharge , data , setIsLoading]);
 
 
   // Value of Enregistement déclaration
@@ -112,32 +93,25 @@ const handlePriseEnCharge = () => {
     rib: "",
     date_cloture_exercice: "",
     type_prev:"",
-    amende_penalite:""
+    amende_penalite:"",
+    numero_immatriculation: "",
+    annulation : false 
   }
   );
 
+// liste mode de payment 
+const ModeDePayment = [
+  "Cheque",
+   "Espece",
+    "Virement",
+    "Dépot",
+    "Trésor",
+    "BAR",
+    "Autre"
+
+]
 
 
-// Fonction pour faire un  recherche d'un client avec référence fiscal
-const handleSearchClient = async () => {
-  const baseUrl = 'http://localhost:3500/consultation';
-
-  try {
-   
-      const reference_fiscal = { "reference_fiscal" : searchClient}
-      const response = await axios.post(`${baseUrl}/nif`, reference_fiscal);
-      setClient(response.data);
-     
-    console.log(Client)
-   
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-  if (searchClient === "4000000"){
-    setModalMAJRF(true)
-  }
-};
 
   const NavbarContent = (
     <div className='flex justify-between'>
@@ -208,6 +182,8 @@ const handleTableRowClickCodeFokontany = (rowIndex) => {
 };
 
 
+
+
   useEffect(() => {
     // Récupérer les données depuis le backend avec le terme de recherche
     axios.get(`http://localhost:3500/code/impot/${searchTerm}`)
@@ -253,6 +229,53 @@ const handleTableRowClickCodeFokontany = (rowIndex) => {
     </>
   )
  
+
+
+  const [Contribuable , setContribuable ] = useState([]);
+  const [searchTermPriseEnCharge, setSearchTermPriseEnCharge] = useState("");
+ 
+  useEffect(() => {
+   // Récupérer les données depuis le backend
+   axios.get('http://localhost:3500/prisecharge/contribuable/encharge')
+     .then((response) => setContribuable(response.data))
+     .catch((error) => console.error(error));
+ }, []);
+
+
+ //select Data prise en charge 
+const handleTableRowClickPriseEnCharge = (rowIndex) => {
+  setSelectedRowIndexPriseEnCharge(rowIndex);
+  // Update input fields or perform other actions based on the selected row data
+  const selectedRowDataPriseEnChage = Contribuable[rowIndex];
+ setDataSelectdPriseEnCharge(selectedRowDataPriseEnChage)
+  setModalPriseCharge(false);
+};
+
+ const handleSearch = (e) => {
+   setSearchTermPriseEnCharge(e.target.value);
+ };   
+
+const filteredData = Contribuable.filter((item) => 
+ item.id && item.id.toLowerCase().includes(searchTermPriseEnCharge.toLowerCase())
+ );
+ 
+
+ const {siege} = DataSelectedPriseEnCharge ;
+ const {activite} = DataSelectedPriseEnCharge ;
+// Header table client
+const ClientHeaders = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" , " Date autorisation" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"];
+// Data client Table
+const ClientData = filteredData.map((item) =>[
+ item.id , 
+ item.raison_social , 
+ item.reference_fiscal , 
+ item.type,
+ <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
+ item.regime_fiscal,
+ item.forme_juridique ,
+<DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
+ item.RIB
+]);
 
   // Get data from bakend type Proces verbeaux
   
@@ -309,98 +332,61 @@ const handleTableRowClickCodeFokontany = (rowIndex) => {
 
 
 
-  const GenerateNumeroRecepisse = () =>{
-
-    const reference_fiscal = data.contribuables.length === 0 ? 1 : data.contribuables[data.contribuables.length - 1].id + 1;
-    const nombre_zero = (data.contribuables.length < 10) ? '00000000000' : ((data.contribuables.length >= 10 && data.contribuables.length < 100) ? '0000000000' : ((data.contribuables.length >= 100 && data.contribuables.length < 1000) ? '000000000' : ((data.contribuables.length >= 1000 && data.contribuables.length < 10000) ? '00000000' : ((data.contribuables.length >= 10000 && data.contribuables.length < 100000) ? '0000000' : ((data.contribuables.length >= 100000 && data.contribuables.length < 1000000) ? '000000' : ((data.contribuables.length >= 1000000 && data.contribuables.length < 10000000) ? '00000' : ((data.contribuables.length >= 10000000 && data.contribuables.length < 100000000) ? '0000' : ((data.contribuables.length >= 100000000 && data.contribuables.length < 1000000000) ? '000' : ((data.contribuables.length >= 1000000000 && data.contribuables.length < 10000000000) ? '00' : ((data.contribuables.length >= 10000000000 && data.contribuables.length < 100000000000) ? '0' : ''))))))))));
-
-    const valeur_reference = nombre_zero + "" + reference_fiscal;
-    
-    return valeur_reference;
-  }
-
-  const [Enregistement , setEnregistrement] = useState({})
-  // Immatriculation prise en charge 
-
-  const handleEnregistrementDecl = () => {
-    // Perform data verification logic here
-    if (searchClient === "4000000") {
-      // Data is verified, set isDataVerified to true
-      
-  
-      // Update the data object with the prise_charge property
-      const ValueEnregistrement = {
-        
-        "nif_regisseur":searchClient,
-         "numero_impot": value.numero_impot ,
-         "raison_social" : value.raison_social,
-         "nom_commercial": value.nom_commercial,
-         "adresse" : value.adresse,
-         "commune": value.commune,
-         "montant_a_payer": value.montant_a_payer,
-         "montant_verser": value.montant_verser,
-         "reste_a_payer": value.montant_verser,
-         "type_payment" : value.type_payment,
-         "numero_cheque": value.numero_cheque,
-         "code_banque": value.code_banque,
-         "nom_commercial_banque": value.nom_commercial_banque,
-         "rib": value.rib,
-         "transporteur" : value.transporteur,
-         "numero_recepisse": GenerateNumeroRecepisse(),
-         "annee": value.annee ,
-         "periode": value.periode,
-         "periode1": value.periode1,
-         "periode2": value.periode2,
-         "date_cloture_exercice": value.date_cloture_exercice,
-         "amende_penalite": value.amende_penalite
-      };
-      
-      // Send the updated data to the backend
-      axios.post('http://localhost:3500/recette/declarationnonperiodique', ValueEnregistrement)
-        .then((response) => {
-         setEnregistrement(response.data)
-         console.log(Enregistement);         // Handle the response from the backend, if needed
-       alert("Enregistre de déclaration réussi")  
-        })
-        .catch((error) => {
-          console.error('Error sending verification data:', error);
-          setIsModalError(true);
-        });
+  const generateId = () => {
+    const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const length = Math.floor(Math.random() * (10 - 8 + 1)) + 8;
+    let randomString = "";
+    for (let i = 0; i < length; i++) {
+      randomString += characters.charAt(Math.floor(Math.random() * characters.length));
     }
+    return randomString;
+  };
 
-   else if (searchClient) {
-      // Data is verified, set isDataVerified to true
-      // Update the data object with the prise_charge property
+  
+  const [randomNumbers, setRandomNumbers] = useState('');
+
+  const generateNumbers = () => {
+    setRandomNumbers(generateId());
+  };
+
+ 
+  const handleEnregistrementDecl = () => {
       const ValueEnregistrementPeriodique = {
-    "numero_impot": value.numero_impot,
+    "numero_impot": DataSelected.numero_impot,
     "annee" : value.annee,
+    "base_impot" : DataSelected.libelle , 
     "montant_a_payer":value.montant_a_payer,
     "montant_verser": value.montant_a_payer,
     "reste_a_payer": value.reste_a_payer,
-    "type_payment":value.type_payment,
+    "type_payment":value.mode_de_payement,
     "numero_cheque": value.numero_cheque,
-    "code_banque": value.code_banque,
-    "numero_recepisse": value.numero_recepisse,
+    "code_banque": selectCodeBanque.id,
+    "numero_recepisse": randomNumbers,
     "periode":value.periode,
     "transporteur":value.transporteur,
     "periode1": value.periode1,
     "periode2":value.periode2,
-    "reference_fiscal": value.reference_fiscal,
-    "abbreviation_type_payment": value.type_payment
+    "type_prevision":value.type_prev,
+    "reference_fiscal": DataSelectedPriseEnCharge.reference_fiscal,
+    "abbreviation_type_payment": value.type_payment,
+    "numero_immatriculation": value.numero_immatriculation , 
+    "annulation": value.annulation ,
+    "user": user
       };
-      
+    
+      console.log(ValueEnregistrementPeriodique)
       // Send the updated data to the backend
       axios.post('http://localhost:3500/recette/declarationperiodique', ValueEnregistrementPeriodique)
-        .then((response) => {
-        setEnregistrement(response.data);       // Handle the response from the backend, if needed
-        alert("Enregistre de déclaration réussi")  
+        .then((response) => {       // Handle the response from the backend, if needed
+        setEnregistementDeclaration(true);
+
         })
         .catch((error) => {
           console.error('Error sending verification data:', error);
-          setIsModalError(true);
+          setErrorEnregistrementDecleration(true);
         });
     }
-  };
+  
   
 const [valueNonPeriodique , setValueNonPeriodeique] = useState({
   raison_social: "",
@@ -410,27 +396,32 @@ const [valueNonPeriodique , setValueNonPeriodeique] = useState({
   CIN : "",
   Motif: ""
 })
-  
+
+const navigate = useNavigate()
+
+
+// options data 
+const optionsTypePrev = TypePrev.map(item => ({
+  value: item.type_prevision, // La chaîne de caractères pour l'option
+  label: item.type_prevision  // La chaîne de caractères pour l'étiquette
+}));
+
+const ModeDePayement  = ModeDePayment.map((item)=>({value : item , label : item}))
   return (
     <div className='bg-[#212122] h-full w-full p-4'>
      <Navbar content={NavbarContent}></Navbar>
      <div className='p-2 flex justify-between'>
       <div className='flex flex-row'>
       <Button children="Prise en charge"  onClick={()=>setModalPriseCharge(true)}></Button>
-      <Button children="N° impot" className="ml-2" onClick={()=> {setIsModalImpot(true);
-      setSearchTerm("")
-      }}></Button>
+      <Button children="N° impot" className="ml-2" onClick={()=> {setIsModalImpot(true)}}></Button>
       <Button children="Attribution ou Mise à jour RF" onClick={()=> setModalLogin(true)} className="ml-2"></Button>
-      <SearchInput type="text" placeholder="Référence fiscal"
-value={searchClient}
-onChange={(e)=> setSeacrchClient(e.target.value)}
- onSearch={handleSearchClient}
- className="ml-2"
-></SearchInput> 
+      <Button children="Régisseur" onClick={()=> navigate('/EnregistrementDeclarartionRegisseur')} className="ml-2"></Button>
+      
 </div>
       <div className='flex flex-row'>
-       <Label text="Numéro"></Label>
-       <ReactSelect className='ml-2'></ReactSelect>
+       <Label text="Numéro" className="mt-4"></Label>
+       <Input value={randomNumbers} onChange={(e)=>setRandomNumbers(e.target.value)} className="ml-2 mt-2"></Input>
+       <Button children="générer" onClick={generateNumbers} className='ml-2'></Button>
       </div>
      </div>
      <div className='p-2 flex justify-between'>
@@ -452,29 +443,42 @@ onChange={(e)=> setSeacrchClient(e.target.value)}
       }}
       ></Input>
       <ReactSelect 
-       options={TypePrev.map((item) => ({
-        value: item.type_prevision,
-        label: item.type_prevision,
-      }))}
+       options={optionsTypePrev}
+
+      value={optionsTypePrev.find(option => option.value === value.type_prev)}
+      onChange={(selectedOption) => setValue({ ...value, type_prev: selectedOption ? selectedOption.value : '' })}
        className='ml-2'></ReactSelect>
        </div>
        <div className="flex flex-row">
-       <Input type="text"
+    <div className='flex flex-col'>
+    <Label text="Année concerné" className="mt-2"></Label>
+    <Input type="text"
         value={value.annee}
         onChange={(e)=> setValue({...value , annee : e.target.value })}
+        className="mt-2"
        ></Input>
-      <Label text="Année concerné" className="ml-2"></Label>
-      <Input type="text"  className="ml-2"
+     
+    </div>
+    <div className=' ml-2 flex flex-col'>
+    <Label text="Période" className="mt-2"></Label>
+    <Input type="text"  className="mt-2"
       value={value.periode}
       onChange={(e)=> setValue({...value , periode : e.target.value })}
       ></Input>
-      <Label text="Période" className="ml-2"></Label>
-      <Input type="text" value={value.periode1}
+
+    </div>
+      <div className='flex flex-col ml-2'>
+     <Label text="P1" className="mt-2"></Label>
+     <Input type="text" value={value.periode1}
       onChange={(e)=>setValue({...value , periode1 : e.target.value})}
-      className="ml-2"></Input>
-        <Input type="text" value={value.periode2}
+      className="mt-2"></Input>
+      </div>
+   <div className='flex flex-col ml-2'>
+    <Label text="P2" className="mt-2"></Label>
+   <Input type="text" value={value.periode2}
       onChange={(e)=>setValue({...value , periode2 : e.target.value})}
-      className="ml-2"></Input>
+      className="mt-2"></Input>
+   </div>
        </div>
      </div>
      <div className="p-2 flex justify-between">
@@ -496,8 +500,8 @@ onChange={(e)=> setSeacrchClient(e.target.value)}
       ></Checkbox>
       { value.transporteur  ? (
         <Input type="text"
-        value={value.immatriculation_vehicule}
-        onChange={(e)=>setValue({...value , immatriculation_vehicule : e.target.value})}
+        value={value.numero_immatriculation}
+        onChange={(e)=>setValue({...value , numero_immatriculation : e.target.value})}
         className="ml-2 h-10" placeholder="IM vehicule..."></Input>
       ) : <div></div> }
      </div>
@@ -505,42 +509,36 @@ onChange={(e)=> setSeacrchClient(e.target.value)}
      <div className="p-2 flex justify-between">
      <div className='flex justify-between w-[500px]'>
     <Label text="RF"></Label>
-    <Input type="text" value={Client? Client.reference_fiscal: ""} 
-     onChange={(e) => {
-      
-      // Validate if the input is a number before updating the state
-      if (!isNaN(e.target.value)) {
-        setClient((prevData) => ({
-          ...prevData,
-          reference_fiscal: e.target.value,
-        }));
-      }
-    }}
+    <Input type="text" value={DataSelectedPriseEnCharge? DataSelectedPriseEnCharge.reference_fiscal: ""} 
+     
     ></Input>
      </div>
-    <Input type="text" ></Input>
+    <div className='flex justify-between'>
+  <Label text='Reste à payer'></Label>
+  <Input type="text" className="ml-2" value={value.reste_a_payer} onChange={(e)=>setValue({...value , reste_a_payer : e.target.value})}  ></Input>
+    </div>
      </div>
       <div className="p-2 flex justify-between">
      <div className='flex justify-between w-[500px]'>
     <Label text="Raison social"></Label>
-    <Input type="text" value={Client? Client.raison_sociale : "" === value.raison_social} ></Input>
+    <Input type="text" value={DataSelectedPriseEnCharge? DataSelectedPriseEnCharge.raison_social : "" === value.raison_social} ></Input>
      </div>
      </div>
       <div className="p-2 flex justify-between">
      <div className='flex justify-between w-[500px]'>
-    <Label text="Nom commercial"></Label>
-    <Input type="text" value={Client? Client.nom_commerciale : "" === value.nom_commercial}></Input>
+    <Label text="Activité"></Label>
+    <Input type="text" value={activite? activite.activite : "" }></Input>
    
      </div>
     <div className="flex justify-between w-[500px]">
     <Label text="Commune" className="ml-2"></Label>
-    <Input type="text" value={Client? Client.commune : ""=== value.commune} ></Input>
+    <Input type="text" value={siege? siege.commune : ""} ></Input>
     </div>
      </div>
        <div className="p-2 flex justify-between">
      <div className='flex justify-between w-[500px]'>
     <Label text="Adresse"></Label>
-    <Input type="text" value={Client? Client?.adresse : "" === value.adresse} ></Input>
+    <Input type="text" value={siege? siege.adresse_actuel : ""} ></Input>
      </div>
        <div className='flex justify-between w-[500px]'>
     <Label text="Montant versé"></Label>
@@ -564,18 +562,14 @@ onChange={(e)=> setSeacrchClient(e.target.value)}
    <Label text="Mode de Règlement" className="text-center text-lg font-bold"></Label>
      </div>
     <div className='flex justify-between mr-4 ml-4 mt-2'>
-    <div className='flex flex-col '>
-      <div className='flex justify-between w-[500px]'>
-      <Checkbox label="Espèce" checked={value.mode_de_payement === "E"} onChange={()=>setValue({...value , mode_de_payement : "E"})}></Checkbox>
-      <Checkbox label="Chèque" checked={value.mode_de_payement === "C"}  onChange={()=>setValue({...value , mode_de_payement : "C"})}></Checkbox>      
-      <Checkbox label="Virement" checked={value.mode_de_payement === "V"} onChange={()=>setValue({...value , mode_de_payement : "V"})}></Checkbox>
-      <Checkbox label="Dépot" checked={value.mode_de_payement === "D"} onChange={()=>setValue({...value , mode_de_payement : "D"})}></Checkbox>
-      </div>
-      <div className='flex flex-col mt-2'>
-      <Checkbox label="Autre" checked={value.mode_de_payement === "A"} onChange={()=>setValue({...value , mode_de_payement : "A" })} ></Checkbox>
-      <Checkbox label="Tresor" checked={value.mode_de_payement === "T"} onChange={()=>setValue({...value , mode_de_payement : "T" })} className="mt-2"></Checkbox>
-      <Checkbox label="Mobile Banky" checked={value.mode_de_payement === "M"} onChange={()=>setValue({...value , mode_de_payement : "M" })} className="mt-2"></Checkbox>
-      </div>
+    <div className='flex flex-row '>
+     <Label text="Mode de payement" className="mt-2"></Label>
+     <ReactSelect
+     className={" w-[210px] h-10 ml-4"}	
+     options={ ModeDePayement}
+     value={ModeDePayement.find((option) => option.value === value.mode_de_payement)}      
+     onChange={(options)=>{setValue({...value , mode_de_payement : options ? options.value : ""})}}
+     />
      </div>
     
     <div className='w-[500px] flex flex-col'>
@@ -603,11 +597,10 @@ onSearch={()=> setModalCodeBanque(true)}
     </div>
     </div>
     <div className='mr-4 ml-4 mt-2  flex justify-between'>
-     <Button type="submit" children="Nouveau"></Button>
+     
      <Button type="submit" onClick={handleEnregistrementDecl} children="Enregistrer"></Button>
-     <Button type="submit" children="Mise à jour"></Button>
-     <Button type="submit" children="Valider Modification"></Button>
-     <Button type="submit" children="Visualisation"></Button>
+     
+     <Button type="submit" onClick={()=> navigate('/saisiDeclarationRecette')} children="Quitter"></Button>
     </div>
     <Modal isOpen={isModalImpot} onClose={()=> setIsModalImpot(false)} className=" w-[1000px] h-[550px]" >
       <Navbar content={navbarModalImpot}></Navbar>
@@ -635,271 +628,25 @@ onSearch={()=> setModalCodeBanque(true)}
      <Button children="Quitter" onClick={()=> setModalCodeBanque(false)}></Button>
       </div>
     </Modal>
-
     {/* Modal login prise en charge */}
     <Modal isOpen={ModalLoginPriseCharge} onClose={()=>setModalPriseCharge(false)} className="w-[1300px] h-[650px]  rounded-xl flex flex-col">
     <Navbar content={NavbarModalPriseEnCharge} className="fixed"></Navbar>
     <div className='p-8'>
-      
-          <div className='m-4 flex justify-between'>
-<div className='flex flex-col w-[300px]'>
-<Label text="Référence Fiscal" ></Label>
-<Input type="text" placeholder="Référence Fiscal..." className=" h-10 mt-2"
-value={searchPriseEnCharge}
-onChange={(e) => setSearchPriseEnCharge(e.target.value)}
-></Input>
-</div>
-
-<Button children="Prise en charge" onClick={handlePriseEnCharge} className="h-12 mt-8"></Button>
-
-</div>
-          {isLoading ? (
- <div className='flex justify-center mt-4'>
- <Label className="text-3xl" text="Aucun resultat"></Label>
- </div>
-) : (
-                <div className='flex flex-col pr-4 pl-4 py-2'>
-                     
-           <div >        
-           <div className=" flex flex-row">
-
-<Label text="RF" className="text-xs"></Label>
-<p className='text-xs ml-2 text-white text-[15px] text-[15px]'>
-
-{data.reference_fiscal }
-</p>
-<Label text="RF" ></Label>
-<p className='text-xs ml-2 text-white '>
-
-{data.nif }
-</p>
-<Label text="N° Statistique" className="ml-8 "></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.numero_statistique }
-</p>
-           </div>
-<div className='flex justify-between '>
-<div className='flex flex-col w-[500px]'>
-<div className="flex justify-between mt-1">
-<Label text="Raison social" className=""></Label>
-<p className='text-xs ml-2 text-white '>
-{ data.raison_sociale}
-</p>
-</div>
-<div className="flex justify-between mt-1">
-<Label text="Nom Commercial" className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.nom_commerciale }
-</p>
-</div>
-<div className="flex justify-between mt-1">
-<Label text="Adresse" className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.adresse }
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="Activité principal"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.activite }
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="Forme juridique" className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.forme_juridique}
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="Type"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.type }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Précision activitée"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.precision_activite }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Capital"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.capital }
-</p>
-</div>
-</div>
-<div className='flex flex-col w-[500px]'>
-
-<div className="flex justify-between mt-2">
-<Label text="Regime Fiscal"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.regime_fiscal }
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="Début exercice"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.date_debut_exe }
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="Fin exercice"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.date_cloture_exe}
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="RCS"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.length > 0 ? data[0].raison_sociale : 'Aucune donnée'}
-</p>
-</div>
-
-<div className="flex justify-between mt-2">
-<Label text="N° agrément"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.reference_agrement }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date agrementt"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.date_agrement }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Periode grace"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.periode_grace }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date creation"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.date_creation }
-</p>
-</div>
-</div>
-    </div>
-   
-    <div className='flex justify-between mt-2'>
-<div className="w-[500px] flex flex-col">
-<div className="flex justify-between mt-2">
-<Label text="Titre"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.titre }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date accord"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.date_accord }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date acte"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.date_acte }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Type demande"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.type_demande }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Proprietaire"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.proprietaire }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Nombre salarie"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.nombre_salarie }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Rib"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.rib }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Resident"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.resident }
-</p>
-</div>
-</div>
-<div className="w-[500px] flex flex-col">
-<div className="flex justify-between mt-2">
-<Label text="Delivree le"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  { data.delivree_le }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Exportateur"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-<Checkbox value={data.exportateur}></Checkbox>
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Importateur"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  <Checkbox value={data.importateur}></Checkbox>
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date registre" className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.date_registre }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Registre commerce"className=""></Label>
-<p className='text-xs ml-2 text-white '>
-  {data.registre_commerce }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Precision activite"className=""></Label>
-<p className='text-xs ml-2 text-white  '>
-  { data.precision_activite }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date demande modif"className=""></Label>
-<p className='text-xs ml-2 text-white  '>
-  { data.date_demande_modif }
-</p>
-</div>
-<div className="flex justify-between mt-2">
-<Label text="Date attribution RF"className=""></Label>
-<p className='text-xs ml-2 text-white  '>
-  { data.date_attribution_nif }
-</p>
-</div>
-</div>
- 
-    </div>
-
-      
-        </div>
-        
-        </div>
-       
-)}
-
+      <div className='flex flex-row mt-12'>
+        <SearchInput placeholder={"Recherche"} onChange={handleSearch}></SearchInput>
+      </div>
+      <div className='mt-4'>
+      <Table
+      headers={ClientHeaders}
+      data={ClientData}
+      selectedRowIndex={selectedRowIndexPriseEnCharge}
+      onClick={handleTableRowClickPriseEnCharge}
+      ></Table>
+      </div>
+      <div className='flex justify-between mt-4'>
+        {/* <Button children="Choisir" ></Button> */}
+         <Button children="Quitter" onClick={()=>setModalPriseCharge(false)}></Button>
+      </div>
      </div>
     </Modal>
 
@@ -985,6 +732,22 @@ onChange={(e) => setSearchPriseEnCharge(e.target.value)}
             <div className='flex flex-col mt-14'>
             <Label text="Donné prise en charge" className="text-xl"></Label>
 <Button children="OK"  onClick={()=> setModalPriseCharge(false)} className="mt-4"></Button>
+            </div>
+          </div>
+        </Modal>
+        <Modal isOpen={EnregistementDeclaration} onClose={()=> setEnregistementDeclaration(false)} className="w-[500px] h-[200px]">
+          <div className='flex  justify-center'>
+            <div className='flex flex-col mt-14'>
+            <Label text="Enregistrement effectue" className="text-xl"></Label>
+<Button children="OK"  onClick={()=> window.location.reload()} className="mt-4"></Button>
+            </div>
+          </div>
+        </Modal>
+        <Modal isOpen={ErrorEnregistrementDecleration} onClose={()=> setErrorEnregistrementDecleration(false)} className="w-[500px] h-[200px]">
+          <div className='flex  justify-center'>
+            <div className='flex flex-col mt-14'>
+            <Label text="Il y a une erreur" className="text-xl"></Label>
+<Button children="OK"  onClick={()=> setErrorEnregistrementDecleration(false)} className="mt-4"></Button>
             </div>
           </div>
         </Modal>

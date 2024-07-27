@@ -1,38 +1,74 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import BackButton from '../../../components/button/BackButton'
 import { Navbar } from '../../../components/navbar/Navbar'
 import Table from '../../../components/table/Table'
-import Input from '../../../components/input/Input';
-import Label from '../../../components/title/label';
 import { Button } from '../../../components/button/button';
 import axios from 'axios';
+import SearchInput from '../../../components/input/SearchInput';
 
 function DelivranceDuplicataRecepisse() {
 const [recepisse , setRecepisse] = useState([])
-const [numero_recepisse , setNumero_recepisse] = useState('');
 
-  const DataHandler =  (e) =>{
-    e.preventDefault();
-    const Recepisse ={
-      numero_recepisse
-      
-    };
-    
-    
-    try {
-       axios.post('http://localhost:3500/recette/recepisse', Recepisse)
-       .then((response) => setRecepisse(response.data))
-       .catch((error) => console.error(error));
-      console.log("récépissé " , recepisse);
-    } catch(error){
-  console.error("il y a une erreur " , error)
+const [searchTerm , setSearchTerm] = useState('');
+
+useEffect(() => {
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/recette/getEnregistrementdeclaration')
+    .then((response) => setRecepisse(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
+const filteredData = recepisse.filter((item) => 
+  item.reference_fiscal && item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+ 
+
+console.log(recepisse)
+    const headers = ['N° Récepissé', 'Référence Fiscal',  'année', "Période", 'P1', 'P2',"Impôt","Nature Impôt" , "montant à payer" , "montant à verser" , "reste à payer" , "Code Banque" , "Mode de payment"];
+    const formattedData =  filteredData.map(item => [
+      item.numero_recepisse, 
+      item.reference_fiscal, 
+      item.annee, 
+      item.periode, 
+      item.periode1, 
+      item.periode2, 
+      item.numero_impot,
+      item.base_impot ,
+      item.montant_a_payer ,
+      item.montant_verser , 
+      item.reste_a_payer ,
+      item.code_banque ,
+      item.type_payment   
+    ]);
+
+  
+    const printRef = useRef(null);
+  // Impression
+  const downloadPDF = () => {
+    // Use querySelector to get the table element
+    if (printRef.current) {
+      const content = printRef.current.innerHTML;
+      const originalContent = document.body.innerHTML;
+  
+      // Ajoutez une feuille de style pour l'impression
+      const printStyle = document.createElement('style');
+      printStyle.innerHTML =
+        '@media print { body { visibility: hidden; } .print-content { visibility: visible; } }';
+      document.head.appendChild(printStyle);
+  
+      document.body.innerHTML = `<div class="print-content">${content}</div>`;
+  
+      window.print();
+  
+      // Supprimez la feuille de style après l'impression
+      document.head.removeChild(printStyle);
+  
+      // Restaurez le contenu original après l'impression
+      document.body.innerHTML = originalContent;
+      window.location.reload();
     }
-      
-  }
-    const headers = ['N° Récepissé', 'RF', 'Raison social', 'P1', 'P2',"Impôt","Nature Impôt"];
-    const formattedData = [
-  ["none","none","none","none","none","none","none"],
-    ];
+  };
+
     const NavbarContent = (
         <div className='flex justify-between'>
         <div className='text-white font-semibold'>
@@ -46,33 +82,21 @@ const [numero_recepisse , setNumero_recepisse] = useState('');
       return (
         <div className='bg-[#212122] h-screen w-full'>
          <Navbar content={NavbarContent}></Navbar>
-         <div className='flex justify-center '>
-<div className='flex flex-col mt-14'>
-<Table headers={headers} data={formattedData} ></Table>
-<div className='flex justify-between'>
-<div className='flex flex-col mt-2'>
-        <Label text="Date"></Label>
-       <Input type="date" ></Input>
-       </div>
-       <div className='flex flex-col mt-2 '>
-        <Label text="N° Récépissé"></Label>
-       <Input type="text" placeholder="N° Récépissé..."
-       value={numero_recepisse}
-       onChange={(e)=> setNumero_recepisse(e.target.value)}
-       ></Input>
-       </div>
-       <div className='flex flex-col mt-2 '>
-        <Label text="RF"></Label>
-       <Input type="text" placeholder="RF..."></Input>
-       </div>
+         <div className='flex flex-col  p-4'>
+         <SearchInput onChange={(e) => setSearchTerm(e.target.value)}></SearchInput>
+<div className=' flex justify-center'>
+<div ref={printRef} className='flex flex-col mt-14 overflow-y-auto w-[1600px] '>
+<Table headers={headers} data={formattedData} 
+
+></Table>
+
 
 </div>
-<div className='flex justify-between mt-4'>
-    <Button children="Afficher" onClick={DataHandler}></Button>
-    <Button children="Grouper par RF"></Button>
-    <Button children="Imprimer"></Button>
-    <Button children="Rafraîchir"></Button>
 </div>
+<div className='flex justify-between mt-4'>
+    <Button children="Imprimer" onClick={downloadPDF}></Button>
+
+    <Button children="Rafraîchir" onClick={()=>window.location.reload()}></Button>
 </div>
 </div>
         </div>

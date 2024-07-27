@@ -87,6 +87,15 @@ import EtatDétaille from "./pages/ordreVirement/Edition/EtatDétaille";
 import AvisCredit from "./pages/ordreVirement/AvisCredit/AvisCredit";
 import SaisiAvisCredit from "./pages/ordreVirement/AvisCredit/SaisiAvisCredit";
 import DetailAvisCredit from "./pages/ordreVirement/AvisCredit/DetailAvisCredit";
+import Bar from "./pages/recette/SituationRecettte/EtatDetailleEncaissementBar";
+import EtatDetailleEncaissementCheque from "./pages/recette/SituationRecettte/EtatDetailleEncaissementCheque";
+import EtatDetailleEncaissementEspece from "./pages/recette/SituationRecettte/EtatDetailleEncaissementEspece";
+import EtatDetailleEncaissementParNatureImpot from "./pages/recette/SituationRecettte/EtatDetailleEncaissementParNatureImpot";
+import EtatDetailleEncaissementTresor from "./pages/recette/SituationRecettte/EtatDetailleEncaissementTresor";
+import ImpressionSituationDeRecette from "./pages/recette/SituationRecettte/ImpressionSituationDeRecette";
+import EtatDetailleAvisCreditRecusBCM from "./pages/recette/SituationRecettte/EtatDetailleAvisCreditRecusBCM";
+import EnregistrementDeclarartionRegisseur from "./pages/recette/SaisieDeclaration/EnregistrementDeclarartionRegisseur";
+import ConsultationRegisseur from "./pages/recette/RF/ConsultationRegisseur/ConsultationRegisseur";
 
 function App() {
   
@@ -118,7 +127,15 @@ function App() {
      <Route path="/ConsultationMontant" element={<ConsultationMontant/>}></Route>
      <Route path="/ClassementRF" element={<ClassementRF/>}></Route>
      <Route path="/RechercheRF" element={<RechercheRF/>}></Route>
-     
+     <Route path="/Bar" element={<Bar/>}></Route>
+     <Route path="/EtatDetailleEncaissementCheque" element={<EtatDetailleEncaissementCheque/>}></Route>
+     <Route path="/EtatDetailleEncaissementEspece" element={<EtatDetailleEncaissementEspece/>}></Route>
+     <Route path="/EtatDetailleEncaissementParNatureImpot" element={<EtatDetailleEncaissementParNatureImpot/>}></Route>
+     <Route path="/EtatDetailleEncaissementTresor" element={<EtatDetailleEncaissementTresor/>}></Route>
+     <Route path="/ImpressionSituationDeRecette" element={<ImpressionSituationDeRecette/>}></Route>
+     <Route path="/EtatDetailleAvisCreditRecusBCM" element={<EtatDetailleAvisCreditRecusBCM/>}></Route>
+     <Route path="/EnregistrementDeclarartionRegisseur" element={< EnregistrementDeclarartionRegisseur/>}></Route>
+     <Route path="/ConsultationRegisseur" element={<ConsultationRegisseur/>}></Route>
      
     
      <Route path="/gestion" element={<Gestion/>}></Route>
