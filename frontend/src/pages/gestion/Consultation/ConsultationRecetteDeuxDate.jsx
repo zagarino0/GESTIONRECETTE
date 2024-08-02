@@ -5,138 +5,123 @@ import Table from '../../../components/table/Table';
 import { Button } from '../../../components/button/button';
 import BackButton from '../../../components/button/BackButton';
 import { Navbar } from '../../../components/navbar/Navbar';
-import Checkbox from '../../../components/button/Checkbox';
-import ReactSelect from 'react-select';
 import axios from 'axios';
+// import * as XLSX from 'xlsx';
+import SearchInput from '../../../components/input/SearchInput';
 function ConsultationRecetteDeuxDate() {
-  // code Impot 
-  const [dataCodeImpot, setDataCodeImpot] = useState([]);
-  const [Response , setResponse] = useState([]);
-  //const [selectedOption, setSelectedOption] = useState("Total");
-  const [selectedNumeroImpot, setSelectedNumeroImpot] = useState(null);
-  const [code_impot , setCode_impot]= useState('');
-  const [filteredData, setFilteredData] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [value , setValue] = useState({
-    
-    date_init:"",
-    date_fin:"",
-    numero_impot:""
-  });
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
- //code Impot
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
 
- useEffect(() => {
+    return () => clearInterval(interval);
+  }, []);
 
+  // Function to format date in "dd/mm/yyyy hh:mm:ss" format
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${day}/${month}/${year} à ${hours}:${minutes}:${seconds}`;
+  };
+
+
+
+
+
+
+
+const [recepisse, setRecepisse] = useState([]);
+const [searchTerm, setSearchTerm] = useState('');
+const [startDate, setStartDate] = useState('');
+const [endDate, setEndDate] = useState('');
+
+useEffect(() => {
   // Récupérer les données depuis le backend
-  axios.get('http://localhost:3500/code/impot')
-    .then((response) => setDataCodeImpot(response.data))
+  axios.get('http://localhost:3500/recette/getEnregistrementdeclaration')
+    .then((response) => setRecepisse(response.data))
     .catch((error) => console.error(error));
 }, []);
 
+// Filtrer les données par référence fiscale et date
+const filteredData = recepisse.filter((item) =>
+  item.reference_fiscal && item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
-//nature impot 
-// Rechercher le libellé correspondant au numéro d'impôt sélectionné
-const selectedLibelle = dataCodeImpot.find((item) => item.numero_impot === selectedNumeroImpot);
+const filteredRecepisse = filteredData.filter(item => {
+  const itemDate = new Date(item.date_creation);
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  return (!startDate || itemDate >= start) && (!endDate || itemDate <= end);
+});
 
-  const HandleData = async  (e) => {
-    e.preventDefault();
-    const baseUrl = `http://localhost:3500/gestion`;
-    try {
-      const response = await axios.post(`${baseUrl}/recette`, {
-        date_init: value.date_init,
-        date_fin: value.date_fin,
-        numero_impot: value.numero_impot
-      });
-      const BetweenToDate = response.data;
-      setResponse(BetweenToDate);
-    } catch (error) {
-      console.error(`l'erreur est`, error);
-    }
-  }
-  
-  
-
-      const [valueSelected, setValueSelected] = useState([]);
-
-
-
-      const handleCheckboxChange = (item) => {
-        // Check if the item is already selected
-        const isSelected = valueSelected.some((selectedItem) => selectedItem.id === item.id);
-      
-        if (isSelected) {
-          // If selected, remove it from the array
-          const updatedSelection = valueSelected.filter((selectedItem) => selectedItem.id !== item.id);
-          setValueSelected(updatedSelection);
-        } else {
-          // If not selected, add it to the array
-          setValueSelected([...valueSelected, item]);
-        }
-      
-        console.log('Selected values:', valueSelected);
-      };
-      
-   // header Table components 
-   const headers = [  "Référence Fiscal","Base impôt"," P1", "P2", "Année", "Reste à payer" ,"transporteur", "Type payement" , "Montant à payer" , "Montant verser", "Code banque", "Date de création", "numéro chèque" , "numéro impôt" , "numéro récépissé" ,"Période" ,"Séléction"];
-
-   // data Table components  
-   const data = Array.isArray(Response) ? Response.map(item => [
-    item.reference_fiscal , 
-    item.base_impot,
-    item.periode1, 
-    item.periode2  ,
-    item.annee ,
-    item.reste_a_payer , 
-    <Checkbox value={item.transporteur} onChange={() => handleCheckboxChange(item.id)} ></Checkbox>,
-    item.type_payment,
-    item.montant_a_payer,
-    item.motant_verser,
-    item.code_banque,
-    item.date_creation,
-    item.numero_cheque,
-    item.numero_impot,
-    item.numero_recepisse,
-    item.periode,
-    <Checkbox
-    value={valueSelected.some((selectedItem) => selectedItem.id === item.id)}
-    onChange={() => handleCheckboxChange(item)}
-    className="hover:cursor-pointer"
-  ></Checkbox>,
-  ]) : [];
-
-  const sumResteAPayer = data.reduce((accumulator, item) => {
-    const resteAPayer = parseFloat(item[5]) || 0; // Assuming "reste_a_payer" is a number
-    return accumulator + resteAPayer;
-  }, 0);
-  
-  const handleSelectChange = (selectedOption) => {
-    // Mettre à jour l'état avec le numéro d'impôt sélectionné
-    setSelectedNumeroImpot(selectedOption.value);
-    setCode_impot(selectedOption.value);
-    
-    setSelected(selectedOption);
-    
-  };
-  
-  // Créez une fonction de filtrage
-const filterDataImpot= () => {
-  if (selected) {
-    const filtered = data.filter((item) => item[13] === selected.value);
-    setFilteredData(filtered);
-   console.log("filter",filtered)
-    
-  } else {
-    setFilteredData(data);
-    console.log("data",data)
-    
-  }
+// Calculer le total par type de paiement
+const calculateTotal = (type) => {
+  return filteredRecepisse
+    .filter(item => item.type_payment.trim().toLowerCase() === type.toLowerCase())
+    .reduce((total, item) => total + parseFloat(item.montant_verser || 0), 0);
 };
 
-useEffect(() => {
-  filterDataImpot();
-}, [selected]);
+// Calcul du total des montants annulés
+const totalMontantAnnuler = recepisse
+  .filter(item => item.annulation === true)
+  .reduce((total, item) => total + parseFloat(item.montant_verser || 0), 0);
 
+// Calcul des différents totaux par type de paiement
+const totalMontantVerserVirement = calculateTotal("virement");
+const totalMontantVerserEspece = calculateTotal("espece");
+const totalMontantVerserCheque = calculateTotal("cheque");
+const totalMontantVerserAutre = calculateTotal("autre");
+const totalMontantVerserBar = calculateTotal("bar");
+const totalMontantVerserTresor = calculateTotal("trésor");
+const totalMontantVerserDepot = calculateTotal("dépot");
+
+// Calcul du total à payer
+const totalMontantAPayer = totalMontantVerserVirement +
+  totalMontantVerserEspece +
+  totalMontantVerserCheque +
+  totalMontantVerserAutre +
+  totalMontantVerserBar +
+  totalMontantVerserTresor +
+  totalMontantVerserDepot - totalMontantAnnuler;
+
+// Définir les en-têtes de la table
+const headers = ['N° Récepissé', 'Référence Fiscal', 'année', "Période", 'P1', 'P2', "Impôt", "Nature Impôt", "montant à payer", "montant à verser", "reste à payer", "Code Banque", "Mode de payment"];
+
+// Formater les données pour l'affichage et l'export
+const formattedData = filteredRecepisse.map(item => ({
+  'N° Récepissé': item.numero_recepisse,
+  'Référence Fiscal': item.reference_fiscal,
+  'année': item.annee,
+  'Période': item.periode,
+  'P1': item.periode1,
+  'P2': item.periode2,
+  'Impôt': item.numero_impot,
+  'Nature Impôt': item.base_impot,
+  'montant à payer': item.montant_a_payer,
+  'montant à verser': item.montant_verser,
+  'reste à payer': item.reste_a_payer,
+  'Code Banque': item.code_banque,
+  'Mode de payment': item.type_payment
+}));
+
+// Fonction pour exporter les données en Excel
+// const exportToExcel = () => {
+//   // Convertir le tableau d'objets en une feuille de calcul Excel
+//   const worksheet = XLSX.utils.json_to_sheet(formattedData);
+//   // Créer un nouveau classeur Excel
+//   const workbook = XLSX.utils.book_new();
+//   // Ajouter la feuille de calcul au classeur
+//   XLSX.utils.book_append_sheet(workbook, worksheet, "Recepisse Data");
+//   // Générer et télécharger le fichier Excel
+//   XLSX.writeFile(workbook, 'recettes_a_recouvrer.xlsx');
+// };
  const NavbarContent = (
      <div className='flex justify-between'>
      <div className='text-white'>
@@ -148,63 +133,51 @@ useEffect(() => {
      </div>
        )
        return (
-         <div  className='bg-[#212122] h-screen w-screen'>
-             <Navbar content={NavbarContent}></Navbar>
-      <div className='m-4'>
-            <div className='bg-black p-4 flex '>
-     <div className='flex flex-col'>
-     <Label text="Du "></Label>
-       <Input type="date" className="mt-2" 
-       value={value.date_init}
-       onChange={(e)=> setValue({...value , date_init: e.target.value})}
-       ></Input>
-     </div>
-       <div className='flex flex-col ml-4'>
-       <Label text="Au " ></Label>
-       <Input type="date"  className="mt-2"
-       value={value.date_fin}
-       onChange={(e)=> setValue({...value , date_fin: e.target.value})}
-       ></Input>
-       </div>
-       <Button type="submit" onClick={HandleData} children="Executer" className="h-12 mt-8 ml-4" ></Button>
-      </div>
-       <div className='bg-black p-4 mt-2 flex  justify-between'>
-       <div className='flex flex-col '>
-       <Label text="Numéro impôt "></Label>
-       <ReactSelect
-   options={dataCodeImpot.map((item) => ({
-    value: item.numero_impot,
-    label: item.numero_impot,
-  }))}
-  value={selected}
-  onChange={handleSelectChange}
-   
-   className="mt-2 w-40"
- />
- <p className='text-white text-lg mt-2'>{selectedLibelle ? selectedLibelle.libelle : 'Aucune sélection'}</p>
-      </div>
-      <div className='flex flex-row  mt-6 '>
-    <Checkbox label="Tous impôt"className="ml-4"></Checkbox>
-     <Checkbox label="Code N° impôt"className="ml-4"></Checkbox>
-     <Checkbox label="Par nature d'impôt"className="ml-4"></Checkbox>
-      </div>
-      <div className='flex flex-col ml-4 '>
-       <Label text="Montant "></Label>
-       <p className='text-white text-xl mt-2'>{sumResteAPayer}</p>
-      </div>
-      </div>
-      <div className='p-4 bg-black mt-2  flex justify-between'>
+        <div  className='bg-[#212122] h-screen w-full'>
+        <Navbar content={NavbarContent}></Navbar>
+ <div className='m-4'>
+       <div className='bg-black p-4 flex justify-between rounded'>
+ 
+  <div className='flex flex-row'>
+  <div className='flex flex-col'>
+  <Label text="Du "></Label>
+  <Input type="date" className="mt-2"
   
-     <Checkbox label="Classement par date de dépôt"className="ml-4"></Checkbox>
-     <Checkbox label="Classement par ordre croissant [Montant Versé]"className="ml-4"></Checkbox>
-     <Checkbox label="Classement par ordre décroissant [Montant Versé]"className="ml-4"></Checkbox>
-        
-      </div>
-      <div className='mt-2  flex justify-center'>
-     <div  className='overflow-y-auto w-[1480px]'>
-     <Table headers={headers} data={data}  classTable="owerflow-y-auto h-40" ></Table>
-     </div>
-      </div>
+  onChange={(e)=> setStartDate(e.target.value)}
+  ></Input>
+  </div>
+ <div className='flex flex-col ml-4'>
+ <Label text="Au "></Label>
+ <Input type="date"  className="mt-2"
+ onChange={(e)=> setEndDate(e.target.value)}
+ ></Input>
+ </div>
+ <div className='flex flex-col ml-4'>
+<Label text="Référence Fiscal "></Label>
+<SearchInput onChange={(e)=> setSearchTerm(e.target.value)} className={"mt-2"}></SearchInput>
+</div>
+<div className='flex flex-col ml-4'>
+  <Label text="Ce programme à été lancé le "></Label>
+  <p className='text-white text-lg mt-2'>{formatDate(currentDateTime)}</p>
+ 
+ </div>
+ <div className='flex flex-col ml-4 '>
+  <Label text="Total Verser "></Label>
+  <p className='text-white text-xl mt-2'>{totalMontantAPayer}</p>
+ </div>
+  </div>
+
+
+ </div>
+  <div className='bg-black p-4 mt-2 flex justify-between rounded'>
+  
+ 
+ 
+ </div>
+ 
+ <div className='mt-2  flex justify-center '>
+ <Table headers={headers} data={formattedData.map(item => Object.values(item))}></Table>
+ </div>
       <div className='flex justify-between mt-2'>
         <Button type="submit" children="Imprimer " onClick={ () => {window.location.href = "/MontantNatureImpot"}} ></Button>
         <Button type="submit" children="Quitter" onClick={() => {window.location.href="/ConsultationGestion"}}></Button>

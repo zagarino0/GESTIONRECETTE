@@ -38,15 +38,24 @@ const setModePaymentPeriodique = async (req, res) => {
         periode1,
         periode2,
         reference_fiscal,
+        raison_social,
+        activite ,
+        adresse,
+        commune,
         abbreviation_type_payment,
         type_prevision,
         numero_immatriculation ,
-        annulation
+        annulation ,
+        code_operateur
     } = req.body;
 
     const payment = {
         "id_payment": id,
         "reference_fiscal": reference_fiscal,
+        "raison_social": raison_social,
+        "activite": activite,
+        "adresse": adresse,
+        "commune": commune,
         "numero_impot": numero_impot,
         "annee": annee,
         "base_impot": base_impot,
@@ -65,6 +74,7 @@ const setModePaymentPeriodique = async (req, res) => {
         "type_prevision": type_prevision,
         "numero_immatriculation": numero_immatriculation,
         "annulation" : annulation ,
+        "code_operateur" : code_operateur,
         "date_creation": new Date()
     };
 
@@ -81,7 +91,7 @@ const setModePaymentPeriodique = async (req, res) => {
 
     const User_history = {
         "id": id_user_history ,
-        "user": req.body.user,
+        "user": code_operateur,
         "motif": "creationde recette Peridoque",
         "date_creation" : new Date()
     }
@@ -415,7 +425,8 @@ const setModePaymentNonPeriodique = async (req, res) => {
     const amende_penalite = req.body.amende_penalite;
     const annulation = req.body.annulation;
     const activite = req.body.activite;
-    const fokontany = req.body.fokontany
+    const fokontany = req.body.fokontany ;
+    const code_operateur = req.body.code_operateur;
     const payment = {
         "id_payment": id,
         "nif_regisseur": nif_regisseur,
@@ -445,6 +456,7 @@ const setModePaymentNonPeriodique = async (req, res) => {
         "annulation": annulation ,
         "activite": activite ,
         "fokontany": fokontany , 
+        "code_operateur": code_operateur ,
         "date_creation": new Date()
     }
 
@@ -538,6 +550,85 @@ const getAllHistoryRecette = async (req, res) => {
 };
 
 
+const updateModePaymentPeriodique = async (req, res) => {
+    const { id_payment } = req.params; // Récupérer l'id du paiement à mettre à jour
+    const {
+        numero_impot,
+        annee,
+        base_impot,
+        montant_a_payer,
+        montant_verser,
+        reste_a_payer,
+        type_payment,
+        numero_cheque,
+        code_banque,
+        numero_recepisse,
+        periode,
+        transporteur,
+        periode1,
+        periode2,
+        reference_fiscal,
+        raison_social,
+        activite,
+        adresse,
+        commune,
+        abbreviation_type_payment,
+        type_prevision,
+        numero_immatriculation,
+        annulation,
+        code_operateur
+    } = req.body;
+
+    // Rechercher l'élément à mettre à jour
+    const paymentIndex = data.modePayment.findIndex(payment => payment.id_payment === parseInt(id_payment));
+
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Mettre à jour les champs
+    data.modePayment[paymentIndex] = {
+        ...data.modePayment[paymentIndex],
+        numero_impot: numero_impot || data.modePayment[paymentIndex].numero_impot,
+        annee: annee || data.modePayment[paymentIndex].annee,
+        base_impot: base_impot || data.modePayment[paymentIndex].base_impot,
+        montant_a_payer: montant_a_payer || data.modePayment[paymentIndex].montant_a_payer,
+        montant_verser: montant_verser || data.modePayment[paymentIndex].montant_verser,
+        reste_a_payer: reste_a_payer || data.modePayment[paymentIndex].reste_a_payer,
+        type_payment: type_payment || data.modePayment[paymentIndex].type_payment,
+        numero_cheque: numero_cheque || data.modePayment[paymentIndex].numero_cheque,
+        code_banque: code_banque || data.modePayment[paymentIndex].code_banque,
+        numero_recepisse: numero_recepisse || data.modePayment[paymentIndex].numero_recepisse,
+        periode: periode || data.modePayment[paymentIndex].periode,
+        periode1: periode1 || data.modePayment[paymentIndex].periode1,
+        periode2: periode2 || data.modePayment[paymentIndex].periode2,
+        reference_fiscal: reference_fiscal || data.modePayment[paymentIndex].reference_fiscal,
+        raison_social: raison_social || data.modePayment[paymentIndex].raison_social,
+        activite: activite || data.modePayment[paymentIndex].activite,
+        adresse: adresse || data.modePayment[paymentIndex].adresse,
+        commune: commune || data.modePayment[paymentIndex].commune,
+        abbreviation_type_payment: abbreviation_type_payment || data.modePayment[paymentIndex].abbreviation_type_payment,
+        type_prevision: type_prevision || data.modePayment[paymentIndex].type_prevision,
+        numero_immatriculation: numero_immatriculation || data.modePayment[paymentIndex].numero_immatriculation,
+        annulation: annulation !== undefined ? annulation : data.modePayment[paymentIndex].annulation,
+        code_operateur: code_operateur || data.modePayment[paymentIndex].code_operateur,
+        transporteur : transporteur || data.modePayment[paymentIndex].transporteur,
+        date_modification: new Date() // Ajouter la date de modification
+    };
+
+    // Enregistrer les changements dans le fichier
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
+            JSON.stringify(data.modePayment)
+        );
+        res.json(data.modePayment[paymentIndex]);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file' });
+    }
+};
+
+
 module.exports = {
     setModePaymentPeriodique,
     setModePaymentNonPeriodique,
@@ -555,4 +646,5 @@ module.exports = {
     getAllEnregistrementDeclaration ,
     getAllEnregistrementDeclarationNonPeriodique ,
     getAllHistoryRecette , 
+    updateModePaymentPeriodique,
 }

@@ -17,6 +17,7 @@ function ConsultationMontant(props) {
   );
 
   const [recepisse, setRecepisse] = useState([]);
+  const [regisseur , setRegisseur ] = useState([]);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -27,7 +28,24 @@ function ConsultationMontant(props) {
       .catch((error) => console.error(error));
   }, []);
 
+  
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/recette/getAllEnregistrementDeclarationNonPeriodique')
+      .then((response) => setRegisseur(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+
+
   const filteredRecepisse = recepisse.filter(item => {
+    const itemDate = new Date(item.date_creation);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return itemDate >= start && itemDate <= end;
+  });
+
+  const filteredRegisseur = regisseur.filter(item => {
     const itemDate = new Date(item.date_creation);
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -40,7 +58,18 @@ function ConsultationMontant(props) {
       .reduce((total, item) => total + parseFloat(item.montant_verser), 0);
   };
 
+
+  const calculateTotalRegisseur = (type) => {
+    return filteredRegisseur
+      .filter(item => item.type_payment.trim().toLowerCase() === type.toLowerCase())
+      .reduce((total, item) => total + parseFloat(item.montant_verser), 0);
+  };
+
   const totalMontantAnnuler = recepisse
+    .filter(item => item.annulation === true)
+    .reduce((total, item) => total + parseFloat(item.montant_verser), 0);
+
+    const totalMontantAnnulerRegisseur = regisseur
     .filter(item => item.annulation === true)
     .reduce((total, item) => total + parseFloat(item.montant_verser), 0);
 
@@ -52,9 +81,19 @@ function ConsultationMontant(props) {
   const totalMontantVerserTresor = calculateTotal("trésor");
   const totalMontantVerserDepot = calculateTotal("dépot");
 
+  const totalMontantVerserVirementRegisseur = calculateTotalRegisseur("virement");
+  const totalMontantVerserEspeceRegisseur = calculateTotalRegisseur("espece");
+  const totalMontantVerserChequeRegisseur = calculateTotalRegisseur("cheque");
+  const totalMontantVerserAutreRegisseur = calculateTotalRegisseur("autre");
+  const totalMontantVerserBarRegisseur = calculateTotalRegisseur("bar");
+  const totalMontantVerserTresorRegisseur = calculateTotalRegisseur("trésor");
+  const totalMontantVerserDepotRegisseur = calculateTotalRegisseur("dépot");
+
+  const TotalRegisseur = totalMontantVerserAutreRegisseur + totalMontantVerserBarRegisseur + totalMontantVerserTresorRegisseur + totalMontantVerserChequeRegisseur + totalMontantVerserEspeceRegisseur  + totalMontantVerserVirementRegisseur + totalMontantVerserDepotRegisseur - totalMontantAnnulerRegisseur;
+
   const totalMontantVerser = totalMontantVerserVirement + totalMontantVerserEspece + totalMontantVerserCheque + totalMontantVerserAutre + totalMontantVerserBar + totalMontantVerserTresor + totalMontantVerserDepot - totalMontantAnnuler;
   
-
+  
 
   return (
     <div>
@@ -86,31 +125,31 @@ function ConsultationMontant(props) {
           </div>
           <div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserCheque} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserCheque + totalMontantVerserChequeRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserEspece} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserEspece + totalMontantVerserEspeceRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserVirement} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserVirement + totalMontantVerserVirementRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserBar} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserBar + totalMontantVerserBarRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserTresor} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserTresor + totalMontantVerserTresorRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserDepot} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserDepot + totalMontantVerserDepotRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerserAutre} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerserAutre + totalMontantVerserAutreRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantAnnuler} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantAnnuler + totalMontantAnnulerRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
             <div className='flex flex-row mt-2'>
-              <Title2 text={totalMontantVerser} className="ml-2 font-semibold"></Title2>
+              <Title2 text={totalMontantVerser + TotalRegisseur} className="ml-2 font-semibold"></Title2>
             </div>
           </div>
         </div>

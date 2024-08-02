@@ -15,7 +15,8 @@ import SearchInput from '../../../components/input/SearchInput';
 import ReactSelect from 'react-select';
 import { ModalError, ModalErrorServer } from '../../immatriculation/Modal';
 
-function EnregistrementDeclarartionRegisseur() {
+function ModificationNonPeriodique() {
+    
     const [isModalImpot , setIsModalImpot] = useState(false)
     const [DataImpot , setDataImpot] = useState([]);
     const [selectedRowIndex, setSelectedRowIndex] = useState(null);
@@ -47,6 +48,13 @@ function EnregistrementDeclarartionRegisseur() {
   const [EnregistementDeclaration, setEnregistementDeclaration] = useState(false);
   const [ErrorEnregistrementDecleration , setErrorEnregistrementDecleration] = useState(false);
   
+
+// get data in the local storage 
+const selectedData = localStorage.getItem("selectedDataRecetteRegisseur");
+const parsedDataSelected = JSON.parse(selectedData);
+
+
+
   useEffect(() => {
     if (searchPriseEnCharge) {
       setIsLoading(true);
@@ -67,39 +75,39 @@ function EnregistrementDeclarartionRegisseur() {
   
   
     // Value of Enregistement déclaration
-    const [value , setValue] = useState(
-    {
-      numero_impot : "",
-      annee: "",
-      activite: "",
-      montant_a_payer:"",
-      montant_verser : "",
-      reste_a_payer : "",
-      type_payment: "",
-      numero_cheque : "",
-      code_banque : "",
-      numero_recepisse : "",
-      periode : "",
-      transporteur : false,
-      periode1 : "",
-      periode2 : "",
-      reference_fiscal : "",
-      mode_de_payement : "",
-      immatriculation_vehicule: "",
-      raison_social: "",
-      nom_commercial : "",
-      adresse : "",
-      commune:"",
-      nom_commercial_banque : "",
-      rib: "",
-      date_cloture_exercice: "",
-      type_prev:"",
-      amende_penalite:"",
-      numero_immatriculation: "",
-      annulation : false 
-    }
-    );
-  
+    const [value, setValue] = useState({
+      numero_impot: parsedDataSelected?.numero_impot || "",
+      annee: parsedDataSelected?.annee || "",
+      activite: parsedDataSelected?.activite || "",
+      montant_a_payer: parsedDataSelected?.montant_a_payer || "",
+      montant_verser: parsedDataSelected?.montant_verser || "",
+      reste_a_payer: parsedDataSelected?.reste_a_payer || "",
+      type_payment: parsedDataSelected?.type_payment || "",
+      numero_cheque: parsedDataSelected?.numero_cheque || "",
+      code_banque: parsedDataSelected?.code_banque || "",
+      numero_recepisse: parsedDataSelected?.numero_recepisse || "",
+      periode: parsedDataSelected?.periode || "",
+      transporteur: parsedDataSelected?.transporteur || false,
+      periode1: parsedDataSelected?.periode1 || "",
+      periode2: parsedDataSelected?.periode2 || "",
+      reference_fiscal: parsedDataSelected?.reference_fiscal || "",
+      mode_de_payement: parsedDataSelected?.type_payment || "",
+      immatriculation_vehicule: parsedDataSelected?.immatriculation_vehicule || "",
+      raison_social: parsedDataSelected?.raison_social || "",
+      nom_commercial: parsedDataSelected?.nom_commercial || "",
+      adresse: parsedDataSelected?.adresse || "",
+      commune: parsedDataSelected?.commune || "",
+      nom_commercial_banque: parsedDataSelected?.nom_commercial_banque || "",
+      rib: parsedDataSelected?.rib || "",
+      date_cloture_exercice: parsedDataSelected?.date_cloture_exercice || "",
+      type_prev: parsedDataSelected?.type_prev || "",
+      amende_penalite: parsedDataSelected?.amende_penalite || "",
+      numero_immatriculation: parsedDataSelected?.numero_immatriculation || "",
+      annulation: parsedDataSelected?.annulation || false,
+      fokontany: parsedDataSelected?.fokontany || ""
+    });
+
+    
   // liste mode de payment 
   const ModeDePayment = [
     "Cheque",
@@ -117,10 +125,10 @@ function EnregistrementDeclarartionRegisseur() {
     const NavbarContent = (
       <div className='flex justify-between'>
       <div className='text-white font-semibold'>
-      Enregistrement des titres de recette ou des déclarations des Régisseurs
+    Modification de l'Enregistrement des titres de recette ou des déclarations des Régisseurs
           </div>
           <div>
-            <BackButton to="/saisiDeclarationRecette"></BackButton>
+            <BackButton to="/ConsultationRegisseur"></BackButton>
           </div>
       </div>
         )
@@ -331,24 +339,24 @@ function EnregistrementDeclarartionRegisseur() {
   
   
   
-    const generateId = () => {
-      const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      const length = Math.floor(Math.random() * (10 - 8 + 1)) + 8;
-      let randomString = "";
-      for (let i = 0; i < length; i++) {
-        randomString += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      return randomString;
-    };
+    // const generateId = () => {
+    //   const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //   const length = Math.floor(Math.random() * (10 - 8 + 1)) + 8;
+    //   let randomString = "";
+    //   for (let i = 0; i < length; i++) {
+    //     randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+    //   }
+    //   return randomString;
+    // };
   
     
-    const [randomNumbers, setRandomNumbers] = useState('');
+    // const [randomNumbers, setRandomNumbers] = useState('');
   
-    const generateNumbers = () => {
-      setRandomNumbers(generateId());
-    };
+    // const generateNumbers = () => {
+    //   setRandomNumbers(generateId());
+    // };
   
-   
+
     const handleEnregistrementDecl = () => {
         const ValueEnregistrementNonPeriodique = {
       "numero_impot": DataSelected.numero_impot,
@@ -360,7 +368,7 @@ function EnregistrementDeclarartionRegisseur() {
       "type_payment":value.mode_de_payement,
       "numero_cheque": value.numero_cheque,
       "code_banque": selectCodeBanque.id,
-      "numero_recepisse": randomNumbers,
+      "numero_recepisse": parsedDataSelected.numero_recepisse,
       "periode":value.periode,
       "transporteur":value.transporteur,
       "periode1": value.periode1,
@@ -410,30 +418,6 @@ function EnregistrementDeclarartionRegisseur() {
   }));
   
   const ModeDePayement  = ModeDePayment.map((item)=>({value : item , label : item}))
-
-
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
-
-useEffect(() => {
-  const interval = setInterval(() => {
-    setCurrentDateTime(new Date());
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, []);
-
-// Function to format date in "dd/mm/yyyy hh:mm:ss" format
-const formatDate = (date) => {
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-  const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const seconds = date.getSeconds().toString().padStart(2, '0');
-
-  return `${day}/${month}/${year} à ${hours}:${minutes}:${seconds}`;
-};
-
   return (
     <div className='bg-[#212122] h-full w-full p-4'>
     <Navbar content={NavbarContent}></Navbar>
@@ -443,16 +427,12 @@ const formatDate = (date) => {
      <Button children="N° impot" className="ml-2" onClick={()=> {setIsModalImpot(true)}}></Button>
      {/* <Button children="Attribution ou Mise à jour RF" onClick={()=> setModalLogin(true)} className="ml-2"></Button> */}
      {/* <Button children="Régisseur" onClick={()=> setModalMAJRF(true)} className="ml-2"></Button> */}
-     <div className='flex flex-col ml-4'>
-  <Label text="Ce programme à été lancé le "></Label>
-  <p className='text-white text-lg mt-2'>{formatDate(currentDateTime)}</p>
- 
- </div>
+     
 </div>
      <div className='flex flex-row'>
       <Label text="Numéro" className="mt-4"></Label>
-      <Input value={randomNumbers} onChange={(e)=>setRandomNumbers(e.target.value)} className="ml-2 mt-2"></Input>
-      <Button children="générer" onClick={generateNumbers} className='ml-2'></Button>
+      <Input value={parsedDataSelected.numero_recepisse}className="ml-2 mt-2"></Input>
+      
      </div>
     </div>
     <div className='p-2 flex justify-between'>
@@ -807,4 +787,4 @@ onSearch={()=> setModalCodeBanque(true)}
   )
 }
 
-export default EnregistrementDeclarartionRegisseur
+export default ModificationNonPeriodique

@@ -27,7 +27,7 @@ function ConsultationGestion() {
             </div>
         <div className='mt-12'>
             <div className='w-96'>
-            <Button  children="Obtention de copie du fichier IMPOT" isOpen={isModalOpen} onClick={() => setIsModalOpen(true)} className=" w-96" ></Button>
+            {/* <Button  children="Obtention de copie du fichier IMPOT" isOpen={isModalOpen} onClick={() => setIsModalOpen(true)} className=" w-96" ></Button> */}
             <LinkButton to="/ResteRecouvrerDeuxDate" text="Reste à recouvrer entre deux dates" className="mt-2"></LinkButton>
             <LinkButton to="/ConsultationRecetteDeuxDate" text="Consultation Recette entre deux dates" className="mt-2"></LinkButton>
             

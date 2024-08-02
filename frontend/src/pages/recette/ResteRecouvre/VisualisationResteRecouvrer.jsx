@@ -1,152 +1,143 @@
-import React, { useEffect, useState } from 'react'
-import { Navbar } from '../../../components/navbar/Navbar'
+import React, { useEffect, useState } from 'react';
+import { Navbar } from '../../../components/navbar/Navbar';
 import Table from '../../../components/table/Table';
-import { Title3 } from '../../../components/title/title';
-import Label from '../../../components/title/label';
-import Input from '../../../components/input/Input';
-import Checkbox from '../../../components/button/Checkbox';
-import ReactSelect from 'react-select';
 import { Button } from '../../../components/button/button';
 import BackButton from '../../../components/button/BackButton';
 import axios from 'axios';
 import SearchInput from '../../../components/input/SearchInput';
-function VisualisationResteRecouvrer() {
-  const [recepisse , setRecepisse] = useState([])
+import { LinkButton } from '../../../components/button/LinkButton';
+import Label from '../../../components/title/label';
+import Input from '../../../components/input/Input';
+import * as XLSX from 'xlsx';
 
-  const [searchTerm , setSearchTerm] = useState('');
-  
+function VisualisationResteRecouvrer() {
+  const [recepisse, setRecepisse] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/recette/getEnregistrementdeclaration')
       .then((response) => setRecepisse(response.data))
       .catch((error) => console.error(error));
   }, []);
-  
-  const filteredData = recepisse.filter((item) => 
-    item.numero_recepisse && item.numero_recepisse.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-   
-  
-  console.log(recepisse)
-      const headers = ['N° Récepissé', 'Référence Fiscal',  'année', "Période", 'P1', 'P2',"Impôt","Nature Impôt" , "montant à payer" , "montant à verser" , "reste à payer" , "Code Banque" , "Mode de payment"];
-      const formattedData =  filteredData.map(item => [
-        item.numero_recepisse, 
-        item.reference_fiscal, 
-        item.annee, 
-        item.periode, 
-        item.periode1, 
-        item.periode2, 
-        item.numero_impot,
-        item.base_impot ,
-        item.montant_a_payer ,
-        item.montant_verser , 
-        item.reste_a_payer ,
-        item.code_banque ,
-        item.type_payment   
-      ]);
-  
-    const NavbarContent = (
-        <div className='flex justify-between'>
-        <div className='text-white font-semibold'>
-          Visualisation et Exportation des Recettes à Recouvres
-            </div>
-            <div>
-             <BackButton to="/ResteRecovreRecette"></BackButton> 
-            </div>
-        </div>
-          )
-  return (
-    <div className='bg-[#212122]  h-full w-full'>
-    <Navbar content={NavbarContent} ></Navbar>
-    <div className='ml-4 mt-4'>
-     <SearchInput  onChange={(e) => setSearchTerm(e.target.value)} ></SearchInput>
-    </div>
-    <div className='flex justify-center mt-4 p-4'>
-    <Table headers={headers} data={formattedData} classTable="overflow-y-auto h-40" ></Table>
-    </div>
-    <div className='m-4 flex justify-between'>
-     <Title3 text="Référence fiscal" ></Title3>
-     <Title3 text="Nom et Prénom" className="ml-4"></Title3>
-     <Title3 text="Type d'impôt" className="ml-4"></Title3>    
-    </div>
-    <div className='flex justify-between'>
-    <div className='flex flex-col w-[200px] m-4'>
-    <div className='flex flex-col'>
-    <Label text="Reste à payer"></Label>
-    <Input type="text" placeholder="Reste à payer..." className="mt-1"></Input>
-    </div>
-    <div className='mt-4'>
-        <Checkbox label="à payé ou versé"></Checkbox>
-    </div>
-    <div className='flex flex-col mt-4'>
-    <Label text="Total Verser"></Label>
-    <Input type="text" placeholder="Total verser..." className="mt-1"></Input>
-    </div>
-    <div className='flex flex-col mt-4'>
-    <Label text="Reste à recouvrer"></Label>
-    <Input type="text" placeholder="Reste à recouvrer..." className="mt-1"></Input>
-    </div>
-    </div>
-    
-    <div className='flex flex-col w-[200px] m-4'>
-    <div className='flex flex-col'>
-    <Label text="Numéro chèque"></Label>
-    <Input type="text" placeholder="Numéro chèque..." className="mt-1"></Input>
-    </div>
-    
-    <div className='flex flex-col mt-4'>
-    <Label text="Numéro de compte"></Label>
-    <Input type="text" placeholder="Numéro de compte..." className="mt-1"></Input>
-    </div>
-    <div className='flex flex-col mt-4'>
-    <Label text="Code banque"></Label>
-    <ReactSelect className='mt-1'></ReactSelect>
-    </div>
-    </div>
-    <div className='flex flex-col w-[200px] m-4'>
-    <div className='flex flex-col'>
-    <Label text="Nom de la banque"></Label>
-    <Input type="text" placeholder="Nom de la banque..." className="mt-1"></Input>
-    </div>
-    
-    <div className='flex flex-col mt-4'>
-    <Label text="Référence Ordre de Virement"></Label>
-    <Input type="text" placeholder="Référence O.V..." className="mt-1"></Input>
-    </div>
-    <div className='flex flex-col mt-4'>
-    <Label text="Date O.V"></Label>
-    <ReactSelect className='mt-1'></ReactSelect>
-    </div>
-    </div>
-    <div className='fex flex-col m-4 w-[200px]'>
-     <Label text="Mode de paiment"></Label>
-     <Checkbox label="Espèce" className="mt-4"></Checkbox>
-     <Checkbox label="Chèque" className="mt-4"></Checkbox>
-     <Checkbox label="Virement" className="mt-4"></Checkbox>
-     <Checkbox label="Autre" className="mt-4"></Checkbox>
-     
-    </div>
-    </div>
-    <div className='flex flex-row m-4'>
-        <Label text="Ppl Recep. N"></Label>
-        <Input type="text" className="w-28 ml-4"></Input>
-        <Checkbox label="Créance" className="ml-4"></Checkbox>
-        <Input type="text" className="ml-4 w-28"></Input>
-        <Checkbox label="Récepissé" className="ml-4"></Checkbox>
-        <Input type="text" className="ml-4 w-28"></Input>
-        <Checkbox label="RF" className="ml-4"></Checkbox>
-        <Input type="text" className="ml-4 w-28"></Input>
-        <Checkbox label="Tous non payé" className="ml-4"></Checkbox>
 
+  // Filtrer les données par référence fiscale et date
+  const filteredData = recepisse.filter((item) =>
+    item.reference_fiscal && item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredRecepisse = filteredData.filter(item => {
+    const itemDate = new Date(item.date_creation);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return (!startDate || itemDate >= start) && (!endDate || itemDate <= end);
+  });
+
+  // Calculer le total par type de paiement
+  const calculateTotal = (type) => {
+    return filteredRecepisse
+      .filter(item => item.type_payment.trim().toLowerCase() === type.toLowerCase())
+      .reduce((total, item) => total + parseFloat(item.reste_a_payer || 0), 0);
+  };
+
+  // Calcul du total des montants annulés
+  const totalMontantAnnuler = recepisse
+    .filter(item => item.annulation === true)
+    .reduce((total, item) => total + parseFloat(item.reste_a_payer || 0), 0);
+
+  // Calcul des différents totaux par type de paiement
+  const totalMontantVerserVirement = calculateTotal("virement");
+  const totalMontantVerserEspece = calculateTotal("espece");
+  const totalMontantVerserCheque = calculateTotal("cheque");
+  const totalMontantVerserAutre = calculateTotal("autre");
+  const totalMontantVerserBar = calculateTotal("bar");
+  const totalMontantVerserTresor = calculateTotal("trésor");
+  const totalMontantVerserDepot = calculateTotal("dépot");
+
+  // Calcul du total à payer
+  const totalMontantAPayer = totalMontantVerserVirement +
+    totalMontantVerserEspece +
+    totalMontantVerserCheque +
+    totalMontantVerserAutre +
+    totalMontantVerserBar +
+    totalMontantVerserTresor +
+    totalMontantVerserDepot - totalMontantAnnuler;
+
+  // Définir les en-têtes de la table
+  const headers = ['N° Récepissé', 'Référence Fiscal', 'année', "Période", 'P1', 'P2', "Impôt", "Nature Impôt", "montant à payer", "montant à verser", "reste à payer", "Code Banque", "Mode de payment"];
+
+  // Formater les données pour l'affichage et l'export
+  const formattedData = filteredRecepisse.map(item => ({
+    'N° Récepissé': item.numero_recepisse,
+    'Référence Fiscal': item.reference_fiscal,
+    'année': item.annee,
+    'Période': item.periode,
+    'P1': item.periode1,
+    'P2': item.periode2,
+    'Impôt': item.numero_impot,
+    'Nature Impôt': item.base_impot,
+    'montant à payer': item.montant_a_payer,
+    'montant à verser': item.montant_verser,
+    'reste à payer': item.reste_a_payer,
+    'Code Banque': item.code_banque,
+    'Mode de payment': item.type_payment
+  }));
+
+  // Fonction pour exporter les données en Excel
+  const exportToExcel = () => {
+    // Convertir le tableau d'objets en une feuille de calcul Excel
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    // Créer un nouveau classeur Excel
+    const workbook = XLSX.utils.book_new();
+    // Ajouter la feuille de calcul au classeur
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Recepisse Data");
+    // Générer et télécharger le fichier Excel
+    XLSX.writeFile(workbook, 'recettes_a_recouvrer.xlsx');
+  };
+
+  // Contenu de la barre de navigation
+  const NavbarContent = (
+    <div className='flex justify-between'>
+      <div className='text-white font-semibold'>
+        Visualisation et Exportation des Recettes à Recouvres
+      </div>
+      <div>
+        <BackButton to="/ResteRecovreRecette"></BackButton>
+      </div>
     </div>
-    <div className='bg-[#212122] flex justify-between m-4'>
-     <Button children="Afficher"></Button>
-     <Button children="En caisse"></Button>
-     <Button children="Vers Excel"></Button>
-     <Button children="Lettre de Rélance"></Button>
-    </div>
+  );
+
+  return (
+    <div className='bg-[#212122] h-screen w-full'>
+      <Navbar content={NavbarContent}></Navbar>
+      <div className='ml-4 mt-4 flex flex-row'>
+        <SearchInput onChange={(e) => setSearchTerm(e.target.value)} className={"mt-8"}></SearchInput>
+        <div className='flex flex-col ml-4'>
+          <Label text="Du"></Label>
+          <Input type="date" className='mt-4' onChange={(e) => setStartDate(e.target.value)}></Input>
+        </div>
+        <div className='flex flex-col ml-4'>
+          <Label text="Au"></Label>
+          <Input type="date" className="mt-4" onChange={(e) => setEndDate(e.target.value)}></Input>
+        </div>
+        <div className='flex flex-col ml-8'>
+          <Label text='Reste à recouvrer' ></Label>
+          <Label text={totalMontantAPayer.toFixed(2)} className='mt-8' ></Label>
+        </div>
+      </div>
+      <div className='flex justify-center mt-4 p-4'>
+        <Table headers={headers} data={formattedData.map(item => Object.values(item))}></Table>
+      </div>
+      <div className='bg-[#212122] flex justify-between m-4'>
+        <LinkButton to="/EnregistrementTitre" text="En Caisser"></LinkButton>    
+        <Button onClick={exportToExcel} children="Vers Excel"></Button>
+        <Button children="Voir en détail"></Button>
+        <Button children="Lettre de Relance"></Button>
+      </div>
     </div>
   )
 }
 
-export default VisualisationResteRecouvrer
+export default VisualisationResteRecouvrer;

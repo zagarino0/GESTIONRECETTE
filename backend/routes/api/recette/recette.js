@@ -10,6 +10,9 @@ router.route('/declarationperiodique')
 router.route('/declarationnonperiodique')
     .post(recetteController.setModePaymentNonPeriodique);
 
+
+router.put('/updtatePayment/:id_payment' , recetteController.updateModePaymentPeriodique);
+
 router.route('/consultationpayment')
     .post(recetteController.getPaymentByTwoDate);
 

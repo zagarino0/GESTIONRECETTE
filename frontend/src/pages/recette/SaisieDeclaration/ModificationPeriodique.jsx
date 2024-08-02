@@ -14,441 +14,410 @@ import PasswordInput from '../../../components/input/PasswordInput'
 import { ModalError, ModalErrorServer } from '../../immatriculation/Modal'
 import DateFormatConverter from '../../../components/input/DateFormatConvert'
 import { useNavigate } from 'react-router-dom'
-
-function EnregistrementTitre() {
-  const [isModalImpot , setIsModalImpot] = useState(false)
-  const [DataImpot , setDataImpot] = useState([]);
-  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  const [selectedRowIndexCodeBanque, setSelectedRowIndexCodeBanque] = useState(null);
-  const [selectedRowIndexCodeFokontany, setSelectedRowIndexCodeFokontany] = useState(null);
-  const [selectedRowIndexPriseEnCharge , setSelectedRowIndexPriseEnCharge] = useState(null);
-  const [DataSelectedPriseEnCharge , setDataSelectdPriseEnCharge] = useState([]);
-  const [DataCodeFokontanySelect , setDataCodeFokontanySelect] = useState([]);
-  const [DataSelected , setDataSelected] = useState([]);
-  const [searchTerm ,setSearchTerm] = useState([]);
-  const [CodeBanque , setCodeBanque] = useState([]);
-  const [ModalCodeBanque , setModalCodeBanque] = useState(false)
-  const [selectCodeBanque , setSelectCodeBanque] = useState([])
-  const [ModalLoginPriseCharge , setModalPriseCharge] = useState(false);
-  const [ModalMAJRF , setModalMAJRF] = useState(false);
-  const [ModalFokontany , setModalFokontany] = useState(false);
-  const [DataCodeFokontany , setDataCodeFokontany] = useState([]);
-  const [TypePrev , setTypePrev] = useState([]);
-  const [isModalError, setIsModalError] = useState(false);
-  const [isModalErrorServer, setIsModalErrorServer] = useState(false);
-  
-  const [isModalErrorPriseEnCharge, setIsModalErrorPriseEnCharge] = useState(false);
-  const [isModalSucessPriseEnCharge, setIsModalSuccessPiseEnCharge] = useState(false);
-  const [ModalLogin , setModalLogin] = useState(false);
-  const [searchPriseEnCharge] = useState('');
-const [data, setData] = useState([]);
-const [ setIsLoading] = useState(false);
-
-const [EnregistementDeclaration, setEnregistementDeclaration] = useState(false);
-const [ErrorEnregistrementDecleration , setErrorEnregistrementDecleration] = useState(false);
- 
- const UserData = localStorage.getItem("userDataRecette");
- const user = JSON.parse(UserData );
-
- useEffect(() => {
-  if (searchPriseEnCharge) {
-    setIsLoading(true);
-    // Effectuer une requête API en utilisant Axios
-    axios.get(`http://localhost:3500/client/${searchPriseEnCharge}`)
-      .then((response) => {
-        setData(response.data);
-        console.log(data)
-      setIsLoading(false);
-     
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-}, [searchPriseEnCharge , data , setIsLoading]);
-
-
-  // Value of Enregistement déclaration
-  const [value , setValue] = useState(
-  {
-    numero_impot : "",
-    annee: "",
-    montant_a_payer:"",
-    montant_verser : "",
-    reste_a_payer : "",
-    type_payment: "",
-    numero_cheque : "",
-    code_banque : "",
-    numero_recepisse : "",
-    periode : "",
-    transporteur : false,
-    periode1 : "",
-    periode2 : "",
-    reference_fiscal : "",
-    mode_de_payement : "",
-    immatriculation_vehicule: "",
-    raison_social: "",
-    nom_commercial : "",
-    adresse : "",
-    commune:"",
-    nom_commercial_banque : "",
-    rib: "",
-    date_cloture_exercice: "",
-    type_prev:"",
-    amende_penalite:"",
-    numero_immatriculation: "",
-    annulation : false 
-  }
-  );
-
-// liste mode de payment 
-const ModeDePayment = [
-  "Cheque",
-   "Espece",
-    "Virement",
-    "Dépot",
-    "Trésor",
-    "BAR",
-    "Autre"
-
-]
-
-
-
-  const NavbarContent = (
-    <div className='flex justify-between'>
-    <div className='text-white font-semibold'>
-    Enregistrement des titres de recette ou des déclarations
-        </div>
-        <div>
-          <BackButton to="/saisiDeclarationRecette"></BackButton>
-        </div>
-    </div>
-      )
-
-      //Modal Content Impot 
-    const navbarModalImpot = (
-      <>
-      <Label text="Des impôts " className="font-bold"></Label>
-      </>
-    )
-//Modal navbar content Code Banque 
-const navbarModalCodeBanque = (
-  <>
-  <Label text="Code Banque " className="font-bold"></Label>
-  </>
-)
-
-// Modal navbar Prise en charge 
-const NavbarModalPriseEnCharge = (
-  <>
-  <Label text="Prise en charge" className="font-bold"></Label>
-  </>
-  )
-    //Data code impot include in the Table  
-    useEffect(() => {
- 
-      // Récupérer les données depuis le backend
-      axios.get('http://localhost:3500/code/impot')
-        .then((response) => setDataImpot(response.data))
-        .catch((error) => console.error(error));
-    }, []);
-
+function ModificationPeriodique() {
+    const [isModalImpot , setIsModalImpot] = useState(false)
+    const [DataImpot , setDataImpot] = useState([]);
+    const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+    const [selectedRowIndexCodeBanque, setSelectedRowIndexCodeBanque] = useState(null);
+    const [selectedRowIndexCodeFokontany, setSelectedRowIndexCodeFokontany] = useState(null);
+    const [selectedRowIndexPriseEnCharge , setSelectedRowIndexPriseEnCharge] = useState(null);
+    const [DataSelectedPriseEnCharge , setDataSelectdPriseEnCharge] = useState([]);
+    const [DataCodeFokontanySelect , setDataCodeFokontanySelect] = useState([]);
+    const [DataSelected , setDataSelected] = useState([]);
+    const [searchTerm ,setSearchTerm] = useState([]);
+    const [CodeBanque , setCodeBanque] = useState([]);
+    const [ModalCodeBanque , setModalCodeBanque] = useState(false)
+    const [selectCodeBanque , setSelectCodeBanque] = useState([])
+    const [ModalLoginPriseCharge , setModalPriseCharge] = useState(false);
+    const [ModalMAJRF , setModalMAJRF] = useState(false);
+    const [ModalFokontany , setModalFokontany] = useState(false);
+    const [DataCodeFokontany , setDataCodeFokontany] = useState([]);
+    const [TypePrev , setTypePrev] = useState([]);
+    const [isModalError, setIsModalError] = useState(false);
+    const [isModalErrorServer, setIsModalErrorServer] = useState(false);
     
-  const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" , "Chapitre" , "Groupe d'impot" ];
-  const dataContentTable = DataImpot.map(item => [item.numero_impot, item.libelle , item.abreviation , item.pcop , item.numero_budget , item.numero_classes , item.chapitre , item.groupe_impot ]);
- 
-  const handleTableRowClick = (rowIndex) => {
-    setSelectedRowIndex(rowIndex);
-    // Update input fields or perform other actions based on the selected row data
-    const selectedRowData = DataImpot[rowIndex];
-   setDataSelected(selectedRowData)
-    setIsModalImpot(false);
-  };
+    const [isModalErrorPriseEnCharge, setIsModalErrorPriseEnCharge] = useState(false);
+    const [isModalSucessPriseEnCharge, setIsModalSuccessPiseEnCharge] = useState(false);
+    const [ModalLogin , setModalLogin] = useState(false);
+    const [searchPriseEnCharge] = useState('');
+  const [data, setData] = useState([]);
+  const [ setIsLoading] = useState(false);
   
-  const handleTableRowClickCodeBanque = (rowIndex) => {
-    setSelectedRowIndexCodeBanque(rowIndex);
-    // Update input fields or perform other actions based on the selected row data
-    const selectedRowDataCode = CodeBanque[rowIndex];
-   setSelectCodeBanque(selectedRowDataCode)
-    setModalCodeBanque(false);
-  };
-
-//Data select code fokontany
-const handleTableRowClickCodeFokontany = (rowIndex) => {
-  setSelectedRowIndexCodeFokontany(rowIndex);
-  // Update input fields or perform other actions based on the selected row data
-  const selectedRowDataCode = DataCodeFokontany[rowIndex];
- setDataCodeFokontanySelect(selectedRowDataCode)
-  setModalFokontany(false);
-};
-
-
-
-
-  useEffect(() => {
-    // Récupérer les données depuis le backend avec le terme de recherche
-    axios.get(`http://localhost:3500/code/impot/${searchTerm}`)
-      .then((response) => setDataSelected(response.data))
-      .catch((error) => console.error(error));
-  }, [searchTerm]);
-  
-
-  // code banque select
-
-  useEffect(() => {
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/banque')
-      .then((response) => setCodeBanque(response.data))
-      .catch((error) => console.error(error));
-  }, []);
-
-  const HeaderCodeBanque= ["numéro", "Raison social", "Nom commercial"];
-  const DataCodeBanque = CodeBanque.map(item => [item.id, item.raison_social, item.nom_commercial]);
-
-  // Fonction Modal Fokontany 
-
-  useEffect(() => {
+  const [EnregistementDeclaration, setEnregistementDeclaration] = useState(false);
+  const [ErrorEnregistrementDecleration , setErrorEnregistrementDecleration] = useState(false);
    
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/geographique')
-      .then((response) => setDataCodeFokontany(response.data))
-      .catch((error) => console.error(error));
-  }, []);
-
-  const headerFokontany = [  "Arrondissement ","Code Fokontany","Fokotany"];
-  const formattedDataFokontany = DataCodeFokontany.map((item) => [
-    
-    item.arrondisement,
-    item.fokontany,
-    item.libelle
+   const UserData = localStorage.getItem("userDataRecette");
+   const user = JSON.parse(UserData );
   
-  ]);
-
-  const ModalNavbarCodeFokontany = (
-    <>
-    <Label text="Code Fokontany " className="font-bold"></Label>
-    </>
-  )
- 
-
-
-  const [Contribuable , setContribuable ] = useState([]);
-  const [searchTermPriseEnCharge, setSearchTermPriseEnCharge] = useState("");
- 
-  useEffect(() => {
-   // Récupérer les données depuis le backend
-   axios.get('http://localhost:3500/prisecharge/contribuable/encharge')
-     .then((response) => setContribuable(response.data))
-     .catch((error) => console.error(error));
- }, []);
-
-
- //select Data prise en charge 
- const handleTableRowClickPriseEnCharge = (rowIndex) => {
-  // Check if the row is already selected
-  if (selectedRowIndexPriseEnCharge === rowIndex) {
-    // Deselect the row if it is already selected
-    setSelectedRowIndexPriseEnCharge(null);
-    setDataSelectdPriseEnCharge(null);
-  } else {
-    // Select the row
-    setSelectedRowIndexPriseEnCharge(rowIndex);
-    const selectedRowDataPriseEnChage = Contribuable[rowIndex];
-    setDataSelectdPriseEnCharge(selectedRowDataPriseEnChage);
-  }
-  setModalPriseCharge(false);
-};
-
- const handleSearch = (e) => {
-   setSearchTermPriseEnCharge(e.target.value);
- };   
-
-const filteredData = Contribuable.filter((item) => 
- item.id && item.id.toLowerCase().includes(searchTermPriseEnCharge.toLowerCase())
- );
- 
-
- const {siege} = DataSelectedPriseEnCharge ;
- const {activite} = DataSelectedPriseEnCharge ;
-// Header table client
-const ClientHeaders = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" , " Date autorisation" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"];
-// Data client Table
-const ClientData = filteredData.map((item) =>[
- item.id , 
- item.raison_social , 
- item.reference_fiscal , 
- item.type,
- <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
- item.regime_fiscal,
- item.forme_juridique ,
-<DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
- item.RIB
-]);
-
-  // Get data from bakend type Proces verbeaux
-  
-  useEffect(() => {
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/typeprevision')
-      .then((response) => setTypePrev(response.data))
-      .catch((error) => console.error(error));
-  }, []);
-
-  // login modal immatirculation
-  const [code, setCode] = useState('');
-  const [mdp, setMdp] = useState('');
-
-
-  
-  const handleLogin = () => {
-    // Replace with your API endpoint for user authentication
-    const apiUrl = 'http://localhost:3500/user/auth';
-
-    // Create a request body with user input
-    const requestBody = {
-      "code": code,
-      "mdp": mdp,
-    };
-
-    axios
-      .post(apiUrl, requestBody)
-      .then((response) => {
-        const userData = response.data;
-        console.log(userData)
-        // Check if the user is authenticated and has immatriculation_prise_charge set to true
-        if (userData.login && userData.immatriculation_prise_charge) {
-          // Redirect to the desired page if the condition is met
-          
-          setModalLogin(false);
-          
-          setMdp('');
-          setCode('');
-          
-          
-           // Call createWindow function here
-    window.open('http://localhost:3000/PriseEnCharge' )
-        } else {
-          setIsModalError(true);
-        }
-      })
-      .catch((error) => {
-        console.error('Login error:', error);
+   useEffect(() => {
+    if (searchPriseEnCharge) {
+      setIsLoading(true);
+      // Effectuer une requête API en utilisant Axios
+      axios.get(`http://localhost:3500/client/${searchPriseEnCharge}`)
+        .then((response) => {
+          setData(response.data);
+          console.log(data)
+        setIsLoading(false);
        
-        setIsModalErrorServer(true);
-      });
-  };
-
-
-
-  const generateId = () => {
-    const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const length = Math.floor(Math.random() * (10 - 8 + 1)) + 8;
-    let randomString = "";
-    for (let i = 0; i < length; i++) {
-      randomString += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return randomString;
-  };
-
-  
-  const [randomNumbers, setRandomNumbers] = useState('');
-
-  const generateNumbers = () => {
-    setRandomNumbers(generateId());
-  };
-
- console.log(DataSelectedPriseEnCharge)
-  const handleEnregistrementDecl = () => {
-      const ValueEnregistrementPeriodique = {
-    "numero_impot": DataSelected.numero_impot,
-    "annee" : value.annee,
-    "base_impot" : DataSelected.libelle , 
-    "montant_a_payer":value.montant_a_payer,
-    "montant_verser": value.montant_a_payer,
-    "reste_a_payer": value.reste_a_payer,
-    "type_payment":value.mode_de_payement,
-    "numero_cheque": value.numero_cheque,
-    "code_banque": selectCodeBanque.id,
-    "numero_recepisse": randomNumbers,
-    "periode":value.periode,
-    "transporteur":value.transporteur,
-    "periode1": value.periode1,
-    "periode2":value.periode2,
-    "type_prevision":value.type_prev,
-    "reference_fiscal": DataSelectedPriseEnCharge.reference_fiscal,
-    "raison_social": DataSelectedPriseEnCharge.raison_social,
-    "activite": activite.activite ,
-    "adresse": siege.adresse_actuel,
-    "commune": siege.commune,
-    "abbreviation_type_payment": value.type_payment,
-    "numero_immatriculation": value.numero_immatriculation , 
-    "annulation": value.annulation ,
-    "user": user.code
-      };
-    
-      console.log(ValueEnregistrementPeriodique)
-      // Send the updated data to the backend
-      axios.post('http://localhost:3500/recette/declarationperiodique', ValueEnregistrementPeriodique)
-        .then((response) => {       // Handle the response from the backend, if needed
-        setEnregistementDeclaration(true);
-
         })
         .catch((error) => {
-          console.error('Error sending verification data:', error);
-          setErrorEnregistrementDecleration(true);
+          console.error(error);
         });
     }
   
+  }, [searchPriseEnCharge , data , setIsLoading]);
   
-const [valueNonPeriodique , setValueNonPeriodeique] = useState({
-  raison_social: "",
-  nom_commercial:"",
-  fokontany : "",
-  adresse : "",
-  CIN : "",
-  Motif: ""
-})
-
-const navigate = useNavigate()
-
-
-// options data 
-const optionsTypePrev = TypePrev.map(item => ({
-  value: item.type_prevision, // La chaîne de caractères pour l'option
-  label: item.type_prevision  // La chaîne de caractères pour l'étiquette
-}));
-
-
-const [currentDateTime, setCurrentDateTime] = useState(new Date());
-
-useEffect(() => {
-  const interval = setInterval(() => {
-    setCurrentDateTime(new Date());
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, []);
-
-// Function to format date in "dd/mm/yyyy hh:mm:ss" format
-const formatDate = (date) => {
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-  const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const seconds = date.getSeconds().toString().padStart(2, '0');
-
-  return `${day}/${month}/${year} à ${hours}:${minutes}:${seconds}`;
-};
-
-
-
-
-
-const ModeDePayement  = ModeDePayment.map((item)=>({value : item , label : item}))
+  
+    // Value of Enregistement déclaration
+    const [value , setValue] = useState(
+    {
+      numero_impot : "",
+      annee: "",
+      montant_a_payer:"",
+      montant_verser : "",
+      reste_a_payer : "",
+      type_payment: "",
+      numero_cheque : "",
+      code_banque : "",
+      numero_recepisse : "",
+      periode : "",
+      transporteur : false,
+      periode1 : "",
+      periode2 : "",
+      reference_fiscal : "",
+      mode_de_payement : "",
+      immatriculation_vehicule: "",
+      raison_social: "",
+      nom_commercial : "",
+      adresse : "",
+      commune:"",
+      nom_commercial_banque : "",
+      rib: "",
+      date_cloture_exercice: "",
+      type_prev:"",
+      amende_penalite:"",
+      numero_immatriculation: "",
+      annulation : false 
+    }
+    );
+  
+  // liste mode de payment 
+  const ModeDePayment = [
+    "Cheque",
+     "Espece",
+      "Virement",
+      "Dépot",
+      "Trésor",
+      "BAR",
+      "Autre"
+  
+  ]
+  
+  
+  
+    const NavbarContent = (
+      <div className='flex justify-between'>
+      <div className='text-white font-semibold'>
+     Modification Enregistrement des titres de recette ou des déclarations
+          </div>
+          <div>
+            <BackButton to="/DelivranceDuplicataRecepisse"></BackButton>
+          </div>
+      </div>
+        )
+  
+        //Modal Content Impot 
+      const navbarModalImpot = (
+        <>
+        <Label text="Des impôts " className="font-bold"></Label>
+        </>
+      )
+  //Modal navbar content Code Banque 
+  const navbarModalCodeBanque = (
+    <>
+    <Label text="Code Banque " className="font-bold"></Label>
+    </>
+  )
+  
+  // Modal navbar Prise en charge 
+  const NavbarModalPriseEnCharge = (
+    <>
+    <Label text="Prise en charge" className="font-bold"></Label>
+    </>
+    )
+      //Data code impot include in the Table  
+      useEffect(() => {
+   
+        // Récupérer les données depuis le backend
+        axios.get('http://localhost:3500/code/impot')
+          .then((response) => setDataImpot(response.data))
+          .catch((error) => console.error(error));
+      }, []);
+  
+      
+    const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" , "Chapitre" , "Groupe d'impot" ];
+    const dataContentTable = DataImpot.map(item => [item.numero_impot, item.libelle , item.abreviation , item.pcop , item.numero_budget , item.numero_classes , item.chapitre , item.groupe_impot ]);
+   
+    const handleTableRowClick = (rowIndex) => {
+      setSelectedRowIndex(rowIndex);
+      // Update input fields or perform other actions based on the selected row data
+      const selectedRowData = DataImpot[rowIndex];
+     setDataSelected(selectedRowData)
+      setIsModalImpot(false);
+    };
+    
+    const handleTableRowClickCodeBanque = (rowIndex) => {
+      setSelectedRowIndexCodeBanque(rowIndex);
+      // Update input fields or perform other actions based on the selected row data
+      const selectedRowDataCode = CodeBanque[rowIndex];
+     setSelectCodeBanque(selectedRowDataCode)
+      setModalCodeBanque(false);
+    };
+  
+  //Data select code fokontany
+  const handleTableRowClickCodeFokontany = (rowIndex) => {
+    setSelectedRowIndexCodeFokontany(rowIndex);
+    // Update input fields or perform other actions based on the selected row data
+    const selectedRowDataCode = DataCodeFokontany[rowIndex];
+   setDataCodeFokontanySelect(selectedRowDataCode)
+    setModalFokontany(false);
+  };
+  
+  
+  
+  
+    useEffect(() => {
+      // Récupérer les données depuis le backend avec le terme de recherche
+      axios.get(`http://localhost:3500/code/impot/${searchTerm}`)
+        .then((response) => setDataSelected(response.data))
+        .catch((error) => console.error(error));
+    }, [searchTerm]);
+    
+  
+    // code banque select
+  
+    useEffect(() => {
+      // Récupérer les données depuis le backend
+      axios.get('http://localhost:3500/code/banque')
+        .then((response) => setCodeBanque(response.data))
+        .catch((error) => console.error(error));
+    }, []);
+  
+    const HeaderCodeBanque= ["numéro", "Raison social", "Nom commercial"];
+    const DataCodeBanque = CodeBanque.map(item => [item.id, item.raison_social, item.nom_commercial]);
+  
+    // Fonction Modal Fokontany 
+  
+    useEffect(() => {
+     
+      // Récupérer les données depuis le backend
+      axios.get('http://localhost:3500/code/geographique')
+        .then((response) => setDataCodeFokontany(response.data))
+        .catch((error) => console.error(error));
+    }, []);
+  
+    const headerFokontany = [  "Arrondissement ","Code Fokontany","Fokotany"];
+    const formattedDataFokontany = DataCodeFokontany.map((item) => [
+      
+      item.arrondisement,
+      item.fokontany,
+      item.libelle
+    
+    ]);
+  
+    const ModalNavbarCodeFokontany = (
+      <>
+      <Label text="Code Fokontany " className="font-bold"></Label>
+      </>
+    )
+   
+  
+  
+    const [Contribuable , setContribuable ] = useState([]);
+    const [searchTermPriseEnCharge, setSearchTermPriseEnCharge] = useState("");
+   
+    useEffect(() => {
+     // Récupérer les données depuis le backend
+     axios.get('http://localhost:3500/prisecharge/contribuable/encharge')
+       .then((response) => setContribuable(response.data))
+       .catch((error) => console.error(error));
+   }, []);
+  
+  
+   //select Data prise en charge 
+   const handleTableRowClickPriseEnCharge = (rowIndex) => {
+    // Check if the row is already selected
+    if (selectedRowIndexPriseEnCharge === rowIndex) {
+      // Deselect the row if it is already selected
+      setSelectedRowIndexPriseEnCharge(null);
+      setDataSelectdPriseEnCharge(null);
+    } else {
+      // Select the row
+      setSelectedRowIndexPriseEnCharge(rowIndex);
+      const selectedRowDataPriseEnChage = Contribuable[rowIndex];
+      setDataSelectdPriseEnCharge(selectedRowDataPriseEnChage);
+    }
+    setModalPriseCharge(false);
+  };
+  
+   const handleSearch = (e) => {
+     setSearchTermPriseEnCharge(e.target.value);
+   };   
+  
+  const filteredData = Contribuable.filter((item) => 
+   item.id && item.id.toLowerCase().includes(searchTermPriseEnCharge.toLowerCase())
+   );
+   
+  
+   const {siege} = DataSelectedPriseEnCharge ;
+   const {activite} = DataSelectedPriseEnCharge ;
+  // Header table client
+  const ClientHeaders = ["Ref démandé", "Raison social",  "Référence Fiscal" , "type" , " Date autorisation" , "Régime fiscal" , "Forme juridique" , "Date de création" , "RIB"];
+  // Data client Table
+  const ClientData = filteredData.map((item) =>[
+   item.id , 
+   item.raison_social , 
+   item.reference_fiscal , 
+   item.type,
+   <DateFormatConverter isoDate={item.date_agrement}></DateFormatConverter> ,
+   item.regime_fiscal,
+   item.forme_juridique ,
+  <DateFormatConverter isoDate={item.date_creation}></DateFormatConverter> ,
+   item.RIB
+  ]);
+  
+    // Get data from bakend type Proces verbeaux
+    
+    useEffect(() => {
+      // Récupérer les données depuis le backend
+      axios.get('http://localhost:3500/code/typeprevision')
+        .then((response) => setTypePrev(response.data))
+        .catch((error) => console.error(error));
+    }, []);
+  
+    // login modal immatirculation
+    const [code, setCode] = useState('');
+    const [mdp, setMdp] = useState('');
+  
+  
+    
+    const handleLogin = () => {
+      // Replace with your API endpoint for user authentication
+      const apiUrl = 'http://localhost:3500/user/auth';
+  
+      // Create a request body with user input
+      const requestBody = {
+        "code": code,
+        "mdp": mdp,
+      };
+  
+      axios
+        .post(apiUrl, requestBody)
+        .then((response) => {
+          const userData = response.data;
+          console.log(userData)
+          // Check if the user is authenticated and has immatriculation_prise_charge set to true
+          if (userData.login && userData.immatriculation_prise_charge) {
+            // Redirect to the desired page if the condition is met
+            
+            setModalLogin(false);
+            
+            setMdp('');
+            setCode('');
+            
+            
+             // Call createWindow function here
+      window.open('http://localhost:3000/PriseEnCharge' )
+          } else {
+            setIsModalError(true);
+          }
+        })
+        .catch((error) => {
+          console.error('Login error:', error);
+         
+          setIsModalErrorServer(true);
+        });
+    };
+  
+  
+  
+    const generateId = () => {
+      const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      const length = Math.floor(Math.random() * (10 - 8 + 1)) + 8;
+      let randomString = "";
+      for (let i = 0; i < length; i++) {
+        randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return randomString;
+    };
+  
+    
+    const [randomNumbers, setRandomNumbers] = useState('');
+  
+    const generateNumbers = () => {
+      setRandomNumbers(generateId());
+    };
+  
+   
+    const handleEnregistrementDecl = () => {
+        const ValueEnregistrementPeriodique = {
+      "numero_impot": DataSelected.numero_impot,
+      "annee" : value.annee,
+      "base_impot" : DataSelected.libelle , 
+      "montant_a_payer":value.montant_a_payer,
+      "montant_verser": value.montant_a_payer,
+      "reste_a_payer": value.reste_a_payer,
+      "type_payment":value.mode_de_payement,
+      "numero_cheque": value.numero_cheque,
+      "code_banque": selectCodeBanque.id,
+      "numero_recepisse": randomNumbers,
+      "periode":value.periode,
+      "transporteur":value.transporteur,
+      "periode1": value.periode1,
+      "periode2":value.periode2,
+      "type_prevision":value.type_prev,
+      "reference_fiscal": DataSelectedPriseEnCharge.reference_fiscal,
+      "abbreviation_type_payment": value.type_payment,
+      "numero_immatriculation": value.numero_immatriculation , 
+      "annulation": value.annulation ,
+      "user": user.code
+        };
+      
+        console.log(ValueEnregistrementPeriodique)
+        // Send the updated data to the backend
+        axios.post('http://localhost:3500/recette/declarationperiodique', ValueEnregistrementPeriodique)
+          .then((response) => {       // Handle the response from the backend, if needed
+          setEnregistementDeclaration(true);
+  
+          })
+          .catch((error) => {
+            console.error('Error sending verification data:', error);
+            setErrorEnregistrementDecleration(true);
+          });
+      }
+    
+    
+  const [valueNonPeriodique , setValueNonPeriodeique] = useState({
+    raison_social: "",
+    nom_commercial:"",
+    fokontany : "",
+    adresse : "",
+    CIN : "",
+    Motif: ""
+  })
+  
+  const navigate = useNavigate()
+  
+  
+  // options data 
+  const optionsTypePrev = TypePrev.map(item => ({
+    value: item.type_prevision, // La chaîne de caractères pour l'option
+    label: item.type_prevision  // La chaîne de caractères pour l'étiquette
+  }));
+  
+  const ModeDePayement  = ModeDePayment.map((item)=>({value : item , label : item}))
   return (
+
     <div className='bg-[#212122] h-full w-full p-4'>
      <Navbar content={NavbarContent}></Navbar>
      <div className='p-2 flex justify-between'>
@@ -457,11 +426,7 @@ const ModeDePayement  = ModeDePayment.map((item)=>({value : item , label : item}
       <Button children="N° impot" className="ml-2" onClick={()=> {setIsModalImpot(true)}}></Button>
       <Button children="Attribution ou Mise à jour RF" onClick={()=> setModalLogin(true)} className="ml-2"></Button>
       <Button children="Régisseur" onClick={()=> navigate('/EnregistrementDeclarartionRegisseur')} className="ml-2"></Button>
-      <div className='flex flex-col ml-4'>
-  <Label text="Ce programme à été lancé le "></Label>
-  <p className='text-white text-lg mt-2'>{formatDate(currentDateTime)}</p>
- 
- </div> 
+      
 </div>
       <div className='flex flex-row'>
        <Label text="Numéro" className="mt-4"></Label>
@@ -818,4 +783,4 @@ onSearch={()=> setModalCodeBanque(true)}
   )
 }
 
-export default EnregistrementTitre
+export default ModificationPeriodique

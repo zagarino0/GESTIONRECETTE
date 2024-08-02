@@ -5,17 +5,11 @@ import Table from '../../../components/table/Table';
 import { Button } from '../../../components/button/button';
 import BackButton from '../../../components/button/BackButton';
 import { Navbar } from '../../../components/navbar/Navbar';
-import Checkbox from '../../../components/button/Checkbox';
+
 import axios from 'axios';
 import * as XLSX from 'xlsx';
+import SearchInput from '../../../components/input/SearchInput';
 function ResteRecouvrerDeuxDate() {
-  const [selectedOption, setSelectedOption] = useState(true);
-  const [value , setValue] = useState({
-    
-    date_init:"",
-    date_fin:"",
-    nif:""
-  });
   
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
@@ -39,165 +33,98 @@ function ResteRecouvrerDeuxDate() {
     return `${day}/${month}/${year} à ${hours}:${minutes}:${seconds}`;
   };
 
-  const [Response , setResponse] = useState([]);
-  
-const HandleData = async() => {
-const baseUrl = `http://localhost:3500/gestion`
-
-  try {
-
-
-    const response = await axios.post(`${baseUrl}/restearecouvrer/deuxdate`, {
-      date_init: value.date_init,
-      date_fin: value.date_fin,
-      reference_fiscal : value.nif      
-    });
-  console.log(value.date_init)
-  console.log(value.date_fin)
-  
-    // Extract the data property from the response
-    const BetweenToDate = response.data;
-    console.log(BetweenToDate);
-    setResponse(BetweenToDate);
-   
-   } catch (error){
-    console.error(`l'erruer est`,error)
-   }
-}
-
-  
-  const headers = [  "Référence fiscal",
-  "Base impôt",
-  " P1 ",
-   "P2" , 
-   "Année",
-  "Reste à recouvrer",
-  "Transporteur",
-  "Type de payement",
-  "Montant à payer",
-  "Montant verser",
-  "code banque",
-  "date de création",
-  "numéro de chèque",
-  "numéro impôt",
-  "numéro récépissé",
-  "periode",
-  "Selectionné"
-];
-
-const [valueSelected, setValueSelected] = useState([]);
 
 
 
-const handleCheckboxChange = (item) => {
-  // Check if the item is already selected
-  const isSelected = valueSelected.some((selectedItem) => selectedItem.id === item.id);
 
-  if (isSelected) {
-    // If selected, remove it from the array
-    const updatedSelection = valueSelected.filter((selectedItem) => selectedItem.id !== item.id);
-    setValueSelected(updatedSelection);
-  } else {
-    // If not selected, add it to the array
-    setValueSelected([...valueSelected, item]);
-  }
 
-  console.log('Selected values:', valueSelected);
+
+const [recepisse, setRecepisse] = useState([]);
+const [searchTerm, setSearchTerm] = useState('');
+const [startDate, setStartDate] = useState('');
+const [endDate, setEndDate] = useState('');
+
+useEffect(() => {
+  // Récupérer les données depuis le backend
+  axios.get('http://localhost:3500/recette/getEnregistrementdeclaration')
+    .then((response) => setRecepisse(response.data))
+    .catch((error) => console.error(error));
+}, []);
+
+// Filtrer les données par référence fiscale et date
+const filteredData = recepisse.filter((item) =>
+  item.reference_fiscal && item.reference_fiscal.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const filteredRecepisse = filteredData.filter(item => {
+  const itemDate = new Date(item.date_creation);
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  return (!startDate || itemDate >= start) && (!endDate || itemDate <= end);
+});
+
+// Calculer le total par type de paiement
+const calculateTotal = (type) => {
+  return filteredRecepisse
+    .filter(item => item.type_payment.trim().toLowerCase() === type.toLowerCase())
+    .reduce((total, item) => total + parseFloat(item.reste_a_payer || 0), 0);
 };
 
+// Calcul du total des montants annulés
+const totalMontantAnnuler = recepisse
+  .filter(item => item.annulation === true)
+  .reduce((total, item) => total + parseFloat(item.reste_a_payer || 0), 0);
 
+// Calcul des différents totaux par type de paiement
+const totalMontantVerserVirement = calculateTotal("virement");
+const totalMontantVerserEspece = calculateTotal("espece");
+const totalMontantVerserCheque = calculateTotal("cheque");
+const totalMontantVerserAutre = calculateTotal("autre");
+const totalMontantVerserBar = calculateTotal("bar");
+const totalMontantVerserTresor = calculateTotal("trésor");
+const totalMontantVerserDepot = calculateTotal("dépot");
 
+// Calcul du total à payer
+const totalMontantAPayer = totalMontantVerserVirement +
+  totalMontantVerserEspece +
+  totalMontantVerserCheque +
+  totalMontantVerserAutre +
+  totalMontantVerserBar +
+  totalMontantVerserTresor +
+  totalMontantVerserDepot - totalMontantAnnuler;
 
-  // data Table components  
- const data = Array.isArray(Response) ? Response.map(item => [
-  item.reference_fiscal , 
-  item.base_impot,
-  item.periode1, 
-  item.periode2  ,
-  item.annee ,
-  item.reste_a_payer , 
-  <Checkbox value={item.transporteur} onChange={() => handleCheckboxChange(item.id)} ></Checkbox>,
-  item.type_payment,
-  item.montant_a_payer,
-  item.motant_verser,
-  item.code_banque,
-  item.date_creation,
-  item.numero_cheque,
-  item.numero_impot,
-  item.numero_recepisse,
-  item.periode,
-  <Checkbox
-  value={valueSelected.some((selectedItem) => selectedItem.id === item.id)}
-  onChange={() => handleCheckboxChange(item)}
-  className="hover:cursor-pointer"
-></Checkbox>,
-]) : [];
+// Définir les en-têtes de la table
+const headers = ['N° Récepissé', 'Référence Fiscal', 'année', "Période", 'P1', 'P2', "Impôt", "Nature Impôt", "montant à payer", "montant à verser", "reste à payer", "Code Banque", "Mode de payment"];
 
-const sumResteAPayer = data.reduce((accumulator, item) => {
-  const resteAPayer = parseFloat(item[5]) || 0; // Assuming "reste_a_payer" is a number
-  return accumulator + resteAPayer;
-}, 0);
+// Formater les données pour l'affichage et l'export
+const formattedData = filteredRecepisse.map(item => ({
+  'N° Récepissé': item.numero_recepisse,
+  'Référence Fiscal': item.reference_fiscal,
+  'année': item.annee,
+  'Période': item.periode,
+  'P1': item.periode1,
+  'P2': item.periode2,
+  'Impôt': item.numero_impot,
+  'Nature Impôt': item.base_impot,
+  'montant à payer': item.montant_a_payer,
+  'montant à verser': item.montant_verser,
+  'reste à payer': item.reste_a_payer,
+  'Code Banque': item.code_banque,
+  'Mode de payment': item.type_payment
+}));
 
-
+// Fonction pour exporter les données en Excel
 const exportToExcel = () => {
-  const selectedData = valueSelected.map((item) => ({
-    "Référence Fiscal": item.reference_fiscal,
-   " Base Impôt": item.base_impot,
-  " P1 ": item.periode1, 
-   "P2" : item.periode2  ,
-   "Année": item.annee ,
-  "Reste à recouvrer": item.reste_a_payer , 
-  "Transporteur": item.transporteur,
-  "Type de payement" : item.type_payment,
-  "Montant à payer": item.montant_a_payer,
-  "Montant verser" : item.motant_verser,
-  "code banque" : item.code_banque,
-  "date de création" : item.date_creation,
-  "numéro de chèque" : item.numero_cheque,
-  "numéro impôt" :item.numero_impot,
-  "numéro récépissé": item.numero_recepisse,
-  "periode":item.periode,
-
-    // ... add other properties you want to export
-  }));
-
-  const ws = XLSX.utils.json_to_sheet(selectedData);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'SelectedData');
-  XLSX.writeFile(wb, 'données.xlsx');
+  // Convertir le tableau d'objets en une feuille de calcul Excel
+  const worksheet = XLSX.utils.json_to_sheet(formattedData);
+  // Créer un nouveau classeur Excel
+  const workbook = XLSX.utils.book_new();
+  // Ajouter la feuille de calcul au classeur
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Recepisse Data");
+  // Générer et télécharger le fichier Excel
+  XLSX.writeFile(workbook, 'recettes_a_recouvrer.xlsx');
 };
 
-
-// ...
-
-const exportToExcelAllData = () => {
-  const allData = Response.map((item) => ({
-    "Référence Fiscal": item.reference_fiscal,
-    " Base Impôt": item.base_impot,
-    " P1 ": item.periode1,
-    "P2": item.periode2,
-    "Année": item.annee,
-    "Reste à recouvrer": item.reste_a_payer,
-    "Transporteur": item.transporteur,
-    "Type de payement": item.type_payment,
-    "Montant à payer": item.montant_a_payer,
-    "Montant verser": item.motant_verser,
-    "code banque": item.code_banque,
-    "date de création": item.date_creation,
-    "numéro de chèque": item.numero_cheque,
-    "numéro impôt": item.numero_impot,
-    "numéro récépissé": item.numero_recepisse,
-    "periode": item.periode,
-    // ... add other properties you want to export
-  }));
-
-  const ws = XLSX.utils.json_to_sheet(allData);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'AllData');
-  XLSX.writeFile(wb, 'all_data.xlsx');
-};
-
-// ...
 
 const NavbarContent = (
     <div className='flex justify-between'>
@@ -210,7 +137,7 @@ const NavbarContent = (
     </div>
       )
       return (
-        <div  className='bg-[#212122] h-screen w-screen'>
+        <div  className='bg-[#212122] h-screen w-full'>
             <Navbar content={NavbarContent}></Navbar>
      <div className='m-4'>
            <div className='bg-black p-4 flex justify-between rounded'>
@@ -219,77 +146,47 @@ const NavbarContent = (
       <div className='flex flex-col'>
       <Label text="Du "></Label>
       <Input type="date" className="mt-2"
-      value={value.date_init}
-      onChange={(e)=> setValue({...value , date_init: e.target.value})}
+      
+      onChange={(e)=> setStartDate(e.target.value)}
       ></Input>
       </div>
      <div className='flex flex-col ml-4'>
      <Label text="Au "></Label>
      <Input type="date"  className="mt-2"
-     value={value.date_fin}
-     onChange={(e)=> setValue({...value , date_fin: e.target.value})}
+     onChange={(e)=> setEndDate(e.target.value)}
      ></Input>
      </div>
-      </div>
-      {selectedOption === false && (
-  <div className='flex flex-col '>
+     <div className='flex flex-col ml-4'>
     <Label text="Référence Fiscal "></Label>
-    <Input
-      type="text"
-      className="mt-2"
-      value={value.nif}
-      onChange={(e) => setValue({ ...value, nif: e.target.value })}
-    ></Input>
+    <SearchInput onChange={(e)=> setSearchTerm(e.target.value)} className={"mt-2"}></SearchInput>
   </div>
-)}
-
-     </div>
-      <div className='bg-black p-4 mt-2 flex justify-between rounded'>
-      <div className='flex flex-col '>
+  <div className='flex flex-col ml-4'>
       <Label text="Ce programme à été lancé le "></Label>
       <p className='text-white text-lg mt-2'>{formatDate(currentDateTime)}</p>
      
      </div>
-     
-     <div className='flex flex-col  '>
+     <div className='flex flex-col ml-4 '>
       <Label text="Reste à recouvrer "></Label>
-      <p className='text-white text-xl mt-2'>{sumResteAPayer}</p>
+      <p className='text-white text-xl mt-2'>{totalMontantAPayer}</p>
      </div>
+      </div>
+  
+
      </div>
-     <div className='p-4 bg-black mt-2 rounded '>
-       <p className='text-white text-xl font-semibold'>Impréssion régroupé par RF</p>
-       <div className="mt-2">
-  <label className="text-white">
-    <input
-      type="radio"
-      value="Total"
-      className='mr-2'
-      checked={selectedOption === true}
-      onChange={() => setSelectedOption(true)}
-    />
-    Total
-  </label>
-  <label className='text-white ml-4'>
-    <input
-      type="radio"
-      value="ParRF"
-      className='mr-2'
-      checked={selectedOption === false}
-      onChange={() => setSelectedOption(false)}
-    />
-    Par RF
-  </label>
-</div>
+      <div className='bg-black p-4 mt-2 flex justify-between rounded'>
+      
+     
+     
      </div>
+     
      <div className='mt-2  flex justify-center '>
-     <Table headers={headers} data={data} classTable="overflow-y-auto h-60 "  classNameTd="hover:bg-gray-200 " ></Table>
+     <Table headers={headers} data={formattedData.map(item => Object.values(item))}></Table>
      </div>
      <div className='flex justify-between mt-2'>
      
-       <Button type="submit" onClick={HandleData} children="Executer" ></Button>
        <Button children="Rafraîchir" onClick={()=> window.location.href = "/ResteRecouvrerDeuxDate"} ></Button>
        <Button  children="Vers Excel" onClick={exportToExcel} ></Button>
-       <Button  children="Vers Excel tous les Données" onClick={exportToExcelAllData} ></Button>
+       <Button  children="Vers Excel tous les Données"  ></Button>
        <Button  children="Imprimer Mise en Demeure" onClick={ () => {window.location.href = "/TitrePerceptio"}} ></Button>
        <Button  children="Imprimer par nature Impot" onClick={() => {window.location.href="/ListeNatureImpot"}}></Button>
      </div>

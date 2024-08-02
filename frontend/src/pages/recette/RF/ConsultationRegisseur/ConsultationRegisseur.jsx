@@ -5,13 +5,13 @@ import SearchInput from '../../../../components/input/SearchInput'
 import { Navbar } from '../../../../components/navbar/Navbar'
 import BackButton from '../../../../components/button/BackButton'
 import axios from 'axios'
-
+import { useNavigate } from 'react-router-dom'
 function ConsultationRegisseur() {
   const [recepisse , setRecepisse] = useState([]);
   const [searchTerm , setSearchTerm] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Récupérer les données depuis le backend
     axios.get('http://localhost:3500/recette/getAllEnregistrementDeclarationNonPeriodique')
@@ -67,6 +67,31 @@ function ConsultationRegisseur() {
     }
   };
 
+
+    // Sélection de données
+    const [DataSelected, setDataSelected] = useState([]);
+    const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  
+    const handleTableRowClick = (rowIndex) => {
+      if (selectedRowIndex === rowIndex) {
+        // Désélectionner la ligne si elle est déjà sélectionnée
+        setSelectedRowIndex(null);
+        setDataSelected(null);
+      } else {
+        // Sélectionner la ligne
+        setSelectedRowIndex(rowIndex);
+        const selectedRowData = recepisse[rowIndex];
+        setDataSelected(selectedRowData);
+      }
+    };
+  
+    useEffect(() => {
+      // Stocker les données sélectionnées dans localStorage
+      localStorage.setItem("selectedDataRecetteRegisseur", JSON.stringify(DataSelected));
+      console.log(DataSelected);
+    }, [DataSelected]);
+  
+
   const NavbarContent = (
     <div className='flex justify-between'>
       <div className='text-white font-semibold'>
@@ -99,11 +124,14 @@ function ConsultationRegisseur() {
         </div>
         <div className='flex justify-center'>
           <div ref={printRef} className='flex flex-col mt-14 overflow-y-auto w-[1600px]'>
-            <Table headers={headers} data={formattedData}></Table>
+            <Table headers={headers} data={formattedData} onClick={handleTableRowClick} selectedRowIndex={selectedRowIndex}></Table>
           </div>
         </div>
         <div className='flex justify-between mt-4'>
+        
           <Button children="Imprimer" onClick={downloadPDF}></Button>
+          <Button children="Annuler" ></Button>
+          <Button children="Modifier" onClick={()=> navigate("/ModificationNonPeriodique")}></Button>
           <Button children="Rafraîchir" onClick={() => window.location.reload()}></Button>
         </div>
       </div>

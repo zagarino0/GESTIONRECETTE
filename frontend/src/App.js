@@ -96,6 +96,9 @@ import ImpressionSituationDeRecette from "./pages/recette/SituationRecettte/Impr
 import EtatDetailleAvisCreditRecusBCM from "./pages/recette/SituationRecettte/EtatDetailleAvisCreditRecusBCM";
 import EnregistrementDeclarartionRegisseur from "./pages/recette/SaisieDeclaration/EnregistrementDeclarartionRegisseur";
 import ConsultationRegisseur from "./pages/recette/RF/ConsultationRegisseur/ConsultationRegisseur";
+import ImpressionQuitance from "./pages/recette/SaisieDeclaration/ImpressionQuitance";
+import ModificationPeriodique from "./pages/recette/SaisieDeclaration/ModificationPeriodique";
+import ModificationNonPeriodique from "./pages/recette/SaisieDeclaration/ModificationNonPeriodique";
 
 function App() {
   
@@ -136,8 +139,11 @@ function App() {
      <Route path="/EtatDetailleAvisCreditRecusBCM" element={<EtatDetailleAvisCreditRecusBCM/>}></Route>
      <Route path="/EnregistrementDeclarartionRegisseur" element={< EnregistrementDeclarartionRegisseur/>}></Route>
      <Route path="/ConsultationRegisseur" element={<ConsultationRegisseur/>}></Route>
+     <Route path="/ImpressionQuitance" element={<ImpressionQuitance/>}></Route>
+     <Route path="/ModificationPeriodique" element={<ModificationPeriodique/>}></Route>
+     <Route path="/ModificationNonPeriodique" element={<ModificationNonPeriodique/>}></Route>
      
-    
+     
      <Route path="/gestion" element={<Gestion/>}></Route>
      <Route path="/SituationNatureImpot" element={<SituationNatureImpot/>}></Route>
      <Route path="/GestionDossier" element={<GestionDossier/>}></Route>

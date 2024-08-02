@@ -17,20 +17,24 @@ function LoginRecette() {
   const handleLogin = () => {
     // Replace with your API endpoint for user authentication
     const apiUrl = 'http://localhost:3500/user/auth';
-
+  
     // Create a request body with user input
     const requestBody = {
-      "code": code,
-      "mdp": mdp,
+      code: code,
+      mdp: mdp,
     };
-
+  
     axios
       .post(apiUrl, requestBody)
       .then((response) => {
         const userData = response.data;
-        console.log(userData)
+        console.log(userData);
+        
+        // Store the userData in localStorage
+        localStorage.setItem('userDataRecette', JSON.stringify(userData));
+        
         // Check if the user is authenticated and has immatriculation_prise_charge set to true
-        if ( userData.immatriculation_prise_charge === true) {
+        if (userData.immatriculation_prise_charge === true) {
           // Redirect to the desired page if the condition is met
           navigate('/saisiDeclarationRecette');
         } else {
@@ -39,10 +43,10 @@ function LoginRecette() {
       })
       .catch((error) => {
         console.error('Login error:', error);
-       
         setIsModalErrorServer(true);
       });
   };
+  
 
   return (
     <div className='flex items-center justify-center fixed inset-0 bg-neutral-700 transition-opacity'>
