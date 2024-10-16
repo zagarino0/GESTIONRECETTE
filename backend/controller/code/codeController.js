@@ -204,18 +204,17 @@ const setCodeImpot = async (req, res) => {
     const chapitre = req.body.chapitre;
     const groupe_impot = req.body.groupe_impot;
 
-    const newCodeImp = [
-        [
-            numero_impot,
-            libelle,
-            abreviation,
-            pcop,
-            numero_budget,
-            numero_classes,
-            chapitre,
-            groupe_impot
-        ]
-    ]
+    const newCodeImp = {
+        
+        "numero_impot":numero_impot,
+        "libelle":libelle,
+        "abbreviation":abreviation,
+        "pcop":pcop,
+        "numero_budget":  numero_budget,
+        "numero_classes":  numero_classes,
+        "chapitre": chapitre,
+        "groupe_impot": groupe_impot
+    }
     data.setImpots([...data.impots, newCodeImp]);
     res.json(data.impots);
     await fsPromises.writeFile(

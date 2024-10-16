@@ -1,9 +1,12 @@
-import React from 'react'
+
 import Modal from '../../../components/modals/Modal'
 import { Navbar } from '../../../components/navbar/Navbar'
 import Label from '../../../components/title/label'
 import Input from '../../../components/input/Input'
 import { Button } from '../../../components/button/button'
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+
 
 function ReleveCheque(props) {
   const NavbarContent = (
@@ -16,6 +19,17 @@ function ReleveCheque(props) {
         </div>
     </div>
       )
+      const [recepisse, setRecepisse] = useState([]);
+      const [searchTerm, setSearchTerm] = useState('');
+      const [startDate, setStartDate] = useState('');
+      const [endDate, setEndDate] = useState('');
+      const navigate = useNavigate();
+      const handleSendImpression = () => {
+        
+        const routeToNavigate = '/ImpressionBordereau';
+        navigate(routeToNavigate, { state: {searchTerm , startDate, endDate, recepisse} });
+        }
+
 return (
 <div>
     <Modal isOpen={props.isOpen} onClose={props.onClose} className={props.className}>
@@ -33,7 +47,7 @@ return (
 </div>
   
 <div className='flex justify-between   p-8'>
-<Button children="Imprimer"></Button>
+<Button children="voir details" onClick={handleSendImpression}></Button>
 <Button children="Quitter" onClick={props.quitter}></Button>
 </div>
     </Modal>

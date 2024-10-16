@@ -29,11 +29,11 @@ Mise à jour des codes banques
 </div>
   )
   return (
-    <div className='bg-[#212122] h-screen w-screen'>
+    <div className='bg-[#212122] h-screen'>
     <Navbar content={NavbarContent}></Navbar>
-    <div className='mt-8 bg-[#212122] p-4 flex justify-center' >
+    <div className='mt-8 bg-[#212122]  p-4 flex justify-center' >
       
-<Table headers={headers} data={formattedData} className="w-[1000px]"></Table>
+<Table  headers={headers} data={formattedData} className="w-[1200px]"></Table>
     </div>
   </div>
   )

@@ -187,8 +187,8 @@ const NavbarContent = (
        <Button children="Rafraîchir" onClick={()=> window.location.href = "/ResteRecouvrerDeuxDate"} ></Button>
        <Button  children="Vers Excel" onClick={exportToExcel} ></Button>
        <Button  children="Vers Excel tous les Données"  ></Button>
-       <Button  children="Imprimer Mise en Demeure" onClick={ () => {window.location.href = "/TitrePerceptio"}} ></Button>
-       <Button  children="Imprimer par nature Impot" onClick={() => {window.location.href="/ListeNatureImpot"}}></Button>
+      {/** <Button  children="Imprimer Mise en Demeure" onClick={ () => {window.location.href = "/TitrePerceptio"}} ></Button> */}
+     <Button  children="Imprimer par nature Impot" onClick={() => {window.location.href="/ListeNatureImpot"}}></Button>
      </div>
         </div>
         </div>

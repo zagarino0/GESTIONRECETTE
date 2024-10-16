@@ -6,6 +6,8 @@ import Table from '../../../components/table/Table';
 import axios from 'axios';
 import SearchInput from '../../../components/input/SearchInput';
 import Input from '../../../components/input/Input';
+import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
 
 function EtatDetailleEncaissementParNatureImpot() {
 
@@ -64,34 +66,28 @@ function EtatDetailleEncaissementParNatureImpot() {
     item.type_payment
   ]);
 
-  // impression 
-  const printRef = useRef(null);
-
-  const downloadPDF = () => {
-    // Use querySelector to get the table element
-    if (printRef.current) {
-      const content = printRef.current.innerHTML;
-      const originalContent = document.body.innerHTML;
-
-      // Ajoutez une feuille de style pour l'impression
-      const printStyle = document.createElement('style');
-      printStyle.innerHTML =
-        '@media print { body { visibility: hidden; } .print-content { visibility: visible; } }';
-      document.head.appendChild(printStyle);
-
-      document.body.innerHTML = `<div class="print-content">${content}</div>`;
-
-      window.print();
-
-      // Supprimez la feuille de style après l'impression
-      document.head.removeChild(printStyle);
-
-      // Restaurez le contenu original après l'impression
-      document.body.innerHTML = originalContent;
-      window.location.reload();
+  const navigate = useNavigate();
+  const handleSendImpression = () => {
+    
+    const routeToNavigate = '/ImpressionEtatDetailleEncaissementParNatureImpot';
+    navigate(routeToNavigate, { state: {searchTerm , startDate, endDate, recepisse} });
     }
-  };
-
+  
+    const exportToExcel = () => {
+      const worksheetData = [
+        headers, // En-têtes
+        ...formattedData // Données formatées
+      ];
+  
+      // Créer une feuille de calcul
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+      // Créer un nouveau classeur Excel
+      const workbook = XLSX.utils.book_new();
+      // Ajouter la feuille de calcul au classeur
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Encaissements Data");
+      // Générer et télécharger le fichier Excel
+      XLSX.writeFile(workbook, 'etat_detaille_encaissements.xlsx');
+    };
   return (
     <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={Navbarcontent}></Navbar>
@@ -108,7 +104,7 @@ function EtatDetailleEncaissementParNatureImpot() {
             <Input type='date' className="mt-4" value={endDate} onChange={(e) => setEndDate(e.target.value)}></Input>
           </div>
         </div>
-        <div ref={printRef} className="h-[400px] p-4">
+        <div className="h-[400px] p-4">
           <div className="mb-8">
             <h2 className="text-xl text-center text-white font-bold">COMMUNE URBAINE DE MAHAJANGA</h2>
             <div className="mt-4 ml-8">
@@ -123,7 +119,11 @@ function EtatDetailleEncaissementParNatureImpot() {
               classTable={"h-[300px]"}
             ></Table>
           </div>
-          <Button children="Imprimer" onClick={downloadPDF} className="mt-4"></Button>
+          <div className='flex justify-between'> 
+            <Button children="Voir détails" onClick={handleSendImpression} className="mt-2"></Button>
+            <Button children="Exporter en excel" onClick={exportToExcel} className="mt-2"></Button>
+          </div>
+         
         </div>
       </div>
     </div>

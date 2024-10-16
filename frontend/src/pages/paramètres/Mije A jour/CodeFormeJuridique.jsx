@@ -38,7 +38,7 @@ const [ setSelectedData] = useState(null);
       console.error('Error deleting data:', error);
     }
   };
-  const headers = [ "code " , "Abréviation" , "Libellé","",""];
+  const headers = [ "code " , "Abréviation" , "Libellé","Supression","Modification"];
   const formattedData = dataCode.map(item => [item.code, item.abreviation, item.libelle ,
     <span
           key={item.code} // Make sure to use a unique key
@@ -98,7 +98,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     <Navbar content={NavbarContent}></Navbar>
     <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
     <div className=' bg-[#212122] p-4 flex justify-center' >
-        <Table headers={headers} data={formattedData} className="w-[1000px]"></Table>
+        <Table headers={headers} data={formattedData} className="w-[1200px]"></Table>
           </div>
           <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>

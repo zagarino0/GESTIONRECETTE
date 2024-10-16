@@ -99,7 +99,20 @@ import ConsultationRegisseur from "./pages/recette/RF/ConsultationRegisseur/Cons
 import ImpressionQuitance from "./pages/recette/SaisieDeclaration/ImpressionQuitance";
 import ModificationPeriodique from "./pages/recette/SaisieDeclaration/ModificationPeriodique";
 import ModificationNonPeriodique from "./pages/recette/SaisieDeclaration/ModificationNonPeriodique";
+import Impot from "./pages/paramètres/Mije A jour/Impot";
+import ListreNatureImpotSituation from "./pages/gestion/SituationEntreprise/ListreNatureImpotSituation";
+import ImpressionListreImpotSituation from "./pages/gestion/SituationEntreprise/ImpressionListreImpotSituation";
 
+import ImpressionEtatDetailleEncaissement from "./pages/recette/SituationRecettte/ImpressionEtatDetailleEncaissement";
+import ImpressionCheque from "./pages/recette/SituationRecettte/ImpressionCheque";
+import ImpressionEtatDetailleEncaissementEspece from "./pages/recette/SituationRecettte/ImpressionEtatDetailleEncaissementEspece";
+import ImpressionEtatDetailleEncaissementParNatureImpot from "./pages/recette/SituationRecettte/ImpressionEtatDetailleEncaissementParNatureImpot";
+import ImpressionEtatDetailleEncaissementBar from "./pages/recette/SituationRecettte/ImpressionEtatDetailleEncaissementBar";
+import ImpressionEtatDetailleAvisCreditRecusBCM from"./pages/recette/SituationRecettte/ImpressionEtatDetailleAvisCreditRecusBCM";
+import ImpressionTresor from "./pages/recette/SituationRecettte/ImpressionTresor";
+import ImpressionBordereau  from "./pages/recette/SituationRecettte/ImpressionBordereau";
+import ImpressionConsultationDetailRecette from "./pages/recette/Consulation/ImpressionConsultationDetailRecette"
+import ImpressionConsultationRegisseur from "./pages/recette/RF/ConsultationRegisseur/ImpressionConsultationRegisseur";
 function App() {
   
  
@@ -176,12 +189,15 @@ function App() {
      <Route path="/SituationGeographiqueIm" element={<SituationGeographiqueIm/>}></Route>
      <Route path="/RegimeFiscalIm" element={<RegimeFiscalIm/>}></Route>
      <Route path="/ConsultationImmatriculation" element={<ConsultationImmatriculation/>}></Route>
+     
 
 
 
      <Route path="/miseAJourParametre" element={<MiseAJour/>}></Route>
      <Route path="/utilitaireParametre" element={<UtilitaireParametre/>}></Route>
      <Route path="/Operateur" element={<Operateur/>}></Route>
+     <Route path="/ListreNatureImpotSituation" element={<ListreNatureImpotSituation/>}></Route>
+     <Route path="ImpressionListreImpotSituation" element={<ImpressionListreImpotSituation/>}></Route>
    
 
      <Route path="/parametreParametre" element={<Parametres/>}></Route>
@@ -202,6 +218,7 @@ function App() {
      <Route path="/obligationFiscal" element={<ObligationFiscal/>}></Route>
      <Route path="/typeProceVerbaux" element={<TypeProceVerbaux/>}></Route>
      <Route path="/operateurTelephonique" element={<OperateurTelephonique/>}></Route>
+     <Route path="/Impot" element={<Impot/>}></Route>
      
      
      <Route path="/LoginRecette" element={<LoginRecette/>}></Route>
@@ -222,6 +239,17 @@ function App() {
      <Route path="/SaisiAvisCredit" element={<SaisiAvisCredit/>}></Route>
      <Route path="/DetailAvisCredit" element={<DetailAvisCredit/>}></Route>
 
+     <Route path="/ImpressionEtatDetailleEncaissement" element={<ImpressionEtatDetailleEncaissement/>}></Route>
+     <Route path="/ImpressionEtatDetailleEncaissementEspece" element={<ImpressionEtatDetailleEncaissementEspece/>}></Route>
+     <Route path="/ImpressionEtatDetailleEncaissementBar" element={<ImpressionEtatDetailleEncaissementBar/>}></Route>
+    
+     <Route path="/ImpressionEtatDetailleEncaissementParNatureImpot" element={<ImpressionEtatDetailleEncaissementParNatureImpot/>}></Route>
+     <Route path="/ImpressionCheque" element={<ImpressionCheque/>}></Route>
+     <Route path="/ImpressionEtatDetailleAvisCreditRecusBCM" element={<ImpressionEtatDetailleAvisCreditRecusBCM/>}></Route>
+      <Route path="/ImpressionTresor" element={<ImpressionTresor/>}></Route> 
+      <Route path="/ImpressionBordereau" element={<ImpressionBordereau/>}></Route>
+      <Route path="/ImpressionConsultationDetailRecette" element={<ImpressionConsultationDetailRecette/>}></Route>
+      <Route path="/ImpressionConsultationRegisseur" element={<ImpressionConsultationRegisseur/>}></Route>
      
       </Routes>
     </Router>

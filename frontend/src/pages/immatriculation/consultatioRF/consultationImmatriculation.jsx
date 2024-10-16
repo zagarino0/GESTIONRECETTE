@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import BackButton from '../../../components/button/BackButton'
 import { Navbar } from '../../../components/navbar/Navbar'
-import Checkbox from '../../../components/button/Checkbox'
+// import Checkbox from '../../../components/button/Checkbox'
 import Input from '../../../components/input/Input'
 import Table from '../../../components/table/Table'
 import SearchInput from '../../../components/input/SearchInput'

@@ -22,5 +22,12 @@
         "gestion_prise_charge": true,
         "gestion_modification": true,
         "gestion_fin_nif": "99999"
+    },
+    {
+        "id_user": 8,
+        "gestion_debut_nif": [],
+        "gestion_prise_charge": true,
+        "gestion_modification": true,
+        "gestion_fin_nif": []
     }
 ]

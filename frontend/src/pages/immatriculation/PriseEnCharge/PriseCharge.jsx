@@ -12,7 +12,7 @@ function PriseCharge() {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [DataSelected , setDataSelected] = useState([]);      
   const navigate = useNavigate()// Initialize useHistory
-
+  const [Client , setClient ] = useState([]);
   const [Data , setData] = useState([])
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
@@ -23,8 +23,16 @@ function PriseCharge() {
   }, []);
 
 
-console.log(Data)
+  useEffect(() => {
+    // Récupérer les données depuis le backend
+    axios.get('http://localhost:3500/prisecharge/contribuable/encharge')
+      .then((response) => setClient(response.data))
+      .catch((error) => {console.error(error);alert(`Il y a une erreur :  ${error}`)});
+  }, []);
 
+console.log("Data",Data)
+
+console.log("client:",Client)
 
 const filteredData = Data.filter((item) => 
   item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -65,6 +73,7 @@ const filteredData = Data.filter((item) =>
     setIsStorageUpdated(false);
   }, [DataSelected, isStorageUpdated]);
   
+
   const handleButtonClick = () => {
     // Trigger a rerender by updating the dummy state
     setIsStorageUpdated(true);

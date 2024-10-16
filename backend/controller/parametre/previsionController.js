@@ -7,19 +7,24 @@ const fsPromises = require('fs').promises;
 const path = require('path');
 const getDataExcel = require('../../utils/ExcelData');
 
-const getAllPrevisions = (req, res) => {
-    let previsions = [];
-    const codeImpots = getDataExcel(path.join(__dirname, '..', '..', 'fixtures', 'code.xlsx'), 'code impot');
-    data.previsions.map(prev => {
-        codeImpots.map(imp => {
-            if (imp.numero_impot == prev.code_impot) {
-                previsions.push({ ...prev, ...imp })
-            }
-        })
-    })
-    res.json(previsions);
-    previsions = [];
-}
+const getAllPrevisions = async(req, res) => {
+    try {
+        // Define the path to the JSON file
+        const filePath = path.join(__dirname, '..', '..', 'model', 'parametre', 'prevision.json');
+        
+        // Read the file asynchronously
+        const data = await fsPromises.readFile(filePath, 'utf8');
+        
+        // Parse the JSON data
+        const modePayment = JSON.parse(data);
+        
+        // Send the data as a response
+        res.status(200).json(modePayment);
+    } catch (error) {
+        // Handle errors (e.g., file not found, JSON parse error)
+        res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+  };
 
 const getPrevisionById = (req, res) => {
     const id = req.params.id;
@@ -121,14 +126,25 @@ const updatePrevision = async (req, res) => {
 const deletePrevisions = async (req, res) => {
     const id = req.params.id;
     const prevision = data.previsions.find(prev => prev.id == id);
+
+    if (!prevision) {
+        return res.status(404).json({ message: "Prevision not found" });
+    }
+
     const filteredPrevisions = data.previsions.filter(prev => prev.id != prevision.id);
     data.setPrevisions([...filteredPrevisions]);
-    await fsPromises.writeFile(
-        path.join(__dirname, '..', '..', 'model', 'parametre', 'prevision.json'),
-        JSON.stringify(data.previsions)
-    );
 
-}
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'parametre', 'prevision.json'),
+            JSON.stringify(data.previsions)
+        );
+        res.status(200).json({ message: "Prevision deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error writing to file", error });
+    }
+};
+
 
 
 module.exports = {

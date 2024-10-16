@@ -11,6 +11,7 @@ import { Navbar } from '../../../../components/navbar/Navbar';
 import Modal from '../../../../components/modals/Modal';
 import ReactSelect from 'react-select';
 import Checkbox from '../../../../components/button/Checkbox';
+import { useLocation } from 'react-router-dom';
 function DateEcheancePeriode() {
   const [searchYear, setSearchYear] = useState('');
   //const [searchCode, setSearchCode] = useState('');
@@ -49,13 +50,23 @@ const handleCheckboxChangePaye_penalite = (event) => {
  
 
 
+ // Utilisation de useEffect pour charger les données
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [revenusResponse, impotResponse] = await Promise.all([
+        axios.get('http://localhost:3500/code/revenusalariaux'),
+        axios.get('http://localhost:3500/code/impot')
+      ]);
+      setDataCodeContent(revenusResponse.data);
+      setDataCodeImpot(impotResponse.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données', error);
+    }
+  };
 
-  useEffect(() => {
-    // Effectuer la requête Axios avec le paramètre d'année lorsque searchYear change
-    axios.get(`http://localhost:3500/code/revenusalariaux`)
-      .then((response) => setDataCodeContent(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+  fetchData();
+}, []);
 
   const handleSelectChange = (selectedOption) => {
     // Mettre à jour l'état avec le numéro d'impôt sélectionné
@@ -71,19 +82,7 @@ const handleCheckboxChangePaye_penalite = (event) => {
     setNumero_impot(selectedOption.value); // Ajoutez cette ligne
   };
   
-  useEffect(() => {
-    // Effectuer la requête Axios avec les paramètres d'année et de numéro d'impôt lorsque searchYear ou numero_impot change
-    axios.get(`http://localhost:3500/code/revenusalariaux/${searchYear}`)
-      .then((response) => setDataCodeContent(response.data))
-      .catch((error) => console.error(error));
-  }, [searchYear]);
   
-  useEffect(() => {
-    // Effectuer la requête Axios avec les paramètres d'année et de numéro d'impôt lorsque searchYear ou numero_impot change
-    axios.get(`http://localhost:3500/code/revenusalariaux/${selectedNumeroImpotSearch}`)
-      .then((response) => setDataCodeContent(response.data))
-      .catch((error) => console.error(error));
-  }, [ selectedNumeroImpotSearch]);
   
 
 
@@ -103,12 +102,6 @@ const handleCheckboxChangePaye_penalite = (event) => {
  const selectedLibelleModifi = dataCodeImpot.find((item) => item.numero_impot === selectedNumeroImpotModifi);
  const selectedLibelleSearch = dataCodeImpot.find((item) => item.numero_impot === selectedNumeroImpotSearch);
 
-  useEffect(() => {
-    // Récupérer les données depuis le backend
-    axios.get('http://localhost:3500/code/impot')
-      .then((response) => setDataCodeImpot(response.data))
-      .catch((error) => console.error(error));
-  }, []);
   
 
 
@@ -160,41 +153,31 @@ const handleCheckboxChangePaye_penalite = (event) => {
 
   
     
-  console.log(dataCodeContent)
-  const data = dataCodeContent.length > 0
-  ? dataCodeContent.map((item) => [
-      item.numero_impot,
-      item.libelle,
-      item.annee,
-      item.p1,
-      item.p2,
-      item.date_debut_paiement,
-      item.date_fin_paiement,
-      item.jour,
-      item.type,
-      <Checkbox value={item.paye_amende} />,
-      <Checkbox value={item.paye_penalite} />,
-      item.valeur_amende,
-      item.taux_penalite,
-      <span
-        key={item.id}
-        className='cursor-pointer'
-        onClick={() => handleDelete(item.id)}
-      >
-        <RiDeleteBinLine />
-      </span>,
-      <span
-        key={`edit-${item.id}`}
-        className='cursor-pointer'
-        onClick={() => {
-          setSelectedEditData(item);
-          setIsModalOpenModifi(true);
-        }}
-      >
-        <BsPencil />
-      </span>
-    ])
-  : [];
+  console.log("data",dataCodeContent)
+  const data =  dataCodeContent.map((item) => [
+    item.numero_impot,
+    item.libelle,
+    item.annee,
+    item.p1,
+    item.p2,
+    item.date_debut_paiement,
+    item.date_fin_paiement,
+    item.jour,
+    item.type,
+    <Checkbox key={`amende-${item.id}`} value={item.paye_amende} />,
+    <Checkbox key={`penalite-${item.id}`} value={item.paye_penalite} />,
+    item.valeur_amende,
+    item.taux_penalite,
+    <span key={`delete-${item.id}`} className='cursor-pointer' onClick={() => handleDelete(item.id)}>
+      <RiDeleteBinLine />
+    </span>,
+    <span key={`edit-${item.id}`} className='cursor-pointer' onClick={() => {
+      setSelectedEditData(item);
+      setIsModalOpenModifi(true);
+    }}>
+      <BsPencil />
+    </span>
+  ]) ;
 
 /*// Créez une fonction de filtrage
 const filterDataByExercice = () => {
@@ -214,7 +197,7 @@ useEffect(() => {
   const headers = [
     'Num', 'Libellé', 'Année', 'Période 1', 'Période 2', 'Date début', 
     'Date fin', 'Jours', 'Type', 'Payé Amande', 'Payé Pénalité', 
-    'Valeur Amende', 'Taux Pénalité', '', ''
+    'Valeur Amende', 'Taux Pénalité', 'Supression', 'Modification'
   ];
 
   
@@ -228,41 +211,14 @@ useEffect(() => {
   const content = (
     <div>
      
-      <div className='flex justify-between m-4 mt-10 '>
-        <Label text="Année" className="mt-2"></Label>
-        <Input
-          type='text'
-          placeholder='Année'
-          className='ml-4'
-          value={searchYear}
-          onChange={(e) => {
-            setSearchYear(e.target.value);
-          }}
-        />
-      </div>
-      <div className='flex justify-between m-4 mt-10 '>
-        <Label text="Code" className="mt-2"></Label>
-        <p className='text-white text-xl m-4'>{selectedLibelleSearch ? selectedLibelleSearch.libelle : ''}</p>
-      <ReactSelect
-    options={dataCodeImpot.map((item) => ({
-      value: item.numero_impot,
-      label: item.numero_impot,
-    }))}
-    value={dataCodeImpot.find((option) => option.value === selectedNumeroImpotSearch)}
-   onChange={handleSelectChangeSearch}
-   
-   className="m-4 w-40"
- />
+     
         
 
-      </div>
-      <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
+            <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
+            <Button children="Actualiser" onClick={() => window.location.reload()} className="m-4" ></Button>
       <div className='mt-10 m-4' >
-      {data.length > 0 ? (
-        <Table headers={headers} data={data}></Table>
-      ) : (
-        <p className='text-white text-xl'>Aucun résultat trouvé </p>
-      )}
+      
+      <Table headers={headers} data={data} classTable="w-[1350px] mx-auto text-center h-auto max-w-full"></Table>
       </div>
       <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[620px] h-[520px]">
         <form onSubmit={DataHandler}>
@@ -419,8 +375,9 @@ onChange={handleCheckboxChangePaye_amende}
     </Modal>
     </div>
   );
+  const location = useLocation();
 return (
- <Layout children={content}>
+ <Layout children={content} currentPath={location.pathname}>
 
  </Layout>
   )

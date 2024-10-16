@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Layout } from '../Layout'
 import { Button } from '../../../components/button/button'
 import Modal from '../../../components/modals/Modal';
@@ -9,7 +9,7 @@ import * as  XLSX from 'xlsx';
 import axios from 'axios'; 
 import Loader from '../../../components/loading/loading';
 import { Title4 } from '../../../components/title/title';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { ModalError, ModalErrorServer } from '../Modal';
 import PasswordInput from '../../../components/input/PasswordInput';
 
@@ -17,38 +17,33 @@ function Utilitaire() {
   const location = useLocation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModal, setIsModal] = useState(false);
-  const [date_debut_exe_init, setDate_debut_exe_init] = useState('');
-  const [date_fin_exe_fin, setDate_fin_exe_fin] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const downloadExcel = async () => {
-    setIsLoading(true); // Démarrez l'indicateur de chargement
+  const [Client , setClient ] = useState([]); 
+  const [startDate, setStartDate] = useState(''); 
+  const [endDate, setEndDate] = useState('');
+ const [isLoading] = useState(false);
+  useEffect(() => {
+    axios.get('http://localhost:3500/prisecharge/contribuable/encharge')
+      .then((response) => setClient(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+ 
   
-    try {
-      const response = await axios.post('http://localhost:3500/immatriculation/utilitaire', {
-        params: {
-          date_debut_exe_init,
-          date_fin_exe_fin,
-        },
-      });
-      const data = response.data;
-      console.log(data);
-      // Ici, vous avez récupéré les résultats de la recherche depuis le backend.
-  
-      // Maintenant, vous pouvez utiliser une bibliothèque comme xlsx pour convertir les résultats en un fichier Excel.
-      const ws = XLSX.utils.json_to_sheet(data);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Données');
-      
-      // Générez un fichier Excel
-      XLSX.writeFile(wb, 'donnees.xlsx');
-      setIsModalOpen(false)
-    } catch (error) {
-      setIsModal(true);
-      console.error('Une erreur s\'est produite :', error);
-    } finally {
-      setIsLoading(false); // Arrêtez l'indicateur de chargement, que l'opération ait réussi ou non.
-    }
+  const filteredDataByDate = Client.filter((item) => {
+    const itemDate = new Date(item.date_creation); // On suppose que 'date_creation' est le champ de la date dans tes données
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    return itemDate >= start && itemDate <= end;
+  });
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredDataByDate);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Assujettissements");
+    XLSX.writeFile(workbook, "assujettissements.xlsx");
   };
+
   
 
 
@@ -128,14 +123,14 @@ Il s'agit d'avoir une copie du fichier Immatriculation dans votre ordinateur
             </div>
             <div className='flex justify-between m-2 '>
              <Label text="Du :"></Label>
-             <Input type="date" value={date_debut_exe_init} onChange={(e) => setDate_debut_exe_init(e.target.value)}></Input>
+             <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}></Input>
             </div>
             <div className='flex justify-between  m-2 '>
              <Label text="Au :"></Label>
-             <Input type="date" value={date_fin_exe_fin} onChange={(e) => setDate_fin_exe_fin(e.target.value)}></Input>
+             <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}></Input>
             </div>
             <div className='flex justify-between  m-2 '>
-            <Button  children="Executer la requête"  onClick={downloadExcel} ></Button>
+            <Button  children="Executer la requête"  onClick={exportToExcel} ></Button>
             <Button onClick={() => setIsModalOpen(false)} children="Quitter" ></Button>
             </div>
        </div>

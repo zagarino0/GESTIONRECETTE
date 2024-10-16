@@ -74,7 +74,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
 
 
  
-  const headers = ["Numéro ","Choix ","Obligation","Périodicité","Titre","Option","Taxation ","Pénalité" , "" , "" ];
+  const headers = ["Numéro ","Choix ","Obligation","Périodicité","Titre","Option","Taxation ","Pénalité" , "Supression" , "Modification" ];
   const formattedData = dataCode.map(item => [ item.numero , item.choix , item.obligation , item.periodicite , item.titre , item.option , item.taxation , item.penalite
     ,
     <span
@@ -119,7 +119,7 @@ const NavbarModal =(
     <Navbar content={NavbarContent}></Navbar>
     <Button children="Ajouter un information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
     <div className=' m-4' >
-<Table headers={headers} data={formattedData}  ></Table>
+<Table headers={headers} data={formattedData} className="w-[1467px]" ></Table>
     </div>
 
     <Modal isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[1100px] h-[580px]" >

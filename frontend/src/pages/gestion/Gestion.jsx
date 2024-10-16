@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkButton } from '../../components/button/LinkButton'
 import { Layout } from './Layout'
 import { Button } from '../../components/button/button'
@@ -10,6 +10,8 @@ import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import PasswordInput from '../../components/input/PasswordInput'
 import { ModalError, ModalErrorServer } from '../immatriculation/Modal'
+import * as XLSX from 'xlsx';
+
 function Gestion() {
 
   const [ModalLogin , setModalLogin] = useState(false);
@@ -17,6 +19,8 @@ function Gestion() {
   const [code , setCode] = useState('');
   const [isModalError, setIsModalError] = useState(false);
   const [isModalErrorServer, setIsModalErrorServer] = useState(false);
+  const [startDate, setStartDate] = useState(''); 
+  const [endDate, setEndDate] = useState('');
 
   const handleLogin = () => {
     // Replace with your API endpoint for user authentication
@@ -57,6 +61,30 @@ function Gestion() {
   };
 
 
+  const [Client , setClient ] = useState([]); 
+  useEffect(() => {
+    axios.get('http://localhost:3500/prisecharge/contribuable/encharge')
+      .then((response) => setClient(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+ 
+  
+  const filteredDataByDate = Client.filter((item) => {
+    const itemDate = new Date(item.date_creation); // On suppose que 'date_creation' est le champ de la date dans tes données
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    return itemDate >= start && itemDate <= end;
+  });
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredDataByDate);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Assujettissements");
+    XLSX.writeFile(workbook, "assujettissements.xlsx");
+  };
+
     const location = useLocation(); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const NavbarModal =(
@@ -81,7 +109,7 @@ function Gestion() {
             </div>
         </div>
         </div>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[250px] ">
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[300px] ">
         <Navbar content={NavbarModal} ></Navbar>
         <div className='flex justify-center items-center p-4 '>
        <div className='flex flex-col'>
@@ -89,13 +117,16 @@ function Gestion() {
 Il s'agit d'avoir une copie du fichier ASSUJETISSEMENTS
             </div>
             <div className='flex justify-between m-2 '>
-             <Label text="Année :"></Label>
-            <Input type="text" className="w-60"></Input>
+              <Label text="date de début :" className="mt-2" />
+              <Input type="date" className="w-60" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             </div>
-            
+            <div className='flex justify-between m-2 '>
+              <Label text="date de fin :" className="mt-2" />
+              <Input type="date" className="w-60" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            </div>
             <div className='flex justify-between  m-2 '>
-            <Button  children="Executer la requête" ></Button>
-            <Button onClick={() => setIsModalOpen(false)} children="Quitter" ></Button>
+              <Button children="Executer la requête" onClick={exportToExcel} />
+              <Button onClick={() => setIsModalOpen(false)} children="Quitter" />
             </div>
        </div>
         

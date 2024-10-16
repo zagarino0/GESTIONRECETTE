@@ -85,7 +85,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     
 }
 
-  const headers = ['Date', 'Jour', 'Motif' , "" ,""];
+  const headers = ['Date', 'Jour', 'Motif' , "supprimer" ,"modification"];
   const data =  dataCode.map(item => [item.date, item.jour , item.motif    ,
     <span
       key={item.id}
@@ -110,8 +110,8 @@ console.error("erreur lors de l'ajout de donnée" , error)
     Périodicité des impots
   </div>
   <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="ml-2" ></Button>
-  <div className='mt-4 m-4' >
-<Table headers={headers} data={data} ></Table>
+  <div className='mt-6 m-20 justify-center h-[300px]' >
+<Table headers={headers} data={data}  className='w-[1200px]' headerClassName="sticky-header"></Table>
       </div>
       <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[300px]" >
   <Navbar content={NavbarModal} ></Navbar>

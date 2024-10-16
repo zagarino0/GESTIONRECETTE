@@ -46,7 +46,16 @@ const setModePaymentPeriodique = async (req, res) => {
         type_prevision,
         numero_immatriculation ,
         annulation ,
-        code_operateur
+        code_operateur,
+        date_fin_payment ,
+        suppression ,
+        reference_redevable ,
+        etablissement_payeur  ,
+        banque ,
+        numero_bar ,
+        compte_budget,
+        reference,
+        identifiant
     } = req.body;
 
     const payment = {
@@ -58,7 +67,9 @@ const setModePaymentPeriodique = async (req, res) => {
         "commune": commune,
         "numero_impot": numero_impot,
         "annee": annee,
+        "numero_bar": numero_bar ,
         "base_impot": base_impot,
+        "compte_budget": compte_budget,
         "montant_a_payer": montant_a_payer,
         "montant_verser": montant_verser,
         "reste_a_payer": reste_a_payer,
@@ -73,8 +84,15 @@ const setModePaymentPeriodique = async (req, res) => {
         "periode2": periode2,
         "type_prevision": type_prevision,
         "numero_immatriculation": numero_immatriculation,
+        "reference_redevable" : reference_redevable,
+        "etablissement_payeur":etablissement_payeur,
+        "banque" : banque,
+        "identifiant": identifiant ,
+        "reference" : reference,
         "annulation" : annulation ,
+        "suppression" : suppression , 
         "code_operateur" : code_operateur,
+        "date_fin_payment" : date_fin_payment,
         "date_creation": new Date()
     };
 
@@ -83,7 +101,10 @@ const setModePaymentPeriodique = async (req, res) => {
     const history_recette = {
         "id" : id_modepayment ,
         "numero_recepisse" : numero_recepisse ,
+        "reference_fiscal" : reference_fiscal ,
         "motif": "création de recette Periodique",
+        "raison_social": raison_social,
+        "code_operateur" : code_operateur ,
         "date_creation" : new Date(),
     }
     
@@ -92,7 +113,7 @@ const setModePaymentPeriodique = async (req, res) => {
     const User_history = {
         "id": id_user_history ,
         "user": code_operateur,
-        "motif": "creationde recette Peridoque",
+        "motif": "creation de recette Peridoque",
         "date_creation" : new Date()
     }
 
@@ -131,6 +152,161 @@ const setModePaymentPeriodique = async (req, res) => {
         res.status(500).json({ error: 'Failed to write file history user' });
     }
 };
+
+
+
+// Fonction pour annuler un paiement périodique
+const cancelModePaymentPeriodique = async (req, res) => {
+    const id_payment = req.body.id_payment;
+    const code_operateur = req.body.code_operateur ;
+    // Trouver l'index du paiement à annuler
+    const paymentIndex = data.modePayment.findIndex(payment => payment.id_payment === id_payment);
+
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Mettre à jour la propriété 'annulation' à true
+    data.modePayment[paymentIndex].annulation = true;
+    const cancelledPayment = data.modePayment[paymentIndex];
+
+    // Ajouter une entrée à l'historique pour indiquer l'annulation
+    const id_modepayment = data.recette_history.length === 0 ? 1 : data.recette_history[data.recette_history.length - 1].id + 1;
+
+    const history_recette = {
+        "id": id_modepayment,
+        "numero_recepisse": cancelledPayment.numero_recepisse,
+        "reference_fiscal": cancelledPayment.reference_fiscal,
+        "raison_social": cancelledPayment.raison_social,
+        "motif": "Annulation de recette Periodique",
+        "raison_social": cancelledPayment.raison_social,
+        "code_operateur": code_operateur , // Assurez-vous que le code opérateur est présent
+        "date_creation": new Date(),
+    };
+
+    // Mise à jour de l'historique des recettes
+    data.setRecetteHistory([...data.recette_history, history_recette]);
+
+    try {
+        // Écrire les modifications dans les fichiers JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
+            JSON.stringify(data.modePayment)
+        );
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json({ message: 'Payment annulé avec succès', cancelledPayment });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file after cancellation' });
+    }
+};
+
+const RestorationModePaymentPeriodique = async (req, res) => {
+    const id_payment = req.body.id_payment;
+    const code_operateur = req.body.code_operateur ;
+    // Trouver l'index du paiement à annuler
+    const paymentIndex = data.modePayment.findIndex(payment => payment.id_payment === id_payment);
+
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Mettre à jour la propriété 'annulation' à true
+    data.modePayment[paymentIndex].annulation = false;
+    const cancelledPayment = data.modePayment[paymentIndex];
+
+    // Ajouter une entrée à l'historique pour indiquer l'annulation
+    const id_modepayment = data.recette_history.length === 0 ? 1 : data.recette_history[data.recette_history.length - 1].id + 1;
+
+    const history_recette = {
+        "id": id_modepayment,
+        "numero_recepisse": cancelledPayment.numero_recepisse,
+        "reference_fiscal": cancelledPayment.reference_fiscal,
+        "raison_social": cancelledPayment.raison_social,
+        "motif": "Restoration de recette Periodique",
+        "raison_social": cancelledPayment.raison_social,
+        "code_operateur": code_operateur , // Assurez-vous que le code opérateur est présent
+        "date_creation": new Date(),
+    };
+
+    // Mise à jour de l'historique des recettes
+    data.setRecetteHistory([...data.recette_history, history_recette]);
+
+    try {
+        // Écrire les modifications dans les fichiers JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
+            JSON.stringify(data.modePayment)
+        );
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json({ message: 'Payment annulé avec succès', cancelledPayment });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file after cancellation' });
+    }
+};
+
+
+
+const SuppressionModePaymentPeriodique = async (req, res) => {
+    const numero_recepisse = req.body.numero_recepisse; // Utilisation du numero_recepisse
+    const code_operateur = req.body.code_operateur;
+
+    // Trouver l'index du paiement à supprimer basé sur numero_recepisse
+    const paymentIndex = data.modePayment.findIndex(payment => payment.numero_recepisse === numero_recepisse);
+
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Extraire le paiement pour l'historique avant de le supprimer
+    const paymentToDelete = data.modePayment[paymentIndex];
+
+    // Supprimer le paiement du tableau
+    data.modePayment.splice(paymentIndex, 1);
+
+    // Ajouter une entrée à l'historique pour indiquer la suppression
+    const id_modepayment = data.recette_history.length === 0 ? 1 : data.recette_history[data.recette_history.length - 1].id + 1;
+
+    const history_recette = {
+        "id": id_modepayment,
+        "numero_recepisse": paymentToDelete.numero_recepisse,
+        "reference_fiscal": paymentToDelete.reference_fiscal,
+        "raison_social": paymentToDelete.raison_social,
+        "motif": "Suppression de recette Periodique",
+        "code_operateur": code_operateur, // Assurez-vous que le code opérateur est présent
+        "date_creation": new Date(),
+    };
+
+    // Mise à jour de l'historique des recettes
+    data.setRecetteHistory([...data.recette_history, history_recette]);
+
+    try {
+        // Écrire les modifications dans les fichiers JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json'),
+            JSON.stringify(data.modePayment)
+        );
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json({ message: 'Payment supprimé avec succès', deletedPayment: paymentToDelete });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file after deletion' });
+    }
+};
+
 
 
 const getClientByRecepisse = (req, res) => {
@@ -427,6 +603,7 @@ const setModePaymentNonPeriodique = async (req, res) => {
     const activite = req.body.activite;
     const fokontany = req.body.fokontany ;
     const code_operateur = req.body.code_operateur;
+    const base_impot = req.body.base_impot;
     const payment = {
         "id_payment": id,
         "nif_regisseur": nif_regisseur,
@@ -457,6 +634,7 @@ const setModePaymentNonPeriodique = async (req, res) => {
         "activite": activite ,
         "fokontany": fokontany , 
         "code_operateur": code_operateur ,
+        "base_impot": base_impot ,
         "date_creation": new Date()
     }
 
@@ -464,8 +642,11 @@ const setModePaymentNonPeriodique = async (req, res) => {
     
     const history_recette = {
         "id" : id_modepayment ,
-        "numero_recepisse" : numero_recepisse ,
+        "numero_recepisse" : numero_recepisse ,     
+        "raison_social": raison_social,
         "motif": "création de recette Non Periodique",
+        "code_operateur" : code_operateur ,
+        "reference_fiscal" : nif_regisseur ,
         "date_creation" : new Date(),
     }
 
@@ -613,8 +794,37 @@ const updateModePaymentPeriodique = async (req, res) => {
         annulation: annulation !== undefined ? annulation : data.modePayment[paymentIndex].annulation,
         code_operateur: code_operateur || data.modePayment[paymentIndex].code_operateur,
         transporteur : transporteur || data.modePayment[paymentIndex].transporteur,
+        date_fin_payment : data.modePayment[paymentIndex].date_fin_payment,
         date_modification: new Date() // Ajouter la date de modification
     };
+
+
+
+    const id_modepayment = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
+    
+    const history_recette = {
+        "id" : id_modepayment ,
+        "numero_recepisse" : numero_recepisse ,
+        "motif": "Modification de recette Periodique",
+        "reference_fiscal" : reference_fiscal ,
+        "raison_social": raison_social,
+        "code_operateur" : code_operateur ,
+        "date_creation" : new Date(),
+    }
+
+    
+    data.setRecetteHistory([...data.recette_history , history_recette])
+    
+    try {
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+        res.json(data.recette_history);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file history recette' });
+    }
+
 
     // Enregistrer les changements dans le fichier
     try {
@@ -629,7 +839,282 @@ const updateModePaymentPeriodique = async (req, res) => {
 };
 
 
+const setModePaymentNonPeriodiqueModif = async (req, res) => {
+    try {
+        const { id_payment } = req.params; // Supposons que l'ID est passé dans les paramètres de la requête
+        const {
+            nif_regisseur, numero_impot, raison_social, nom_commercial, adresse, commune,
+            montant_a_payer, montant_verser, reste_a_payer, type_payment, numero_cheque,
+            code_banque, nom_commercial_banque, rib, transporteur, numero_recepisse, annee,
+            periode, periode1, periode2, abbreviation_type_payment, date_cloture_exercice,
+            type_prev, amende_penalite, annulation, activite, fokontany, code_operateur,
+            base_impot
+        } = req.body;
+
+        // Trouver l'enregistrement existant par id_payment
+        const paymentIndex = data.modePaymentNonPeriodiques.findIndex(p => p.id_payment === parseInt(id_payment));
+        if (paymentIndex === -1) {
+            return res.status(404).json({ error: 'Payment not found' });
+        }
+
+        // Mettre à jour les données de l'enregistrement
+        const updatedPayment = {
+            ...data.modePaymentNonPeriodiques[paymentIndex],
+            nif_regisseur,
+            numero_impot,
+            raison_social,
+            nom_commercial,
+            adresse,
+            commune,
+            montant_a_payer,
+            montant_verser,
+            reste_a_payer,
+            type_payment,
+            numero_cheque,
+            code_banque,
+            nom_commercial_banque,
+            rib,
+            transporteur,
+            numero_recepisse,
+            annee,
+            periode,
+            periode1,
+            periode2,
+            date_cloture_exercice,
+            type_prev,
+            amende_penalite,
+            abbreviation_type_payment,
+            annulation,
+            activite,
+            fokontany,
+            code_operateur,
+            base_impot,
+            date_modification: new Date() // Ajouter une date de modification
+        };
+
+        // Remplacer l'ancien enregistrement par le nouvel enregistrement mis à jour
+        data.modePaymentNonPeriodiques[paymentIndex] = updatedPayment;
+
+        // Enregistrer les modifications dans le fichier JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment_non_periodique.json'),
+            JSON.stringify(data.modePaymentNonPeriodiques)
+        );
+
+        // Ajouter une entrée dans l'historique des recettes
+        const history_recette = {
+            id: id_payment,
+            numero_recepisse,
+            reference_fiscal,
+            raison_social,
+            motif: "Modification de recette Non Periodique",
+            code_operateur,
+            date_modification: new Date(),
+        };
+
+        data.setRecetteHistory([...data.recette_history, history_recette]);
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json(updatedPayment);
+    } catch (error) {
+        console.error('Error updating payment:', error);
+        res.status(500).json({ error: 'Failed to update payment' });
+    }
+};
+
+
+const getEnregistrementByNumeroRecepisse = async (req, res) => {
+    try {
+        // Récupérer le numéro de récépissé depuis les paramètres de la requête
+        const { numero_recepisse } = req.params;
+        
+        // Définir le chemin vers le fichier JSON
+        const filePath = path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment.json');
+        
+        // Lire le fichier de manière asynchrone
+        const data = await fsPromises.readFile(filePath, 'utf8');
+        
+        // Analyser les données JSON
+        const modePayment = JSON.parse(data);
+        
+        // Trouver l'enregistrement correspondant au numero_recepisse
+        const enregistrement = modePayment.find(item => item.numero_recepisse === numero_recepisse);
+        
+        if (enregistrement) {
+            // Si l'enregistrement est trouvé, l'envoyer comme réponse
+            res.status(200).json(enregistrement);
+        } else {
+            // Si l'enregistrement n'est pas trouvé, envoyer une réponse 404
+            res.status(404).json({ message: 'Enregistrement non trouvé' });
+        }
+    } catch (error) {
+        // Gérer les erreurs (ex : fichier non trouvé, erreur d'analyse JSON)
+        res.status(500).json({ message: 'Une erreur est survenue', error: error.message });
+    }
+};
+
+
+
+
+const annulerPaymentNonPeriodique = async (req, res) => {
+    const id_payment = req.body.id_payment;
+    const code_operateur = req.body.code_operateur ;
+
+    // Trouver l'index du paiement à annuler
+    const paymentIndex = data.modePaymentNonPeriodiques.findIndex(payment => payment.id_payment === id_payment);
+    
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Mettre à jour la propriété 'annulation' à true
+    data.modePaymentNonPeriodiques[paymentIndex].annulation = true;
+    const annulePayment = data.modePaymentNonPeriodiques[paymentIndex];
+
+    // Ajouter une entrée à l'historique pour indiquer l'annulation
+    const id_modepayment = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
+    
+    const history_recette = {
+        "id": id_modepayment,
+        "numero_recepisse": annulePayment.numero_recepisse,
+        "raison_social": annulePayment.raison_social,
+        "motif": "annulation de recette Non Periodique",
+        "code_operateur": code_operateur ,
+        "reference_fiscal": annulePayment.nif_regisseur,
+        "date_creation": new Date(),
+    };
+
+    data.setRecetteHistory([...data.recette_history, history_recette]);
+
+    try {
+        // Écrire les modifications dans les fichiers JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment_non_periodique.json'),
+            JSON.stringify(data.modePaymentNonPeriodiques)
+        );
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json({ message: 'Payment annulé avec succès', annulePayment });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file after annulation' });
+    }
+}
+
+
+const RestorationPaymentNonPeriodique = async (req, res) => {
+    const id_payment = req.body.id_payment;
+    const code_operateur = req.body.code_operateur ;
+    // Trouver l'index du paiement à restorer
+    const paymentIndex = data.modePaymentNonPeriodiques.findIndex(payment => payment.id_payment === id_payment);
+    
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Mettre à jour la propriété 'annulation' à true
+    data.modePaymentNonPeriodiques[paymentIndex].annulation = false;
+    const annulePayment = data.modePaymentNonPeriodiques[paymentIndex];
+
+    // Ajouter une entrée à l'historique pour indiquer l'annulation
+    const id_modepayment = data.length === 0 || !data.modePayment ? 1 : data.modePayment.length === 0 ? 1 : data.modePayment[data.modePayment.length - 1].id_payment + 1;
+    
+    const history_recette = {
+        "id": id_modepayment,
+        "numero_recepisse": annulePayment.numero_recepisse,
+        "raison_social": annulePayment.raison_social,
+        "motif": "Restoration de recette Non Periodique",
+        "code_operateur": code_operateur  ,
+        "reference_fiscal": annulePayment.nif_regisseur,
+        "date_creation": new Date(),
+    };
+
+    data.setRecetteHistory([...data.recette_history, history_recette]);
+
+    try {
+        // Écrire les modifications dans les fichiers JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment_non_periodique.json'),
+            JSON.stringify(data.modePaymentNonPeriodiques)
+        );
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json({ message: 'Payment restoré avec succès', annulePayment });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file after restoration' });
+    }
+}
+
+const SuppressionPaymentNonPeriodique = async (req, res) => {
+    const numero_recepisse = req.body.numero_recepisse; // Utilisation de numero_recepisse
+    const code_operateur = req.body.code_operateur;
+
+    // Trouver l'index du paiement à supprimer basé sur numero_recepisse
+    const paymentIndex = data.modePaymentNonPeriodiques.findIndex(payment => payment.numero_recepisse === numero_recepisse);
+    
+    if (paymentIndex === -1) {
+        return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Extraire le paiement pour l'historique avant de le supprimer
+    const paymentToDelete = data.modePaymentNonPeriodiques[paymentIndex];
+
+    // Supprimer le paiement du tableau
+    data.modePaymentNonPeriodiques.splice(paymentIndex, 1);
+
+    // Ajouter une entrée à l'historique pour indiquer la suppression
+    const id_modepayment = data.recette_history.length === 0 ? 1 : data.recette_history[data.recette_history.length - 1].id + 1;
+
+    const history_recette = {
+        "id": id_modepayment,
+        "numero_recepisse": paymentToDelete.numero_recepisse,
+        "raison_social": paymentToDelete.raison_social,
+        "motif": "Suppression de recette Non Periodique",
+        "code_operateur": code_operateur,
+        "reference_fiscal": paymentToDelete.nif_regisseur,
+        "date_creation": new Date(),
+    };
+
+    // Mise à jour de l'historique des recettes
+    data.setRecetteHistory([...data.recette_history, history_recette]);
+
+    try {
+        // Écrire les modifications dans les fichiers JSON
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'mode_payment_non_periodique.json'),
+            JSON.stringify(data.modePaymentNonPeriodiques)
+        );
+
+        await fsPromises.writeFile(
+            path.join(__dirname, '..', '..', 'model', 'recette', 'recette_historique.json'),
+            JSON.stringify(data.recette_history)
+        );
+
+        res.json({ message: 'Payment supprimé avec succès', deletedPayment: paymentToDelete });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to write file after deletion' });
+    }
+};
+
+
+
 module.exports = {
+    cancelModePaymentPeriodique ,
+    RestorationPaymentNonPeriodique,   
+    annulerPaymentNonPeriodique,
+    getEnregistrementByNumeroRecepisse,
+    setModePaymentNonPeriodiqueModif,
     setModePaymentPeriodique,
     setModePaymentNonPeriodique,
     getPaymentByTwoDate,
@@ -647,4 +1132,8 @@ module.exports = {
     getAllEnregistrementDeclarationNonPeriodique ,
     getAllHistoryRecette , 
     updateModePaymentPeriodique,
+    RestorationModePaymentPeriodique ,
+    SuppressionModePaymentPeriodique ,
+    SuppressionPaymentNonPeriodique 
+
 }

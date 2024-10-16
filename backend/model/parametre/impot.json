@@ -1004,5 +1004,25 @@
         "periodique": 1,
         "abbrev_periodicite": "P",
         "periodicite": "TRIMESTRIEL"
+    },
+    {
+        "numero_impot": 117,
+        "libelle": "Impot Niforoniko",
+        "abbreviation": "IN",
+        "pcop": 7023,
+        "numero_budget": "BUDGET GENERAL",
+        "numero_classes": "2",
+        "chapitre": "chapitre",
+        "groupe_impot": "groupe"
+    },
+    {
+        "numero_impot": 118,
+        "libelle": "impot",
+        "abbreviation": "IM",
+        "pcop": 7023,
+        "numero_budget": "BUDGET COMMUNAL",
+        "numero_classes": "CL",
+        "chapitre": "cha",
+        "groupe_impot": "groupe"
     }
 ]

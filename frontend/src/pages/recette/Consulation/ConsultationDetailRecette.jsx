@@ -7,6 +7,7 @@ import { Navbar } from '../../../components/navbar/Navbar';
 import BackButton from '../../../components/button/BackButton';
 import axios from 'axios';
 import SearchInput from '../../../components/input/SearchInput';
+import { useNavigate } from 'react-router-dom';
 
 function ConsultationDetailRecette() {
   const [recepisse , setRecepisse] = useState([])
@@ -42,11 +43,17 @@ console.log(recepisse)
       item.code_banque ,
       item.type_payment   
     ]);
-
+    const navigate = useNavigate();
+    const handleSendImpression =() =>{
+      const routeToNavigate = '/ImpressionConsultationDetailRecette';
+      navigate(routeToNavigate, { state: { searchTerm} });
   
-    const printRef = useRef(null);
+    }
+  
+  
+    //const printRef = useRef(null);
   // Impression
-  const downloadPDF = () => {
+ {/** const downloadPDF = () => {
     // Use querySelector to get the table element
     if (printRef.current) {
       const content = printRef.current.innerHTML;
@@ -69,7 +76,7 @@ console.log(recepisse)
       document.body.innerHTML = originalContent;
       window.location.reload();
     }
-  };
+  }; */}
 
     const NavbarContent = (
       <div className='flex justify-between'>
@@ -87,7 +94,7 @@ console.log(recepisse)
        <div className='flex flex-col  p-4'>
        <SearchInput onChange={(e) => setSearchTerm(e.target.value)}></SearchInput>
 <div className=' flex justify-center'>
-<div ref={printRef} className='flex flex-col mt-14 overflow-y-auto w-[1600px] '>
+<div className='flex flex-col mt-14 overflow-y-auto w-[1600px] '>
 <Table headers={headers} data={formattedData} 
 
 ></Table>
@@ -96,7 +103,7 @@ console.log(recepisse)
 </div>
 </div>
 <div className='flex justify-between mt-4'>
-  <Button children="Imprimer" onClick={downloadPDF}></Button>
+<Button children="Imprimer" onClick={handleSendImpression}></Button>
 
   <Button children="Rafraîchir" onClick={()=>window.location.reload()}></Button>
 </div>

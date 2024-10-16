@@ -29,18 +29,23 @@ function MiseAJour() {
     const contentChildren=(
    <div className='flex justify-center items-center '>
     <div className='flex flex-col'>
-    <div className='text-white text-3xl text-center m-2'>
+    <div className='text-white text-4xl text-center m-6'>
       Mise à jour
     </div>
-   <div className='flex flex-col  '>
-    <LinkButton to="/codeActivite" text="Code Activites" className="mt-4" ></LinkButton>
-    <LinkButton to="/codeBanque" text="Code Banque"  className="mt-2"></LinkButton>
-    <LinkButton to="/codeFormeJuridique" text="Code Forme Juridique"  className="mt-2"></LinkButton>
-    <LinkButton to="/codeCollectivite" text="Code Fokotany"  className="mt-2"></LinkButton>
-    <LinkButton to="/periodiciteImpot" text="Périodicité Impot"  className="mt-2"></LinkButton>
-    <LinkButton to="/obligationFiscal" text="Obligatoire Fiscale"  className="mt-2"></LinkButton>
-    <LinkButton to="/typeProceVerbaux" text="Type de Procés Verbaux "  className="mt-2"></LinkButton>
-    <LinkButton to="/operateurTelephonique" text="Les opérateurs telephoniques"  className="mt-2"></LinkButton>
+   <div className='flex justify-between ml-10 mr-10 mt-6'>
+   <div className='flex flex-col'>
+   <LinkButton to="/codeActivite" text="Code Activités" className="mt-4 text-md w-[500px] " ></LinkButton>
+    <LinkButton to="/codeBanque" text="Code Banque"  className="mt-4 text-md w-[500px]"></LinkButton>
+    <LinkButton to="/codeFormeJuridique" text="Code Forme Juridique"  className="mt-4 text-md w-[500px]"></LinkButton>
+    <LinkButton to="/codeCollectivite" text="Code Fokotany"  className="mt-4 text-md w-[500px]"></LinkButton>
+   </div>
+   <div className='flex flex-col ml-20'>
+   <LinkButton to="/periodiciteImpot" text="Périodicité Impot"  className="mt-4 text-md w-[500px]"></LinkButton>
+    <LinkButton to="/obligationFiscal" text="Obligatoire Fiscale"  className="mt-4 text-md w-[500px]"></LinkButton>
+    <LinkButton to="/typeProceVerbaux" text="Type de Procés Verbaux "  className="mt-4 text-md w-[500px]"></LinkButton>
+    <LinkButton to="/operateurTelephonique" text="Les opérateurs téléphoniques"  className="mt-4 text-md w-[500px]"></LinkButton>
+    {/* <LinkButton to="/Impot" text="Impôt"  className="mt-4 w-[500px]"></LinkButton> */}
+   </div>
     </div> 
     </div>  
     {userData && (

@@ -42,7 +42,7 @@ function CodeActivite() {
       console.error('Error deleting data:', error);
     }
   };
-  const headers = ['Code activité', 'Libellé activité', 'Nature (Tableau )', '', ''];
+  const headers = ['Code activité', 'Libellé activité', 'Nature (Tableau )', 'Supression', 'Modification'];
   const formattedData = dataCode.map(item => [item.code, item.libelle, item.nature ,
     <span
           key={item.code} // Make sure to use a unique key
@@ -102,9 +102,9 @@ console.error("erreur lors de l'ajout de donnée" , error)
   return (
     <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
-      <Button children="Ajouter un activiter" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
-      <div className=' bg-[#212122] flex  justify-center p-4' >
-<Table headers={headers} data={formattedData } ></Table>
+      <Button children="Ajouter un activiter" onClick={() => setIsModalOpen(true)} className="m-4 " ></Button>
+      <div className=' bg-[#212122]  flex  justify-center p-4' >
+          <Table className='w-[1400px] mx-auto text-center h-auto max-h-[800px] max-w-full ' headerClassName="sticky-header" headers={headers} data={formattedData } ></Table>
       </div>
       <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>

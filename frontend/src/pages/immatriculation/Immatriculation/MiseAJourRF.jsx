@@ -21,6 +21,7 @@ function MiseAJourRF() {
     setSearchTerm(e.target.value);
   };   
 
+  
 const filteredData = Client.filter((item) => 
   item.id && item.id.toLowerCase().includes(searchTerm.toLowerCase())
   );

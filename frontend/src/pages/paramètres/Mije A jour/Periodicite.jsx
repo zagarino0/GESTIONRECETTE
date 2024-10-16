@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
-import { Link, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 
-import BackButton from '../../../components/button/BackButton';
+// import BackButton from '../../../components/button/BackButton';
 import { Button } from '../../../components/button/button';
 import Input from '../../../components/input/Input';
 import { Navbar } from '../../../components/navbar/Navbar';
@@ -13,6 +13,7 @@ import axios from 'axios';
 import { RiDeleteBinLine } from 'react-icons/ri'
 import {BsPencil} from 'react-icons/bs'
 import Modal from '../../../components/modals/Modal';
+import LayoutPeriodicite from './LayoutPeriodicite';
 
 
 const Periodicite = ({  currentPath }) => {
@@ -68,14 +69,14 @@ const handleDelete = (id) => {
     
 
     //Links navbar
-    const links = [
-        { title: "Date cloture", link: "/periodiciteImpot" },
-        { title: "Périodicité", link: "/periodicite" },
+    // const links = [
+    //     { title: "Date cloture", link: "/periodiciteImpot" },
+    //     { title: "Périodicité", link: "/periodicite" },
        
        
-      ];
+    //   ];
   
-      const headers = ["N° Auto" ,"Périodicité " , "" , "" ];
+      const headers = ["N° Auto" ,"Périodicité " , "Supression" , "Modification" ];
       const formattedData = dataCode.map(item => [item.numero_auto, item.periode 
         ,
         <span
@@ -99,34 +100,34 @@ const handleDelete = (id) => {
       ]);
   
     //Navbar content
-    const NavbarContent = (
-        <nav className=" flex items-center justify-between  ">
-     <div className='text-white font-semibold'>
-  Périodicité
-      </div>
-      <ul className="flex">
-        {links.map((link) => (
-          <li
-            key={link.title}
-            className={`mx-4 
-            text-center
-            py-3
-            px-6 
-            text-white 
-            font-semibold
-            ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
-          `}
-          >
-            <Link to={link.link}>{link.title}</Link>
-          </li>
-        ))}
-      </ul>
-  <BackButton to="/miseAJourParametre"></BackButton>
+  //   const NavbarContent = (
+  //       <nav className=" flex items-center justify-between  ">
+  //    <div className='text-white font-semibold'>
+  // Périodicité
+  //     </div>
+  //     <ul className="flex">
+  //       {links.map((link) => (
+  //         <li
+  //           key={link.title}
+  //           className={`mx-4 
+  //           text-center
+  //           py-3
+  //           px-6 
+  //           text-white 
+  //           font-semibold
+  //           ${currentPath === link.link ? 'bg-[#E96012] rounded-md font-bold hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out ' : ''}
+  //         `}
+  //         >
+  //           <Link to={link.link}>{link.title}</Link>
+  //         </li>
+  //       ))}
+  //     </ul>
+  // <BackButton to="/miseAJourParametre"></BackButton>
         
-    </nav>
-    )
+  //   </nav>
+  //   )
   
-const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" , "" , "" ];
+const Headers =["N° Auto" ,"Période " , "Desc_Mois","Titre" ,"P1","P2","Exercice" , "Supression" , "Modification" ];
 const Data = dataCode.map(item => [item.numero_auto, item.periode ,item.desc_mois ,item.titre ,item.p1 ,item.p2 , item.cloture
   ,
   <span
@@ -214,16 +215,16 @@ const NavbarModal =(
   </div>
 )
 
+const contentChildren = (
+<div className="bg-[#212122] w-screen h-auto">
+<div className='bg-[#212122] flex flex-col  '>
+    <div className="flex flex-col">
+    <div className='mt-8 h-auto'>
+  <Table headers={headers} data={formattedData} className='w-[800px] mx-auto text-center h-auto max-w-full' headerClassName="sticky-header"></Table>
+</div>
 
-    return (
-      <div className='bg-[#212122] h-screen w-screen'>
-      <Navbar currentPath={location.pathname}  content={NavbarContent}></Navbar>
-   <div className="flex justify-between">
-   <div className='overflow-y-auto h-60 mt-32 pl-4 bg-[#212122]' >
-  <Table headers={headers} data={formattedData} className="w-[100px]" ></Table>
-      </div>
    <div className='flex flex-col'>
-   <div className='flex mt-4 p-4 bg-[#212122]'>
+   <div className='flex mt-4 p-2 '>
 <Label text="Exercice cloturé :" className="mt-2"></Label>
 <Select
   options={dataCodeContent.map((item) => ({
@@ -236,14 +237,13 @@ const NavbarModal =(
 />
 
     </div>
-    <div className="overflow-y-auto h-60 mt-4  bg-[#212122]">
-    <Table headers={Headers} data={filteredData} ></Table>
-
-    </div>
-    <div className='mt-2 p-2 '>
-<Button children="Ajouter"  onClick={() => setIsModalOpen(true)}></Button>
-<Button  children="Actualiser" className="m-2"  onClick={rafraichirPage}></Button>
-    </div>
+    <div className='mt-3 ml-2 h-auto'>
+  <Table headers={Headers} data={filteredData} className="w-[1200px] mx-auto text-center h-auto max-w-ful" headerClassName="sticky-header"></Table>
+</div>
+<div className='mt-2 mb-2 flex justify-between'>
+            <Button children="Ajouter"className="ml-40" onClick={() => setIsModalOpen(true)}></Button>
+            <Button children="Actualiser" className="mr-40" onClick={rafraichirPage}></Button>
+          </div>
    </div>
    </div>
 
@@ -510,6 +510,14 @@ onChange={(selectedOption) => {
   <Button onClick={() => setIsModalOpenModifiPeriode(false)} children="Quitter" ></Button>
   </div>
 </Modal>
+  </div>
+</div>
+)
+
+    return (
+      <div className='bg-[#212122] h-screen w-screen'>
+      <LayoutPeriodicite currentPath={location.pathname} children={contentChildren}></LayoutPeriodicite>
+   
     </div>
     )
   }

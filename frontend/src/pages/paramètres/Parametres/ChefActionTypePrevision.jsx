@@ -127,7 +127,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     }
       
   }
-  const headers = ["Code" ,"LIBELLE " , "" , "" ];
+  const headers = ["Code" ,"LIBELLE " , "Supression" , "Modification" ];
   const data = dataCode.map(item => [item.code, item.libelle ,
     <span
       key={item.code}
@@ -146,7 +146,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     >
       <BsPencil />
     </span>,]);
-  const headerContent = ["Type Prev." ,"LIBELLE","" , "" ];
+  const headerContent = ["Type Prev." ,"LIBELLE","Supression" , "Modification" ];
   const dataContent = dataCodeContent.map(item => [item.type_prevision, item.libelle 
     ,
     <span
@@ -201,7 +201,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
       <div className='flex'>
         
       <div className='mt-4 m-4' >
-    <Table headers={headers} data={data} ></Table>
+    <Table headers={headers} data={data} className='w-[650px] mx-auto text-center h-auto max-w-full'></Table>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
       <div className='flex'>
         
       <div className='mt-4 m-4' >
-    <Table headers={headerContent} data={dataContent} ></Table>
+    <Table headers={headerContent} data={dataContent} className='w-[650px] mx-auto text-center h-auto max-w-full' ></Table>
         </div>
       </div>
     </div>

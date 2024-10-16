@@ -51,6 +51,8 @@ function PrevisonAnnuelle() {
     .catch((error) => console.error(error));
 }, []);
 
+
+console.log(dataCodeImpot)
 const handleSelectChange = (selectedOption) => {
   // Mettre à jour l'état avec le numéro d'impôt sélectionné
   setSelectedNumeroImpot(selectedOption.value);
@@ -72,11 +74,11 @@ const handleSelectChangeModifi = (selectedOption) => {
 // Fonction pour ajouter une prévision
   const handleAddPrevision = () => {
     const newPrevision = {
-      annee,
-      code_impot,
-      type_prevision,
-      montant_prevision,
-      mois,
+     "annee": annee,
+      "code_impot":code_impot,
+      "type_prevision": selectedLibelle.numero_budget,
+      "montant_prevision": montant_prevision,
+      "mois" : mois,
     };
 
     // Envoyer les données au backend pour l'ajout
@@ -138,14 +140,14 @@ const handleDelete = (id) => {
 
 console.log(dataCode);
 
-  const headers = ["Année" ,"Num_imp" , "Libella", "code_Prev", "Mois","Montant", "", ""];
+  const headers = ["Année" ,"Num_imp" , "Libella", "Prevision", "Mois","Montant", "supprimer", "modifier"];
   const data = dataCode.length > 0
   ? dataCode.map((item) => [
       item.annee,
       item.code_impot,
       item.libelle,
       item.type_prevision,
-       item.mois,
+      item.mois,
      
       item.montant_prevision,
       <span
@@ -184,31 +186,34 @@ Mise à jour prévisions
 </div>
   )
   return (
-    <div className='bg-[#212122] h-screen '>
+    <div className='bg-[#212122]'>
     <Navbar content={NavbarContent}></Navbar>
     <form onSubmit={handleAddPrevision}>
-    <div className=' m-4 flex justify-between  '>
+    <div className=' m-4 flex justify-between'>
      
-      <div className='flex flex-row mt-4 '>
+      <div className='flex flex-row mt-4  mr-4'>
 <Label text="Exercice"></Label>
-<Input type="text" className="h-12 w-40 ml-2"
+<Input type="text" className="h-12 w-60 ml-2" 
 value={annee}
 onChange={(e)=> setAnnee(e.target.value)}
 ></Input>
       </div>
-      <div className='flex justify-between mt-4'>
-<Label text="Mois"></Label>
-<ReactSelect
-  options={options}
-  value={options.find((option) => option.value === mois)}
-  onChange={(selectedOption) => setMois(selectedOption.value)}
-  
-  className="ml-4 w-40"
-/>
+      
+      <div className='flex flex-col m-8'>
+        
+  <div className='flex  flex justify-between mr-40 ml-20'>
+
+       <div className='flex justify-between mt-4'>
+<Label text="Montant Prev. en Ar."></Label>
+<Input type="text" className="h-12 w-60 ml-2 mr-4"
+value={montant_prevision}
+onChange={(e)=> setMontant_prevision(e.target.value)}
+></Input>
       </div>
-      <div className='flex justify-between mt-4'>
-<Label text="Prévision"></Label>
-<ReactSelect
+
+      <div className='flex justify-between mt-4 '>
+        <Label text="Prévision"></Label>
+{/* <ReactSelect
   options={dataCodeTypePresvision.map((item) => ({
     value: item.type_prevision,
     label: item.type_prevision,
@@ -218,9 +223,17 @@ onChange={(e)=> setAnnee(e.target.value)}
   onChange={(selectedOption) => setType_prevision(selectedOption.value)}
   
   className="ml-4 w-40"
-/>
+/> */}
+      {console.log(type_prevision)}
+      <Input type="text" value={selectedLibelle ? selectedLibelle.numero_budget : ''}
+      onChange={(e) => setType_prevision(e.target.value )}
+
+        className="ml-4 w-60 mr-4"></Input>
       </div>
-      <div className='flex justify-between mt-4'>
+  </div>
+      
+  <div className='flex flex justify-between mr-40 ml-20'>
+     <div className='flex justify-between mt-4'>
 <Label text="Code impot"></Label>
 <ReactSelect
   options={dataCodeImpot.map((item) => ({
@@ -229,31 +242,36 @@ onChange={(e)=> setAnnee(e.target.value)}
   }))}
   value={dataCodeImpot.find((option) => option.value === code_impot)}
   onChange={handleSelectChange}
-  className="ml-4 w-40"
+  className="ml-4 mr-4 w-60"
 />
       </div>
-     
+
       <div className='flex justify-between mt-4'>
-<Label text="Montant Prev. en Ar."></Label>
-<Input type="text" className="h-12 w-60 ml-2"
-value={montant_prevision}
-onChange={(e)=> setMontant_prevision(e.target.value)}
-></Input>
+              <Label text="Mois"></Label>
+              <ReactSelect
+                options={options}
+                value={options.find((option) => option.value === mois)}
+                onChange={(selectedOption) => setMois(selectedOption.value)}
+                
+            className="ml-4 mr-4 w-60"
+          />
+      </div>
+  </div>
       </div>
       
     </div>
-    <div className='flex m-4 justify-between  '>
-    <Button type="submit" children="Enregistrer"></Button>
-      
-<p className='text-white text-2xl'>{selectedLibelle ? selectedLibelle.libelle : ''}</p>
-
-
-
+       <div className='flex m-6 justify-between  '>
+        <Button type="submit" children="Enregistrer"></Button>
+        <p className='text-white text-2xl'>{selectedLibelle ? selectedLibelle.libelle : ''}</p>
     </div>
-    <div className='m-4 ' >
-<Table headers={headers} data={data} ></Table>
-
+    
+    <div className='mt-2 bg-[#212122]  p-4 flex justify-center ' >
+        <Table headers={headers} data={data}  className='w-[1300px]'></Table>
     </div>
+
+
+
+
     </form>  
     <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[620px] h-[580px]">
     <Navbar content={NavbarModal} ></Navbar>

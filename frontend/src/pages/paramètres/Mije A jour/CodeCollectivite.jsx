@@ -89,7 +89,7 @@ Niveau de Décentralisation
     </div>
 </div>
   )
-  const headers = [  "Arrondissement ","Code Fokontany","Fokotany", "" , ""];
+  const headers = [  "Arrondissement ","Code Fokontany","Fokotany", "Supression" , "Modification"];
   const formattedData = dataCode.map((item) => [
     
     item.arrondisement,
@@ -129,35 +129,38 @@ Niveau de Décentralisation
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
   <form onSubmit={DataHandler}>
-      <div className='mt-24 m-4 '  >
-    <div className='overflow-y-auto h-40'>
-    <Table headers={headers} data={formattedData} className="w-[1000px] " ></Table>
-    </div>
-    <div className="flex flex-row ml-4">
+      <div className='mt-24 m-4 flex justify-center'  >
+      <div className='flex flex-col'>
+      <div className="flex flex-row ">
     <Input type="text" placeholder="Fokotany"
     value={libelle}
     onChange={e => setLibelle(e.target.value)}
-    className=" m-4 w-60"
+    className=" ml-4 mt-2 w-60"
     ></Input>
     <Input type="text" placeholder="Code Fokotany"
     value={fokontany}
     onChange={e => setFokontany(e.target.value)}
-    className=" m-4 w-60"
+    className=" ml-4 mt-2 w-60"
     ></Input>
      <Select
  options={options}
  value={options.find((option) => option.value === arrondissement)}
  onChange={(selectedOption) => setArrondissement(selectedOption.value)}
- className=" m-4 w-40"
+ className=" ml-4 mt-2 w-40"
 />
 
-     <Button type="submit" children="Ajouter" className="m-2 h-12"></Button>
-    
+     <Button type="submit" children="Ajouter" className="ml-4 h-12"></Button>
+     <Button  children="Actualiser" className="ml-4"  onClick={rafraichirPage}></Button>  
     </div>
+    <div className=''>
+    <Table headers={headers} data={formattedData} className="w-[1000px] overflow-y-auto h-40 mt-4 ml-4" ></Table>
+    </div>
+      </div>
+   
     </div>
   
   </form>
-  <Button  children="Actualiser" className="ml-12"  onClick={rafraichirPage}></Button>
+
   <Modal  isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} className="w-[600px] h-[360px]" >
   <Navbar content={NavbarModal} ></Navbar>
   <div className=' m-4 flex justify-between' >

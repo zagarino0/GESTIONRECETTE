@@ -57,35 +57,37 @@ function ChangementMotPasse() {
   return (
     <div className='bg-[#212122] h-screen w-screen'>
       <Navbar content={NavbarContent}></Navbar>
-      <div className='mt-24 m-4 flex justify-between' >
-        <Label text="Entrez votre code :"></Label>
+   <div className='border border-2 m-6 mt-8 mb-8'>
+   <div className='mt-24 mr-40 ml-40 flex justify-between' >
+        <Label  className='text-3xl' text="Entrez votre code :"></Label>
         <Input type="text" placeholder="Votre code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
         ></Input>
       </div>
-      <div className='mt-4 m-4 flex justify-between' >
-        <Label text="Entrez l'ancien mot de passe :"></Label>
+      <div className='mt-4 mr-40 ml-40 flex justify-between' >
+        <Label className='text-3xl' text="Entrez l'ancien mot de passe :"></Label>
         <Input type="password" placeholder="Votre ancien mot de passe " // Changed type to "password" for security.
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></Input>
       </div>
-      <div className='mt-4 m-4 flex justify-between' >
-        <Label text="Entrez le nouveau mot de passe :"></Label>
+      <div className='mt-4 mr-40 ml-40 flex justify-between' >
+        <Label className='text-3xl' text="Entrez le nouveau mot de passe :"></Label>
         <Input type="password" placeholder="Votre nouveau mot de passe " // Changed type to "password" for security.
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         ></Input>
       </div>
-      <div className='mt-4 m-4 flex justify-between' >
-        <Label text=" Confirmer votre mot de passe :"></Label>
+      <div className='mt-4 mr-40 ml-40 mb-20 flex justify-between' >
+        <Label className='text-3xl'  text=" Confirmer votre mot de passe :"></Label>
         <Input type="password" placeholder="Confirmer le nouveau mot de passe" // Changed type to "password" for security.
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         ></Input>
       </div>
-      <div className='mt-4 m-4 '>
+   </div>
+      <div className='mt-4 mr-10 ml-60 '>
         <Button children="Enregistrer" onClick={handleChangePassword}></Button>
       </div>
       {message && <p className="text-red-500 mt-2">{message}</p>}

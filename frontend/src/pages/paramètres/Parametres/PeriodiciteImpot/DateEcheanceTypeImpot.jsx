@@ -9,6 +9,7 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import { Button } from '../../../../components/button/button';
 import { Navbar } from '../../../../components/navbar/Navbar';
 import Modal from '../../../../components/modals/Modal';
+import { useLocation } from 'react-router-dom';
 function DateEcheanceTypeImpot() {
   const [dataCode, setDataCode] = useState([]);
   const [searchYear, setSearchYear] = useState('');
@@ -76,7 +77,7 @@ console.error("erreur lors de l'ajout de donnée" , error)
     
 }
 
-  const headers = ['Code', 'Libelle', 'Nature', 'Type', 'Date début Paiement', 'Date fin Paiement', 'Année'];
+  const headers = ['Code', 'Libelle', 'Nature', 'Type', 'Date début Paiement', 'Date fin Paiement', 'Année' , "Supression ", "Modification"];
   const data = dataCode.length > 0
   ? dataCode.map((item) => [
       item.id,
@@ -129,8 +130,9 @@ console.error("erreur lors de l'ajout de donnée" , error)
             setSearchYear(e.target.value);
           }}
         />
+          <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="ml-4" ></Button>
       </div>
-      <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
+    
       <div className='mt-10 m-4'>
       {data.length > 0 ? (
         <Table headers={headers} data={data}></Table>
@@ -283,8 +285,10 @@ onChange={(e)=> setAnnee(e.target.value)}
     </div>
   );
 
+  const location = useLocation();
+
   return (
-    <Layout children={content} />
+    <Layout children={content} currentPath={location.pathname} />
   );
 }
 

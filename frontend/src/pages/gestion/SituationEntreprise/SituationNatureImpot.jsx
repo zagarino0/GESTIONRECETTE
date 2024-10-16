@@ -7,6 +7,7 @@ import Input from '../../../components/input/Input'
 import Table from '../../../components/table/Table'
 import { Button } from '../../../components/button/button'
 import axios from 'axios'
+import DateFormatConverter from '../../../components/input/DateFormatConvert'
 
 function SituationNatureImpot() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,10 +76,23 @@ function SituationNatureImpot() {
       //        >
       //          <BsPencil />
       //        </span>,]);
-      const dataContent = [
-        ['none', 'none', 'none', 'none'],
+      const dataContent = Impot.map(item =>[
+        item.numero_recepisse,
+        item.reference_fiscal,
+        item.annee,
+        item.periode,
+        item.periode1,
+        item.periode2,
+        item.numero_impot,
+        item.base_impot,
+        item.montant_a_payer,
+        item.montant_verser,
+        item.reste_a_payer,
+        item.code_banque,
+        item.type_payment,
+        <DateFormatConverter isoDate={item.date_creation}></DateFormatConverter>
        
-      ];
+      ]);
   return (
     <div  className='bg-[#212122] h-screen w-screen'>
         <Navbar content={Navbarcontent}></Navbar>
@@ -142,10 +156,9 @@ function SituationNatureImpot() {
         </div>
         {/*button pour valider toute action */}
         <div className='flex justify-between mt-4 ml-4 mr-4'>
-          <Button children="Visualisation par nature Impot"></Button>
-          <Button children="Visualisation de tous Impot"></Button>
+        <Button type="submit" children="Voir par Nature Impot " onClick={() => {window.location.href="/ListreNatureImpotSituation"}}></Button>
           <Button children="Imprimer" onClick={ () => {window.location.href = "/ImpressionImpot"}}></Button>
-          <Button children="Vers Excel"></Button>
+          <Button type="submit" children="Quitter" onClick={() => {window.location.href="/ConsultationGestion"}}></Button>
         </div>
     </div>
   )

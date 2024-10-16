@@ -9,7 +9,7 @@ import { Button } from '../../../components/button/button';
 import Input from '../../../components/input/Input';
 import Label from '../../../components/title/label';
 import Modal from '../../../components/modals/Modal';
-
+import ReactSelect from 'react-select';
 function PCOCPAffectation() {
   const [dataCode, setDataCode] = useState([]);
   const [selectedEditData, setSelectedEditData] = useState(null);
@@ -73,7 +73,7 @@ function PCOCPAffectation() {
     }
       
   }
-  const headers = ["numéro" ,"LIBELLE " ,"", "" ];
+  const headers = ["numéro" ,"LIBELLE " ,"supp", "mod" ];
   const formattedData = dataCode.map(item => [item.numero, item.libelle
     ,
     <span
@@ -159,7 +159,7 @@ function PCOCPAffectation() {
 
 
   
-  const headerContent = ["Impot" ,"Budget" ,"Taux" ,"PCOP" , "", "" ];
+  const headerContent = ["Impot" ,"Budget" ,"Taux" ,"PCOP" , "supp", "mod" ];
   const dataContent = dataCodeContent.map(item => [item.impot, item.budget , item.taux , item.pcop
     ,
     <span
@@ -182,6 +182,21 @@ function PCOCPAffectation() {
   ]);
 
 
+  // libelle budget option
+ 
+  const NumeroBudget = dataCode.map((data) => ({
+    value : data.libelle ,
+    label : data.libelle
+  }))
+
+// numéro PCOP options 
+
+const PCOP = dataCodeContent.map((data) => ({
+  value : data.pcop ,
+  label : data.pcop
+}))
+
+
   // Controller Code impot budget classes CREATE READ DELETE
 
   
@@ -192,7 +207,7 @@ function PCOCPAffectation() {
   const [numero_classes , setNumero_classes] = useState('');
   const [chapitre , setChapitre] = useState('');
   const [groupe_impot , setGroupe_impot] = useState('');
-    
+  console.log(numero_budget)  
   useEffect(() => {
  
    // Récupérer les données depuis le backend
@@ -252,7 +267,7 @@ function PCOCPAffectation() {
   
   
 
-  const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" , "Chapitre" , "Groupe d'impot" ,"", ""];
+  const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP"," Budget","N° Classe" , "Chapitre" , "Groupe d'impot" ,"SUPP", "MOD"];
   const dataContentTable = dataImpot.map(item => [item.numero_impot, item.libelle , item.abreviation , item.pcop , item.numero_budget , item.numero_classes , item.chapitre , item.groupe_impot
     ,
     <span
@@ -305,39 +320,49 @@ Mise à jour budgets et classe pour les impots
   
   )
   return (
-    <div className='bg-[#212122] h-screen w-screen'>
+    <div className='bg-[#212122] '>
     <Navbar content={NavbarContent}></Navbar>
 <div className='flex  justify-between '>
 <div className="flex flex-col">
-<div className='flex flex-col mt-4'>
+
+  <div className='flex flex justify-between mr-4 ml-4'>
+
+  <div className='flex flex-col mt-4 '>
+
 <div className='text-white m-4'>NUMERO BUDGET
 <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="ml-2" ></Button>
 </div>
-  <div className='flex'>
-    
-  <div className=' ml-4' >
-<Table headers={headers} data={formattedData} classTable="overflow-y-auto h-36" ></Table>
-    </div>
-  </div>
+
+<div className='flex  '>   
+<div className=' ml-4 mb-4' >
+<Table headers={headers} data={formattedData} classTable="overflow-y-auto h-60" ></Table>
 </div>
-<div className='flex flex-col'>
+</div>
+</div>{/**table0 */}
+
+<div className='mt-4'>
 <div className='text-white m-4'>Affectation Budgetaire
 <Button children="Ajouter une information" onClick={() => setIsModalOpenAffection(true)} className="ml-2" ></Button>
 </div>
-  <div className='flex'>
-    
-  <div className=' ml-4' >
-<Table headers={headerContent} data={dataContent} classTable="overflow-y-auto h-36"></Table>
-    </div>
+<div className='flex '>
+
+<div className=' ml-4 mb-4' >
+<Table headers={headerContent} data={dataContent} classTable="overflow-y-auto h-60"></Table>
+</div>
+</div>
+</div>{/**table1 */}
+
   </div>
+      
+              <div className=' justify-center mt-6 m-4 '>
+          <div className='text-white m-4'>CODE IMPOTS , BUDGETS , CLASSES
+          <Button children="Ajouter une information" onClick={() => setIsModalOpenImpot(true)} className="ml-2" ></Button>
+          </div>
+          <Table headers={headerContentTable} data={dataContentTable}  classTable="overflow-y-auto w-[1300px]" ></Table>
+             </div>{/**table2 */}
 </div>
-</div>
-<div className=' m-4'>
-<div className='text-white m-4'>CODE IMPOTS , BUDGETS , CLASSES
-<Button children="Ajouter une information" onClick={() => setIsModalOpenImpot(true)} className="ml-2" ></Button>
-</div>
-<Table headers={headerContentTable} data={dataContentTable}  classTable="overflow-y-auto w-[800px]" ></Table>
-</div>
+
+         
 </div>
 <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[200px]" >
   <Navbar content={NavbarModal} ></Navbar>
@@ -669,41 +694,48 @@ onChange={(e) => setPcop(e.target.value)}
 ></Input>
     </div>
     
-  <div className=' m-4 flex justify-between' >
-<Label text=" pcop :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
- value={pcop}
- onChange={(e) => setPcop(e.target.value)}
-></Input>
-    </div>
-      <div className=' m-4 flex justify-between' >
-<Label text=" N° Budget :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
- value={numero_budget}
- onChange={(e) => setNumero_budget(e.target.value)}
-></Input>
-    </div>
-      <div className=' m-4 flex justify-between' >
-<Label text=" N° Classes  :" className="mt-2"></Label>
+    <div className=' m-4 flex justify-between'>
+  <Label text="pcop :" className="mt-2" />
+  <ReactSelect
+    options={PCOP}
+    value={PCOP.find((option) => option.value === pcop)}
+    onChange={(option) => setPcop(option ? option.value : "")}
+  />
+</div>
+<div className=' m-4 flex justify-between'>
+  <Label text="Budget :" className="mt-2" />
+  <ReactSelect
+    options={NumeroBudget}
+    value={NumeroBudget.find((option) => option.value === numero_budget)}
+    onChange={(option) => setNumero_budget(option ? option.value : "")}
+  />
+</div>
+
+
+    <div className=' m-4 flex justify-between' >
+<Label text=" N° Classe :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
  value={numero_classes}
  onChange={(e) => setNumero_classes(e.target.value)}
 ></Input>
-    </div>
-      <div className=' m-4 flex justify-between' >
-<Label text=" Chapitre :" className="mt-2"></Label>
-<Input type="text"  className="ml-4"
- value={chapitre}
- onChange={(e) => setChapitre(e.target.value)}
-></Input>
-    </div>
 
-    <div className=' m-4 flex justify-between' >
+</div>
+<div className=' m-4 flex justify-between' >
 <Label text=" Groupe impot :" className="mt-2"></Label>
 <Input type="text"  className="ml-4"
  value={groupe_impot}
  onChange={(e) => setGroupe_impot(e.target.value)}
 ></Input>
+
+</div>
+
+<div className=' m-4 flex justify-between' >
+<Label text=" Chapitre :" className="mt-2"></Label>
+<Input type="text"  className="ml-4"
+ value={chapitre}
+ onChange={(e) => setChapitre(e.target.value)}
+></Input>
+
 </div>
   <div className="flex justify-between p-4">
   <Button children="Enregistrer"

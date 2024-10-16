@@ -24,5 +24,12 @@
         "recette_modification": true,
         "recette_visualisation": true,
         "recette_prise_charge": true
+    },
+    {
+        "id_user": 8,
+        "recette_creation": true,
+        "recette_modification": true,
+        "recette_visualisation": true,
+        "recette_prise_charge": true
     }
 ]

@@ -155,6 +155,20 @@ const NavbarModalPriseEnCharge = (
         .catch((error) => console.error(error));
     }, []);
 
+
+    const [ImpotBudget , setImpotBudget] = useState([]);
+
+      //Data code impot include in the Table  
+      useEffect(() => {
+ 
+        // Récupérer les données depuis le backend
+        axios.get('http://localhost:3500/prevision')
+          .then((response) => setImpotBudget(response.data))
+          .catch((error) => console.error(error));
+      }, []);
+      
+    console.log(ImpotBudget)
+
     
   const headerContentTable = ["N ° Impot" ,"Libellé" ,"Abrev" ,"PCOP","N° Budget","N° Classe" , "Chapitre" , "Groupe d'impot" ];
   const dataContentTable = DataImpot.map(item => [item.numero_impot, item.libelle , item.abreviation , item.pcop , item.numero_budget , item.numero_classes , item.chapitre , item.groupe_impot ]);

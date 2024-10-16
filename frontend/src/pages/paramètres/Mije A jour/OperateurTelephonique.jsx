@@ -40,7 +40,7 @@ function OperateurTelephonique() {
     }
   };
 
-  const headers = ["Numéro" ,"Opérateur ","",""];
+  const headers = ["Numéro" ,"Opérateur ","Supression","Modification"];
   const formattedData = dataCode.map(item => [item.numero, item.operateur
     ,
     <span
@@ -105,10 +105,14 @@ console.error("erreur lors de l'ajout de donnée" , error)
   return (
     <div className='bg-[#212122] h-screen w-screen'>
     <Navbar content={NavbarContent}></Navbar>
-    <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
+ <div className='flex justify-center'>
+  <div className='flex flex-col'>
+  <Button children="Ajouter une information" onClick={() => setIsModalOpen(true)} className="m-4" ></Button>
     <div className=' m-4' >
-<Table headers={headers} data={formattedData} ></Table>
+<Table headers={headers} data={formattedData} headerClassName="sticky-header"></Table>
     </div>
+  </div>
+ </div>
   
     <Modal  isOpen={isModalOpenModifi} onClose={() => setIsModalOpenModifi(false)} className="w-[600px] h-[280px]" >
   <Navbar content={NavbarModal} ></Navbar>

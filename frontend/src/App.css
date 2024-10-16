@@ -23,6 +23,14 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.sticky-header th {
+  position: sticky;
+  top: 0;
+  background-color: #333;
+  color: white;
+  z-index: 1;
+}
+
 
 .App-link {
   color: #61dafb;
@@ -35,4 +43,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+table, th, td {
+  position: relative;
+  border: 3px solid #ccc;
+  border-collapse: collapse;
+ 
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
 }

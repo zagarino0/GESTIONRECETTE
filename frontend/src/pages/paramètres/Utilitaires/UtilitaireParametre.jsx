@@ -12,8 +12,8 @@ function UtilitaireParametre() {
    <div className='text-white text-3xl text-center mt-4'>
      Utilitaires
     </div>
-    <LinkButton to="/changementMotdePasse" text="Changement de mot de passe personel" className="mt-4" ></LinkButton>
-    <LinkButton to="/Operateur" text="Operateurs"  className="mt-2"></LinkButton>
+    <LinkButton to="/changementMotdePasse" text="Changement de mot de passe personnel" className="mt-4" ></LinkButton>
+    <LinkButton to="/Operateur" text="Opérateurs"  className="mt-2"></LinkButton>
   
     </div>    
      </div>

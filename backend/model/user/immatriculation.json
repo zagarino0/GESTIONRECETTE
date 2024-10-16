@@ -18,5 +18,10 @@
         "id_user": 7,
         "immatriculation_creation": true,
         "immatriculation_prise_charge": true
+    },
+    {
+        "id_user": 8,
+        "immatriculation_creation": false,
+        "immatriculation_prise_charge": false
     }
 ]

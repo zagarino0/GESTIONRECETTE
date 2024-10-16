@@ -10,8 +10,28 @@ router.route('/declarationperiodique')
 router.route('/declarationnonperiodique')
     .post(recetteController.setModePaymentNonPeriodique);
 
+router.route('/getEnregistrementdeclarationByRecepisse/:numero_recepisse')
+    .get(recetteController.getEnregistrementByNumeroRecepisse);
+
 
 router.put('/updtatePayment/:id_payment' , recetteController.updateModePaymentPeriodique);
+
+router.put('/updtatePaymentNonPeriodique/:id_payment' , recetteController.setModePaymentNonPeriodiqueModif);
+
+router.post('/annulerPayment' , recetteController.annulerPaymentNonPeriodique);
+
+router.post('/restorationPayment' , recetteController.RestorationPaymentNonPeriodique);
+
+router.post('/annulationPaymentPeriodique' , recetteController.cancelModePaymentPeriodique);
+
+router.post('/restorationPaymentRestorePeriodique' , recetteController.RestorationModePaymentPeriodique);
+
+router.delete('/SuppressionPaymentPeriodique' , recetteController.SuppressionModePaymentPeriodique);
+
+router.delete('/SuppressionPaymentNonPeriodique' , recetteController.SuppressionPaymentNonPeriodique);
+
+
+
 
 router.route('/consultationpayment')
     .post(recetteController.getPaymentByTwoDate);

@@ -23,11 +23,11 @@ function SituationRecette() {
   const navigate = useNavigate()
   const contentChildren=(
     <div className='flex justify-center items-center '>
-     <div className='flex flex-col mt-3'>
-     <div className='text-white text-3xl text-center m-4'>
+     <div className='flex flex-col mt-4'>
+     <div className='text-white text-4xl text-center m-8'>
        Situation de Recette et Pièce comptables
      </div>
-    <div className='flex justify-between ml-4 mr-4'>
+    <div className='flex justify-between ml-8 mr-10'>
      <div className='flex flex-col'>
      <Button  children="Situation de Recette" className="mt-2 " onClick={()=> navigate("/SituationRecetteImpression")}></Button>
      <LinkButton to="/EtatDetailleEncaissement" text="Etat détaillé des encaissements"  className="mt-2"></LinkButton>
@@ -37,7 +37,8 @@ function SituationRecette() {
      <LinkButton to="/EtatDetailleEncaissementCheque" text="Etat détaillé des encaissements (Chèque)"  className="mt-2"></LinkButton>
      <LinkButton to="/Bar" text="Etat détaillé des encaissements (BAR)"  className="mt-2"></LinkButton>
      </div>
-    <div className='flex flex-col ml-2'>
+     
+    <div className='flex flex-col ml-60'>
     <LinkButton to="/EtatDetailleEncaissementTresor" text="Etat détaillé des encaissements (Trésor)"  className="mt-2"></LinkButton>
      <Button children="Compte Rendu de Recette et Etat Récap" onClick={()=>setIsModalCompteRendu(true)} className="mt-2"></Button>
      {/* <Button  children="Etat Récapitilatif des recette au profil des collectivités"  onClick={()=>setIsModalEtatRecapitulatifRecette(true)}  className="mt-2"></Button> */}

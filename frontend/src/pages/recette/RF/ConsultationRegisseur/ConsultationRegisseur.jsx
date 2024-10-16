@@ -45,29 +45,13 @@ function ConsultationRegisseur() {
     item.type_payment   
   ]);
 
-  const printRef = useRef(null);
-  // Impression
-  const downloadPDF = () => {
-    if (printRef.current) {
-      const content = printRef.current.innerHTML;
-      const originalContent = document.body.innerHTML;
 
-      const printStyle = document.createElement('style');
-      printStyle.innerHTML =
-        '@media print { body { visibility: hidden; } .print-content { visibility: visible; } }';
-      document.head.appendChild(printStyle);
 
-      document.body.innerHTML = `<div class="print-content">${content}</div>`;
-
-      window.print();
-
-      document.head.removeChild(printStyle);
-      document.body.innerHTML = originalContent;
-      window.location.reload();
+    const handleSendImpression =() =>{
+      const routeToNavigate = '/ImpressionConsultationRegisseur';
+      navigate(routeToNavigate, { state: { searchTerm} });
+  
     }
-  };
-
-
     // Sélection de données
     const [DataSelected, setDataSelected] = useState([]);
     const [selectedRowIndex, setSelectedRowIndex] = useState(null);
@@ -123,13 +107,13 @@ function ConsultationRegisseur() {
           />
         </div>
         <div className='flex justify-center'>
-          <div ref={printRef} className='flex flex-col mt-14 overflow-y-auto w-[1600px]'>
+          <div className='flex flex-col mt-14 overflow-y-auto w-[1600px]'>
             <Table headers={headers} data={formattedData} onClick={handleTableRowClick} selectedRowIndex={selectedRowIndex}></Table>
           </div>
         </div>
         <div className='flex justify-between mt-4'>
         
-          <Button children="Imprimer" onClick={downloadPDF}></Button>
+          <Button children="Imprimer" onClick={handleSendImpression}></Button>
           <Button children="Annuler" ></Button>
           <Button children="Modifier" onClick={()=> navigate("/ModificationNonPeriodique")}></Button>
           <Button children="Rafraîchir" onClick={() => window.location.reload()}></Button>
